@@ -3,6 +3,6 @@
 
 <display>
 	<category name="category.sample">
-		<portlet id="test" />
+		<portlet id="users-management" />
 	</category>
 </display>

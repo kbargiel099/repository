@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.auctions.system;
+package com.auctions.system.portlet.users_management.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,13 +21,13 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 @Controller
 @RequestMapping("VIEW")
-public class PortletViewController {
+public class UsersController {
 
 	@RenderMapping
 	public String question(Model model) {
 		model.addAttribute("releaseInfo", "Test");
 
-		return "auctions/view";
+		return "view";
 	}
 
 }

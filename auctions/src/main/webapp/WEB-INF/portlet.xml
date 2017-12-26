@@ -2,21 +2,21 @@
 
 <portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0">
 	<portlet>
-		<portlet-name>test</portlet-name>
-		<display-name>test</display-name>
+		<portlet-name>users-management</portlet-name>
+		<display-name>users-management</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/spring-context/portlet/auctions-portlet.xml</value>
+			<value>/WEB-INF/spring-context/portlet/users-management-portlet.xml</value>
 		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
 		</supports>
 		<portlet-info>
-			<title>auctions</title>
-			<short-title>auctions</short-title>
-			<keywords>auctions</keywords>
+			<title>user-management</title>
+			<short-title>user-management</short-title>
+			<keywords>user-management</keywords>
 		</portlet-info>
 		<security-role-ref>
 			<role-name>administrator</role-name>
