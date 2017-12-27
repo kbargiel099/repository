@@ -16,8 +16,51 @@
 
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 
+<%@ taglib prefix="portlet" uri="http://java.sun.com/portlet" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-This is the <b>auctions</b> portlet.<br />
+<portlet:defineObjects />
 
-<c:out escapeXml="true" value="${releaseInfo}" />.
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/jquery.dataTables.min.css"/> ">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/bootstrap.min.css"/> ">
+
+<portlet:resourceURL id="getUsers" var="getUsers" />
+<input type="hidden" id="getUsersUrl" value="${getUsers}"></input>
+
+<script src="<c:url value="/js/common/jquery-1.12.4.min.js"/>" ></script>
+<script src="<c:url value="/js/common/jquery.dataTables.min.js"/>" /></script>
+<script src="<c:url value="/js/common/bootstrap.min.js"/>" /></script>
+<script src="<c:url value="/js/module/dropdown.js"/>" /></script>
+<script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
+
+
+<table id="users" class="display">
+     <thead>
+            <tr>
+                <th>Login</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Opcje</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Login</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Opcje</th>
+            </tr>
+        </tfoot>
+</table>
+
+<script type="text/javascript" >
+	
+	jQuery(document).ready(function(){
+		
+	    jQuery.ajax({url: jQuery("#getUsersUrl").val(), success: function(result){
+			console.log(result);
+		}});
+		
+		init(jQuery("#getUsersUrl").val());
+	});
+</script>
