@@ -9,6 +9,11 @@
 >
 	<context:component-scan base-package="com.auctions.system.portlet.users_management.**" />
 	
+	<bean class="org.springframework.web.portlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+	
+	<bean id="multipartResolver"
+    	class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="contentType" value="text/html;charset=UTF-8" />
 		<property name="prefix" value="/WEB-INF/jsp/portlet/users_management/" />

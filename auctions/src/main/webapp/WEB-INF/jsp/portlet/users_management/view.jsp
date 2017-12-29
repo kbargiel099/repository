@@ -18,21 +18,22 @@
 
 <%@ taglib prefix="portlet" uri="http://java.sun.com/portlet" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
 
 <portlet:defineObjects />
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/jquery.dataTables.min.css"/> ">
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/bootstrap.min.css"/> ">
 
 <portlet:resourceURL id="getUsers" var="getUsers" />
 <input type="hidden" id="getUsersUrl" value="${getUsers}"></input>
 
-<script src="<c:url value="/js/common/jquery-1.12.4.min.js"/>" ></script>
-<script src="<c:url value="/js/common/jquery.dataTables.min.js"/>" /></script>
-<script src="<c:url value="/js/common/bootstrap.min.js"/>" /></script>
-<script src="<c:url value="/js/module/dropdown.js"/>" /></script>
-<script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
+<portlet:renderURL var="addUser">
+	<portlet:param name="page" value="add"/>
+</portlet:renderURL>
 
+<a class="btn btn-primary" href="${addUser}">
+	<liferay-ui:message key="add" />
+</a>
 
 <table id="users" class="display">
      <thead>
@@ -53,14 +54,13 @@
         </tfoot>
 </table>
 
+<script src="<c:url value="/js/common/jquery-3.2.1.min.js"/>" ></script>
+<script src="<c:url value="/js/common/jquery.dataTables.min.js"/>" /></script>
+<script src="<c:url value="/js/module/dropdown.js"/>" /></script>
+<script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
+
 <script type="text/javascript" >
-	
 	jQuery(document).ready(function(){
-		
-	    jQuery.ajax({url: jQuery("#getUsersUrl").val(), success: function(result){
-			console.log(result);
-		}});
-		
 		init(jQuery("#getUsersUrl").val());
 	});
 </script>

@@ -13,7 +13,6 @@ function init(resourceUrl){
 	    "columnDefs": [ {
 		    "targets": 3,
 		    "render": function(data){
-				console.log(data);
 				return createDropDownMenu(data);
 			}
 		  } ]

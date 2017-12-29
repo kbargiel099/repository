@@ -19,5 +19,13 @@ public class UsersManagementServiceImpl implements UsersManagementService{
 	public List<User> getUsers() {
 		return dataSource.getUser();
 	}
+	@Override
+	public User getUserById(int userId){
+		return dataSource.getUserById(userId);
+	}
+	@Override
+	public boolean addUser(User user){
+		return dataSource.addUser(user);
+	}
 
 }

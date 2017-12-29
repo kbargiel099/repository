@@ -7,4 +7,8 @@ import com.auctions.system.portlet.users_management.model.User;
 public interface UsersManagementService {
 
 	public List<User> getUsers();
+	
+	public User getUserById(int userId);
+	
+	public boolean addUser(User user);
 }

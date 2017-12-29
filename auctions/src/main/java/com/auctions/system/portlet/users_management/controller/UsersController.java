@@ -14,19 +14,29 @@
 
 package com.auctions.system.portlet.users_management.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
@@ -34,6 +44,7 @@ import com.auctions.system.module.Option;
 import com.auctions.system.portlet.users_management.model.User;
 import com.auctions.system.portlet.users_management.model.UserOptions;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
+import com.auctions.system.portlet.users_management.validator.UserValidator;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -42,13 +53,68 @@ import com.google.gson.JsonObject;
 @RequestMapping("VIEW")
 public class UsersController {
 
+	private final String defaultView = "view";
+	private final String addEditView = "add_edit"; 
+	private final String detailsView = "details"; 
+	
 	@Autowired
-	UsersManagementService service;
+	private UsersManagementService service;
+	@Autowired
+	private UserValidator Validator;
+	
+	@InitBinder("user")
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(Validator);
+	}
 	
 	@RenderMapping
-	public ModelAndView question(RenderRequest request, RenderResponse response) throws Exception{
+	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
 		
-		ModelAndView model = new ModelAndView("view");
+		ModelAndView model = new ModelAndView(defaultView);
+		
+		return model;
+	}
+	
+	@RenderMapping(params = "page=add")
+	public ModelAndView addUserView(RenderRequest request, RenderResponse response){
+
+		ModelAndView model = new ModelAndView(addEditView);
+		model.addObject("user", new User());
+		
+		return model;
+	}
+	
+	@ActionMapping(params = "action=add")
+	public void addUserAction(ActionRequest request, ActionResponse response,
+		@ModelAttribute("user") @Valid User user, BindingResult result) throws IOException{
+
+		//ModelAndView model = new ModelAndView(addEditView);
+		if (result.hasErrors())
+			//response.sendRedirect(addEditView);
+			response.setRenderParameter("page", "add");
+	
+		boolean isAdded = service.addUser(user);
+		
+		//return new ModelAndView(addEditView);
+		//return;
+	}
+	
+	@RenderMapping(params = "page=edit")
+	public ModelAndView editUserView(RenderRequest request, RenderResponse response,
+			@RequestParam("userId") int userId){
+
+		ModelAndView model = new ModelAndView(addEditView);
+		model.addObject("user", service.getUserById(userId));
+		
+		return model;
+	}
+	
+	@RenderMapping(params = "page=details")
+	public ModelAndView UserDetailsView(RenderRequest request, RenderResponse response,
+			@RequestParam("userId") int userId){
+
+		ModelAndView model = new ModelAndView(detailsView);
+		model.addObject("user", service.getUserById(userId));
 		
 		return model;
 	}

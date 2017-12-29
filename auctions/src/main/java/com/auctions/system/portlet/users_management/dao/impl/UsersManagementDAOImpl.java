@@ -30,14 +30,31 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 	
 	@Override
 	public List<User> getUser() {
-		return dao.query("SELECT * FROM users", 
-				new RowMapper<User>(){
+		return dao.query("SELECT id,login,password FROM users", new RowMapper<User>(){
 			@Override
 			public User mapRow(ResultSet res, int row) throws SQLException {
 				return new User(res.getInt("id"),res.getString("login"),res.getString("password"));
-			}
-			
+			}	
 		});
+	}
+
+	@Override
+	public User getUserById(int userId) {
+		return dao.queryForObject("SELECT id,login,password FROM users WHERE id = ?", 
+			new Object[]{userId},new RowMapper<User>(){
+				@Override
+				public User mapRow(ResultSet res, int row) throws SQLException {
+					return new User(res.getInt("id"),res.getString("login"),res.getString("password"));
+			}
+		});
+	}
+	
+	@Override
+	public boolean addUser(User user){
+		int numberOfUpdatedRows =  dao.update("INSERT INTO users(login,password) VALUES(?,?)",
+				new Object[]{user.getLogin(),user.getPassword()});
+		
+		return numberOfUpdatedRows > 0 ? true : false;
 	}
 
 	
