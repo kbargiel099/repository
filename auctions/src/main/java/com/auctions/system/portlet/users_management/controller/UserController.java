@@ -51,7 +51,7 @@ import com.google.gson.JsonObject;
 
 @Controller
 @RequestMapping("VIEW")
-public class UsersController {
+public class UserController {
 
 	private final String defaultView = "view";
 	private final String addEditView = "add_edit"; 
@@ -79,6 +79,7 @@ public class UsersController {
 	public ModelAndView addUserView(RenderRequest request, RenderResponse response){
 
 		ModelAndView model = new ModelAndView(addEditView);
+		model.addObject("action", "add");
 		model.addObject("user", new User());
 		
 		return model;
@@ -88,15 +89,12 @@ public class UsersController {
 	public void addUserAction(ActionRequest request, ActionResponse response,
 		@ModelAttribute("user") @Valid User user, BindingResult result) throws IOException{
 
-		//ModelAndView model = new ModelAndView(addEditView);
-		if (result.hasErrors())
-			//response.sendRedirect(addEditView);
+		if (result.hasErrors()){
 			response.setRenderParameter("page", "add");
+			return;
+		}
 	
-		boolean isAdded = service.addUser(user);
-		
-		//return new ModelAndView(addEditView);
-		//return;
+		boolean isAdded = service.createUser(user);
 	}
 	
 	@RenderMapping(params = "page=edit")
@@ -104,9 +102,23 @@ public class UsersController {
 			@RequestParam("userId") int userId){
 
 		ModelAndView model = new ModelAndView(addEditView);
+		model.addObject("action", "edit");
 		model.addObject("user", service.getUserById(userId));
 		
 		return model;
+	}
+	
+	@ActionMapping(params = "action=edit")
+	public void editUserAction(ActionRequest request, ActionResponse response,
+		@ModelAttribute("user") @Valid User user, BindingResult result) throws IOException{
+
+		if (result.hasErrors()){
+			response.setRenderParameter("page", "edit");
+			return;
+		}
+	
+		boolean isUpdated = service.updateUser(user);
+		//response.setRenderParameter("page","default");
 	}
 	
 	@RenderMapping(params = "page=details")
@@ -117,6 +129,14 @@ public class UsersController {
 		model.addObject("user", service.getUserById(userId));
 		
 		return model;
+	}
+	
+	@ActionMapping(params = "action=delete")
+	public void deleteUserAction(ActionRequest request, ActionResponse response,
+		@RequestParam("userId") int userId) throws IOException{
+
+		boolean isdeleted = service.deleteUser(userId);
+		response.setRenderParameter("page","default");
 	}
 	
 	@ResourceMapping(value="getUsers")

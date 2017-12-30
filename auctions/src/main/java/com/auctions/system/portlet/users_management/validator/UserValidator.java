@@ -1,16 +1,24 @@
 package com.auctions.system.portlet.users_management.validator;
 
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.auctions.system.portlet.users_management.model.User;
+import com.liferay.portal.kernel.util.LocaleUtil;
 
 @Component("userValidator")
 public class UserValidator implements Validator {
 
-	//private final static String EMPLOYEES_NUMBER = "emplNumber";
+	@Autowired
+	private ResourceBundleMessageSource messageSource;
+	
+	private final String FieldIsRequired = "validation.required";
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -20,8 +28,12 @@ public class UserValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		User user = (User) target;
-
-		ValidationUtils.rejectIfEmpty(errors, "login", "Pole jest puste");
-		ValidationUtils.rejectIfEmpty(errors, "password", "Pole jest puste");
+		
+		Locale locale = LocaleUtil.getDefault();
+		
+		ValidationUtils.rejectIfEmpty(errors, "login", "login",
+				messageSource.getMessage(FieldIsRequired,null,locale));
+		ValidationUtils.rejectIfEmpty(errors, "password", "password", 
+				messageSource.getMessage(FieldIsRequired,null,locale));
 	}
 }

@@ -50,12 +50,30 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 	}
 	
 	@Override
-	public boolean addUser(User user){
+	public boolean createUser(User user){
 		int numberOfUpdatedRows =  dao.update("INSERT INTO users(login,password) VALUES(?,?)",
 				new Object[]{user.getLogin(),user.getPassword()});
 		
 		return numberOfUpdatedRows > 0 ? true : false;
 	}
+	
+	@Override
+	public boolean updateUser(User user){
+		int numberOfUpdatedRows =  dao.update("UPDATE users SET login = ?, password = ? WHERE id = ?",
+				new Object[]{user.getLogin(),user.getPassword(),user.getId()});
+		
+		return numberOfUpdatedRows > 0 ? true : false;
+	}
+
+	@Override
+	public boolean deleteUser(int userId) {
+		int numberOfDeletedRows =  dao.update("DELETE FROM users WHERE id = ?",
+				new Object[]{userId});
+		
+		return numberOfDeletedRows > 0 ? true : false;
+		
+	}
+	
 
 	
 }

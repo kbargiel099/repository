@@ -10,5 +10,9 @@ public interface UsersManagementDAO {
 	
 	public User getUserById(int userId);
 	
-	public boolean addUser(User user);
+	public boolean createUser(User user);
+	
+	public boolean updateUser(User user);
+	
+	public boolean deleteUser(int userId);
 }

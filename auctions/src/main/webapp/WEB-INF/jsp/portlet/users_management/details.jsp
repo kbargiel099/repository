@@ -23,11 +23,11 @@
       <h2>Dane użytkownika</h2>
 		<div class="form-group">
            <label class="label-control"><liferay-ui:message key="users_management.login.label" /></label>
-           <input class="form-control" value="${user.login}" />
+           <label class="label-control">${user.login}</label>
 		</div>
 		<div class="form-group">
            <label class="label-control"><liferay-ui:message key="users_management.password.label" /></label>
-           <input class="form-control"  value="${user.password}" />
+           <label class="label-control">${user.password}</label>
 		</div>
 		<div class="form-group">
 		   <a href="${returnUrl}"><liferay-ui:message key="return"/></a>
