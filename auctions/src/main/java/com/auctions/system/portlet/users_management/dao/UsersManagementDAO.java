@@ -10,7 +10,7 @@ public interface UsersManagementDAO {
 	
 	public User getUserById(int userId);
 	
-	public boolean createUser(User user);
+	public boolean createUser(User user,boolean isAdmin);
 	
 	public boolean updateUser(User user);
 	

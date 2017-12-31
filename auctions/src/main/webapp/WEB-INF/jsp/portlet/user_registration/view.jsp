@@ -11,19 +11,10 @@
 	<portlet:param name="page" value="default"/>
 </portlet:renderURL>
 
+	<portlet:actionURL var="submit">
+		<portlet:param name="action" value="add"/>
+</portlet:actionURL>
 
-<c:choose>
-    <c:when test="${action=='add'}">
-		<portlet:actionURL var="submitUser">
-			<portlet:param name="action" value="add"/>
-		</portlet:actionURL>
-    </c:when>    
-    <c:otherwise>
-		<portlet:actionURL var="submitUser">
-			<portlet:param name="action" value="edit"/>
-		</portlet:actionURL>
-    </c:otherwise>
-</c:choose>
 
 <html>
 	<head>
@@ -31,7 +22,7 @@
 	</head>
 	<body>
       <h2><liferay-ui:message key="users_management.data.label" /></h2>
-      <form:form method = "POST" action = "${submitUser}" modelAttribute="user">
+      <form:form method = "POST" action = "${submit}" modelAttribute="user">
 
 		<form:input type="hidden" path ="id" name="login"></form:input>
 		

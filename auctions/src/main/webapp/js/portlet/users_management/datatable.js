@@ -5,13 +5,14 @@ function init(resourceUrl){
             "type": "POST"
         },
         "columns": [
-            { "data": "id" },
             { "data": "login" },
-            { "data": "password" },
+            { "data": "firstname" },
+            { "data": "lastname" },
+			{ "data": "email" },
             { "data": "options" }
         ],
 	    "columnDefs": [ {
-		    "targets": 3,
+		    "targets": 4,
 		    "render": function(data){
 				return createDropDownMenu(data);
 			}

@@ -4,5 +4,7 @@
 <display>
 	<category name="category.sample">
 		<portlet id="users-management" />
+		<portlet id="user-registration"></portlet>
+		<portlet id="nav_menu"></portlet>
 	</category>
 </display>

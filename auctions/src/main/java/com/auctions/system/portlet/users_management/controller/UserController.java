@@ -28,6 +28,7 @@ import javax.portlet.ResourceResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -65,6 +66,7 @@ public class UserController {
 	@InitBinder("user")
 	private void initBinder(WebDataBinder binder) {
 		binder.setValidator(Validator);
+		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 	}
 	
 	@RenderMapping
@@ -94,7 +96,8 @@ public class UserController {
 			return;
 		}
 	
-		boolean isAdded = service.createUser(user);
+		//TODO dodac mozliwosc ustawienia user jako admin
+		boolean isAdded = service.createUser(user,false);
 	}
 	
 	@RenderMapping(params = "page=edit")

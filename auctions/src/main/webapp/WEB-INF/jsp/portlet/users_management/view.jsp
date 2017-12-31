@@ -41,6 +41,7 @@
                 <th>Login</th>
                 <th>Imię</th>
                 <th>Nazwisko</th>
+                <th>Email</th>
                 <th>Opcje</th>
             </tr>
         </thead>
@@ -49,6 +50,7 @@
                 <th>Login</th>
                 <th>Imię</th>
                 <th>Nazwisko</th>
+                <th>Email</th>
                 <th>Opcje</th>
             </tr>
         </tfoot>

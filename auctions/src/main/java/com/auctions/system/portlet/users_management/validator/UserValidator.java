@@ -1,6 +1,7 @@
 package com.auctions.system.portlet.users_management.validator;
 
 import java.util.Locale;
+import java.util.regex.Matcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -18,7 +19,10 @@ public class UserValidator implements Validator {
 	@Autowired
 	private ResourceBundleMessageSource messageSource;
 	
+	private String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+	
 	private final String FieldIsRequired = "validation.required";
+	private final String ValueIsIncorrect = "validation.incorrect";
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -35,5 +39,13 @@ public class UserValidator implements Validator {
 				messageSource.getMessage(FieldIsRequired,null,locale));
 		ValidationUtils.rejectIfEmpty(errors, "password", "password", 
 				messageSource.getMessage(FieldIsRequired,null,locale));
+		ValidationUtils.rejectIfEmpty(errors, "firstname", "firstname", 
+				messageSource.getMessage(FieldIsRequired,null,locale));
+		ValidationUtils.rejectIfEmpty(errors, "lastname", "lastname", 
+				messageSource.getMessage(FieldIsRequired,null,locale));
+		ValidationUtils.rejectIfEmpty(errors, "email", "email", 
+				messageSource.getMessage(FieldIsRequired,null,locale));
+		
+		
 	}
 }

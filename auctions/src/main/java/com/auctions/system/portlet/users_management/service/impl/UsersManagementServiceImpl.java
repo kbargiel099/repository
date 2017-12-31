@@ -24,8 +24,8 @@ public class UsersManagementServiceImpl implements UsersManagementService{
 		return dataSource.getUserById(userId);
 	}
 	@Override
-	public boolean createUser(User user){
-		return dataSource.createUser(user);
+	public boolean createUser(User user,boolean isAdmin){
+		return dataSource.createUser(user,isAdmin);
 	}
 	@Override
 	public boolean updateUser(User user){
