@@ -56,7 +56,6 @@
         </tfoot>
 </table>
 
-<script src="<c:url value="/js/common/jquery-3.2.1.min.js"/>" ></script>
 <script src="<c:url value="/js/common/jquery.dataTables.min.js"/>" /></script>
 <script src="<c:url value="/js/module/dropdown.js"/>" /></script>
 <script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>

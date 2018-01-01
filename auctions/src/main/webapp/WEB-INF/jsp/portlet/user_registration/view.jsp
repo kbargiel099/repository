@@ -16,11 +16,8 @@
 </portlet:actionURL>
 
 
-<html>
-	<head>
-		<title><liferay-ui:message key="users_management.main.label" /></title>
-	</head>
-	<body>
+  <div class="container">
+	<title><liferay-ui:message key="users_management.main.label" /></title>
       <h2><liferay-ui:message key="users_management.data.label" /></h2>
       <form:form method = "POST" action = "${submit}" modelAttribute="user">
 
@@ -56,5 +53,4 @@
            <input class="btn btn-primary pull-right" type = "submit" value = "<liferay-ui:message key="submit"/> ">
   		</div>            
       </form:form>
-	</body>
-</html>
+

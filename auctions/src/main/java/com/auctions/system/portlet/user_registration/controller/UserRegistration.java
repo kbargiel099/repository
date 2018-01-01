@@ -8,6 +8,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +17,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.auctions.system.portlet.user_registration.service.RegistrationService;
 import com.auctions.system.portlet.users_management.model.User;
 
 /**
@@ -25,6 +27,8 @@ import com.auctions.system.portlet.users_management.model.User;
 @RequestMapping(value = "VIEW")
 public class UserRegistration{
 
+	@Autowired
+	RegistrationService service;
 	
 	private final String defaultView = "view";
 	
@@ -46,7 +50,8 @@ public class UserRegistration{
 			return;
 		}
 	
-		//boolean isAdded = service.createUser(user,false);
+		boolean isAdded = service.createUser(user,false);
+		
 	}
 
 }
