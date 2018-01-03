@@ -39,6 +39,22 @@ function submitLogin(){
 		type: "POST",
 		success: function(data){
 			console.log(data);
+			if(data.success == true)
+				window.location.reload();
+		}
+	});
+}
+
+function logout(){
+
+	var logoutUrl = jQuery("#logoutUrl").val();
+	jQuery.ajax({
+		url:logoutUrl,
+		type: "POST",
+		success: function(data){
+			//if(data.success == true)
+			//	console.log(data);
+				window.location.reload();
 		}
 	});
 }

@@ -20,6 +20,14 @@ function createOption(option){
 		    return '<li><a href=\"'+ option.url +'\">'+ Liferay.Language.get("edit") +'</a></li>';
 	    case 'delete':
 		    return '<li><a href=\"'+ option.url +'\">'+ Liferay.Language.get("delete") +'</a></li>';
+		case 'user_account':
+			return '<li><a href=\"'+ option.url +'\">'+ Liferay.Language.get("user_main") +'</a></li>';
+		case 'bought':
+			return '<li><a href=\"'+ option.url +'\">'+ Liferay.Language.get("bought") +'</a></li>';
+		case 'followed':
+			return '<li><a href=\"'+ option.url +'\">'+ Liferay.Language.get("followed") +'</a></li>';
+		case 'sold':
+			return '<li><a href=\"'+ option.url +'\">'+ Liferay.Language.get("sold") +'</a></li>';
 	    default:
 		    return '';
 	} 
