@@ -19,6 +19,11 @@ import com.auctions.system.portlet.nav_menu.service.NavService;
 import com.auctions.system.portlet.users_management.model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.liferay.portal.kernel.model.CompanyConstants;
+import com.liferay.portal.kernel.security.auth.session.AuthenticatedSessionManagerUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 
 /**
  * Portlet implementation class Controller
@@ -32,39 +37,49 @@ public class NavMenuController {
 	
 	private final String defaultView = "view";
 	private final String signUp = "/registration";
-	private final String userSection = "/user";
+	private final String userSection = "/my_profile";
 	
 	@RenderMapping
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
 		ModelAndView model = new ModelAndView(defaultView);	
-		model.addObject("signUp", signUp);
+		//model.addObject("signUp", signUp);
 		
-		if(UserUtil.isGuest()){
-			model.addObject("isGuest", true);
-		}else{
-			//model.addObject("isGuest", false);
-			model.addObject("login",UserUtil.getUserLogin());
-			model.addObject("userId", UserUtil.getUserId());
-			model.addObject("userSection", userSection);
-		}
+		//if(UserUtil.isGuest()){
+		//	model.addObject("isGuest", true);
+		//}else{
+		//	//model.addObject("isGuest", false);
+		//	model.addObject("login",UserUtil.getUserLogin());
+		//	model.addObject("userId", UserUtil.getUserId());
+		//	model.addObject("userSection", userSection);
+		//}	
 		
 		return model;
 	}
 	
 	@ResourceMapping(value = "signIn")
 	public void signInAction(ResourceRequest request, ResourceResponse response,
-		@RequestParam("login") String login,
+		@RequestParam("email") String login,
 		@RequestParam("pass") String password) throws IOException{
 
 		Gson gson = new Gson();
 		JsonObject result = new JsonObject();
 	
-		boolean isExist = service.isUserExist(login, password);
+		/*boolean isExist = service.isUserExist(login, password);
 		if(isExist){
 			UserUtil.setUser(service.getUser(login));
 			result.addProperty("success", true);
 		}else
 			result.addProperty("success", false);
+		*/
+		try {
+			AuthenticatedSessionManagerUtil.login(PortalUtil.getHttpServletRequest(request), PortalUtil.getHttpServletResponse(response),
+					login, password, false, CompanyConstants.AUTH_TYPE_EA);
+			result.addProperty("success", true);
+			
+		} catch (Exception e) {
+			result.addProperty("success", false);
+			e.printStackTrace();
+		}
 		
 		response.setContentType("application/json");
 		response.getWriter().write(result.toString());

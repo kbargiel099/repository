@@ -6,9 +6,9 @@ function init(resourceUrl){
         },
         "columns": [
             { "data": "login" },
-            { "data": "firstname" },
-            { "data": "lastname" },
 			{ "data": "email" },
+			{ "data": "firstname" },
+			{ "data": "lastname" },
             { "data": "options" }
         ],
 	    "columnDefs": [ {
@@ -16,6 +16,7 @@ function init(resourceUrl){
 		    "render": function(data){
 				return createDropDownMenu(data);
 			}
-		  } ]
+		  } ],
+		"language": language
     } );
 }

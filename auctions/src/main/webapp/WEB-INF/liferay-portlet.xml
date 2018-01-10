@@ -5,23 +5,22 @@
 	<portlet>
 		<portlet-name>users-management</portlet-name>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
-		<header-portlet-css>/css/main.css</header-portlet-css>
-		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<css-class-wrapper>users-management-portlet</css-class-wrapper>
 	</portlet>
 	<portlet>
 		<portlet-name>user-registration</portlet-name>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
-		<header-portlet-css>/css/main.css</header-portlet-css>
-		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<css-class-wrapper>user-registration-portlet</css-class-wrapper>
 	</portlet>
 	<portlet>
 		<portlet-name>nav_menu</portlet-name>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
-		<header-portlet-css>/css/main.css</header-portlet-css>
-		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<css-class-wrapper>nav_menu-portlet</css-class-wrapper>
+	</portlet>
+	<portlet>
+		<portlet-name>user-profile</portlet-name>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<css-class-wrapper>user-profile-portlet</css-class-wrapper>
 	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>

@@ -5,10 +5,10 @@
 
 <portlet:defineObjects />
 
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/portlet/navigation_menu/main.css"/> ">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/portlet/navigation_menu/nav-main.css" />" />
 
 <portlet:resourceURL id="signIn" var="signIn">
-	<portlet:param name="login" value="XXXXX"/>
+	<portlet:param name="email" value="XXXXX"/>
 	<portlet:param name="pass" value="MMMMM"/>
 </portlet:resourceURL>
 
@@ -18,10 +18,9 @@
 <input type="hidden" id="signInUrl" value="${signIn}"></input>
 <input type="hidden" id="logoutUrl" value="${logout}"></input>
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse" style="background-color: #2d67f6;">
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a class="navbar-brand" href="#"><img src="<c:url value="/logo.png"/>" alt="logo" class="img-responsive center-block"></a></li>
         <li class="active"><a href="#">Home</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
@@ -34,7 +33,7 @@
         <li><a href="#">Page 2</a></li>
         <li><a href="#">Page 3</a></li>
       </ul>
-      <ul id="userNavbar" class="nav navbar-nav navbar-right">
+     <!-- <ul id="userNavbar" class="nav navbar-nav navbar-right">
       	<c:if test="${isGuest}">      	</c:if>
       	<c:choose>
          
@@ -53,34 +52,35 @@
             <input type="hidden" id="userId" value="${userId}"/>
          </c:otherwise>
       </c:choose>
-      </ul>
+      </ul> -->
   </div>
   
 </nav>
-	
-<h2>Animated Modal with Header and Footer</h2>
 
 <!-- Trigger/Open The Modal -->
-
+${userId}
 
 <!-- The Modal -->
-<div id="myModal" class="modal-custom col-xs-12 col-sm-8 col-md-6" >
+<div id="myModal" class="modal-custom col-xs-12 col-sm-8 col-md-6" style="float: none;margin-left: auto;margin-right: auto;">
 
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-header">
-        <span class="close">&times;</span>
+        <span id="login-modal-close" class="close">&times;</span>
     </div>
     <form id="login-form">
     	<div class="modal-body">
         	<h2 class="modal-center"><liferay-ui:message key="users_management.sign.in.label" /></h2>
+        	<div id="login-validation-info" class="alert alert-danger">
+  				<strong><liferay-ui:message key="validation.email.or.password.not.exist" /></strong>
+			</div>
 			<div class="form-group">
-	           <label class="label-control" for="login"><liferay-ui:message key="users_management.login.label" /></label>
-	           <input class="form-control" id="login" name="login"></input>
+	           <label class="label-control" for="email"><liferay-ui:message key="users_management.email.label" /></label>
+	           <input type="email" class="form-control" id="email" name="email"></input>
 			</div>
 			<div class="form-group">
 	           <label class="label-control" for="password"><liferay-ui:message key="users_management.password.label" /></label>
-	           <input  type="password" class="form-control" id="password"  name="password"></input>
+	           <input type="password" class="form-control" id="password"  name="password"></input>
 			</div>
 	    </div>
 	    <div class="modal-footer">
@@ -91,9 +91,35 @@
 
 </div>
 
-<script src="<c:url value="/js/portlet/navigation_menu/modal.js"/>" /></script>	  
+<script src="<c:url value="/js/portlet/navigation_menu/modal.js" />"></script>
+
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 		custom();
 	});
+	
+	jQuery(function() {
+		  jQuery("#login-form").validate({
+		    rules: {
+		      email: {
+		        required: true,
+		        email: true
+		      },
+		      password: {
+		        required: true,
+		        minlength: 4
+		      }
+		    },
+		    messages: {
+		      password: {
+		        required: "Please enter your password",
+		        minlength: "Your password must be at least 4 characters long"
+		      },
+		      email: "Please enter a valid email address"
+		    },
+		    submitHandler: function(form) {
+		      form.submit();
+		    }
+		  });
+		});
 </script>

@@ -22,8 +22,6 @@
 
 <portlet:defineObjects />
 
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/jquery.dataTables.min.css"/> ">
-
 <portlet:resourceURL id="getUsers" var="getUsers" />
 <input type="hidden" id="getUsersUrl" value="${getUsers}"></input>
 
@@ -34,13 +32,12 @@
 <a class="btn btn-primary" href="${addUser}">
 	<liferay-ui:message key="add" />
 </a>
-
 <table id="users" class="display">
      <thead>
             <tr>
                 <th>Login</th>
-                <th>Imię</th>
-                <th>Nazwisko</th>
+				<th>Imię</th>
+				<th>Nazwisko</th>
                 <th>Email</th>
                 <th>Opcje</th>
             </tr>
@@ -48,16 +45,14 @@
         <tfoot>
             <tr>
                 <th>Login</th>
-                <th>Imię</th>
-                <th>Nazwisko</th>
+				<th>Imię</th>
+				<th>Nazwisko</th>
                 <th>Email</th>
                 <th>Opcje</th>
             </tr>
         </tfoot>
 </table>
 
-<script src="<c:url value="/js/common/jquery.dataTables.min.js"/>" /></script>
-<script src="<c:url value="/js/module/dropdown.js"/>" /></script>
 <script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
 
 <script type="text/javascript" >
