@@ -43,6 +43,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.Option;
 import com.auctions.system.module.UserUtil;
+import com.auctions.system.portlet.users_management.dao.UsersManagementDAO;
 import com.auctions.system.portlet.users_management.model.User;
 import com.auctions.system.portlet.users_management.model.UserOptions;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
@@ -66,8 +67,11 @@ public class UserController {
 	private final String addEditView = "add_edit"; 
 	private final String detailsView = "details"; 
 	
+	private final String imagesPath = "E:\\Szkoła\\Praca inżynierska\\Repozytorium\\repository\\auctions\\images\\";
+	
 	@Autowired
 	private UsersManagementService service;
+	
 	@Autowired
 	private UserValidator Validator;
 	

@@ -1,5 +1,12 @@
 package com.auctions.system.portlet.users_management.dao.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -80,6 +87,5 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 		
 	}
 	
-
 	
 }

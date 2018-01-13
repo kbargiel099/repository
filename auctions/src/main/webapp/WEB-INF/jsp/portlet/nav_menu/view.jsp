@@ -21,38 +21,19 @@
 <nav class="navbar navbar-inverse" style="background-color: #2d67f6;">
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Strona domowa</a></li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Kategorie<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Page 1-1</a></li>
-            <li><a href="#">Page 1-2</a></li>
-            <li><a href="#">Page 1-3</a></li>
+            <li><a href="#">Eletronika</a></li>
+            <li><a href="#">Odzież</a></li>
+            <li><a href="#">Motoryzacja</a></li>
           </ul>
         </li>
-        <li><a href="#">Page 2</a></li>
-        <li><a href="#">Page 3</a></li>
+        <li><a href="#">Kontakt</a></li>
+        <li><a href="#">O serwisie</a></li>
+        <li><a href="#">Okazje</a></li>
       </ul>
-     <!-- <ul id="userNavbar" class="nav navbar-nav navbar-right">
-      	<c:if test="${isGuest}">      	</c:if>
-      	<c:choose>
-         
-         <c:when test = "${isGuest}">
-            <li><a href="${signUp}"><span class="glyphicon glyphicon-user"></span> <liferay-ui:message key="users_management.sign.up.label" /></a></li>
-        	<li><a href="javascript:void(0);" id="myBtn"><span class="glyphicon glyphicon-log-in"></span><liferay-ui:message key="users_management.sign.in.label" /></a></li>
-         </c:when>
-         <c:otherwise>
-         	<li class="dropdown">
-          		<a class="dropdown-toggle glyphicon glyphicon-sunglasses" data-toggle="dropdown" href="#">${login}<span class="caret"></span></a>
-          		<ul class="dropdown-menu">
-            		<li><a href="${userSection}" id="myBtn"><span class=""></span>Zarządzaj</a></li>
-            		<li><a class="glyphicon glyphicon-off" href="javascript:logout();">Wyloguj</a></li>
-          		</ul>
-        	</li>
-            <input type="hidden" id="userId" value="${userId}"/>
-         </c:otherwise>
-      </c:choose>
-      </ul> -->
   </div>
   
 </nav>

@@ -15,4 +15,5 @@ public interface UsersManagementDAO {
 	public boolean updateUser(User user);
 	
 	public boolean deleteUser(int userId);
+	
 }
