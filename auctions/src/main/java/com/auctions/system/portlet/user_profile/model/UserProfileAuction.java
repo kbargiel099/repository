@@ -5,14 +5,12 @@ public class UserProfileAuction {
 	private String name;
 	private String subjectName;
 	private String imageName;
-	private String imageExt;
 	
-	public UserProfileAuction(String name, String subjectName, String imageName,String imageExt) {
+	public UserProfileAuction(String name, String subjectName, String imageName) {
 		super();
 		this.name = name;
 		this.subjectName = subjectName;
 		this.imageName = imageName;
-		this.imageExt = imageExt;
 	}
 
 	public String getName() {
@@ -38,13 +36,5 @@ public class UserProfileAuction {
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
 	}
-	
-	public String getImageExt() {
-		return imageExt;
-	}
-	
-	public void setImageExt(String imageExt) {
-		this.imageExt = imageExt;
-	}
-	
+
 }

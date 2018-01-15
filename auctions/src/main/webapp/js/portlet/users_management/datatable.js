@@ -17,6 +17,9 @@ function init(resourceUrl){
 				return createDropDownMenu(data);
 			}
 		  } ],
-		"language": language
+		//"language": language
+		"language": {
+			"url": "dataTables.german.lang"
+		}
     } );
 }

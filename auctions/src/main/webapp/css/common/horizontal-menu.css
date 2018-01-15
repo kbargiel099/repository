@@ -4,7 +4,7 @@
     padding: 0;
     width: 200px;
     background-color: #f1f1f1;
-    border-right: 5px solid #2d67f6;
+    /*border-right: 5px solid #2d67f6;*/
 }
 
 .horizontal-menu-item a {
@@ -20,8 +20,38 @@
     color: white;
 }
 
-.user-subject {
+#category-view-menu,
+#user-profile-menu {
+	height: 100vh;
+	border-right: 5px solid #2d67f6;
+}
+
+.user-subject,
+.user-profile-section-title,
+.home-page-section-title,
+.category-view-title,
+.category-view-auction {
 	padding-bottom: 15px;
 	margin-bottom: 15px;
-	border-bottom: 1px solid #3e3c41;
+	border-bottom: 2px solid #a5a5a5;
+}
+
+.details-section {
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.padding-left {
+	padding-left: 15px;
+	margin-left: 15px;
+}
+
+.details-section-border {
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-bottom: 2px solid #a5a5a5;
+}
+
+.div-layout {
+	height: 100vh;
 }

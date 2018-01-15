@@ -22,6 +22,16 @@
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<css-class-wrapper>user-profile-portlet</css-class-wrapper>
 	</portlet>
+	<portlet>
+		<portlet-name>home-page</portlet-name>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<css-class-wrapper>home-page-portlet</css-class-wrapper>
+	</portlet>
+	<portlet>
+		<portlet-name>category</portlet-name>
+	<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<css-class-wrapper>category-portlet</css-class-wrapper>
+	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>
 		<role-link>Administrator</role-link>

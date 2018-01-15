@@ -7,5 +7,7 @@
 		<portlet id="user-registration"></portlet>
 		<portlet id="nav_menu"></portlet>
 		<portlet id="user-profile"></portlet>
+		<portlet id="home-page"></portlet>
+		<portlet id="category"></portlet>
 	</category>
 </display>

@@ -41,7 +41,7 @@
 		 	<a href="${mySettingsRender}" class="btn btn-link">Moje ustawienia</a>
 		</div>
 	</div> -->
- <div class="col-xs-12 col-sm-8 col-md-3">	
+ <div id="user-profile-menu" class="col-xs-12 col-sm-8 col-md-3">	
 		<ul class="horizontal-menu">
 		  <li class="horizontal-menu-item"><a href="${getBoughtRender}">Zakupione</a></li>
 		  <li class="horizontal-menu-item"><a href="${getSoldRender}">Sprzedane</a></li>
@@ -52,17 +52,15 @@
 	
 	<c:if test="${boughtView}">
 		<div class="col-xs-12 col-sm-8 col-md-8">
-			This is the <b>User Profile</b> portlet in View mode.
-			${exist}
-			
+			<h4 class="user-profile-section-title"><liferay-ui:message key="auction.bought.subjects.label" /></h4>
 			<div>
-				  <c:forEach items="${subjects}" var = "i">
+				  <c:forEach items="${subjects}" var="i">
 					 <div class="row user-subject">
 						 <div class="col-xs-12 col-sm-8 col-md-4">
 			          	 	<h4><strong>${i.name}</strong> - ${i.subjectName}</h4>
 			          	 </div>
 			          	 <div class="col-xs-12 col-sm-8 col-md-4 pull-right">
-							<img src="<c:url value="/images/${i.imageName}.jpg" />" alt="obrazek" height="160" width="160">
+							<img src="<c:url value="/images/${i.imageName}" />" alt="obrazek" height="160" width="100%">
 						 </div>
 					 </div>
 		     	  </c:forEach>
@@ -71,19 +69,17 @@
 	</c:if>
 	<c:if test="${soldView}">
 		<div class="col-xs-12 col-sm-8 col-md-8">
-			This is the <b>User Profile</b> portlet in View mode.
-			${exist}
+			<h4 class="user-profile-section-title"><liferay-ui:message key="auction.sold.subjects.label" /></h4>
 		</div>
 	</c:if>
 	<c:if test="${mySettingsView}">
 		<div class="col-xs-12 col-sm-8 col-md-8">
-			This is the <b>User Profile</b> portlet in View mode.
-			${exist}
+			<h4 class="user-profile-section-title"><liferay-ui:message key="auction.my.settings.label" /></h4>
 		</div>
 	</c:if>
 	<c:if test="${createNewAuctionView}">
 		<div class="col-xs-12 col-sm-8 col-md-8">
-			<h4><liferay-ui:message key="auction.form.label" /></h4>
+			<h4 class="user-profile-section-title"><liferay-ui:message key="auction.form.label" /></h4>
 		</div>
 		  <div class="container">	
 	      	<form:form id="create-new-auction-form" method = "POST" action = "${submit}" modelAttribute="newAuction">
@@ -95,8 +91,7 @@
 				</div>
 				<div class="form-group">
 		           <form:label class="label-control" path="auctionType" name="auctionType"><liferay-ui:message key="auction.type.label" /></form:label>
-		           <form:select class="selectpicker form-control" path="auctionType" id="auctionType" name="auctionType">
-		     			<form:option value="-1"><liferay-ui:message key="choose" /></form:option>    		
+		           <form:select class="selectpicker form-control" path="auctionType" id="auctionType" name="auctionType">   		
 		         		<form:option value="0">Szybki zakup</form:option>
 		           		<form:option value="1">Klasyczna</form:option>
 		           		<form:option value="2">Z ceną minimalną</form:option>
@@ -107,14 +102,17 @@
 		           <form:input type="text" class="form-control" path="subjectQuantity" id="subjectQuantity" name="subjectQuantity"></form:input>
 				</div>
 				<div class="form-group">
-		           <form:label class="label-control" path = "endDate" name="endDate"><liferay-ui:message key="auction.endDate.label" /></form:label>
-		           <form:input type="date" class="form-control" path="endDate" id="endDate" name="endDate"></form:input>
+					<label class="label-control" name="attachImage" ><liferay-ui:message key="auction.attachImage.label" /></label>
+				</div>
+				<div>
+					<!-- <input type="file" name="imageFilechooser" id="imageFilechooser" onchange="startRead()"/> -->
+					<input type="file" name="imageFilechooser" id="imageFilechooser" onchange="loadFile(event)"/>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-8 col-md-4">
 				<div class="form-group">
-		           <form:label class="label-control" path = "description" name="description"><liferay-ui:message key="auction.description.label" /></form:label>
-		           <form:input class="form-control" id="description" path = "description" name="description"></form:input>
+		           <form:label class="label-control" path = "endDate" name="endDate"><liferay-ui:message key="auction.endDate.label" /></form:label>
+		           <form:input type="date" class="form-control" path="endDate" id="endDate" name="endDate"></form:input>
 				</div>
 				<div class="form-group">
 				 <form:label class="label-control" path = "acceptedPaymentMethods" name="acceptedPaymentMethods"><liferay-ui:message key="auction.accepted.payment.method.label" /></form:label>
@@ -125,13 +123,20 @@
 					</select>
 				</div>
 				<div class="form-group">
-					<label class="label-control" name="attachImage" ><liferay-ui:message key="auction.attachImage.label" /></label>
+		           <form:label class="label-control" path = "subjectPrice" name="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></form:label>
+		           <form:input type="text" class="form-control" path = "subjectPrice" id="subjectPrice" name="subjectPrice"></form:input>
 				</div>
-				<div>
-					<input type="file" name="imageFilechooser" id="imageFilechooser" onchange="startRead()"/>
+				<div class="form-group">
+					<img id="output" height="100%" width="100%"/>
 				</div>
 	  		</div>
-	  		<div class="row col-xs-12 col-sm-8 col-md-9">
+	  		<div class="col-xs-12 col-sm-8 col-md-8">
+	  			<div class="form-group">
+		           <form:label class="label-control" path = "description" name="description"><liferay-ui:message key="auction.description.label" /></form:label>
+		           <form:textarea  rows="5" class="form-control" id="description" path = "description" name="description"></form:textarea>
+				</div>
+	  		</div>
+	  		<div class="row col-xs-12 col-sm-8 col-md-8">
 				<div class="form-group">
 			        <input class="btn btn-primary pull-right" type="submit" onclick="createComfirmation(event)" value="<liferay-ui:message key="submit"/> ">
 			  	</div>
@@ -177,7 +182,17 @@ function open(_str_tag) {
 		event.preventDefault();
 		var message = Liferay.Language.get("auction.message.success");
 		var url = jQuery("#getBoughtUrl").val();
-		//showAlert("success",message,url,false);
-		showSaving();
+		//showAlert("alert alert-success",message,url,false);
+		bootbox.alert(message)
+		//showSaving();
 	}
+	
+	  var loadFile = function(event) {
+		    var reader = new FileReader();
+		    reader.onload = function(){
+		      var output = document.getElementById('output');
+		      output.src = reader.result;
+		    };
+		    reader.readAsDataURL(event.target.files[0]);
+	  };
 </script>

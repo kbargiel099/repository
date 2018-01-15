@@ -1,4 +1,4 @@
-package com.auctions.system.portlet.user_profile.dao.impl;
+package com.auctions.system.portlet.home_page.dao.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,11 +19,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
+import com.auctions.system.portlet.home_page.dao.HomePageDAO;
+import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 
-@Repository("userProfileDAO")
-public class UserProfileDAOImpl implements UserProfileDAO{
+@Repository("homePageDAO")
+public class HomePageDAOImpl implements HomePageDAO{
 
 	private JdbcTemplate daoPortal;
 	private JdbcTemplate dao;
@@ -50,7 +51,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId){
-		return dao.query("SELECT name,subject_name,image_name FROM auction WHERE userid=?", 
+		return dao.query("SELECT name,subject_name,image_name,image_ext FROM auction WHERE userid=?", 
 				new Object[]{userId},new RowMapper<UserProfileAuction>(){
 					@Override
 					public UserProfileAuction mapRow(ResultSet res, int row) throws SQLException {
@@ -60,17 +61,31 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 			});
 	}
 	
+	@Override
+	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
+		return dao.query("SELECT a.id,a.name,subject_name,image_name,subject_price FROM auction a,subject_category s,subject_subcategory sub WHERE subject_subcategory_id=sub.id AND sub.subject_category_id=s.id AND s.name=?", 
+				new Object[]{category},new RowMapper<AuctionPresenter>(){
+					@Override
+					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionPresenter(res.getInt("id"),res.getString("name"),
+								res.getString("subject_name"),res.getString("image_name"),
+								res.getLong("subject_price"));
+				}
+			});
+	}
+	
+	@Override
 	public void createImage(){
 		   
         PreparedStatement pst = null;
         FileInputStream fin = null;
         
         try {
-        	File img = new File("E:\\Szkoła\\Praca inżynierska\\Repozytorium\\repository\\auctions\\images\\logo.jpg");
+        	File img = new File("E:\\Szkoła\\Praca inżynierska\\Repozytorium\\repository\\auctions\\images\\pc2.jpg");
 			fin = new FileInputStream(img);
 			
 	        pst = dataSource.getConnection().prepareStatement("INSERT INTO image(name,data) VALUES(?,?)");
-	        pst.setString(1, "inna nazwa");
+	        pst.setString(1, "pc2.jpg");
 	        pst.setBinaryStream(2, fin, (int) img.length());
 	        pst.executeUpdate();
 	        

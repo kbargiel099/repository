@@ -16,6 +16,7 @@ public class Auction {
 	private String imageExt;
 	private String description;
 	private int subjectQuantity;
+	private long subjectPrice;
 	
 	public Auction(){
 		
@@ -23,7 +24,7 @@ public class Auction {
 	
 	public Auction(int id, String name, long serialNumber, List<PaymentMethod> acceptedPaymentMethods,
 			Timestamp endDate, AuctionType auctionType, String subjectName, String imageName, String imageExt,
-			String description,int subjectQuantity) {
+			String description,int subjectQuantity,long subjectPrice) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -36,6 +37,7 @@ public class Auction {
 		this.imageExt = imageExt;
 		this.description = description;
 		this.subjectQuantity = subjectQuantity;
+		this.subjectPrice = subjectPrice;
 	}
 
 	public int getId() {
@@ -125,6 +127,16 @@ public class Auction {
 	public void setSubjectQuantity(int subjectQuantity) {
 		this.subjectQuantity = subjectQuantity;
 	}
+
+	public long getSubjectPrice() {
+		return subjectPrice;
+	}
+
+	public void setSubjectPrice(long subjectPrice) {
+		this.subjectPrice = subjectPrice;
+	}
+	
+	
 	
 	
 	
