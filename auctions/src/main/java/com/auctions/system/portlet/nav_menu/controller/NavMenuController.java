@@ -5,25 +5,20 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.UserUtil;
-import com.auctions.system.portlet.nav_menu.model.UserViewModel;
 import com.auctions.system.portlet.nav_menu.service.NavService;
-import com.auctions.system.portlet.users_management.model.User;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.security.auth.session.AuthenticatedSessionManagerUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 
 /**
  * Portlet implementation class Controller
@@ -57,23 +52,17 @@ public class NavMenuController {
 	}
 	
 	@ResourceMapping(value = "signIn")
-	public void signInAction(ResourceRequest request, ResourceResponse response,
-		@RequestParam("email") String login,
-		@RequestParam("pass") String password) throws IOException{
-
-		Gson gson = new Gson();
+	public void signInAction(ResourceRequest request, ResourceResponse response) throws IOException{
+		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
+		String email = originalRequest.getParameter("email");
+		String password = originalRequest.getParameter("pass");
+		boolean rememberMe = Boolean.parseBoolean(originalRequest.getParameter("remember_me"));
+		
 		JsonObject result = new JsonObject();
-	
-		/*boolean isExist = service.isUserExist(login, password);
-		if(isExist){
-			UserUtil.setUser(service.getUser(login));
-			result.addProperty("success", true);
-		}else
-			result.addProperty("success", false);
-		*/
+		
 		try {
-			AuthenticatedSessionManagerUtil.login(PortalUtil.getHttpServletRequest(request), PortalUtil.getHttpServletResponse(response),
-					login, password, false, CompanyConstants.AUTH_TYPE_EA);
+			AuthenticatedSessionManagerUtil.login(PortalUtil.getHttpServletRequest(request), 
+					PortalUtil.getHttpServletResponse(response),email, password, rememberMe, CompanyConstants.AUTH_TYPE_EA);
 			result.addProperty("success", true);
 			
 		} catch (Exception e) {

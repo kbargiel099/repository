@@ -11,6 +11,10 @@
 		<portlet:param name="action" value="add"/>
 </portlet:actionURL>
 
+<portlet:resourceURL id="checkData" var="checkData">
+</portlet:resourceURL>
+
+<input type="hidden" id="checkDataUrl" value="${checkData}"/>
 
   <div class="container">
   	  <div class="col-sm-1 col-md-1" style="height: 100vh;">
@@ -20,7 +24,7 @@
 	        <h5><strong><liferay-ui:message key="users_management.data.label" /></strong></h5>
 	  </div>
       <form:form id="registration-form" method = "POST" action = "${submit}" modelAttribute="user">
-		<form:input type="hidden" path ="id" name="login"></form:input>
+		<form:input type="hidden" path ="id" name="id"></form:input>
 		<div class="col-xs-12 col-sm-8 col-md-5">
 			<div class="form-group">
 	           <form:label class="label-control" path = "firstname" name="firstname"><liferay-ui:message key="users_management.firstname.label" /></form:label>
@@ -59,11 +63,28 @@
       </form:form>
    </div>
    
+   <div id="id">
+   </div>
+   
 <script type="text/javascript">
-	
+$.fn.serializeObject = function() {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name]) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
 	jQuery(document).ready(function(){
 		jQuery(function() {
-			  jQuery("#registration-form").validate({
+			  var validator = jQuery("#registration-form").validate({
 			    rules: {
 				  firstname: {
 					required: true
@@ -84,8 +105,32 @@
 			      }
 			    },
 			    submitHandler: function(form) {
-			      form.submit();
-			    }
+			     	var url = jQuery("#checkDataUrl").val();
+			  		jQuery.ajax({
+						"url":url,
+						"type": "POST",
+						"data":{
+							"user" : JSON.stringify(jQuery("#registration-form").serializeObject())
+						},
+						"success": function(data){
+							if(data.success){
+								form.submit();
+							}else{
+								jQuery.each(data, function (key, value){
+									var labels = jQuery("#registration-form").find('label[for="' + key + '"]');
+									if(labels.length == 2){
+										labels[1].innerHTML = value;
+										labels[1].style.display = "inline-block";
+									}
+									else{
+										var errorElem = '<label class="error" style="display: inline-block" for="' + key + '" generated="true">' + value + '</label>';
+										labels.parent().append(errorElem);
+									}
+								});
+							}
+						}
+					});
+				    }
 			  });
 		});
 	});

@@ -6,6 +6,8 @@ public interface RegistrationService {
 
 	public boolean createUser(User user,boolean isAdmin);
 	
-	//public boolean isUserExist();
+	public boolean checkIfEmailExist(String email);
+	
+	public boolean checkIfLoginExist(String login);
 
 }

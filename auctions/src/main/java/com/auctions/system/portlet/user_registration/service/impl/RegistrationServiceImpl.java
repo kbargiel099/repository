@@ -13,13 +13,19 @@ public class RegistrationServiceImpl implements RegistrationService{
 	@Autowired
 	RegistrationDAO dataSource;
 	
-	//@Override
-	//public User getUserById(int userId){
-	//	return dataSource.getUserById(userId);
-	//}
 	@Override
 	public boolean createUser(User user,boolean isAdmin){
 		return dataSource.createUser(user,isAdmin);
+	}
+
+	@Override
+	public boolean checkIfEmailExist(String email) {
+		return dataSource.checkIfEmailExist(email);
+	}
+
+	@Override
+	public boolean checkIfLoginExist(String login) {
+		return dataSource.checkIfLoginExist(login);
 	}
 
 }

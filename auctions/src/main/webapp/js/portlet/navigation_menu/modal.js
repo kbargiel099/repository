@@ -10,18 +10,29 @@ function custom(){
 		    modal.style.display = "none";
 		}
 	}
+	jQuery("#remember_me").click(function(){
+		if(this.checked)
+			jQuery("#remember_me").val(true);
+		else
+			jQuery("#remember_me").val(false);
+	});
 	jQuery("#login-validation-info").hide();
 }
 
 function submitLogin(){
-	var resUrl = jQuery("#signInUrl").val();
-	resUrl = resUrl.replace("XXXXX",jQuery("#email").val());
-	resUrl = resUrl.replace("MMMMM",jQuery("#password").val());
+	var queryParameters = {};
+	var url = jQuery("#signInUrl").val();
+
+	queryParameters['email'] = jQuery("#email").val();
+	queryParameters['pass'] = jQuery("#password").val();
+	queryParameters['remember_me'] = jQuery("#remember_me").val();
+	url += "&" + jQuery.param(queryParameters);
+	console.log(url);
 	
 	jQuery.ajax({
-		url:resUrl,
-		type: "POST",
-		success: function(data){
+		"url":url,
+		"type": "POST",
+		"success": function(data){
 			if(data.success == true)
 				window.location.reload();
 			else

@@ -8,8 +8,6 @@
 <!-- <link rel="stylesheet" type="text/css" href="<c:url value="/css/portlet/navigation_menu/nav-main.css" />" /> -->
 
 <portlet:resourceURL id="signIn" var="signIn">
-	<portlet:param name="email" value="XXXXX"/>
-	<portlet:param name="pass" value="MMMMM"/>
 </portlet:resourceURL>
 
 <portlet:resourceURL id="logout" var="logout">
@@ -37,6 +35,10 @@
 			<div class="form-group">
 	           <label class="label-control" for="password"><liferay-ui:message key="users_management.password.label" /></label>
 	           <input type="password" class="form-control" id="password"  name="password"></input>
+			</div>
+			<div class="form-group">
+	           <label class="label-control" for="remember_me"><liferay-ui:message key="users_management.remember.me.label" /></label>
+	           <input type="checkbox" id="remember_me"  name="remember_me" value="false" style="padding-left: 10px;"></input>
 			</div>
 	    </div>
 	    <div class="modal-footer">
@@ -92,4 +94,5 @@
 		    }
 		  });
 		});
+	
 </script>
