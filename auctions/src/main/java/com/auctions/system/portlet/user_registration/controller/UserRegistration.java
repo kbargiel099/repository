@@ -34,11 +34,7 @@ import com.auctions.system.portlet.user_registration.validator.UserValidator;
 import com.auctions.system.portlet.users_management.model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 /**

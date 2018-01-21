@@ -14,15 +14,14 @@
 	<div id="category-view-menu" class="col-xs-12 col-sm-8 col-md-3">
 		<h2 class="category-view-title text-center">${category}</h2>	
 		<ul class="horizontal-menu">
-		  <li class="horizontal-menu-item"><a href="#">Komputery PC</a></li>
-		  <li class="horizontal-menu-item"><a href="#">Laptopy</a></li>
-		  <li class="horizontal-menu-item"><a href="#">Smartfony</a></li>
-		  <li class="horizontal-menu-item"><a href="#">Telewizory</a></li>
+		  <c:forEach items="${subCategories}" var="item">
+		  	<li class="horizontal-menu-item"><a href="#">${item.name}</a></li>
+		  </c:forEach>
 		</ul>
 	</div>
 		<div class="col-xs-12 col-sm-12 col-md-8">
 				
-			<c:forEach items="${categoryAuctions}" var="item">
+			<c:forEach items="${auctions}" var="item">
 			
 			<portlet:renderURL var="details">
 				<portlet:param name="page" value="auctionDetails"/>

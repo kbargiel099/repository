@@ -1,11 +1,5 @@
 package com.auctions.system.portlet.category.dao.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -23,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.auctions.system.portlet.category.dao.CategoryDAO;
 import com.auctions.system.portlet.category.model.AuctionDetails;
+import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.category.model.UserDetails;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 
@@ -46,7 +41,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 		dao = new JdbcTemplate(dataSource);
 	}
 	
-	@Override
+	@Override//do przerobienia
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
 		return dao.query("SELECT a.id,a.name,subject_name,image_name,subject_price FROM auction a,subject_category s,subject_subcategory sub WHERE subject_subcategory_id=sub.id AND sub.subject_category_id=s.id AND s.name= ? ", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){
@@ -99,7 +94,19 @@ public class CategoryDAOImpl implements CategoryDAO{
 						return new UserDetails(res.getString("firstname"),res.getString("lastname"),
 								"623189505",res.getString("emailaddress"));
 				}
-			});
+		});
+	}
+	
+	@Override
+	public List<SubCategory> getSubCategories(String categoryName){
+		return dao.query("SELECT sub.id,sub.name FROM subject_subcategory sub,subject_category c "
+				+ "WHERE c.id=sub.subject_category_id AND c.name=?", 
+				new Object[]{categoryName},new RowMapper<SubCategory>(){
+					@Override
+					public SubCategory mapRow(ResultSet res, int row) throws SQLException {
+						return new SubCategory(res.getInt("id"),res.getString("name"));
+				}
+		});
 	}
 
 }

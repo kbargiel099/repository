@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.auctions.system.portlet.category.dao.CategoryDAO;
 import com.auctions.system.portlet.category.model.AuctionDetails;
+import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.category.model.UserDetails;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.category.service.CategoryService;
@@ -35,6 +36,10 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public AuctionDetails getAuctionDetails(int auctionId){
 		return dataSource.getAuctionDetails(auctionId);
+	}
+	@Override
+	public List<SubCategory> getSubCategories(String categoryName){
+		return dataSource.getSubCategories(categoryName);
 	}
 
 }

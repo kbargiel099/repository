@@ -56,7 +56,7 @@
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Kategorie<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/category?name=electronic">Eletronika</a></li>
+            <li><a href="/category?name=electronics">Eletronika</a></li>
             <li><a href="/category?name=clothing">Odzież</a></li>
             <li><a href="/category?name=motorization">Motoryzacja</a></li>
           </ul>

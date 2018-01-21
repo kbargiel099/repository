@@ -11,8 +11,8 @@ import com.auctions.system.module.mail_manager.MailManager;
 
 public class SimpleMailManager implements MailManager {
 
-	//@Autowired
-	//ReloadableResourceBundleMessageSource messageSrc;
+	@Autowired
+	ReloadableResourceBundleMessageSource messageSrc;
 	
     private MailSender mailSender;
     private SimpleMailMessage templateMessage;
@@ -29,8 +29,7 @@ public class SimpleMailManager implements MailManager {
     public void sendMail(String emailAddress,String firstname, Locale locale) {
     	
      	templateMessage.setTo(emailAddress);
-     	//templateMessage.setText(messageSrc.getMessage("registration.msg", new Object[]{firstname}, locale));
-     	templateMessage.setText("Witamy w serwisie");
+     	templateMessage.setText(messageSrc.getMessage("registration.msg", new Object[]{firstname}, locale));
         try{
             this.mailSender.send(templateMessage);
         }
