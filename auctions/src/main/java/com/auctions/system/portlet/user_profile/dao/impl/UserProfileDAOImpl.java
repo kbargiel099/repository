@@ -1,13 +1,15 @@
 package com.auctions.system.portlet.user_profile.dao.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +21,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.auctions.system.portlet.category.model.Category;
+import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
+import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 
 @Repository("userProfileDAO")
@@ -60,22 +65,65 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 			});
 	}
 	
-	public void createImage(){
+	@Override
+	public List<Category> getCategories(){
+		return dao.query("SELECT id,name FROM category",
+				new RowMapper<Category>(){
+					@Override
+					public Category mapRow(ResultSet res, int row) throws SQLException {
+						return new Category(res.getInt("id"),res.getString("name"));
+				}
+			});
+	}
+	
+	@Override
+	public List<SubCategory> getSubCategories(){
+		return dao.query("SELECT c.id,sub.id AS sub_id,sub.name AS sub_name FROM category c,subcategory sub where c.id=sub.category_id",
+				new RowMapper<SubCategory>(){
+					@Override
+					public SubCategory mapRow(ResultSet res, int row) throws SQLException {
+						return new SubCategory(res.getInt("sub_id"),res.getInt("id"),
+								res.getString("sub_name"));
+				}
+			});
+	}
+	
+	@Override//Przejrzec sql bo brakuje ważnych pól i definicje aukcji ogolnie
+	public boolean createUserAuction(long userId, Auction a) throws ParseException{
+		//final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
+		//Date temp = sdf.parse(a.getEndDate());
+		
+		Timestamp createDate = new Timestamp(System.currentTimeMillis());
+		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
+		long imageId = createImage(a.getImageData(),a.getImageName());
+		
+		int numberOfUpdatedRows = dao.update("INSERT INTO auction(userid,name,description,imageid,create_date,edit_date,end_date,"
+				+ "statusid,typeid,serial_number,subject_price,subject_quantity,subcategory_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+				new Object[]{userId,a.getName(),a.getDescription(),imageId,createDate,createDate,endDate,
+				1,1,a.getSerialNumber(),a.getSubjectPrice(),a.getSubjectQuantity(),a.getSubCategoryId()});
+		
+		return numberOfUpdatedRows > 0 ? true : false;
+	}
+	
+	@Override //zrobic obsluge bledu
+	public long createImage(String imageData,String imageName){
 		   
         PreparedStatement pst = null;
-        FileInputStream fin = null;
+        Long createdImageId = (long) -1;
         
         try {
-        	File img = new File("E:\\Szkoła\\Praca inżynierska\\Repozytorium\\repository\\auctions\\images\\logo.jpg");
-			fin = new FileInputStream(img);
+        	InputStream is = new ByteArrayInputStream(imageData.getBytes());
 			
-	        pst = dataSource.getConnection().prepareStatement("INSERT INTO image(name,data) VALUES(?,?)");
-	        pst.setString(1, "inna nazwa");
-	        pst.setBinaryStream(2, fin, (int) img.length());
+	        pst = dataSource.getConnection().prepareStatement("INSERT INTO image(name,data) VALUES(?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+	        pst.setString(1, imageName);
+	        pst.setBinaryStream(2, is, (int) imageData.length());
 	        pst.executeUpdate();
-	        
+	        ResultSet keys = pst.getGeneratedKeys();
+            if(keys.next())
+            	createdImageId = keys.getLong(1);
+            
             pst.close();
-            fin.close();
+            is.close();
             
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -84,7 +132,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        
+        return createdImageId;
 	}
 	
 	@Override
@@ -96,14 +144,14 @@ public class UserProfileDAOImpl implements UserProfileDAO{
         String outputPath = "E:\\Szkoła\\Praca inżynierska\\Repozytorium\\repository\\auctions\\src\\main\\webapp\\images\\";
         
         try{
-	        String query = "SELECT image_data, LENGTH(image_data),image_name,image_ext FROM auction WHERE userid=? ";
+	        String query = "SELECT image_data, LENGTH(image_data),image_name FROM auction WHERE userid=? ";
 	        pst = dataSource.getConnection().prepareStatement(query);
 	        pst.setLong(1,userId);
 	        
 	        ResultSet result = pst.executeQuery();
 	        while(result.next()){
 	        	
-		        fos = new FileOutputStream(outputPath + result.getString("image_name")+"."+result.getString("image_ext"));
+		        fos = new FileOutputStream(outputPath + result.getString("image_name"));
 		        int length = result.getInt(2);
 		        byte[] buffer = result.getBytes("image_data");
 		        fos.write(buffer, 0, length);

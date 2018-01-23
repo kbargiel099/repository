@@ -63,13 +63,12 @@ public class HomePageDAOImpl implements HomePageDAO{
 	
 	@Override
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
-		return dao.query("SELECT a.id,a.name,subject_name,image_name,subject_price FROM auction a,subject_category s,subject_subcategory sub WHERE subject_subcategory_id=sub.id AND sub.subject_category_id=s.id AND s.name=?", 
+		return dao.query("SELECT a.id,a.name,i.name AS image_name,subject_price FROM auction a,category s,subcategory sub,image i WHERE i.id=a.imageid AND subcategory_id=sub.id AND sub.category_id=s.id AND s.name=?", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionPresenter(res.getInt("id"),res.getString("name"),
-								res.getString("subject_name"),res.getString("image_name"),
-								res.getLong("subject_price"));
+								res.getString("image_name"),res.getLong("subject_price"));
 				}
 			});
 	}

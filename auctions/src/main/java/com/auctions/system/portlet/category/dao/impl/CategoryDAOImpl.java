@@ -43,26 +43,25 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	@Override//do przerobienia
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
-		return dao.query("SELECT a.id,a.name,subject_name,image_name,subject_price FROM auction a,subject_category s,subject_subcategory sub WHERE subject_subcategory_id=sub.id AND sub.subject_category_id=s.id AND s.name= ? ", 
+		return dao.query("SELECT a.id,a.name,i.name AS image_name,subject_price FROM auction a,image i,category s,subcategory sub"
+				+ " WHERE a.subcategory_id=sub.id AND sub.category_id=s.id AND a.imageid=i.id AND s.name=? ", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionPresenter(res.getInt("id"),res.getString("name"),
-								res.getString("subject_name"),res.getString("image_name"),
-								res.getLong("subject_price"));
+								res.getString("image_name"),res.getLong("subject_price"));
 				}
 			});
 	}
 	
 	@Override
 	public AuctionPresenter getBestAuctionsById(int auctionId){
-		return dao.queryForObject("SELECT id,name,subject_name,image_name,subject_price FROM auction WHERE id=?", 
+		return dao.queryForObject("SELECT a.id,a.name,i.name AS image_name,subject_price FROM auction a,image i WHERE a.imageid=i.id AND a.id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionPresenter(res.getInt("id"),res.getString("name"),
-								res.getString("subject_name"),res.getString("image_name"),
-								res.getLong("subject_price"));
+								res.getString("image_name"),res.getLong("subject_price"));
 				}
 			});
 	}
@@ -72,8 +71,8 @@ public class CategoryDAOImpl implements CategoryDAO{
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
 		final Timestamp endDate = new Timestamp(System.currentTimeMillis());
 		
-		return dao.queryForObject("SELECT id,serial_number,name,subject_name,image_name,description,create_date,subject_price"
-				+ " FROM auction WHERE id=?", 
+		return dao.queryForObject("SELECT a.id,serial_number,a.name,subject_name,i.name AS image_name,description,create_date,subject_price"
+				+ " FROM auction a,image i WHERE a.imageid=i.id AND a.id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
 					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
@@ -99,12 +98,12 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	@Override
 	public List<SubCategory> getSubCategories(String categoryName){
-		return dao.query("SELECT sub.id,sub.name FROM subject_subcategory sub,subject_category c "
-				+ "WHERE c.id=sub.subject_category_id AND c.name=?", 
+		return dao.query("SELECT sub.id AS sub_id,c.id,sub.name FROM subcategory sub,category c "
+				+ "WHERE c.id=sub.category_id AND c.name=?", 
 				new Object[]{categoryName},new RowMapper<SubCategory>(){
 					@Override
 					public SubCategory mapRow(ResultSet res, int row) throws SQLException {
-						return new SubCategory(res.getInt("id"),res.getString("name"));
+						return new SubCategory(res.getInt("sub_id"),res.getInt("id"),res.getString("name"));
 				}
 		});
 	}

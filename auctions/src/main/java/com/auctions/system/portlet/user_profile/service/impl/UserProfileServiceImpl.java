@@ -1,11 +1,15 @@
 package com.auctions.system.portlet.user_profile.service.impl;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.auctions.system.portlet.category.model.Category;
+import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
+import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 
@@ -28,6 +32,26 @@ public class UserProfileServiceImpl implements UserProfileService{
 	@Override
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId){
 		return dataSource.getUserBoughtSubjects(userId);
+	}
+	
+	@Override
+	public long createImage(String imageData,String imageName){
+		return dataSource.createImage(imageData,imageName);
+	}
+	
+	@Override
+	public List<Category> getCategories(){
+		return dataSource.getCategories();
+	}
+	
+	@Override
+	public List<SubCategory> getSubCategories(){
+		return dataSource.getSubCategories();
+	}
+	
+	@Override
+	public boolean createUserAuction(long userId, Auction a) throws ParseException{
+		return dataSource.createUserAuction(userId, a);
 	}
 
 }

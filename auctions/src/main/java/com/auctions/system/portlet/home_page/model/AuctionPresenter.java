@@ -4,18 +4,16 @@ public class AuctionPresenter {
 
 	private int id;
 	private String auctionName;
-	private String subjectName;
 	private String imageName;
 	private long subjectPrice;
 	
-	public AuctionPresenter(int id, String auctionName,String subjectName,
+	public AuctionPresenter(int id, String auctionName,
 			String imageName,long subjectPrice) {
 		super();
 		this.id = id;
 		this.auctionName = auctionName;
 		this.subjectPrice = subjectPrice;
 		this.imageName = imageName;
-		this.subjectName = subjectName;
 	}
 	
 	public int getId() {
@@ -41,14 +39,6 @@ public class AuctionPresenter {
 	}
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
-	}
-
-	public String getSubjectName() {
-		return subjectName;
-	}
-
-	public void setSubjectName(String subjectName) {
-		this.subjectName = subjectName;
 	}
 	
 }

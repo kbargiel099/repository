@@ -1,15 +1,13 @@
 package com.auctions.system.portlet.category.model;
 
-public class SubCategory {
+public class Category {
 
 	private int id;
-	private int categoryId;
 	private String name;
 	
-	public SubCategory(int id, int categoryId, String name) {
+	public Category(int id, String name) {
 		super();
 		this.id = id;
-		this.categoryId = categoryId;
 		this.name = name;
 	}
 
@@ -19,14 +17,6 @@ public class SubCategory {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
 	}
 
 	public String getName() {

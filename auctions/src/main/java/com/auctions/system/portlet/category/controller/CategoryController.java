@@ -73,7 +73,7 @@ public class CategoryController {
 	}
 	
 	private String getNameFromBundle(String name,Locale locale){
-		return messageSrc.getMessage(name + ".label", null, locale);
+		return messageSrc.getMessage(name , null, locale);
 	}
 	
 	@RequestMapping(params = "page=auctionDetails")

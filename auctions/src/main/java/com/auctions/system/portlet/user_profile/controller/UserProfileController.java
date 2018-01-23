@@ -1,6 +1,9 @@
 package com.auctions.system.portlet.user_profile.controller;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -8,23 +11,28 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 /**
@@ -44,6 +52,9 @@ public class UserProfileController {
 	@Autowired
 	private UserProfileService service;
 	
+	@Autowired
+	ReloadableResourceBundleMessageSource messageSrc;
+	
 	@InitBinder("newAuction")
 	private void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
@@ -53,15 +64,13 @@ public class UserProfileController {
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
 
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("exist", service.isUserExist("test@liferay.com", "jecky"));
-		service.getImages(PortalUtil.getUserId(request));
+		//service.getImages(PortalUtil.getUserId(request));
 		return model;
 	}
 	
 	@RequestMapping(params = "page=getBought")
 	public ModelAndView getBoughtAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("exist", "getBoughtView");
 		model.addObject("boughtView", true);
 		
 		List<UserProfileAuction> userBoughtSubjects = service.getUserBoughtSubjects(
@@ -75,7 +84,6 @@ public class UserProfileController {
 	@RequestMapping(params = "page=getSold")
 	public ModelAndView getSoldAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("exist", "getSoldView");
 		model.addObject("soldView", true);
 		return model;
 	}
@@ -83,27 +91,55 @@ public class UserProfileController {
 	@RequestMapping(params = "page=mySettings")
 	public ModelAndView mySettingsAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("exist", "mySettingsView");
 		model.addObject("mySettingsView", true);
 		return model;
 	}
 	
 	@RequestMapping(params = "page=createNewAuction")
 	public ModelAndView createNewAuctionRender(RenderRequest request, RenderResponse response){
+		
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("exist", "createNewAuction");
 		model.addObject("createNewAuctionView", true);
 		model.addObject("newAuction", new Auction());
+		model.addObject("categories", service.getCategories());
 		return model;
+	}
+	
+	@ResourceMapping(value = "getImage")
+	public void getImageAction(ResourceRequest request, ResourceResponse response) throws IOException{
+		//ModelAndView model = new ModelAndView(defaultView);
+		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
+		String file =  originalRequest.getParameter("image");
+		
+		response.getWriter().write("odebrano obrazek " + file);
+		//service.createImage(file);
+		//model.addObject("mySettingsView", true);
+		//return model;
+	}
+	
+	@ResourceMapping(value = "getSubCategories")
+	public void getSubCategories(ResourceRequest request, ResourceResponse response) throws IOException{
+		Gson gson = new Gson();
+		Locale locale = PortalUtil.getLocale(request);
+		String result = gson.toJson(createSubCategories(locale));
+		response.setContentType("application/json");
+		response.getWriter().write(result);
+	}
+	
+	private List<SubCategory> createSubCategories(Locale locale){
+		List<SubCategory> subCategories = service.getSubCategories();
+		for(SubCategory sub : subCategories){
+			String nameBundle = messageSrc.getMessage(sub.getName() , null, locale);
+			sub.setName(nameBundle);
+		}
+		return subCategories;
 	}
 	
 	@ActionMapping(params = "action=createNewAuction")
 	public void createNewAuctionAction(ActionRequest request, ActionResponse response,
-			@ModelAttribute("newAuction") Auction newAuction){
-		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("exist", "mySettingsView");
-		model.addObject("mySettingsView", true);
-		//return model;
+			@ModelAttribute("newAuction") Auction auction) throws ParseException{
+		long userId = PortalUtil.getUserId(request);
+		boolean isCreated = service.createUserAuction(userId, auction);
 	}
 
 

@@ -1,19 +1,17 @@
 package com.auctions.system.portlet.user_profile.model;
 
-import java.sql.Timestamp;
-import java.util.List;
 
 public class Auction {
 
 	private int id;
 	private String name;
 	private long serialNumber;
-	private List<PaymentMethod> acceptedPaymentMethods;
-	private Timestamp endDate;
-	private AuctionType auctionType;
-	private String subjectName;
+	private String endDate;
+	private int auctionTypeId;
+	private int categoryId;
+	private int subCategoryId;
 	private String imageName;
-	private String imageExt;
+	private String imageData;
 	private String description;
 	private int subjectQuantity;
 	private long subjectPrice;
@@ -22,19 +20,19 @@ public class Auction {
 		
 	}
 	
-	public Auction(int id, String name, long serialNumber, List<PaymentMethod> acceptedPaymentMethods,
-			Timestamp endDate, AuctionType auctionType, String subjectName, String imageName, String imageExt,
-			String description,int subjectQuantity,long subjectPrice) {
+	public Auction(int id, String name, long serialNumber,
+			String endDate, int auctionTypeId, int categoryId, int subCategoryId,
+			String imageName, String imageData, String description, int subjectQuantity, long subjectPrice) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.serialNumber = serialNumber;
-		this.acceptedPaymentMethods = acceptedPaymentMethods;
 		this.endDate = endDate;
-		this.auctionType = auctionType;
-		this.subjectName = subjectName;
+		this.auctionTypeId = auctionTypeId;
+		this.categoryId = categoryId;
+		this.subCategoryId = subCategoryId;
 		this.imageName = imageName;
-		this.imageExt = imageExt;
+		this.imageData = imageData;
 		this.description = description;
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
@@ -64,36 +62,20 @@ public class Auction {
 		this.serialNumber = serialNumber;
 	}
 
-	public List<PaymentMethod> getAcceptedPaymentMethods() {
-		return acceptedPaymentMethods;
-	}
-
-	public void setAcceptedPaymentMethods(List<PaymentMethod> acceptedPaymentMethods) {
-		this.acceptedPaymentMethods = acceptedPaymentMethods;
-	}
-
-	public Timestamp getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Timestamp endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
-	public AuctionType getAuctionType() {
-		return auctionType;
+	public int getAuctionTypeId() {
+		return auctionTypeId;
 	}
 
-	public void setAuctionType(AuctionType auctionType) {
-		this.auctionType = auctionType;
-	}
-
-	public String getSubjectName() {
-		return subjectName;
-	}
-
-	public void setSubjectName(String subjectName) {
-		this.subjectName = subjectName;
+	public void setAuctionTypeId(int auctionTypeId) {
+		this.auctionTypeId = auctionTypeId;
 	}
 
 	public String getImageName() {
@@ -104,12 +86,12 @@ public class Auction {
 		this.imageName = imageName;
 	}
 
-	public String getImageExt() {
-		return imageExt;
+	public String getImageData() {
+		return imageData;
 	}
 
-	public void setImageExt(String imageExt) {
-		this.imageExt = imageExt;
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
 	}
 
 	public String getDescription() {
@@ -135,14 +117,22 @@ public class Auction {
 	public void setSubjectPrice(long subjectPrice) {
 		this.subjectPrice = subjectPrice;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public int getSubCategoryId() {
+		return subCategoryId;
+	}
+
+	public void setSubCategoryId(int subCategoryId) {
+		this.subCategoryId = subCategoryId;
+	}
 	
 	//private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 	

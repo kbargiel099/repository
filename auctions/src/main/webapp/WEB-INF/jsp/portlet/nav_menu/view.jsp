@@ -49,24 +49,25 @@
 
 </div> 
 
-<nav class="navbar navbar-inverse" style="background-color: #2d67f6;">
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li><a href="#">Strona domowa</a></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Kategorie<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="/category?name=electronics">Eletronika</a></li>
-            <li><a href="/category?name=clothing">Odzież</a></li>
-            <li><a href="/category?name=motorization">Motoryzacja</a></li>
-          </ul>
-        </li>
-        <li><a href="#">Kontakt</a></li>
-        <li><a href="#">O serwisie</a></li>
-        <li><a href="#">Okazje</a></li>
-      </ul>
-  </div>
-</nav>
+	<nav class="navbar navbar-inverse" style="background-color: #2d67f6;">
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav">
+	        <li><a href="#">Strona domowa</a></li>
+	        <li class="dropdown">
+	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Kategorie<span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="/category?name=electronics">Eletronika</a></li>
+	            <li><a href="/category?name=clothing">Odzież</a></li>
+	            <li><a href="/category?name=motorization">Motoryzacja</a></li>
+	          </ul>
+	        </li>
+	        <li><a href="#">Kontakt</a></li>
+	        <li><a href="#">O serwisie</a></li>
+	        <li><a href="#">Okazje</a></li>
+	      </ul>
+	  </div>
+	</nav>
+
 
 <script src="<c:url value="/js/portlet/navigation_menu/modal.js" />"></script>
 
@@ -90,6 +91,7 @@
 		      }
 		    },
 		    submitHandler: function(form) {
+		      jQuery("#login-validation-info").hide();
 		      form.submit();
 		    }
 		  });

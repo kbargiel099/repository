@@ -42,8 +42,6 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.Option;
-import com.auctions.system.module.UserUtil;
-import com.auctions.system.portlet.users_management.dao.UsersManagementDAO;
 import com.auctions.system.portlet.users_management.model.User;
 import com.auctions.system.portlet.users_management.model.UserOptions;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
@@ -52,12 +50,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.CompanyConstants;
-import com.liferay.portal.kernel.security.auth.session.AuthenticatedSessionManagerUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
@@ -89,35 +84,8 @@ public class UserController {
 		//AuthenticatedSessionManagerUtil.logout(PortalUtil.getHttpServletRequest(request), PortalUtil.getHttpServletResponse(response));
 		//UserLocalServiceUtil.deleteUser(62409);
 		//add();
-		return model;
-	}
-	
-	private void add() throws PortalException{
-		boolean autoPassword = false;
-		String password1 = "jecky";
-		String password2 = "jecky";
-		String emailAddress ="nowy@liferay.com";
-		long facebookId = 0;
-		String openId = "0399";
-		String middleName = "middlename";
-		int prefixId = 0;
-		int suffixId = 0;
-		boolean male = true;
-		int birthdayMonth = 2;
-		int birthdayDay = 1;
-		int birthdayYear = 1970;
-		String jobTitle = "jobtitle";
-		long[] organizationIds = null;
-		long[] roleIds = new long[]{20123};
-		long[] userGroupIds = new long[]{};
-		boolean sendMail = false;
 		
-		 UserLocalServiceUtil.addUser(
-			0, 20116, autoPassword, password1, password2,
-			autoPassword, "screenname", emailAddress, facebookId, openId,
-			LocaleUtil.getDefault(), "firstname", middleName, "lastname", prefixId, suffixId, male,
-			birthdayMonth, birthdayDay, birthdayYear, jobTitle, null,
-			organizationIds, roleIds, userGroupIds, sendMail, new ServiceContext());
+		return model;
 	}
 	
 	@RenderMapping(params = "page=add")

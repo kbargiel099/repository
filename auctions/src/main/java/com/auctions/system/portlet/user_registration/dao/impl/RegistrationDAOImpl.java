@@ -1,7 +1,5 @@
 package com.auctions.system.portlet.user_registration.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import javax.annotation.PostConstruct;
@@ -10,13 +8,10 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 import com.auctions.system.portlet.user_registration.dao.RegistrationDAO;
 import com.auctions.system.portlet.users_management.model.User;
-import com.google.gson.JsonObject;
 
 @Repository("registrationDAO")
 public class RegistrationDAOImpl implements RegistrationDAO {

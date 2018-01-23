@@ -31,7 +31,7 @@ public class HomePageController {
 		ModelAndView model = new ModelAndView(defaultView);
 		//service.getImages(PortalUtil.getUserId(request));
 		//service.createImage();
-		model.addObject("electronicAuctions",service.getBestAuctionsByCategory("electronic"));
+		model.addObject("electronicAuctions",service.getBestAuctionsByCategory("electronics"));
 		return model;
 	}
 
