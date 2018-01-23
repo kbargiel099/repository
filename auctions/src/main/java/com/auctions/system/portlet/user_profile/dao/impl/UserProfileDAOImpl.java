@@ -25,6 +25,7 @@ import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
+import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 
 @Repository("userProfileDAO")
@@ -55,11 +56,11 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId){
-		return dao.query("SELECT name,subject_name,image_name FROM auction WHERE userid=?", 
+		return dao.query("SELECT a.name,i.name AS image_name FROM auction a,image i WHERE a.imageid=i.id AND userid=?", 
 				new Object[]{userId},new RowMapper<UserProfileAuction>(){
 					@Override
 					public UserProfileAuction mapRow(ResultSet res, int row) throws SQLException {
-						return new UserProfileAuction(res.getString("name"),res.getString("subject_name"),
+						return new UserProfileAuction(res.getString("name"),
 								res.getString("image_name"));
 				}
 			});
@@ -72,6 +73,17 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 					@Override
 					public Category mapRow(ResultSet res, int row) throws SQLException {
 						return new Category(res.getInt("id"),res.getString("name"));
+				}
+			});
+	}
+	
+	@Override
+	public List<AuctionType> getAuctionTypes(){
+		return dao.query("SELECT id,name FROM auction_type",
+				new RowMapper<AuctionType>(){
+					@Override
+					public AuctionType mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionType(res.getInt("id"),res.getString("name"));
 				}
 			});
 	}

@@ -29,8 +29,6 @@ public class HomePageController {
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
 
 		ModelAndView model = new ModelAndView(defaultView);
-		//service.getImages(PortalUtil.getUserId(request));
-		//service.createImage();
 		model.addObject("electronicAuctions",service.getBestAuctionsByCategory("electronics"));
 		return model;
 	}

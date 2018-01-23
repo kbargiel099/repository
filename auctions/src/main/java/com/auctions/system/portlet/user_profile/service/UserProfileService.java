@@ -6,6 +6,7 @@ import java.util.List;
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.model.Auction;
+import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 
 public interface UserProfileService {
@@ -23,5 +24,7 @@ public interface UserProfileService {
 	public List<SubCategory> getSubCategories();
 	
 	public boolean createUserAuction(long userId, Auction a) throws ParseException;
+	
+	public List<AuctionType> getAuctionTypes();
 
 }

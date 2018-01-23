@@ -71,13 +71,13 @@ public class CategoryDAOImpl implements CategoryDAO{
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
 		final Timestamp endDate = new Timestamp(System.currentTimeMillis());
 		
-		return dao.queryForObject("SELECT a.id,serial_number,a.name,subject_name,i.name AS image_name,description,create_date,subject_price"
+		return dao.queryForObject("SELECT a.id,serial_number,a.name,i.name AS image_name,description,create_date,subject_price"
 				+ " FROM auction a,image i WHERE a.imageid=i.id AND a.id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
 					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionDetails(res.getInt("id"),res.getString("serial_number"),
-								res.getString("name"),res.getString("subject_name"),res.getString("description"),
+								res.getString("name"),res.getString("description"),
 								sdf.format(res.getTimestamp("create_date")),sdf.format(endDate),res.getString("image_name"),
 								10,res.getLong("subject_price"));
 				}

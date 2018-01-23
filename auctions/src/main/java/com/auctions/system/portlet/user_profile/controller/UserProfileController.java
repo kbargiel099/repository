@@ -29,10 +29,10 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.model.Auction;
+import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 /**
@@ -44,8 +44,9 @@ import com.liferay.portal.kernel.util.PortalUtil;
 public class UserProfileController {
 
 	private final String defaultView = "view";
-	private final String addEditView = "add_edit"; 
+	private final String createAuctionView = "create-auction"; 
 	private final String detailsView = "details"; 
+	
 	
 	private final String imagesPath = "E:\\Szkoła\\Praca inżynierska\\Repozytorium\\repository\\auctions\\images\\";
 	
@@ -62,9 +63,8 @@ public class UserProfileController {
 	
 	@RenderMapping
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
-
+		
 		ModelAndView model = new ModelAndView(defaultView);
-		//service.getImages(PortalUtil.getUserId(request));
 		return model;
 	}
 	
@@ -95,13 +95,13 @@ public class UserProfileController {
 		return model;
 	}
 	
-	@RequestMapping(params = "page=createNewAuction")
+	@RenderMapping(params = "page=createNewAuction")
 	public ModelAndView createNewAuctionRender(RenderRequest request, RenderResponse response){
 		
-		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("createNewAuctionView", true);
+		ModelAndView model = new ModelAndView(createAuctionView);
 		model.addObject("newAuction", new Auction());
 		model.addObject("categories", service.getCategories());
+		model.addObject("auctionTypes", service.getAuctionTypes());
 		return model;
 	}
 	
