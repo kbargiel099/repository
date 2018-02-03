@@ -1,7 +1,5 @@
 package com.auctions.system.portlet.category.model;
 
-import java.sql.Timestamp;
-
 public class AuctionDetails {
 
 	private int id;
@@ -11,11 +9,12 @@ public class AuctionDetails {
 	private String createDate;
 	private String endDate;	
 	private String imageName;
+	private String imageData;
 	private int subjectQuantity;
 	private long subjectPrice;
 	
 	public AuctionDetails(int id,String serialNumber, String auctionName, String description, String createDate,
-			String endDate, String imageName, int subjectQuantity, long subjectPrice) {
+			String endDate, String imageName,String imageData, int subjectQuantity, long subjectPrice) {
 		super();
 		this.id = id;
 		this.serialNumber = serialNumber;
@@ -24,6 +23,7 @@ public class AuctionDetails {
 		this.createDate = createDate;
 		this.endDate = endDate;
 		this.imageName = imageName;
+		this.imageData = imageData;
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
 	}
@@ -91,6 +91,14 @@ public class AuctionDetails {
 
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
+	}
+
+	public String getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
 	}
 	
 }

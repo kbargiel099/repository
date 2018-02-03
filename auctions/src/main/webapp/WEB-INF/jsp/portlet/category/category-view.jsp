@@ -15,7 +15,7 @@
 		<h2 class="category-view-title text-center">${category}</h2>	
 		<ul class="horizontal-menu">
 		  <c:forEach items="${subCategories}" var="item">
-		  	<li class="horizontal-menu-item"><a href="#">${item.name}</a></li>
+		  	<li class="horizontal-menu-item"><a value="" href="javascript:void()" onclick="">${item.name}</a></li>
 		  </c:forEach>
 		</ul>
 	</div>
@@ -31,7 +31,7 @@
 			<div class="category-view-auction row">
 				<div class="col-xs-12 col-sm-12 col-md-4">
 					<a class="text-center" href="#">
-						<img src="<c:url value="/images/${item.imageName}" />" height="160" width="100%" />
+						<img src="data:image/jpg;base64,${item.imageData}" height="160" width="100%" />
 					</a>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-4">
@@ -46,3 +46,14 @@
 			</c:forEach>
 		</div>
 </div>
+
+<script type="text/javascript">
+
+	//jQuery(document).ready(function(){
+	//	var inputs = jQuery('input.auction');
+	//	var imgs = jQuery('img.auction');
+	//	for(var i=0;i<inputs.length;i++){
+	//		imgs[i].src = "data:image/jpg;base64,"+inputs[i].value;
+	//	}
+	//});
+</script>

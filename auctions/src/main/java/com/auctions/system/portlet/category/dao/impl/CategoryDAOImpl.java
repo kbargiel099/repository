@@ -2,7 +2,6 @@ package com.auctions.system.portlet.category.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -43,25 +42,27 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	@Override//do przerobienia
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
-		return dao.query("SELECT a.id,a.name,i.name AS image_name,subject_price FROM auction a,image i,category s,subcategory sub"
+		return dao.query("SELECT a.id,a.name,i.name AS image_name,i.data AS image_data,subject_price FROM auction a,image i,category s,subcategory sub"
 				+ " WHERE a.subcategory_id=sub.id AND sub.category_id=s.id AND a.imageid=i.id AND s.name=? ", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getInt("id"),res.getString("name"),
-								res.getString("image_name"),res.getLong("subject_price"));
+						String imageData = new String(res.getBytes("image_data"));
+						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
+								imageData,res.getLong("subject_price"));
 				}
 			});
 	}
 	
 	@Override
 	public AuctionPresenter getBestAuctionsById(int auctionId){
-		return dao.queryForObject("SELECT a.id,a.name,i.name AS image_name,subject_price FROM auction a,image i WHERE a.imageid=i.id AND a.id=?", 
+		return dao.queryForObject("SELECT a.id,a.name,i.name AS image_name,i.data AS image_data,subject_price FROM auction a,image i WHERE a.imageid=i.id AND a.id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getInt("id"),res.getString("name"),
-								res.getString("image_name"),res.getLong("subject_price"));
+						String imageData = new String(res.getBytes("image_data"));
+						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
+								imageData,res.getLong("subject_price"));
 				}
 			});
 	}
@@ -69,17 +70,17 @@ public class CategoryDAOImpl implements CategoryDAO{
 	@Override
 	public AuctionDetails getAuctionDetails(int auctionId){
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
-		final Timestamp endDate = new Timestamp(System.currentTimeMillis());
 		
-		return dao.queryForObject("SELECT a.id,serial_number,a.name,i.name AS image_name,description,create_date,subject_price"
+		return dao.queryForObject("SELECT a.id,serial_number,a.name,i.name AS image_name,i.data AS image_data,description,create_date,end_date,subject_price"
 				+ " FROM auction a,image i WHERE a.imageid=i.id AND a.id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
 					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
+						String imageData = new String(res.getBytes("image_data"));
 						return new AuctionDetails(res.getInt("id"),res.getString("serial_number"),
 								res.getString("name"),res.getString("description"),
-								sdf.format(res.getTimestamp("create_date")),sdf.format(endDate),res.getString("image_name"),
-								10,res.getLong("subject_price"));
+								sdf.format(res.getTimestamp("create_date")),sdf.format(res.getTimestamp("end_date")),res.getString("image_name"),
+								imageData,10,res.getLong("subject_price"));
 				}
 			});
 	}

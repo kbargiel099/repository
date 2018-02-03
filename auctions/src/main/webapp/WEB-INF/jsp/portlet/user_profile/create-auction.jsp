@@ -7,23 +7,6 @@
 
 <portlet:defineObjects />
 
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/selectpicker-custom.css" />" >
-
-<portlet:renderURL var="getBoughtRender">
-	<portlet:param name="page" value="getBought"/>
-</portlet:renderURL>
-<portlet:renderURL var="getSoldRender">
-	<portlet:param name="page" value="getSold"/>
-</portlet:renderURL>
-<portlet:renderURL var="mySettingsRender">
-	<portlet:param name="page" value="mySettings"/>
-</portlet:renderURL>
-<portlet:renderURL var="createNewAuctionRender">
-	<portlet:param name="page" value="createNewAuction"/>
-</portlet:renderURL>
-<portlet:resourceURL id="getImage" var="getImage">
-</portlet:resourceURL>
 <portlet:resourceURL id="getSubCategories" var="getSubCategories">
 </portlet:resourceURL>
 
@@ -31,24 +14,13 @@
 		<portlet:param name="action" value="createNewAuction"/>
 </portlet:actionURL>
 
-<input type="hidden" id="getBoughtUrl" value="${getBoughtRender}"></input>
-<input type="hidden" id="getSoldUrl" value="${getSoldRender}"></input>
-<input type="hidden" id="mySettingsUrl" value="${mySettingsRender}"></input>
-<input type="hidden" id="getImageUrl" value="${getImage}"></input>
-
 <input type="hidden" id="getSubCategoriesUrl" value="${getSubCategories}"></input>
 
 <div class="container-fluid">
- 	<div id="user-profile-menu" class="col-xs-12 col-sm-8 col-md-3">	
-		<ul class="horizontal-menu">
-		  <li class="horizontal-menu-item"><a href="${getBoughtRender}">Zakupione</a></li>
-		  <li class="horizontal-menu-item"><a href="${getSoldRender}">Sprzedane</a></li>
-		  <li class="horizontal-menu-item"><a href="${mySettingsRender}">Moje ustawienia</a></li>
-		  <li class="horizontal-menu-item"><a href="${createNewAuctionRender}">Wystaw przedmiot</a></li>
-		</ul>
-	</div>
 
-	<div class="col-xs-12 col-sm-8 col-md-8">
+	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
+
+		<div class="col-xs-12 col-sm-8 col-md-8">
 			<h4 class="user-profile-section-title"><liferay-ui:message key="auction.form.label" /></h4>
 		</div>
 		  <div class="container">	
@@ -129,7 +101,7 @@
 		  	</div>            
 	      </form:form>
 	   </div>
-	 </div>
+<div>
 	 
 <script  type="text/javascript">
 

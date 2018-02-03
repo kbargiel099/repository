@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.category.service.CategoryService;
@@ -36,8 +37,8 @@ public class CategoryController {
 	@Autowired
 	ReloadableResourceBundleMessageSource messageSrc;
 	
-	@RequestMapping()
-	public ModelAndView getOrder(RenderRequest request){
+	@RenderMapping()
+	public ModelAndView getSearch(RenderRequest request){
 		
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
 		String categoryName = originalRequest.getParameter("name");
@@ -49,17 +50,6 @@ public class CategoryController {
 		model.addObject("subCategories", createSubCategories(categoryName,themeDisplay.getLocale()));
 		return model;
 	}
-	
-	/*private String getCategoryNameBundle(String category,Locale locale){
-		if(category.equals("electronics"))
-			return messageSrc.getMessage("electronics", null, locale);
-		else if(category.equals("motorization"))
-			return messageSrc.getMessage("motorization", null, locale);
-		else if(category.equals("clothing"))
-			return messageSrc.getMessage("clothing", null, locale);
-		else
-			return "";	
-	}*/
 	
 	private List<SubCategory> createSubCategories(String categoryName,Locale locale){
 		List<SubCategory> subCategories = new ArrayList<SubCategory>();
@@ -75,6 +65,20 @@ public class CategoryController {
 	private String getNameFromBundle(String name,Locale locale){
 		return messageSrc.getMessage(name , null, locale);
 	}
+	
+	/*@RenderMapping(params = "page")
+	public ModelAndView getOrder(RenderRequest request){
+		
+		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
+		String categoryName = originalRequest.getParameter("name");
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+		
+		ModelAndView model = new ModelAndView(defaultView);
+		model.addObject("auctions",service.getBestAuctionsByCategory(categoryName));
+		model.addObject("category", getNameFromBundle(categoryName,themeDisplay.getLocale()));
+		model.addObject("subCategories", createSubCategories(categoryName,themeDisplay.getLocale()));
+		return model;
+	}*/
 	
 	@RequestMapping(params = "page=auctionDetails")
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response,

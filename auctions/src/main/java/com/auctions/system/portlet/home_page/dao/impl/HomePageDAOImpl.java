@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,11 +52,11 @@ public class HomePageDAOImpl implements HomePageDAO{
 	
 	@Override
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId){
-		return dao.query("SELECT name,subject_name,image_name,image_ext FROM auction WHERE userid=?", 
+		return dao.query("SELECT name,i.name AS image_name,i.data AS image_data FROM auction a,image i WHERE a.imageid=i.id AND userid=?", 
 				new Object[]{userId},new RowMapper<UserProfileAuction>(){
 					@Override
 					public UserProfileAuction mapRow(ResultSet res, int row) throws SQLException {
-						return new UserProfileAuction(res.getString("name"),res.getString("subject_name"),
+						return new UserProfileAuction(res.getString("name"),
 								res.getString("image_name"));
 				}
 			});
@@ -63,12 +64,12 @@ public class HomePageDAOImpl implements HomePageDAO{
 	
 	@Override
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
-		return dao.query("SELECT a.id,a.name,i.name AS image_name,subject_price FROM auction a,category s,subcategory sub,image i WHERE i.id=a.imageid AND subcategory_id=sub.id AND sub.category_id=s.id AND s.name=?", 
+		return dao.query("SELECT a.id,a.name,i.name AS image_name,i.data AS image_data,subject_price FROM auction a,category s,subcategory sub,image i WHERE i.id=a.imageid AND subcategory_id=sub.id AND sub.category_id=s.id AND s.name=?", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getInt("id"),res.getString("name"),
-								res.getString("image_name"),res.getLong("subject_price"));
+						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
+								new String(res.getBytes("image_data")),res.getLong("subject_price"));
 				}
 			});
 	}

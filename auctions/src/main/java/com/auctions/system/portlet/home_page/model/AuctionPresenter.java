@@ -5,15 +5,17 @@ public class AuctionPresenter {
 	private int id;
 	private String auctionName;
 	private String imageName;
+	private String imageData;
 	private long subjectPrice;
 	
 	public AuctionPresenter(int id, String auctionName,
-			String imageName,long subjectPrice) {
+			String imageName,String imageData,long subjectPrice) {
 		super();
 		this.id = id;
 		this.auctionName = auctionName;
 		this.subjectPrice = subjectPrice;
 		this.imageName = imageName;
+		this.imageData = imageData;
 	}
 	
 	public int getId() {
@@ -39,6 +41,14 @@ public class AuctionPresenter {
 	}
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
+	}
+
+	public String getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
 	}
 	
 }
