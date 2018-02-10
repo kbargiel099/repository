@@ -63,4 +63,22 @@
 			<h5><strong>Dane techniczne</strong></h5>
 		</div>
 	</div>
+	<button id="clientsBtn" onclick="getArray()" >Get</button>
+	<button id="addClientTestBtn" onclick="addClient()" >Add</button>
 </div>
+
+<script src="<c:url value="/js/module/eventSource.js" />"> </script>
+<script>
+	var source = new EventSource("http://localhost:8143/accounts/alerts");
+	function getArray(){
+		//var my = new MyClass();
+		
+		console.log(myInstance.publicMethod());
+		//console.log(myInstance.publicVariable);
+	}
+	
+	function addClient(){
+		myInstance.setPubl();
+	}
+	
+</script>

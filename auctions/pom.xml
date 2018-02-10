@@ -160,9 +160,9 @@
 			<artifactId>hibernate-validator</artifactId>
 		 	<version>4.3.0.Final</version>
 		</dependency>
-	</dependencies>
-	
-	<properties>
+    </dependencies>
+  
+  	<properties>
 		<spring.version>4.3.4.RELEASE</spring.version>
 	</properties>
 </project>
