@@ -65,20 +65,58 @@
 	</div>
 	<button id="clientsBtn" onclick="getArray()" >Get</button>
 	<button id="addClientTestBtn" onclick="addClient()" >Add</button>
+	<div id="main-content" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="connect">WebSocket connection:</label>
+                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
+                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="name">What is your name?</label>
+                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
+                </div>
+                <button id="send" class="btn btn-default" type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Greetings</th>
+                </tr>
+                </thead>
+                <tbody id="greetings">
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-<script src="<c:url value="/js/module/eventSource.js" />"> </script>
+<script src="<c:url value="/js/module/sockjs.min.js" />"></script>
+<script src="<c:url value="/js/module/stomp.min.js" />"></script>
+<script src="<c:url value="/js/module/app.js" />"></script>
+<script src="<c:url value="/js/module/eventSource.js" />"></script>
 <script>
-	var source = new EventSource("http://localhost:8143/accounts/alerts");
-	function getArray(){
+	//var source = new EventSource("http://localhost:8143/accounts/alerts");
+	//function getArray(){
 		//var my = new MyClass();
-		
-		console.log(myInstance.publicMethod());
+		//var socket = new WebSocket("ws://localhost:8143/greeting");
+		//console.log(myInstance.publicMethod());
 		//console.log(myInstance.publicVariable);
-	}
+	//}
 	
-	function addClient(){
-		myInstance.setPubl();
-	}
+	//function addClient(){
+	//	myInstance.setPubl();
+	//}
 	
 </script>

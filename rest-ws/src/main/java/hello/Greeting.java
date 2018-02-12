@@ -2,9 +2,16 @@ package hello;
 
 public class Greeting {
 
-    private final long id;
-    private final String content;
+    private long id;
+    private String content;
 
+    public Greeting() {
+    }
+
+    public Greeting(String content) {
+        this.content = content;
+    }
+    
     public Greeting(long id, String content) {
         this.id = id;
         this.content = content;

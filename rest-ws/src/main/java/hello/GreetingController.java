@@ -8,13 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.connector.ClientAbortException;
-import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+@CrossOrigin(origins = {"http://localhost:8080","http://192.168.0.15:8080"})
+//@CrossOrigin(origins = "http://192.168.0.15:8080")
 @RestController
 public class GreetingController {
 
@@ -31,6 +34,14 @@ public class GreetingController {
     		,@RequestParam(value="name", defaultValue="World") String name) {
     	
         return "Update" + name;
+    }
+    
+    //@CrossOrigin(origins = "http://localhost:8080")
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public Greeting greeting(HelloMessage message) throws Exception {
+        Thread.sleep(1000); // simulated delay
+        return new Greeting("Hello, " + message.getName() + "!");
     }
 
 	/*@RequestMapping("/accounts/alerts")
