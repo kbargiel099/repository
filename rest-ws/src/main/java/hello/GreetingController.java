@@ -7,7 +7,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +25,9 @@ public class GreetingController {
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
+    
+    @Autowired
+    UserProfileService service;
 
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
@@ -41,7 +46,8 @@ public class GreetingController {
     @SendTo("/topic/greetings")
     public Greeting greeting(HelloMessage message) throws Exception {
         Thread.sleep(1000); // simulated delay
-        return new Greeting("Hello, " + message.getName() + "!");
+        boolean isInserted = service.insertData(20156, 102);
+        return new Greeting(message.getName() + " dodano: " + isInserted);
     }
 
 	/*@RequestMapping("/accounts/alerts")

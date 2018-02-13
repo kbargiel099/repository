@@ -18,7 +18,7 @@
 				</a>
 			</div>
 		</div>
-		<div class="details-section div-layout row">
+		<div class="details-section row">
 			<div class="col-xs-12 col-sm-12 col-md-12">
 				<h4 class="text-center"><strong>Dane sprzedawcy</strong></h4>
 				<div class="padding-left">
@@ -26,6 +26,12 @@
 					<h5><strong></strong>${seller.emailAddress}</h5>
 					<h5><strong></strong>${seller.phoneNumber}</h5>
 				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12">
+			<div id="auction-notify" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow: scroll;height: 200px;">
+				<ul>
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -63,8 +69,7 @@
 			<h5><strong>Dane techniczne</strong></h5>
 		</div>
 	</div>
-	<button id="clientsBtn" onclick="getArray()" >Get</button>
-	<button id="addClientTestBtn" onclick="addClient()" >Add</button>
+	
 	<div id="main-content" class="container">
     <div class="row">
         <div class="col-md-6">
@@ -87,36 +92,8 @@
             </form>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table id="conversation" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Greetings</th>
-                </tr>
-                </thead>
-                <tbody id="greetings">
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
 
 <script src="<c:url value="/js/module/sockjs.min.js" />"></script>
 <script src="<c:url value="/js/module/stomp.min.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>
-<script src="<c:url value="/js/module/eventSource.js" />"></script>
-<script>
-	//var source = new EventSource("http://localhost:8143/accounts/alerts");
-	//function getArray(){
-		//var my = new MyClass();
-		//var socket = new WebSocket("ws://localhost:8143/greeting");
-		//console.log(myInstance.publicMethod());
-		//console.log(myInstance.publicVariable);
-	//}
-	
-	//function addClient(){
-	//	myInstance.setPubl();
-	//}
-	
-</script>

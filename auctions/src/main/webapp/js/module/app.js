@@ -19,7 +19,7 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/greetings', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).content);
+            jQuery("#auction-notify ul").append("<li>" + JSON.parse(greeting.body).content + " przebił </li>")
         });
     });
 }
@@ -34,10 +34,6 @@ function disconnect() {
 
 function sendName() {
     stompClient.send("/app/hello", {}, JSON.stringify({'name': jQuery("#name").val()}));
-}
-
-function showGreeting(message) {
-	jQuery("#greetings").append("<tr><td>" + message + "</td></tr>");
 }
 
 $(function () {
