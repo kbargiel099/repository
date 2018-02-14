@@ -18,6 +18,8 @@
 		  	<li class="horizontal-menu-item"><a value="" href="javascript:void()" onclick="">${item.name}</a></li>
 		  </c:forEach>
 		</ul>
+		<h5 class="text-center">Szukana fraza</h5>
+		<input type="text" id="text-searching" class="form-control"/>
 	</div>
 		<div class="col-xs-12 col-sm-12 col-md-8">
 				

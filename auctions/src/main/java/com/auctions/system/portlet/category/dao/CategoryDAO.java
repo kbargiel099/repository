@@ -13,9 +13,5 @@ public interface CategoryDAO {
 	
 	public AuctionPresenter getBestAuctionsById(int auctionId);
 	
-	public UserDetails getSellerDetails(long userId);
-	
-	public AuctionDetails getAuctionDetails(int auctionId);
-	
 	public List<SubCategory> getSubCategories(String categoryName);
 }

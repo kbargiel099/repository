@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.category.service.CategoryService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -30,12 +31,13 @@ import com.liferay.portal.kernel.util.WebKeys;
 public class CategoryController {
 
 	private final String defaultView = "category-view";
-	private final String detailsView = "auction-details-view";
 	
 	@Autowired
 	private CategoryService service;
 	@Autowired
-	ReloadableResourceBundleMessageSource messageSrc;
+	private ReloadableResourceBundleMessageSource messageSrc;
+	@Autowired
+	AuctionProcessing auctionProcessing;
 	
 	@RenderMapping()
 	public ModelAndView getSearch(RenderRequest request){
@@ -87,10 +89,11 @@ public class CategoryController {
 		//HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
 		//int auctionId = Integer.parseInt(originalRequest.getParameter("id"));
 		
-		ModelAndView model = new ModelAndView(detailsView);
-		model.addObject("auction",service.getAuctionDetails(auctionId));
-		model.addObject("seller", service.getSellerDetails(20156));
-		return model;
+		//ModelAndView model = new ModelAndView(detailsView);
+		//model.addObject("auction",service.getAuctionDetails(auctionId));
+		//model.addObject("seller", service.getSellerDetails(20156));
+		//return model;
+		return auctionProcessing.createAuctionDetailsView(auctionId);
 	}
 
 }
