@@ -37,17 +37,6 @@ public class NavMenuController {
 	@RenderMapping
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
 		ModelAndView model = new ModelAndView(defaultView);	
-		//model.addObject("signUp", signUp);
-		
-		//if(UserUtil.isGuest()){
-		//	model.addObject("isGuest", true);
-		//}else{
-		//	//model.addObject("isGuest", false);
-		//	model.addObject("login",UserUtil.getUserLogin());
-		//	model.addObject("userId", UserUtil.getUserId());
-		//	model.addObject("userSection", userSection);
-		//}	
-		
 		return model;
 	}
 	
@@ -80,29 +69,6 @@ public class NavMenuController {
 		UserUtil.setIsAdmin(false);
 		UserUtil.setUser(null);
 	}
-	
-	/*private List<Option> createOptions(int userId,ResourceResponse response){
-		
-		List<Option> options = new ArrayList<Option>();
-		
-		PortletURL showDetailsUrl = response.createRenderURL();
-		showDetailsUrl.setParameter("userId", Integer.toString(userId));
-		showDetailsUrl.setParameter("page", "details");
-		
-		PortletURL editUrl = response.createRenderURL();
-		editUrl.setParameter("userId", Integer.toString(userId));
-		editUrl.setParameter("page", "edit");
-		
-		PortletURL deleteUrl = response.createActionURL();
-		deleteUrl.setParameter("userId", Integer.toString(userId));
-		deleteUrl.setParameter("action", "delete");
-		
-		options.add(new Option("details",showDetailsUrl.toString()));
-		options.add(new Option("edit",editUrl.toString()));
-		options.add(new Option("delete",deleteUrl.toString()));
-		return options;
-		
-	}*/
 	
 }
 

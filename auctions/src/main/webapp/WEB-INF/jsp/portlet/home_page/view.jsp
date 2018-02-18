@@ -27,7 +27,7 @@
 							<img src="<c:url value="/images/${item.imageName}" />" height="200" width="100%" />
 						</a>
 						<h4>Cena - ${item.subjectPrice/100} zł</h4> 
-						<strong><h4>${item.auctionName}</h4></strong>
+						<strong><h4>${item.name}</h4></strong>
 					</div>
 				</c:forEach>
 			</div>

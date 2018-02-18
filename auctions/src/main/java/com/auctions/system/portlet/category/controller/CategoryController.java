@@ -1,11 +1,14 @@
 package com.auctions.system.portlet.category.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
+import com.auctions.system.portlet.category.model.SearchingForm;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.category.service.CategoryService;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -31,6 +38,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 public class CategoryController {
 
 	private final String defaultView = "category-view";
+	private String currentCategory;
 	
 	@Autowired
 	private CategoryService service;
@@ -43,13 +51,13 @@ public class CategoryController {
 	public ModelAndView getSearch(RenderRequest request){
 		
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
-		String categoryName = originalRequest.getParameter("name");
+		currentCategory = originalRequest.getParameter("name");
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("auctions",service.getBestAuctionsByCategory(categoryName));
-		model.addObject("category", getNameFromBundle(categoryName,themeDisplay.getLocale()));
-		model.addObject("subCategories", createSubCategories(categoryName,themeDisplay.getLocale()));
+		model.addObject("auctions",service.getBestAuctionsByCategory(currentCategory));
+		model.addObject("category", getNameFromBundle(currentCategory,themeDisplay.getLocale()));
+		model.addObject("subCategories", createSubCategories(currentCategory,themeDisplay.getLocale()));
 		return model;
 	}
 	
@@ -68,32 +76,25 @@ public class CategoryController {
 		return messageSrc.getMessage(name , null, locale);
 	}
 	
-	/*@RenderMapping(params = "page")
-	public ModelAndView getOrder(RenderRequest request){
-		
-		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
-		String categoryName = originalRequest.getParameter("name");
-		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		
-		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("auctions",service.getBestAuctionsByCategory(categoryName));
-		model.addObject("category", getNameFromBundle(categoryName,themeDisplay.getLocale()));
-		model.addObject("subCategories", createSubCategories(categoryName,themeDisplay.getLocale()));
-		return model;
-	}*/
-	
 	@RequestMapping(params = "page=auctionDetails")
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response,
 			@RequestParam("id") int auctionId) throws Exception{
-
-		//HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
-		//int auctionId = Integer.parseInt(originalRequest.getParameter("id"));
 		
-		//ModelAndView model = new ModelAndView(detailsView);
-		//model.addObject("auction",service.getAuctionDetails(auctionId));
-		//model.addObject("seller", service.getSellerDetails(20156));
-		//return model;
 		return auctionProcessing.createAuctionDetailsView(auctionId);
+	}
+	
+	@ResourceMapping("searchText")
+	public void searchForMatching(ResourceRequest request, ResourceResponse response,
+			@RequestParam("searchingForm") String searchingForm) throws IOException{
+		Gson gson = new Gson();
+		SearchingForm form = gson.fromJson(searchingForm, SearchingForm.class);
+		JsonObject res = new JsonObject();
+		
+		res.addProperty("auctions", gson.toJson(
+				service.getSearchingAuctions(form)).toString());
+		res.addProperty("success", true);
+		response.setContentType("application/json");
+		response.getWriter().write(res.toString());
 	}
 
 }

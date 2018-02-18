@@ -29,7 +29,9 @@
 	</portlet>
 	<portlet>
 		<portlet-name>category</portlet-name>
-	<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<!--  <icon>icon.png</icon>
+		<instanceable>true</instanceable>-->
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<css-class-wrapper>category-portlet</css-class-wrapper>
 	</portlet>
 	<role-mapper>

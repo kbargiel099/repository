@@ -39,7 +39,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-7">
   		<div class="details-section row">
 			<div class="col-xs-12 col-sm-12 col-md-5">
-				<h4><strong>${auction.auctionName}</strong></h4>
+				<h4><strong>${auction.name}</strong></h4>
 				<c:set var = "balance" value = "${auction.subjectPrice/100}" />
 				<h5>Aktualna cena - <fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="currency"/></h5>
 			</div>

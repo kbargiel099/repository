@@ -9,6 +9,9 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 
+<portlet:resourceURL id="searchText" var="searchText">
+</portlet:resourceURL>
+<input type="hidden" id="searchTextUrl" value="${searchText}"/>
 
 <div class="container-fluid">
 	<div id="category-view-menu" class="col-xs-12 col-sm-8 col-md-3">
@@ -18,8 +21,27 @@
 		  	<li class="horizontal-menu-item"><a value="" href="javascript:void()" onclick="">${item.name}</a></li>
 		  </c:forEach>
 		</ul>
-		<h5 class="text-center">Szukana fraza</h5>
-		<input type="text" id="text-searching" class="form-control"/>
+		<form id="searchingForm">
+			<div class="form-group text-center">
+				<label class="label-control" for="searchingText">Szukana fraza</label>
+				<input type="text" id="searchingText" name="searchingText" class="form-control"/>
+			</div>
+			<div class="form-group text-center">
+				<label class="label-control" for="minPrice">Przedział cenowy</label>
+				<div class="row">
+					<div class="col-xs-5">
+						<input type="text" id="minPrice" name="minPrice" class="form-control"/>
+					</div>
+					<div class="col-xs-2">
+						<label class="text-center"> - </label>
+					</div>
+					<div class="col-xs-5">
+						<input type="text" id="maxPrice" name="maxPrice" class="form-control"/>
+					</div>
+				</div>
+			</div>
+			<button id="searchingBtn" class="btn btn-primary form-control" onclick="searchForMatching()">Szukaj</button>
+		</form>
 	</div>
 		<div class="col-xs-12 col-sm-12 col-md-8">
 				
@@ -37,7 +59,7 @@
 					</a>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-4">
-					<strong><h4>${item.auctionName}</h4></strong>
+					<strong><h4>${item.name}</h4></strong>
 					<c:set var = "balance" value = "${item.subjectPrice/100}" />
 					<h4>Cena - <fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="currency"/></h4> 
 				</div>
@@ -58,4 +80,39 @@
 	//		imgs[i].src = "data:image/jpg;base64,"+inputs[i].value;
 	//	}
 	//});
+		jQuery(function() {
+		  jQuery("#searchingForm").validate({
+		    rules: {
+		      minPrice: {
+		        number: true
+		      },
+		      maxPrice: {
+		        number: true
+		      }
+		    },
+		    submitHandler: function(form) {
+		      //form.submit();
+		      console.log(form);
+		    }
+		  });
+		});
+		
+	function searchForMatching(){
+		var url = jQuery("#searchTextUrl").val();
+		var searching = JSON.stringify(jQuery("#searchingForm")
+				.serializeObject());
+		
+		jQuery.ajax({
+			"url" : url,
+			"data" : {
+				"searchingForm" : searching
+			},
+			"success" : function(data){
+				console.log(data);
+				jQuery(JSON.parse(data.auctions)).each(function(index,res){
+					console.log(index + " " + res.name);
+				});
+			}
+		});
+	}
 </script>

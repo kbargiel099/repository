@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.auctions.system.portlet.category.dao.CategoryDAO;
+import com.auctions.system.portlet.category.model.SearchingForm;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 
@@ -36,6 +37,24 @@ public class CategoryDAOImpl implements CategoryDAO{
 		return dao.query("SELECT a.id,a.name,i.name AS image_name,i.data AS image_data,subject_price FROM auction a,image i,category s,subcategory sub"
 				+ " WHERE a.subcategory_id=sub.id AND sub.category_id=s.id AND a.imageid=i.id AND s.name=? ", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){
+					@Override
+					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
+						String imageData = new String(res.getBytes("image_data"));
+						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
+								imageData,res.getLong("subject_price"));
+				}
+			});
+	}
+	
+	public List<AuctionPresenter> getSearchingAuctions(SearchingForm form){
+		String tempSearch = "%"+form.getSearchingText()+"%";
+		
+		return dao.query("SELECT a.id,a.name,i.name AS image_name,i.data AS image_data,subject_price FROM auction a "
+				+ "JOIN image i ON a.imageid=i.id WHERE (lower(a.name) LIKE lower(?) OR lower(a.description) LIKE lower(?)) "
+				+ "AND CASE WHEN ?<>'' AND ?<>'' THEN subject_price BETWEEN CAST(? AS BIGINT) AND CAST(? AS BIGINT) "
+                + "ELSE subject_price >= 0 END", 
+				new Object[]{tempSearch,tempSearch,form.getMinPrice(),form.getMaxPrice(),form.getMinPrice(),form.getMaxPrice()},
+				new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
 						String imageData = new String(res.getBytes("image_data"));

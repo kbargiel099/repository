@@ -3,16 +3,16 @@ package com.auctions.system.portlet.home_page.model;
 public class AuctionPresenter {
 
 	private int id;
-	private String auctionName;
+	private String name;
 	private String imageName;
 	private String imageData;
 	private long subjectPrice;
 	
-	public AuctionPresenter(int id, String auctionName,
+	public AuctionPresenter(int id, String name,
 			String imageName,String imageData,long subjectPrice) {
 		super();
 		this.id = id;
-		this.auctionName = auctionName;
+		this.name = name;
 		this.subjectPrice = subjectPrice;
 		this.imageName = imageName;
 		this.imageData = imageData;
@@ -24,11 +24,11 @@ public class AuctionPresenter {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getAuctionName() {
-		return auctionName;
+	public String getName() {
+		return name;
 	}
-	public void setAuctionName(String auctionName) {
-		this.auctionName = auctionName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public long getSubjectPrice() {
 		return subjectPrice;
