@@ -49,10 +49,6 @@ import com.auctions.system.portlet.users_management.validator.UserValidator;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
 
 @Controller
 @RequestMapping("VIEW")

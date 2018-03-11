@@ -3,6 +3,11 @@
 
 <liferay-portlet-app>
 	<portlet>
+		<portlet-name>authorization</portlet-name>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<css-class-wrapper>authorization-portlet</css-class-wrapper>
+	</portlet>
+	<portlet>
 		<portlet-name>users-management</portlet-name>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<css-class-wrapper>users-management-portlet</css-class-wrapper>
@@ -29,8 +34,8 @@
 	</portlet>
 	<portlet>
 		<portlet-name>category</portlet-name>
-		<!--  <icon>icon.png</icon>
-		<instanceable>true</instanceable>-->
+	    <icon>icon.png</icon>
+		<!-- <instanceable>true</instanceable> -->
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<css-class-wrapper>category-portlet</css-class-wrapper>
 	</portlet>

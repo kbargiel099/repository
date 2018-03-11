@@ -7,6 +7,6 @@ public interface AuctionProcessingService {
 	
 	public UserDetails getSellerDetails(long userId);
 	
-	public AuctionDetails getAuctionDetails(int auctionId);
+	public AuctionDetails getAuctionDetails(long id);
 
 }

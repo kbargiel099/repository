@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -50,7 +51,7 @@ public class CategoryController {
 	@RenderMapping()
 	public ModelAndView getSearch(RenderRequest request){
 		
-		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
+		HttpServletRequest originalRequest = getOriginal(request);
 		currentCategory = originalRequest.getParameter("name");
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		
@@ -78,9 +79,9 @@ public class CategoryController {
 	
 	@RequestMapping(params = "page=auctionDetails")
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response,
-			@RequestParam("id") int auctionId) throws Exception{
+			@RequestParam("id") long id) throws Exception{
 		
-		return auctionProcessing.createAuctionDetailsView(auctionId);
+		return auctionProcessing.createAuctionDetailsView(id);
 	}
 	
 	@ResourceMapping("searchText")
@@ -97,4 +98,8 @@ public class CategoryController {
 		response.getWriter().write(res.toString());
 	}
 
+	private HttpServletRequest getOriginal(PortletRequest request){
+		return PortalUtil.getOriginalServletRequest(
+				PortalUtil.getHttpServletRequest(request));
+	}
 }

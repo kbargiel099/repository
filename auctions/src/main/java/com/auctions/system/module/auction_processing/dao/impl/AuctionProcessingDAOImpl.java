@@ -38,7 +38,7 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	}
 	
 	@Override
-	public AuctionDetails getAuctionDetails(int auctionId){
+	public AuctionDetails getAuctionDetails(long auctionId){
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
 		
 		return dao.queryForObject("SELECT a.id,serial_number,a.name,i.name AS image_name,i.data AS image_data,description,create_date,end_date,subject_price"

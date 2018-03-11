@@ -14,9 +14,9 @@ public class AuctionProcessing {
 	@Autowired
 	AuctionProcessingService service;
 	
-	public ModelAndView createAuctionDetailsView(int auctionId){
+	public ModelAndView createAuctionDetailsView(long id){
 		ModelAndView model = new ModelAndView(detailsView);
-		model.addObject("auction",service.getAuctionDetails(auctionId));
+		model.addObject("auction",service.getAuctionDetails(id));
 		model.addObject("seller", service.getSellerDetails(20156));
 		return model;
 		

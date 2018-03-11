@@ -1,7 +1,13 @@
 package com.auctions.system.portlet.home_page.model;
 
-public class AuctionPresenter {
+import java.io.Serializable;
 
+public class AuctionPresenter implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	private String imageName;

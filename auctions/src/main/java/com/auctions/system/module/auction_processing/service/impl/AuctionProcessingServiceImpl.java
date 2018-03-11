@@ -18,7 +18,7 @@ public class AuctionProcessingServiceImpl implements AuctionProcessingService {
 		return dataSource.getSellerDetails(userId);
 	}
 	
-	public AuctionDetails getAuctionDetails(int auctionId){
+	public AuctionDetails getAuctionDetails(long auctionId){
 		return dataSource.getAuctionDetails(auctionId);
 	}
 

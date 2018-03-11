@@ -4,7 +4,7 @@ public class AuctionDetails {
 
 	private int id;
 	private String serialNumber;
-	private String auctionName;
+	private String name;
 	private String description;
 	private String createDate;
 	private String endDate;	
@@ -13,12 +13,12 @@ public class AuctionDetails {
 	private int subjectQuantity;
 	private long subjectPrice;
 	
-	public AuctionDetails(int id,String serialNumber, String auctionName, String description, String createDate,
+	public AuctionDetails(int id,String serialNumber, String name, String description, String createDate,
 			String endDate, String imageName,String imageData, int subjectQuantity, long subjectPrice) {
 		super();
 		this.id = id;
 		this.serialNumber = serialNumber;
-		this.auctionName = auctionName;
+		this.name = name;
 		this.description = description;
 		this.createDate = createDate;
 		this.endDate = endDate;
@@ -34,11 +34,11 @@ public class AuctionDetails {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getAuctionName() {
-		return auctionName;
+	public String getName() {
+		return name;
 	}
-	public void setAuctionName(String auctionName) {
-		this.auctionName = auctionName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public long getSubjectPrice() {
 		return subjectPrice;
