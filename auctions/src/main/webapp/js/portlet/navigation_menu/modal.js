@@ -16,8 +16,7 @@ function submitLogin(){
 	var url = jQuery("#signInUrl").val();
 	var form = JSON.stringify(jQuery("#login-form")
 			.serializeObject());  
-	console.log(jQuery("#signInUrl").val());
-	console.log(form);
+
 	jQuery.ajax({
 		"url":url,
 		"type": "POST",
@@ -25,9 +24,8 @@ function submitLogin(){
 			"form": form
 		},
 		"success": function(data){
-			console.log(data);
 			if(data.success == true)
-				window.location.reload();
+				window.location.href = themeDisplay.getURLHome();
 			else
 				jQuery("#login-validation-info").show();
 		}

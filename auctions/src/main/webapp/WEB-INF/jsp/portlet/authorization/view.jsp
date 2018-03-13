@@ -37,7 +37,8 @@
 			</div>
 	    </div>
 	    <div class="modal-footer">
-	     	<p class="text-center"><a class="btn btn-primary" href="javascript:submitLogin();" id="submitLogin">Wyślij</a></p>
+<!-- 	    <p class="text-center"><a class="btn btn-primary" href="javascript:submitLogin();" id="submitLogin">Wyślij</a></p> -->
+	     	<p class="text-center"><a class="btn btn-primary" type="submit" id="submitLogin">Wyślij</a></p>
 	  	</div>
   	</form>
   </div>
@@ -50,6 +51,14 @@
 		init();
 	}); 
 	
+ 	jQuery("#submitLogin").click(function(){
+	     var isValid = jQuery("#login-form").valid();
+	     if(isValid){
+		      jQuery("#login-validation-info").hide();
+	    		submitLogin();
+	     }
+ 	});
+ 	
 	jQuery(function() {
 		  jQuery("#login-form").validate({
 		    rules: {
@@ -61,10 +70,6 @@
 		        required: true,
 		        minlength: 4
 		      }
-		    },
-		    submitHandler: function(form) {
-		      jQuery("#login-validation-info").hide();
-		      form.submit();
 		    }
 		  });
 		});

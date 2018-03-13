@@ -9,6 +9,11 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 
+<portlet:renderURL var="details">
+	<portlet:param name="page" value="auctionDetails"/>
+</portlet:renderURL>
+<input type="hidden" id="detailsUrl" value="${details}"/>
+
 <portlet:resourceURL id="searchText" var="searchText">
 </portlet:resourceURL>
 <input type="hidden" id="searchTextUrl" value="${searchText}"/>
@@ -44,30 +49,27 @@
 		</form>
 	</div>
 		<div class="col-xs-12 col-sm-12 col-md-8">
+			<div id="elements">
+				<c:forEach items="${auctions}" var="item">
 				
-			<c:forEach items="${auctions}" var="item">
-			
-			<portlet:renderURL var="details">
-				<portlet:param name="page" value="auctionDetails"/>
-				<portlet:param name="id" value="${item.id}"/>
-			</portlet:renderURL>
-			
-			<div class="category-view-auction row">
-				<div class="col-xs-12 col-sm-12 col-md-4">
-					<a class="text-center" href="#">
-						<img src="data:image/jpg;base64,${item.imageData}" height="160" width="100%" />
-					</a>
+				<div class="category-view-auction row">
+					<div class="col-xs-12 col-sm-12 col-md-4">
+						<a class="text-center" href="#">
+							<img src="data:image/jpg;base64,${item.imageData}" height="160" width="100%" />
+						</a>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-4">
+						<strong><h4>${item.name}</h4></strong>
+						<c:set var = "balance" value = "${item.subjectPrice/100}" />
+						<h4>Cena - <fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="currency"/></h4> 
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-4">
+						<input type="hidden" name="id" value="${item.id}" />
+						<button class="btn btn-info" onclick="showDetails(this)" ><strong>Szczegóły oferty</strong></button>	
+					</div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-4">
-					<strong><h4>${item.name}</h4></strong>
-					<c:set var = "balance" value = "${item.subjectPrice/100}" />
-					<h4>Cena - <fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="currency"/></h4> 
-				</div>
-				<div class="col-xs-12 col-sm-12 col-md-4">
-					<a class="btn btn-info" href="${details}"><strong>Szczegóły oferty</strong></a>	
-				</div>
+				</c:forEach>
 			</div>
-			</c:forEach>
 		</div>
 </div>
 
@@ -97,22 +99,55 @@
 		  });
 		});
 		
+	function getDetailsUrl(){
+		return jQuery('#detailsUrl').val();
+	}
+ 	function createElement(data){
+		var url = getDetailsUrl();
+		var elem =  '<div class="category-view-auction row">'
+					+'<div class="col-xs-12 col-sm-12 col-md-4">'
+					+'<a class="text-center" href="#">'
+					+'<img src="data:image/jpg;base64,'+ data.imageData +'" height="160" width="100%" />'
+					+'</a></div>'
+					+'<div class="col-xs-12 col-sm-12 col-md-4">'
+					+'<strong><h4>'+ data.name +'</h4></strong>'
+					+'<h4>Cena - '+ data.subjectPrice/100 +'</h4></div>'
+					+'<div class="col-xs-12 col-sm-12 col-md-4">'
+					+'<input type="hidden" name="id" value="'+ data.id +'" />'
+					+'<button class="btn btn-info" onclick="showDetails(this)"><strong>Szczegóły oferty</strong></button>'
+					+'</div></div>';
+		return elem;	
+ 	} 
+	
+ 	function showDetails(obj){
+ 		var url = getDetailsUrl();
+ 		var id = jQuery(obj).parent().find('input').val();
+ 		location.href = buildUrl(url,'id',id);
+ 	}
+ 	
 	function searchForMatching(){
 		var url = jQuery("#searchTextUrl").val();
 		var searching = JSON.stringify(jQuery("#searchingForm")
 				.serializeObject());
-		
-		jQuery.ajax({
+  		jQuery.ajax({
 			"url" : url,
+			"type" : "POST",
 			"data" : {
 				"searchingForm" : searching
 			},
 			"success" : function(data){
-				console.log(data);
+				var elements = jQuery('#elements');
+				elements.html('');
 				jQuery(JSON.parse(data.auctions)).each(function(index,res){
-					console.log(index + " " + res.name);
+					elements.append(createElement(res));
 				});
 			}
 		});
 	}
+	
+	var buildUrl = function(base, key, value) {
+	    var separator = (base.indexOf('?') > -1) ? '&' : '?';
+	    return base + separator + key + '=' + value;
+	}
+	
 </script>
