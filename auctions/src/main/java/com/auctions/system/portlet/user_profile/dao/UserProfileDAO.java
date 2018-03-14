@@ -17,8 +17,6 @@ public interface UserProfileDAO {
 	
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId);
 	
-	public long createImage(String imageData,String imageName);
-	
 	public List<Category> getCategories();
 	
 	public List<SubCategory> getSubCategories();

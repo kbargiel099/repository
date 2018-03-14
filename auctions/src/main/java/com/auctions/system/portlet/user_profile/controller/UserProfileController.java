@@ -27,6 +27,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.Properties;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
@@ -48,7 +49,7 @@ public class UserProfileController {
 	private final String detailsView = "details"; 
 	
 	
-	private final String imagesPath = "E:\\Szkoła\\Praca inżynierska\\Repozytorium\\repository\\auctions\\images\\";
+	//private final String imagesPath = "E:\\Szkoła\\Praca inżynierska\\Repozytorium\\repository\\auctions\\images\\";
 	
 	@Autowired
 	private UserProfileService service;
@@ -77,7 +78,7 @@ public class UserProfileController {
 				PortalUtil.getUserId(request));
 				
 		model.addObject("subjects", userBoughtSubjects);
-		model.addObject("path", imagesPath);
+		model.addObject("path", Properties.getImagesPath());
 		return model;
 	}
 	

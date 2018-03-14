@@ -55,7 +55,7 @@
 				<div class="category-view-auction row">
 					<div class="col-xs-12 col-sm-12 col-md-4">
 						<a class="text-center" href="#">
-							<img src="data:image/jpg;base64,${item.imageData}" height="160" width="100%" />
+							<img src="<c:url value="/images/${item.imageName}" />" height="160" width="100%" />
 						</a>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-4">
@@ -107,7 +107,7 @@
 		var elem =  '<div class="category-view-auction row">'
 					+'<div class="col-xs-12 col-sm-12 col-md-4">'
 					+'<a class="text-center" href="#">'
-					+'<img src="data:image/jpg;base64,'+ data.imageData +'" height="160" width="100%" />'
+					+'<img src="<c:url value="/images/'+ data.imageName +'" />" height="160" width="100%" />'
 					+'</a></div>'
 					+'<div class="col-xs-12 col-sm-12 col-md-4">'
 					+'<strong><h4>'+ data.name +'</h4></strong>'

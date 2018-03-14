@@ -14,7 +14,7 @@
 		<div class="details-section row">
 			<div class="col-xs-12 col-sm-12 col-md-12">
 				<a class="text-center" href="#">
-					<img src="data:image/jpg;base64,${auction.imageData}" style="heigh:400px; width:400px;" />
+					<img src="<c:url value="/images/${auction.imageName}" />" style="heigh:400px; width:400px;" />
 				</a>
 			</div>
 		</div>

@@ -41,16 +41,15 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	public AuctionDetails getAuctionDetails(long auctionId){
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
 		
-		return dao.queryForObject("SELECT a.id,serial_number,a.name,i.name AS image_name,i.data AS image_data,description,create_date,end_date,subject_price"
-				+ " FROM auction a,image i WHERE a.imageid=i.id AND a.id=?", 
+		return dao.queryForObject("SELECT a.id,serial_number,a.name,i.image_name AS image_name,description,create_date,end_date,subject_price"
+				+ " FROM auction a,auction_image i WHERE a.id=i.auction_id AND a.id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
 					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
-						String imageData = new String(res.getBytes("image_data"));
 						return new AuctionDetails(res.getInt("id"),res.getString("serial_number"),
 								res.getString("name"),res.getString("description"),
 								sdf.format(res.getTimestamp("create_date")),sdf.format(res.getTimestamp("end_date")),res.getString("image_name"),
-								imageData,10,res.getLong("subject_price"));
+								10,res.getLong("subject_price"));
 				}
 			});
 	}

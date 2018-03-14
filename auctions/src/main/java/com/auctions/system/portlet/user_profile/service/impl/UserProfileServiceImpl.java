@@ -36,11 +36,6 @@ public class UserProfileServiceImpl implements UserProfileService{
 	}
 	
 	@Override
-	public long createImage(String imageData,String imageName){
-		return dataSource.createImage(imageData,imageName);
-	}
-	
-	@Override
 	public List<Category> getCategories(){
 		return dataSource.getCategories();
 	}
