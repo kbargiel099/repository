@@ -23,9 +23,9 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	}
 
 	@Override
-	public boolean insertData(long userId, long auctionId) {
-		int numberOfInsertedRows = dao.update("INSERT INTO auction_process(userid,auctionid) VALUES(?,?)",
-				new Object[]{userId,auctionId});
+	public boolean insertData(long userId, long auctionId, long price) {
+		int numberOfInsertedRows = dao.update("INSERT INTO auction_process(userid,auctionid,price,create_date) VALUES(?,?,?,current_timestamp)",
+				new Object[]{userId,auctionId,price});
 		return numberOfInsertedRows > 0 ? true : false;
 	}
 	

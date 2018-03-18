@@ -41,7 +41,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-5">
 				<h4><strong>${auction.name}</strong></h4>
 				<c:set var = "balance" value = "${auction.subjectPrice/100}" />
-				<h5>Aktualna cena - <fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="currency"/></h5>
+				<h5 id="price">Aktualna cena - <fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="number"/></h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-5">
 				<h5><strong>Data utworzenia</strong>  - ${auction.createDate}</h5>
@@ -54,7 +54,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-5">
 				<h5><strong>Podaj ilość</strong> </h5><input  type="text" /> 
-				<input type="button" class="btn btn-primary" value="Przebij"/>
+				<input type="button" id="raiseStakeBtn" class="btn btn-primary" value="Przebij"/>
 			</div>
 		</div>
 	</div>
@@ -94,6 +94,8 @@
     </div>
 </div>
 
+<input type="hidden" id="id" value="${auction.id}"/>
+<input type="hidden" id="currentPrice" value="${auction.subjectPrice}"/>
 <script src="<c:url value="/js/module/sockjs.min.js" />"></script>
 <script src="<c:url value="/js/module/stomp.min.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>

@@ -1,5 +1,9 @@
 var stompClient = null;
 
+jQuery(document).ready(function(){
+	connect();
+});
+
 function setConnected(connected) {
 	jQuery("#connect").prop("disabled", connected);
 	jQuery("#disconnect").prop("disabled", !connected);
@@ -18,8 +22,13 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
-            jQuery("#auction-notify ul").append("<li>" + JSON.parse(greeting.body).content + " przebił </li>")
+        stompClient.subscribe('/topic/greetings', function (data) {
+        	var res = JSON.parse(data.body);
+        	if(res.success == true){
+        		jQuery("#auction-notify ul").append("<li>" + res.username + " przebił </li>");
+        		jQuery('#currentPrice').val(res.price);
+        		jQuery('#price').html('Aktualna cena - ' + currency(res.price/100));
+        	}
         });
     });
 }
@@ -32,15 +41,23 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': jQuery("#name").val()}));
+function sendForm() {
+/*    stompClient.send("/app/hello", {}, JSON.stringify({'name': jQuery("#name").val()}));*/
+	var username = Liferay.ThemeDisplay.getUserName();
+	var userId = Liferay.ThemeDisplay.getUserId();
+	var auctionId = jQuery('#id').val();
+	var newPrice = parseInt(jQuery('#currentPrice').val()) + 100;
+    stompClient.send("/app/hello", {}, JSON.stringify({'auctionId': auctionId,'userId': userId,'username': username,'price': newPrice}));
 }
 
 $(function () {
 	jQuery("form").on('submit', function (e) {
-        e.preventDefault();
+        e.preventDefault(); 
     });
 	jQuery( "#connect" ).click(function() { connect(); });
 	jQuery( "#disconnect" ).click(function() { disconnect(); });
-	jQuery( "#send" ).click(function() { sendName(); });
+	jQuery( "#send" ).click(function() { sendForm(); });
+	jQuery( "#raiseStakeBtn" ).click(function() { sendForm(); });
 });
+
+function currency(n){n=parseFloat(n);return isNaN(n)?false:n.toFixed(2);}
