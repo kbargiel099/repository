@@ -20,7 +20,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         //registry.addEndpoint("/gs-guide-websocket").
         //	setAllowedOrigins("http://localhost:8080").withSockJS();
-        registry.addEndpoint("/gs-guide-websocket").
+        registry.addEndpoint("/notification").
         	setAllowedOrigins("http://localhost:8080","http://192.168.0.15:8080").withSockJS();
     }
 

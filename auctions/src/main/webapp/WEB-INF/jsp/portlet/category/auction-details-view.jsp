@@ -8,6 +8,9 @@
 <portlet:defineObjects />
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
+<div id="alert-notify" class="alert alert-success" style="display: none;">
+</div>
+
 
 <div class="container">
   	<div class="col-xs-12 col-sm-12 col-md-5">
@@ -93,7 +96,9 @@
         </div>
     </div>
 </div>
+    <div class="DivSai" >
 
+    </div>
 <input type="hidden" id="id" value="${auction.id}"/>
 <input type="hidden" id="currentPrice" value="${auction.subjectPrice}"/>
 <script src="<c:url value="/js/module/sockjs.min.js" />"></script>

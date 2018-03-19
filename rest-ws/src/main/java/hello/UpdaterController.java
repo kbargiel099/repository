@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = {"http://localhost:8080","http://192.168.0.15:8080"})
 //@CrossOrigin(origins = "http://192.168.0.15:8080")
 @RestController
-public class GreetingController {
+public class UpdaterController {
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
@@ -32,17 +34,11 @@ public class GreetingController {
         return new ResponseForm(counter.incrementAndGet(),
                             String.format(template, name));
     }
-    @RequestMapping("/update")
-    public String update(HttpServletRequest request, HttpServletResponse response
-    		,@RequestParam(value="name", defaultValue="World") String name) {
-    	
-        return "Update" + name;
-    }
     
     //@CrossOrigin(origins = "http://localhost:8080")
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public ResponseForm proceed(RequestForm form) throws Exception {
+    @MessageMapping("/update/{id}")
+    @SendTo("/topic/notify/{id}")
+    public ResponseForm proceed(@DestinationVariable String id,RequestForm form) throws Exception {
         boolean isInserted = service.insertData(Long.parseLong(form.getAuctionId()),
         		Long.parseLong(form.getUserId()),Long.parseLong(form.getPrice()));
       

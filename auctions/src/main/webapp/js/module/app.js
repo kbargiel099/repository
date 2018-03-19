@@ -1,4 +1,7 @@
 var stompClient = null;
+var username = Liferay.ThemeDisplay.getUserName();
+var userId = Liferay.ThemeDisplay.getUserId();
+var auctionId = jQuery('#id').val();
 
 jQuery(document).ready(function(){
 	connect();
@@ -17,17 +20,18 @@ function setConnected(connected) {
 }
 
 function connect() {
-    var socket = new SockJS('http://localhost:8143/gs-guide-websocket');
+    var socket = new SockJS('http://localhost:8143/notification');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (data) {
+        stompClient.subscribe('/topic/notify/'+jQuery('#id').val(), function (data) {
         	var res = JSON.parse(data.body);
         	if(res.success == true){
         		jQuery("#auction-notify ul").append("<li>" + res.username + " przebił </li>");
         		jQuery('#currentPrice').val(res.price);
         		jQuery('#price').html('Aktualna cena - ' + currency(res.price/100));
+        		showNotifyAlert(res.username);
         	}
         });
     });
@@ -42,12 +46,8 @@ function disconnect() {
 }
 
 function sendForm() {
-/*    stompClient.send("/app/hello", {}, JSON.stringify({'name': jQuery("#name").val()}));*/
-	var username = Liferay.ThemeDisplay.getUserName();
-	var userId = Liferay.ThemeDisplay.getUserId();
-	var auctionId = jQuery('#id').val();
 	var newPrice = parseInt(jQuery('#currentPrice').val()) + 100;
-    stompClient.send("/app/hello", {}, JSON.stringify({'auctionId': auctionId,'userId': userId,'username': username,'price': newPrice}));
+    stompClient.send("/app/update/" + auctionId, {}, JSON.stringify({'auctionId': auctionId,'userId': userId,'username': username,'price': newPrice}));
 }
 
 $(function () {
@@ -59,5 +59,13 @@ $(function () {
 	jQuery( "#send" ).click(function() { sendForm(); });
 	jQuery( "#raiseStakeBtn" ).click(function() { sendForm(); });
 });
+
+function showNotifyAlert(username) {
+	var box = bootbox.alert("Użytkownik " + username + " przebił.");
+	setTimeout(function() {
+		box.modal('hide');
+	   }, 2000);
+}
+
 
 function currency(n){n=parseFloat(n);return isNaN(n)?false:n.toFixed(2);}
