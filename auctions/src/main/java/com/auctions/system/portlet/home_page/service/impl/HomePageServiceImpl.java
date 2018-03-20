@@ -32,6 +32,11 @@ public class HomePageServiceImpl implements HomePageService{
 	}
 	
 	@Override
+	public List<AuctionPresenter> getNewestAuction(){
+		return dataSource.getNewestAuction();
+	}
+	
+	@Override
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId){
 		return dataSource.getUserBoughtSubjects(userId);
 	}

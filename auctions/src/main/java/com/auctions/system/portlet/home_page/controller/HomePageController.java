@@ -21,8 +21,6 @@ import com.auctions.system.portlet.home_page.service.HomePageService;
 public class HomePageController {
 
 	private final String defaultView = "view";
-	private final String categoryView = "category-view"; 
-	private final String detailsView = "details"; 
 	
 	@Autowired
 	private HomePageService service;
@@ -34,6 +32,7 @@ public class HomePageController {
 
 		ModelAndView model = new ModelAndView(defaultView);
 		model.addObject("electronicAuctions",service.getBestAuctionsByCategory("electronics"));
+		model.addObject("newestAuctions", service.getNewestAuction());
 		return model;
 	}
 	

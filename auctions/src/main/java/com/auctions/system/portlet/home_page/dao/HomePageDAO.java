@@ -13,6 +13,8 @@ public interface HomePageDAO {
 	
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category);
 	
+	public List<AuctionPresenter> getNewestAuction();
+	
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId);
 	
 	public void createImage();

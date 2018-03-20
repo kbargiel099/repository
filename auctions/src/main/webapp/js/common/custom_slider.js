@@ -1,26 +1,42 @@
 var slideIndex = 1;
-showSlides(slideIndex);
+var newestIndex = 1; 
 
-function plusSlides(n) {
-  showSlides(slideIndex += n);
+showSlides("mySlides","dot",slideIndex,slideIndex);
+showSlides("newest","dot",newestIndex,newestIndex);
+
+jQuery('#mySlidesPrev').click(function(){
+	plusSlides(slideIndex,-1);
+});
+jQuery('#mySlidesNext').click(function(){
+	plusSlides(slideIndex,1);
+});
+jQuery('#newestPrev').click(function(){
+	plusSlides(newestIndex,-1);
+});
+jQuery('#newestNext').click(function(){
+	plusSlides(newestIndex,1);
+});
+
+function plusSlides(index, value) {
+  showSlides(index += value);
 }
 
-function currentSlide(n) {
-  showSlides(slideIndex = n);
+function currentSlide(index, value) {
+  showSlides(index = value);
 }
 
-function showSlides(n) {
+function showSlides(elemsId , dotsId , index, n) {
   var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1} 
-    if (n < 1) {slideIndex = slides.length}
+  var slides = document.getElementsByClassName(elemsId);
+  var dots = document.getElementsByClassName(dotsId);
+  if (n > slides.length) {index = 1} 
+    if (n < 1) {index = slides.length}
     for (i = 0; i < slides.length; i++) {
       slides[i].style.display = "none"; 
     }
     for (i = 0; i < dots.length; i++) {
       dots[i].className = dots[i].className.replace(" active", "");
     }
-  slides[slideIndex-1].style.display = "block"; 
-  dots[slideIndex-1].className += " active";
+  slides[index-1].style.display = "block"; 
+  //dots[index-1].className += " active";
 } 

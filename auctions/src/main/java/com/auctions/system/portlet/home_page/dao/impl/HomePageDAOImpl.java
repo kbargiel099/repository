@@ -75,6 +75,20 @@ public class HomePageDAOImpl implements HomePageDAO{
 	}
 	
 	@Override
+	public List<AuctionPresenter> getNewestAuction(){
+		return dao.query("SELECT a.id,a.name,i.image_name AS image_name,subject_price "
+				+ "FROM auction a JOIN auction_image i ON i.auction_id=a.id "
+				+ "ORDER BY create_date DESC LIMIT 3", 
+				new Object[]{},new RowMapper<AuctionPresenter>(){
+					@Override
+					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
+								res.getLong("subject_price"));
+				}
+			});
+	}
+	
+	@Override
 	public void createImage(){
 		   
         PreparedStatement pst = null;

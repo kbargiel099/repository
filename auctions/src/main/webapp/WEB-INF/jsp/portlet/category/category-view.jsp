@@ -61,7 +61,7 @@
 					<div class="col-xs-12 col-sm-12 col-md-4">
 						<strong><h4>${item.name}</h4></strong>
 						<c:set var = "balance" value = "${item.subjectPrice/100}" />
-						<h4>Cena - <fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="currency"/></h4> 
+						<h4>Cena - <fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="number"/></h4> 
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-4">
 						<input type="hidden" name="id" value="${item.id}" />
