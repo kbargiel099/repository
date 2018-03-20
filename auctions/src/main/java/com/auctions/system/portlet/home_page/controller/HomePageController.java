@@ -6,9 +6,11 @@ import javax.portlet.RenderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.portlet.home_page.service.HomePageService;
 
 /**
@@ -24,6 +26,8 @@ public class HomePageController {
 	
 	@Autowired
 	private HomePageService service;
+	@Autowired
+	AuctionProcessing auctionProcessing;
 	
 	@RenderMapping
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
@@ -31,6 +35,13 @@ public class HomePageController {
 		ModelAndView model = new ModelAndView(defaultView);
 		model.addObject("electronicAuctions",service.getBestAuctionsByCategory("electronics"));
 		return model;
+	}
+	
+	@RequestMapping(params = "page=auctionDetails")
+	public ModelAndView defaulView(RenderRequest request, RenderResponse response,
+			@RequestParam("id") long id) throws Exception{
+		
+		return auctionProcessing.createAuctionDetailsView(id);
 	}
 
 }

@@ -9,7 +9,7 @@ import com.auctions.system.module.auction_processing.service.AuctionProcessingSe
 @Component
 public class AuctionProcessing {
 	
-	private final String detailsView = "auction-details-view";
+	private final String detailsView = "details-view";
 	
 	@Autowired
 	AuctionProcessingService service;

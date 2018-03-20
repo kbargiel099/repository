@@ -96,9 +96,6 @@
         </div>
     </div>
 </div>
-    <div class="DivSai" >
-
-    </div>
 <input type="hidden" id="id" value="${auction.id}"/>
 <input type="hidden" id="currentPrice" value="${auction.subjectPrice}"/>
 <script src="<c:url value="/js/module/sockjs.min.js" />"></script>
