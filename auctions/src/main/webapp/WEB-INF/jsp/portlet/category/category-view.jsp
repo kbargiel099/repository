@@ -28,11 +28,11 @@
 		</ul>
 		<form id="searchingForm">
 			<div class="form-group text-center">
-				<label class="label-control" for="searchingText">Szukana fraza</label>
+				<label class="label-control" for="searchingText"><liferay-ui:message key="searching.text" /></label>
 				<input type="text" id="searchingText" name="searchingText" class="form-control"/>
 			</div>
 			<div class="form-group text-center">
-				<label class="label-control" for="minPrice">Przedział cenowy</label>
+				<label class="label-control" for="minPrice"><liferay-ui:message key="price.range" /></label>
 				<div class="row">
 					<div class="col-xs-5">
 						<input type="text" id="minPrice" name="minPrice" class="form-control"/>
@@ -45,7 +45,7 @@
 					</div>
 				</div>
 			</div>
-			<button id="searchingBtn" class="btn btn-primary form-control" onclick="searchForMatching()">Szukaj</button>
+			<button id="searchingBtn" class="btn btn-primary form-control" onclick="searchForMatching()"><liferay-ui:message key="search" /></button>
 		</form>
 	</div>
 		<div class="col-xs-12 col-sm-12 col-md-8">
@@ -65,7 +65,9 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-4">
 						<input type="hidden" name="id" value="${item.id}" />
-						<button class="btn btn-info" onclick="showDetails(this)" ><strong>Szczegóły oferty</strong></button>	
+						<button class="btn btn-info" onclick="showDetails(this)" >
+							<strong><liferay-ui:message key="auction.details" /></strong>
+						</button>	
 					</div>
 				</div>
 				</c:forEach>

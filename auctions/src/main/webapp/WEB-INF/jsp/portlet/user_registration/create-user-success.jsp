@@ -11,7 +11,7 @@
 		  </div>
 		  
 		  <div class="col-xs-12 col-sm-12 col-md-12">
-		        <h4><strong>Na podany adres mailowy została wysłana wiadomość w celu potwierdzenia poprawności danych</strong></h4>
+		        <h4><strong><liferay-ui:message key="confirmation.email.after.registration" /></strong></h4>
 		  </div>
    </div>
    

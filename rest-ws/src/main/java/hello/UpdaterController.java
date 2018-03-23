@@ -39,8 +39,8 @@ public class UpdaterController {
     @MessageMapping("/update/{id}")
     @SendTo("/topic/notify/{id}")
     public ResponseForm proceed(@DestinationVariable String id,RequestForm form) throws Exception {
-        boolean isInserted = service.insertData(Long.parseLong(form.getAuctionId()),
-        		Long.parseLong(form.getUserId()),Long.parseLong(form.getPrice()));
+        boolean isInserted = service.insertData(Long.parseLong(form.getUserId()),
+        		Long.parseLong(form.getAuctionId()),Long.parseLong(form.getPrice()));
       
         if(isInserted){
         	return new ResponseForm(true, form.getUsername(), form.getPrice());

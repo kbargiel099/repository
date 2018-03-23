@@ -11,18 +11,18 @@
 	<nav class="navbar navbar-inverse" style="background-color: #2d67f6;">
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav">
-	        <li><a href="#">Strona domowa</a></li>
+	        <li><a href="#"><liferay-ui:message key="home-page"/></a></li>
 	        <li class="dropdown">
-	          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Kategorie<span class="caret"></span></a>
+	          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><liferay-ui:message key="categories"/><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
-	            <li><a href="/category?name=electronics">Eletronika</a></li>
-	            <li><a href="/category?name=clothing">Odzież</a></li>
-	            <li><a href="/category?name=motorization">Motoryzacja</a></li>
+	            <li><a href="/category?name=electronics"><liferay-ui:message key="electronics"/></a></li>
+	            <li><a href="/category?name=clothing"><liferay-ui:message key="clothing"/></a></li>
+	            <li><a href="/category?name=motorization"><liferay-ui:message key="motorization"/></a></li>
 	          </ul>
 	        </li>
-	        <li><a href="#">Kontakt</a></li>
-	        <li><a href="#">O serwisie</a></li>
-	        <li><a href="#">Okazje</a></li>
+	        <li><a href="#"><liferay-ui:message key="contact"/></a></li>
+	        <li><a href="#"><liferay-ui:message key="about-service"/></a></li>
+	        <li><a href="#"><liferay-ui:message key="occasions"/></a></li>
 	      </ul>
 	  </div>
 	</nav>

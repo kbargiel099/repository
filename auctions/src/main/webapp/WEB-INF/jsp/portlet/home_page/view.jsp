@@ -36,7 +36,7 @@
 		<div class="col-xs-12 col-sm-12 col-md-3">
 			<div class='dad' style="background-color: mediumSeaGreen;">
 			    <span></span>
-			    <div class='b'>Polecane</div>
+			    <div class='b'><liferay-ui:message key="most-popular" /></div>
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-9">
@@ -71,7 +71,7 @@
 		<div class="col-xs-12 col-sm-12 col-md-3">
 			<div class='dad' style="background-color: gray;">
 			    <span></span>
-			    <div class='b'>Ostatnio dodane</div>
+			    <div class='b'><liferay-ui:message key="recent-added" /></div>
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-9">
