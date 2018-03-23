@@ -98,6 +98,8 @@
 </div>
 <input type="hidden" id="id" value="${auction.id}"/>
 <input type="hidden" id="currentPrice" value="${auction.subjectPrice}"/>
+<input type="hidden" id="endDate" value="${auction.endDate}"/>
+
 <script src="<c:url value="/js/module/sockjs.min.js" />"></script>
 <script src="<c:url value="/js/module/stomp.min.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>

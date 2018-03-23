@@ -2,28 +2,23 @@ package hello;
 
 public class RequestForm {
 
-    private String auctionId;
     private String userId;
     private String username;
     private String price;
-
+    private String endDate;
+    private int auctionTypeId;
+    
     public RequestForm() {
     }
 
-    public RequestForm(String auctionId, String userId,String username, String price) {
-        this.auctionId = auctionId;
+    public RequestForm( String userId,String username, String price,
+    		String endDate, int auctionTypeId) {
+        this.endDate = endDate;
         this.userId = userId;
         this.username = username;
         this.price = price;
+        this.auctionTypeId = auctionTypeId;
     }
-
-	public String getAuctionId() {
-		return auctionId;
-	}
-
-	public void setAuctionId(String auctionId) {
-		this.auctionId = auctionId;
-	}
 
 	public String getUserId() {
 		return userId;
@@ -47,6 +42,22 @@ public class RequestForm {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getAuctionTypeId() {
+		return auctionTypeId;
+	}
+
+	public void setAuctionTypeId(int auctionTypeId) {
+		this.auctionTypeId = auctionTypeId;
 	}
    
 }

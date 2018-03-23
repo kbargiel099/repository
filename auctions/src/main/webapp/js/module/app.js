@@ -2,6 +2,8 @@ var stompClient = null;
 var username = Liferay.ThemeDisplay.getUserName();
 var userId = Liferay.ThemeDisplay.getUserId();
 var auctionId = jQuery('#id').val();
+var endDate = jQuery('#endDate').val();
+var auctionTypeId = 1;
 
 jQuery(document).ready(function(){
 	connect();
@@ -46,8 +48,10 @@ function disconnect() {
 }
 
 function sendForm() {
+	console.log(jQuery('#endDate').val());
 	var newPrice = parseInt(jQuery('#currentPrice').val()) + 100;
-    stompClient.send("/app/update/" + auctionId, {}, JSON.stringify({'auctionId': auctionId,'userId': userId,'username': username,'price': newPrice}));
+    stompClient.send("/app/update/" + auctionId, {}, JSON.stringify({'userId': userId,'username': username,
+    	'price': newPrice,'endDate': endDate,'auctionTypeId': auctionTypeId}));
 }
 
 $(function () {
