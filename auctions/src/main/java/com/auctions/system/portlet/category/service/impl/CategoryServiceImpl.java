@@ -31,6 +31,11 @@ public class CategoryServiceImpl implements CategoryService{
 	public List<SubCategory> getSubCategories(String categoryName){
 		return dataSource.getSubCategories(categoryName);
 	}
+	
+	@Override
+	public List<AuctionPresenter> getAuctionsBySubcategory(int id){
+		return dataSource.getAuctionsBySubcategory(id);
+	}
 
 	@Override
 	public List<AuctionPresenter> getSearchingAuctions(SearchingForm searchingForm) {

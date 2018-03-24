@@ -16,6 +16,8 @@ public interface CategoryDAO {
 	
 	public List<SubCategory> getSubCategories(String categoryName);
 	
+	public List<AuctionPresenter> getAuctionsBySubcategory(int id);
+	
 	public List<AuctionPresenter> getSearchingAuctions(SearchingForm searchingForm);
 
 }

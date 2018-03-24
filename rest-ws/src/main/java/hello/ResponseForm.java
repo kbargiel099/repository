@@ -1,6 +1,6 @@
 package hello;
 
-public class ResponseForm {
+public class ResponseForm extends Response{
 
     private boolean success;
     private String username;

@@ -18,12 +18,19 @@
 </portlet:resourceURL>
 <input type="hidden" id="searchTextUrl" value="${searchText}"/>
 
+<portlet:resourceURL id="getBySubcategory" var="getBySubcategory">
+</portlet:resourceURL>
+<input type="hidden" id="getBySubcategoryUrl" value="${getBySubcategory}"/>
+
 <div class="container-fluid">
 	<div id="category-view-menu" class="col-xs-12 col-sm-8 col-md-3">
 		<h2 class="category-view-title text-center">${category}</h2>	
 		<ul class="horizontal-menu">
 		  <c:forEach items="${subCategories}" var="item">
-		  	<li class="horizontal-menu-item"><a value="" href="javascript:void()" onclick="">${item.name}</a></li>
+		  	<li class="horizontal-menu-item">
+		  		<a href="javascript:void()" onclick="getBySubcategory(this)">${item.name}</a>
+		  		<input type="hidden" name="id" value="${item.id}"/>
+		  	</li>
 		  </c:forEach>
 		</ul>
 		<form id="searchingForm">
@@ -61,7 +68,10 @@
 					<div class="col-xs-12 col-sm-12 col-md-4">
 						<strong><h4>${item.name}</h4></strong>
 						<c:set var = "balance" value = "${item.subjectPrice/100}" />
-						<h4>Cena - <fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="number"/></h4> 
+						<h4>
+							<liferay-ui:message key="price" /> - 
+							<fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="number"/> <liferay-ui:message key="currency" />
+						</h4> 
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-4">
 						<input type="hidden" name="id" value="${item.id}" />
@@ -75,15 +85,11 @@
 		</div>
 </div>
 
-<script type="text/javascript">
+<input type="hidden" id="price-label" value="<liferay-ui:message key="price" />"/>
+<input type="hidden" id="details-label" value="<liferay-ui:message key="auction.details" />"/>
+<input type="hidden" id="currency-label" value="<liferay-ui:message key="currency" />"/>
 
-	//jQuery(document).ready(function(){
-	//	var inputs = jQuery('input.auction');
-	//	var imgs = jQuery('img.auction');
-	//	for(var i=0;i<inputs.length;i++){
-	//		imgs[i].src = "data:image/jpg;base64,"+inputs[i].value;
-	//	}
-	//});
+<script type="text/javascript">
 		jQuery(function() {
 		  jQuery("#searchingForm").validate({
 		    rules: {
@@ -101,11 +107,11 @@
 		  });
 		});
 		
-	function getDetailsUrl(){
-		return jQuery('#detailsUrl').val();
-	}
+ 	function getUrlById(id){
+		return jQuery('#'+ id).val();
+	} 
  	function createElement(data){
-		var url = getDetailsUrl();
+		var url = getUrlById('detailsUrl');
 		var elem =  '<div class="category-view-auction row">'
 					+'<div class="col-xs-12 col-sm-12 col-md-4">'
 					+'<a class="text-center" href="#">'
@@ -113,18 +119,39 @@
 					+'</a></div>'
 					+'<div class="col-xs-12 col-sm-12 col-md-4">'
 					+'<strong><h4>'+ data.name +'</h4></strong>'
-					+'<h4>Cena - '+ data.subjectPrice/100 +'</h4></div>'
+					+'<h4>'+ jQuery('#price-label').val() +' - '+ currency(data.subjectPrice) +' '+ jQuery('#currency-label').val() +'</h4></div>'
 					+'<div class="col-xs-12 col-sm-12 col-md-4">'
 					+'<input type="hidden" name="id" value="'+ data.id +'" />'
-					+'<button class="btn btn-info" onclick="showDetails(this)"><strong>Szczegóły oferty</strong></button>'
+					+'<button class="btn btn-info" onclick="showDetails(this)"><strong>'+ jQuery('#details-label').val() +'</strong></button>'
 					+'</div></div>';
 		return elem;	
  	} 
 	
  	function showDetails(obj){
- 		var url = getDetailsUrl();
+ 		var url = getUrlById('detailsUrl');
  		var id = jQuery(obj).parent().find('input').val();
  		location.href = buildUrl(url,'id',id);
+ 	}
+ 	
+ 	function getBySubcategory(obj){
+ 		var url = getUrlById('getBySubcategoryUrl');
+ 		var id = jQuery(obj).parent().find('input').val();
+ 		console.log(id);
+  		jQuery.ajax({
+			"url" : url,
+			"type" : "POST",
+			"data" : {
+				"id" : id
+			},
+			"success" : function(data){
+ 				var elements = jQuery('#elements');
+				elements.html('');
+				jQuery(JSON.parse(data.auctions)).each(function(index,res){
+					elements.append(createElement(res));
+				});
+			} 
+		});
+ 		
  	}
  	
 	function searchForMatching(){
@@ -151,5 +178,7 @@
 	    var separator = (base.indexOf('?') > -1) ? '&' : '?';
 	    return base + separator + key + '=' + value;
 	}
+	
+	function currency(n){n=parseFloat(n);return isNaN(n)?false:n.toFixed(2);}
 	
 </script>

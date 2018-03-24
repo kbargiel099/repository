@@ -84,6 +84,20 @@ public class CategoryController {
 		return auctionProcessing.createAuctionDetailsView(id);
 	}
 	
+	@ResourceMapping("getBySubcategory")
+	public void searchForMatching(ResourceRequest request, ResourceResponse response,
+			@RequestParam("id") int id) throws IOException{		
+		Gson gson = new Gson();
+		JsonObject res = new JsonObject();
+		
+		res.addProperty("auctions", gson.toJson(
+				service.getAuctionsBySubcategory(id)).toString());
+
+		res.addProperty("success", true);
+		response.setContentType("application/json");
+		response.getWriter().write(res.toString());
+	}
+	
 	@ResourceMapping("searchText")
 	public void searchForMatching(ResourceRequest request, ResourceResponse response,
 			@RequestParam("searchingForm") String searchingForm) throws IOException{

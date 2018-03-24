@@ -24,6 +24,24 @@
 	        <li><a href="#"><liferay-ui:message key="about-service"/></a></li>
 	        <li><a href="#"><liferay-ui:message key="occasions"/></a></li>
 	      </ul>
+<%-- 	      <div class="dropdown">
+			  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><liferay-ui:message key="language" />
+			  <span class="caret"></span></button>
+			  <ul class="dropdown-menu">
+			    <li><a id="pl" href="/c/portal/update_language?languageId=pl_PL"><liferay-ui:message key="lang.polish" /></a></li>
+			    <li><a id="en" href="/c/portal/update_language?languageId=en_US"><liferay-ui:message key="lang.english" /></a></li>
+			  </ul>
+		  </div>  --%>
+		  <ul class="nav navbar-nav navbar-right">
+			  <li class="dropdown">
+				  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><liferay-ui:message key="language" />
+				  <span class="caret"></span></a>
+				  <ul class="dropdown-menu">
+				    <li><a id="pl" href="/c/portal/update_language?languageId=pl_PL"><liferay-ui:message key="lang.polish" /></a></li>
+				    <li><a id="en" href="/c/portal/update_language?languageId=en_US"><liferay-ui:message key="lang.english" /></a></li>
+				  </ul>
+			  </li>
+		  </ul>
 	  </div>
 	</nav>
 

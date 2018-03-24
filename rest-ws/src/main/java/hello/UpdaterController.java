@@ -2,6 +2,9 @@ package hello;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,29 +41,47 @@ public class UpdaterController {
     //@CrossOrigin(origins = "http://localhost:8080")
     @MessageMapping("/update/{id}")
     @SendTo("/topic/notify/{id}")
-    public ResponseForm proceed(@DestinationVariable String id,RequestForm form) throws Exception {
-        boolean isInserted = service.insertData(Long.parseLong(form.getUserId()),
+    public Response proceed(@DestinationVariable String id,RequestForm form) throws Exception {    	
+    	boolean isInserted = false;
+    	
+    	if(isCurrentTimeBefore(form.getEndDate())){
+    		isInserted = service.insertData(Long.parseLong(form.getUserId()),
         		Long.parseLong(id),Long.parseLong(form.getPrice()));
-        System.out.println(System.currentTimeMillis());
-        if(isInserted){
+    	}else{
+    		return new ResponseError(1);
+    	}
+    	
+    	if(isInserted){
         	return new ResponseForm(true, form.getUsername(), form.getPrice());
         }else{
-        	return new ResponseForm(false);
+        	return new ResponseError(2);
         }
+    }
+    
+    private boolean isCurrentTimeBefore(String end){
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd hh.mm.ss");
+    	
+    	Date endDate = null;
+		try {
+			endDate = format.parse(end);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        Date current = new Date(System.currentTimeMillis());
+        return current.before(endDate);
     }
 	
 	@RequestMapping("/accounts/alerts")
 	public void getAccountAlertsNoPathVariable(HttpServletRequest request, HttpServletResponse response) {
 		Thread t1 = new Thread(() ->{
-					response.setContentType("text/event-stream");
-					try {
-						PrintWriter writer = response.getWriter();
-						writer.write("data:{/'id/':3,'content/':/'tekst-Server'}");
-						writer.flush();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+			response.setContentType("text/event-stream");
+			try {
+				PrintWriter writer = response.getWriter();
+				writer.write("data:{/'id/':3,'content/':/'tekst-Server'}");
+				writer.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		});
 		t1.start();
 	}

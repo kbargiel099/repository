@@ -80,6 +80,20 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 	
 	@Override
+	public List<AuctionPresenter> getAuctionsBySubcategory(int id){
+		return dao.query("SELECT a.id,a.name,i.image_name AS image_name,subject_price FROM auction a "
+				+ "JOIN auction_image i ON a.id=i.auction_id WHERE subcategory_id=? ORDER BY create_date DESC", 
+				new Object[]{id},
+				new RowMapper<AuctionPresenter>(){
+					@Override
+					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
+								res.getLong("subject_price"));
+				}
+			});
+	}
+	
+	@Override
 	public AuctionPresenter getBestAuctionsById(int auctionId){
 		return dao.queryForObject("SELECT a.id,a.name,i.name AS image_name,subject_price FROM auction a,auction_image i WHERE a.id=i.auction_id AND a.id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionPresenter>(){
