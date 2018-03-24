@@ -11,6 +11,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
+import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.home_page.service.HomePageService;
 
 /**
@@ -26,6 +27,8 @@ public class HomePageController {
 	private HomePageService service;
 	@Autowired
 	AuctionProcessing auctionProcessing;
+	@Autowired
+	ProfileController profile;
 	
 	@RenderMapping
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
@@ -41,6 +44,13 @@ public class HomePageController {
 			@RequestParam("id") long id) throws Exception{
 		
 		return auctionProcessing.createAuctionDetailsView(id);
+	}
+	
+	@RequestMapping(params = "page=userProfile")
+	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response,
+			@RequestParam("id") long id) throws Exception{
+		
+		return profile.createUserProfileView(id);
 	}
 
 }

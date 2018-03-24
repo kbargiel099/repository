@@ -22,6 +22,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
+import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.category.model.SearchingForm;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.category.service.CategoryService;
@@ -47,6 +48,8 @@ public class CategoryController {
 	private ReloadableResourceBundleMessageSource messageSrc;
 	@Autowired
 	AuctionProcessing auctionProcessing;
+	@Autowired
+	ProfileController profile;
 	
 	@RenderMapping()
 	public ModelAndView getSearch(RenderRequest request){
@@ -78,10 +81,17 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(params = "page=auctionDetails")
-	public ModelAndView defaulView(RenderRequest request, RenderResponse response,
+	public ModelAndView getAuctionDetails(RenderRequest request, RenderResponse response,
 			@RequestParam("id") long id) throws Exception{
 		
 		return auctionProcessing.createAuctionDetailsView(id);
+	}
+	
+	@RequestMapping(params = "page=userProfile")
+	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response,
+			@RequestParam("id") long id) throws Exception{
+		
+		return profile.createUserProfileView(id);
 	}
 	
 	@ResourceMapping("getBySubcategory")

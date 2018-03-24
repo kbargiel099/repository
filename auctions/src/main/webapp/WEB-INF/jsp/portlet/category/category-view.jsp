@@ -119,7 +119,7 @@
 					+'</a></div>'
 					+'<div class="col-xs-12 col-sm-12 col-md-4">'
 					+'<strong><h4>'+ data.name +'</h4></strong>'
-					+'<h4>'+ jQuery('#price-label').val() +' - '+ currency(data.subjectPrice) +' '+ jQuery('#currency-label').val() +'</h4></div>'
+					+'<h4>'+ jQuery('#price-label').val() +' - '+ currency(data.subjectPrice/100) +' '+ jQuery('#currency-label').val() +'</h4></div>'
 					+'<div class="col-xs-12 col-sm-12 col-md-4">'
 					+'<input type="hidden" name="id" value="'+ data.id +'" />'
 					+'<button class="btn btn-info" onclick="showDetails(this)"><strong>'+ jQuery('#details-label').val() +'</strong></button>'

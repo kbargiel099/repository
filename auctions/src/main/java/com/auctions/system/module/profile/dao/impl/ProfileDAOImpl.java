@@ -1,4 +1,4 @@
-package com.auctions.system.module.auction_processing.dao.impl;
+package com.auctions.system.module.profile.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,12 +13,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.auctions.system.module.auction_processing.dao.AuctionProcessingDAO;
+import com.auctions.system.module.profile.dao.ProfileDAO;
+import com.auctions.system.module.profile.model.UserProfile;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.UserDetails;
 
-@Repository("auctionProcessingDAO")
-public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
+@Repository("profileDAO")
+public class ProfileDAOImpl implements ProfileDAO{
 
 	private JdbcTemplate daoPortal;
 	private JdbcTemplate dao;
@@ -55,13 +56,13 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	}
 	
 	@Override
-	public UserDetails getSellerDetails(long userId){
-		return daoPortal.queryForObject("SELECT userid,screenname,firstname,lastname,emailaddress FROM user_ WHERE userid=?", 
-				new Object[]{userId},new RowMapper<UserDetails>(){
+	public UserProfile getUserProfile(long userId){
+		return daoPortal.queryForObject("SELECT userid,screenname,firstname,lastname,emailaddress,createdate,logindate FROM user_ WHERE userid=?", 
+				new Object[]{userId},new RowMapper<UserProfile>(){
 					@Override
-					public UserDetails mapRow(ResultSet res, int row) throws SQLException {
-						return new UserDetails(res.getLong("userid"),res.getString("screenname"),res.getString("firstname"),res.getString("lastname"),
-								"623189505",res.getString("emailaddress"));
+					public UserProfile mapRow(ResultSet res, int row) throws SQLException {
+						return new UserProfile(res.getLong("userid"),res.getString("screenname"),res.getString("firstname"),res.getString("lastname"),
+								res.getString("emailaddress"),res.getTimestamp("createdate"),res.getTimestamp("logindate"));
 				}
 		});
 	}

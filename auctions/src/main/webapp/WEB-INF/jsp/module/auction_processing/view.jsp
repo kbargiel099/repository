@@ -11,6 +11,11 @@
 <div id="alert-notify" class="alert alert-success" style="display: none;">
 </div>
 
+<portlet:renderURL var="getUserProfile">
+	<portlet:param name="page" value="userProfile"/>
+	<portlet:param name="id" value="${seller.id}"/>
+</portlet:renderURL>
+
 <div class="container">
   	<div class="col-xs-12 col-sm-12 col-md-5">
 		<div class="details-section row">
@@ -24,9 +29,12 @@
 			<div class="col-xs-12 col-sm-12 col-md-12">
 				<h4 class="text-center"><strong><liferay-ui:message key="seller.details" /></strong></h4>
 				<div class="padding-left">
-					<h5><strong></strong>${seller.firstname} ${seller.lastname}</h5>
-					<h5><strong></strong>${seller.emailAddress}</h5>
-					<h5><strong></strong>${seller.phoneNumber}</h5>
+				<a href="${getUserProfile}">
+					<h5>${seller.username}</h5>
+				</a>
+					<h5>${seller.firstname} ${seller.lastname}</h5>
+					<h5>${seller.emailAddress}</h5>
+					<h5>${seller.phoneNumber}</h5>
 				</div>
 			</div>
 		</div>
@@ -43,7 +51,11 @@
 			<div class="col-xs-12 col-sm-12 col-md-5">
 				<h4><strong>${auction.name}</strong></h4>
 				<c:set var = "balance" value = "${auction.subjectPrice/100}" />
-				<h5 id="price"><liferay-ui:message key="actual.price" /> - <fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="number"/></h5>
+				<h5 id="price">
+					<liferay-ui:message key="actual.price" /> - 
+					<fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="number"/> 
+					<liferay-ui:message key="currency" />
+				</h5>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-5">
 				<h5><strong><liferay-ui:message key="create.date" /></strong>  - ${auction.createDate}</h5>
