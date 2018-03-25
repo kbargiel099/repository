@@ -2,20 +2,21 @@
 	background-color: rgb(0,0,0);  Fallback color sciemnia ekran 
     background-color: rgba(0,0,0,0.4);  Black w/ opacity 
 }*/
+
+/*
 .modal-custom {
-    display: none; /* Hidden by default */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    overflow: auto; /* Enable scroll if needed */
+    display: none; 
+    z-index: 1;
+    padding-top: 100px; 
+    overflow: auto; 
 }
 
-/* Modal Content */
+
 .modal-content {
     position: relative;
     background-color: #fefefe;
     margin: auto;
     padding: 0;
-    /*width: 80%;*/
     border: 1px solid #888;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     -webkit-animation-name: animatetop;
@@ -24,7 +25,7 @@
     animation-duration: 0.4s
 }
 
-/* Add Animation */
+
 @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0} 
     to {top:0; opacity:1}
@@ -35,7 +36,7 @@
     to {top:0; opacity:1}
 }
 
-/* The Close Button */
+
 .close {
     color: white;
     float: right;
@@ -52,17 +53,33 @@
 
 .modal-header {
     padding: 2px 16px;
-    /*background-color: rgb(10, 99, 255);*/
 }
 
 .modal-body {padding: 2px 16px;}
 
 .modal-footer {
     padding: 2px 16px;
-    /* background-color: rgb(10, 99, 255);*/
     height: 50px;
 }
 
 .modal-center {
 	text-align: center;
+}
+*/
+
+.navbar .navbar-nav .dropdown.open 
+.dropdown-toggle::after {
+	/* content: "rozwin"; */
+	display: none;
+}
+
+.navbar .navbar-nav .dropdown 
+.dropdown-toggle::after {
+	/* content: "zwin"; */
+	display: none;
+}
+
+.navbar .navbar-nav .dropdown 
+.dropdown-toggle .caret {
+	display: inline-block;
 }
