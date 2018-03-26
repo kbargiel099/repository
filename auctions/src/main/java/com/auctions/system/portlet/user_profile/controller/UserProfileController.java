@@ -21,7 +21,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
@@ -30,7 +30,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.Properties;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.model.Auction;
-import com.auctions.system.portlet.user_profile.model.AuctionType;
+import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.google.gson.Gson;
@@ -46,10 +46,9 @@ public class UserProfileController {
 
 	private final String defaultView = "view";
 	private final String createAuctionView = "create-auction"; 
+	private final String addGradeView = "add-grade";
 	private final String detailsView = "details"; 
-	
-	
-	//private final String imagesPath = "E:\\Szkoła\\Praca inżynierska\\Repozytorium\\repository\\auctions\\images\\";
+
 	
 	@Autowired
 	private UserProfileService service;
@@ -58,14 +57,21 @@ public class UserProfileController {
 	ReloadableResourceBundleMessageSource messageSrc;
 	
 	@InitBinder("newAuction")
-	private void initBinder(WebDataBinder binder) {
+	private void initBinderAuction(WebDataBinder binder) {
+		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
+	}
+	
+	@InitBinder("auctionGrade")
+	private void initBinderGrade(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 	}
 	
 	@RenderMapping
-	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
+	public ModelAndView defaulView(RenderRequest request, RenderResponse response,
+			@RequestParam(value ="message", defaultValue = "") String message) throws Exception{
 		
 		ModelAndView model = new ModelAndView(defaultView);
+		model.addObject("message", message);
 		return model;
 	}
 	
@@ -106,6 +112,13 @@ public class UserProfileController {
 		return model;
 	}
 	
+	@RequestMapping(params = "page=addGrade")
+	public ModelAndView addGradeAction(RenderRequest request, RenderResponse response){
+		ModelAndView model = new ModelAndView(addGradeView);
+		model.addObject("auctionGrade", new AuctionGrade());
+		return model;
+	}
+	
 	@ResourceMapping(value = "getImage")
 	public void getImageAction(ResourceRequest request, ResourceResponse response) throws IOException{
 		//ModelAndView model = new ModelAndView(defaultView);
@@ -141,6 +154,19 @@ public class UserProfileController {
 			@ModelAttribute("newAuction") Auction auction) throws ParseException{
 		long userId = PortalUtil.getUserId(request);
 		boolean isCreated = service.createUserAuction(userId, auction);
+		if(isCreated){
+			response.setRenderParameter("message", "Pomyślnie utworzono aukcję");
+		}
+	}
+	
+	@ActionMapping(params = "action=addGrade")
+	public void addGradeAction(ActionRequest request, ActionResponse response,
+			@ModelAttribute("auctionGrade") AuctionGrade form) throws ParseException{
+		long userId = PortalUtil.getUserId(request);
+		boolean isCreated = service.addAuctionGrade(userId, form);
+		if(isCreated){
+			response.setRenderParameter("message", "Pomyślnie dodano ocenę");
+		}
 	}
 
 

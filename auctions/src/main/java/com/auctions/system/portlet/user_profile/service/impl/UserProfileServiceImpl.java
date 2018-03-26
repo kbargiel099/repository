@@ -10,6 +10,7 @@ import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
+import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
@@ -48,6 +49,11 @@ public class UserProfileServiceImpl implements UserProfileService{
 	@Override
 	public boolean createUserAuction(long userId, Auction a) throws ParseException{
 		return dataSource.createUserAuction(userId, a);
+	}
+	
+	@Override
+	public boolean addAuctionGrade(long userId, AuctionGrade a){
+		return dataSource.addAuctionGrade(userId, a);
 	}
 	
 	@Override

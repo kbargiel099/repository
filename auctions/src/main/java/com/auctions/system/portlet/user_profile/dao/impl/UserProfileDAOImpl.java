@@ -28,6 +28,7 @@ import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
+import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 
@@ -101,6 +102,16 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 								res.getString("sub_name"));
 				}
 			});
+	}
+	
+	@Override
+	public boolean addAuctionGrade(long userId, AuctionGrade a){
+		//Timestamp stamp = new Timestamp(0);
+		
+		int numberOfUpdatedRows =  dao.update("INSERT INTO auction_grade_comment(userid,auctionid,grade,comment) VALUES(?,?,?,?)",
+				new Object[]{userId,a.getAuctionId(),a.getGrade(),a.getComment()});
+		
+		return numberOfUpdatedRows > 0 ? true : false;
 	}
 	
 	@Override//Przejrzec sql bo brakuje ważnych pól i definicje aukcji ogolnie

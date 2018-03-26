@@ -39,3 +39,22 @@
 	</c:if>
 	
 </div>
+
+<input type="hidden" id="message" value="${message}"/>
+
+<script>
+
+jQuery(document).ready(function(){
+	var msg = jQuery('#message').val();
+	if(msg != ""){
+		showNotifyAlert(msg);
+	}
+});
+function showNotifyAlert(message) {
+	var box = bootbox.alert(message);
+	setTimeout(function() {
+		box.modal('hide');
+	   }, 2000);
+}
+
+</script>
