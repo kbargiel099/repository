@@ -8,6 +8,7 @@
 <portlet:defineObjects />
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/module/custom-table.css" />" >
 <div id="alert-notify" class="alert alert-success" style="display: none;">
 </div>
 
@@ -39,9 +40,22 @@
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12">
-			<div id="auction-notify" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow: scroll;height: 200px;">
-				<ul>
-				</ul>
+			<div id="auction-notify" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow: scroll;height: 200px;width: 100%;">
+<!-- 				<ul>
+				</ul> -->
+				<h4 class="text-center"><strong><liferay-ui:message key="auction.actual.offers" /></strong></h4>
+				<table>
+					<thead>
+					  <tr>
+					    <th><liferay-ui:message key="auction.username.theader" /></th>
+					    <th><liferay-ui:message key="auction.quantity.theader" /></th>
+					    <th><liferay-ui:message key="auction.price.theader" /></th>
+					  </tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -88,6 +102,7 @@
 <input type="hidden" id="id" value="${auction.id}"/>
 <input type="hidden" id="currentPrice" value="${auction.subjectPrice}"/>
 <input type="hidden" id="endDate" value="${auction.endDate}"/>
+<input type="hidden" id="quantity" value="${auction.subjectQuantity}"/>
 
 <input type="hidden" id="successMsg" value="<liferay-ui:message key="raise.stake.success.msg" />"/>
 <input type="hidden" id="userIsNotSignedInMsg" value="<liferay-ui:message key="user.is.not.signed.in.msg" />"/>

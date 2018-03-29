@@ -1,15 +1,37 @@
 var stompClient = null;
 var username = Liferay.ThemeDisplay.getUserName();
+//var username = Liferay.ThemeDisplay.getScreenName();
 var userId = Liferay.ThemeDisplay.getUserId();
 var auctionId = jQuery('#id').val();
 var endDate = jQuery('#endDate').val();
 //var endDate = '2018.03.24 00.06.00';
+var quantity = jQuery('#quantity').val();
 var auctionTypeId = 1;
 var senderClient = false;
 
 jQuery(document).ready(function(){
 	connect();
 });
+
+/*function connect() {
+    var socket = new SockJS('http://localhost:8143/notification');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/notify/'+jQuery('#id').val(), function (data) {
+        	var res = JSON.parse(data.body);
+        	if(res.success == true){
+        		jQuery("#auction-notify ul").append("<li>" + res.username + " przebił </li>");
+        		jQuery('#currentPrice').val(res.price);
+        		jQuery('#price').html('Aktualna cena - ' + currency(res.price/100));
+        		showNotifyAlert(res.username + " " + jQuery('#successMsg').val());
+        	}else if(senderClient == true){
+        		showNotifyAlert(jQuery('#errorCode1').val());
+	        	senderClient = false;
+        	}
+        });
+    });
+}*/
 
 function connect() {
     var socket = new SockJS('http://localhost:8143/notification');
@@ -19,7 +41,11 @@ function connect() {
         stompClient.subscribe('/topic/notify/'+jQuery('#id').val(), function (data) {
         	var res = JSON.parse(data.body);
         	if(res.success == true){
-        		jQuery("#auction-notify ul").append("<li>" + res.username + " przebił </li>");
+        		row = jQuery("<tr></tr>");
+        		col1 = jQuery("<td>"+ res.username +"</td>");
+        		col2 = jQuery("<td>"+ res.quantity +"</td>");
+        		col3 = jQuery("<td>"+ res.price +"</td>");
+        		row.append(col1,col2,col3).prependTo('#auction-notify table tbody');
         		jQuery('#currentPrice').val(res.price);
         		jQuery('#price').html('Aktualna cena - ' + currency(res.price/100));
         		showNotifyAlert(res.username + " " + jQuery('#successMsg').val());
@@ -41,7 +67,7 @@ function disconnect() {
 function sendForm() {
 	var newPrice = parseInt(jQuery('#currentPrice').val()) + 100;
     stompClient.send("/app/update/" + auctionId, {}, JSON.stringify({'userId': userId,'username': username,
-    	'price': newPrice,'endDate': endDate,'auctionTypeId': auctionTypeId}));
+    	'price': newPrice,'endDate': endDate,'quantity': quantity,'auctionTypeId': auctionTypeId}));
     senderClient = true;
 }
 

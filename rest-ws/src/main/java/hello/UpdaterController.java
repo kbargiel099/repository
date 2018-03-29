@@ -45,14 +45,14 @@ public class UpdaterController {
     	boolean isInserted = false;
     	
     	if(isCurrentTimeBefore(form.getEndDate())){
-    		isInserted = service.insertData(Long.parseLong(form.getUserId()),
-        		Long.parseLong(id),Long.parseLong(form.getPrice()));
+    		isInserted = service.insertData(Long.parseLong(form.getUserId()),Long.parseLong(id),
+    				Long.parseLong(form.getPrice()),Integer.parseInt(form.getQuantity()));
     	}else{
     		return new ResponseError(1);
     	}
     	
     	if(isInserted){
-        	return new ResponseForm(true, form.getUsername(), form.getPrice());
+        	return new ResponseForm(true, form.getUsername(), form.getPrice(), form.getQuantity());
         }else{
         	return new ResponseError(2);
         }

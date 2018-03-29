@@ -6,17 +6,19 @@ public class RequestForm {
     private String username;
     private String price;
     private String endDate;
+    private String quantity;
     private int auctionTypeId;
     
     public RequestForm() {
     }
 
     public RequestForm( String userId,String username, String price,
-    		String endDate, int auctionTypeId) {
+    		String endDate, String quantity, int auctionTypeId) {
         this.endDate = endDate;
         this.userId = userId;
         this.username = username;
         this.price = price;
+        this.quantity = quantity;
         this.auctionTypeId = auctionTypeId;
     }
 
@@ -58,6 +60,14 @@ public class RequestForm {
 
 	public void setAuctionTypeId(int auctionTypeId) {
 		this.auctionTypeId = auctionTypeId;
+	}
+
+	public String getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
 	}
    
 }
