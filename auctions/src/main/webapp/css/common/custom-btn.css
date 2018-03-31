@@ -19,7 +19,8 @@
 div.dad{
 	background-color: mediumSeaGreen;
     height:300px;
-    width:300px;
+/*     width:300px; */
+	width: 100%;
     text-align:center
 }
 span{ 
