@@ -34,7 +34,7 @@ jQuery(document).ready(function(){
 }*/
 
 function connect() {
-    var socket = new SockJS('http://localhost:8143/notification');
+    var socket = new SockJS('http://192.168.0.15:8143/notification');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);

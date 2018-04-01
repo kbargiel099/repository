@@ -20,14 +20,14 @@ jQuery('#newestNext').click(function(){
 var newestIndex = 0; 
 
 jQuery(document).ready(function(){
-	var h1 = jQuery(window).height();   // returns height of browser viewport
+/*	var h1 = jQuery(window).height();   // returns height of browser viewport
 	var h2 = jQuery(document).height(); // returns height of HTML document (same as pageHeight in screenshot)
 	var h3 = jQuery(window).width();   // returns width of browser viewport
 	var h4 = jQuery(document).width(); // returns width of HTML document (same as pageWidth in screenshot)
 	console.log(h1);
 	console.log(h2);
 	console.log(h3);
-	console.log(h4);
+	console.log(h4);*/
 	createSlider('newest-id');
 });
 
@@ -42,7 +42,6 @@ jQuery(document).ready(function(){
 				var slide = document.createElement('div');
 				slide.className = 'newest row';
 				for(var j=0;j<3;j++){
-					console.log(elements[0]);
 					if(elements[0]){
 						slide.appendChild(elements[0]);
 					}
@@ -51,24 +50,29 @@ jQuery(document).ready(function(){
 			}
 		}  
  		
-		//var prevBtn = document.createElement('a').innerHTML = '&#10094;';
 		var prevBtn = document.createElement('a');
 		prevBtn.className = 'prev';
+		//prevBtn.textContent = '&#10094;';
+		//prevBtn.appendChild(document.create)
 		prevBtn.innerHTML = '&#10094;';
-		//var nextBtn = document.createElement('a').innerHTML = '&#10095;';
+
 		var nextBtn = document.createElement('a');
 		nextBtn.className = 'next';
+		//nextBtn.textContent = '&#10095;';
 		nextBtn.innerHTML = '&#10095;';
+		
 		slider.appendChild(prevBtn);
 		slider.appendChild(nextBtn);
 		
 		showSlides("newest","dot",newestIndex,newestIndex);
-		prevBtn.click(function(){
+		prevBtn.onclick = function(){
+			console.log(newestIndex);
 			newestIndex = plusSlides("newest","dot",newestIndex,-1);
-		});
-		nextBtn.click(function(){
+		};
+		nextBtn.onclick = function(){
+			console.log(newestIndex);
 			newestIndex = plusSlides("newest","dot",newestIndex,1);
-		});
+		};
 		
 	}
 
