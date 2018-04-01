@@ -15,9 +15,9 @@
 <input type="hidden" id="signInUrl" value="${signIn}"></input>
 <input type="hidden" id="logoutUrl" value="${logout}"></input>
 
-  <div class="col-xs-12 col-sm-8 col-md-6" style="float: none;margin-left: auto;margin-right: auto; height: 100%;">
+  <div class="col-xs-12 col-sm-8 col-md-6" style="float: none;margin-left: auto;margin-right: auto;">
     <form id="login-form">
-    	<div class="modal-body">
+    	<div>
         	<h4 class="text-center"><liferay-ui:message key="users_management.sign.in.label" /></h4>
         	<div id="login-validation-info" class="alert alert-danger" style="display: none;">
   				<strong><liferay-ui:message key="validation.email.or.password.not.exist" /></strong>
@@ -36,9 +36,9 @@
 	           <input type="checkbox" id="remember_me"  name="remember_me" value="false" style="padding-left: 10px;"></input>
 			</div>
 	    </div>
-	    <div class="modal-footer">
+	    <div>
 <!-- 	    <p class="text-center"><a class="btn btn-primary" href="javascript:submitLogin();" id="submitLogin">Wyślij</a></p> -->
-	     	<p class="text-center"><a class="btn btn-primary" type="submit" id="submitLogin">Wyślij</a></p>
+	     	<p class="text-center" style="padding-top: 30px;"><a class="btn btn-primary" type="submit" id="submitLogin">Wyślij</a></p>
 	  	</div>
   	</form>
   </div>
