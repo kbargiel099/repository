@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,7 +77,7 @@ public class HomePageDAOImpl implements HomePageDAO{
 	public List<AuctionPresenter> getNewestAuction(){
 		return dao.query("SELECT a.id,a.name,i.image_name AS image_name,subject_price "
 				+ "FROM auction a JOIN auction_image i ON i.auction_id=a.id "
-				+ "ORDER BY create_date DESC LIMIT 3", 
+				+ "ORDER BY create_date DESC LIMIT 20", 
 				new Object[]{},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {

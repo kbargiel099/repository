@@ -43,7 +43,7 @@
 			</div>
 		</div>
 	</div> --%>
-	<div class="row">
+<%-- 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-3">
 			<div class='dad' style="background-color: gray;">
 			    <span></span>
@@ -51,20 +51,22 @@
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-9">
-			<div class="slideshow-container">
+			<div id="newest-id" class="slideshow-container">
 				<c:forEach items="${newestAuctions}" var="item" varStatus="i">
 						<div class="newest">
-							<div class="row">
-								<portlet:renderURL var="details">
-									<portlet:param name="page" value="auctionDetails"/>
-									<portlet:param name="id" value="${item.id}"/>
-								</portlet:renderURL>
-								<div class="col-xs-12 col-sm-6 col-md-4">
-									<a href="${details}">
-										<img src="<c:url value="/images/${item.imageName}" />" height="200" width="100%" />
-									</a>
-									<h4>Cena - ${item.subjectPrice/100} zł</h4> 
-									<strong><h4>${item.name}</h4></strong>
+							<div class="slider-element">
+								<div class="row">
+									<portlet:renderURL var="details">
+										<portlet:param name="page" value="auctionDetails"/>
+										<portlet:param name="id" value="${item.id}"/>
+									</portlet:renderURL>
+									<div class="col-xs-12 col-sm-6 col-md-4">
+										<a href="${details}">
+											<img src="<c:url value="/images/${item.imageName}" />" height="200" width="100%" />
+										</a>
+										<h4>Cena - ${item.subjectPrice/100} zł</h4> 
+										<strong><h4>${item.name}</h4></strong>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -77,6 +79,36 @@
 				<span class="dot" onclick="currentSlide(1)"></span> 
 			</div>  -->
 		</div>
+	</div> --%>
+		<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-3">
+			<div class='dad' style="background-color: gray;">
+			    <span></span>
+			    <div class='b'><liferay-ui:message key="recent-added" /></div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-9">
+			<div id="newest-id" class="slideshow-container">
+				<c:forEach items="${newestAuctions}" var="item" varStatus="i">
+							<div class="slider-element">
+									<portlet:renderURL var="details">
+										<portlet:param name="page" value="auctionDetails"/>
+										<portlet:param name="id" value="${item.id}"/>
+									</portlet:renderURL>
+									<div class="col-xs-12 col-sm-6 col-md-4">
+										<a href="${details}">
+											<img src="<c:url value="/images/${item.imageName}" />" height="200" width="100%" />
+										</a>
+										<h4>Cena - ${item.subjectPrice/100} zł</h4> 
+										<strong><h4>${item.name}</h4></strong>
+									</div>
+							</div>
+				</c:forEach>
+<!-- 				<a id="newestPrev" class="prev" >&#10094;</a>
+				<a id="newestNext" class="next" >&#10095;</a> -->
+					
+			</div>
+		</div>
 	</div>
 <!-- 	<div class="dot-container">
 	  <span class="dot" onclick="currentSlide(1)"></span> 
@@ -86,17 +118,3 @@
 </div> 
 
 <script src="<c:url value="/js/common/custom_slider.js" />"></script>
-<script>
-	jQuery(document).ready(function(){
-		var h1 = jQuery(window).height();   // returns height of browser viewport
-		var h2 = jQuery(document).height(); // returns height of HTML document (same as pageHeight in screenshot)
-		var h3 = jQuery(window).width();   // returns width of browser viewport
-		var h4 = jQuery(document).width(); // returns width of HTML document (same as pageWidth in screenshot)
-		console.log(h1);
-		console.log(h2);
-		console.log(h3);
-		console.log(h4);
-	});
-	
-	
-</script>
