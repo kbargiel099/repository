@@ -23,7 +23,7 @@
 
 #category-view-menu,
 #user-profile-menu {
-	height: 100vh;
+/* 	height: 100vh; */
 	border-right: 5px solid #2d67f6;
 }
 

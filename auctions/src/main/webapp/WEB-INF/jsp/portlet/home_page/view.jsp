@@ -12,9 +12,9 @@
 
  <div class="container-fluid">
 	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-3">
+		<div class="col-xs-12 col-sm-3 col-md-3">
 			<div class='dad' style="background-color: mediumSeaGreen;">
-			    <span></span>
+			    <span class="btn-span"></span>
 			    <div class='b'><liferay-ui:message key="most-popular" /></div>
 			</div>
 		</div>
@@ -26,9 +26,9 @@
 							<portlet:param name="page" value="auctionDetails"/>
 							<portlet:param name="id" value="${item.id}"/>
 						</portlet:renderURL>
-						<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="col-xs-12 col-sm-4 col-md-4">
 							<a href="${details}">
-								<img src="<c:url value="/images/${item.imageName}" />" height="200" width="100%" />
+								<img src="/images/${item.imageName}" height="200" width="100%" />
 							</a>
 							<h4>Cena - ${item.subjectPrice/100} zł</h4> 
 							<strong><h4>${item.name}</h4></strong>
@@ -39,9 +39,9 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-3">
+		<div class="col-xs-12 col-sm-3 col-md-3">
 			<div class='dad' style="background-color: gray;">
-			    <span></span>
+			    <span class="btn-span"></span>
 			    <div class='b'><liferay-ui:message key="recent-added" /></div>
 			</div>
 		</div>
@@ -53,17 +53,15 @@
 										<portlet:param name="page" value="auctionDetails"/>
 										<portlet:param name="id" value="${item.id}"/>
 									</portlet:renderURL>
-									<div class="col-xs-12 col-sm-6 col-md-4">
+									<div class="col-xs-12 col-sm-4 col-md-4">
 										<a href="${details}">
-											<img src="<c:url value="/images/${item.imageName}" />" height="200" width="100%" />
+											<img src="/images/${item.imageName}" height="200" width="100%" />
 										</a>
 										<h4>Cena - ${item.subjectPrice/100} zł</h4> 
 										<strong><h4>${item.name}</h4></strong>
 									</div>
 							</div>
 				</c:forEach>
-<!-- 				<a id="newestPrev" class="prev" >&#10094;</a>
-				<a id="newestNext" class="next" >&#10095;</a> -->
 					
 			</div>
 		</div>

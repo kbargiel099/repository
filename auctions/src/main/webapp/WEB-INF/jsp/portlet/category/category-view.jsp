@@ -23,7 +23,7 @@
 <input type="hidden" id="getBySubcategoryUrl" value="${getBySubcategory}"/>
 
 <div class="container-fluid">
-	<div id="category-view-menu" class="col-xs-12 col-sm-8 col-md-3">
+	<div id="category-view-menu" class="col-xs-12 col-sm-4 col-md-3">
 		<h2 class="category-view-title text-center">${category}</h2>	
 		<ul class="horizontal-menu">
 		  <c:forEach items="${subCategories}" var="item">
@@ -55,17 +55,17 @@
 			<button id="searchingBtn" class="btn btn-primary form-control" onclick="searchForMatching()"><liferay-ui:message key="search" /></button>
 		</form>
 	</div>
-		<div class="col-xs-12 col-sm-12 col-md-8">
+		<div class="col-xs-12 col-sm-8 col-md-8">
 			<div id="elements">
 				<c:forEach items="${auctions}" var="item">
 				
 				<div class="category-view-auction row">
-					<div class="col-xs-12 col-sm-12 col-md-4">
+					<div class="col-xs-12 col-sm-4 col-md-4">
 						<a class="text-center" href="#">
-							<img src="<c:url value="/images/${item.imageName}" />" height="160" width="100%" />
+							<img src="/images/${item.imageName}" height="160" width="100%" />
 						</a>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-4">
+					<div class="col-xs-12 col-sm-4 col-md-4">
 						<strong><h4>${item.name}</h4></strong>
 						<c:set var = "balance" value = "${item.subjectPrice/100}" />
 						<h4>
@@ -73,7 +73,7 @@
 							<fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="number"/> <liferay-ui:message key="currency" />
 						</h4> 
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-4">
+					<div class="col-xs-12 col-sm-4 col-md-4">
 						<input type="hidden" name="id" value="${item.id}" />
 						<button class="btn btn-info" onclick="showDetails(this)" >
 							<strong><liferay-ui:message key="auction.details" /></strong>

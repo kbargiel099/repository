@@ -18,11 +18,11 @@
 </portlet:renderURL>
 
 <div class="container">
-  	<div class="col-xs-12 col-sm-12 col-md-5">
+  	<div class="col-xs-12 col-sm-5 col-md-5">
 		<div class="details-section row">
 			<div class="col-xs-12 col-sm-12 col-md-12">
 				<a class="text-center" href="#">
-					<img src="<c:url value="/images/${auction.imageName}" />" style="heigh:400px; width:400px;" />
+					<img src="/images/${auction.imageName}" style="heigh:400px; width:100%;" />
 				</a>
 			</div>
 		</div>
@@ -60,9 +60,9 @@
 		</div>
 	</div>
 	
-	<div class="col-xs-12 col-sm-12 col-md-7">
+	<div class="col-xs-12 col-sm-7 col-md-7">
   		<div class="details-section row">
-			<div class="col-xs-12 col-sm-12 col-md-5">
+			<div class="col-xs-12 col-sm-5 col-md-5">
 				<h4><strong>${auction.name}</strong></h4>
 				<c:set var = "balance" value = "${auction.subjectPrice/100}" />
 				<h5 id="price">
@@ -71,28 +71,28 @@
 					<liferay-ui:message key="currency" />
 				</h5>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-5">
+			<div class="col-xs-12 col-sm-5 col-md-5">
 				<h5><strong><liferay-ui:message key="create.date" /></strong>  - ${auction.createDate}</h5>
 				<h5><strong><liferay-ui:message key="end.date" /></strong> - ${auction.endDate}</h5>
 			</div>
 		</div>
 		<div class="details-section row">
-			<div class="col-xs-12 col-sm-12 col-md-5">
+			<div class="col-xs-12 col-sm-5 col-md-5">
 				<h5><strong><liferay-ui:message key="available.quantity" /></strong> - ${auction.subjectQuantity} sztuk</h5>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-5">
+			<div class="col-xs-12 col-sm-5 col-md-5">
 				<h5><strong><liferay-ui:message key="enter.quantity" /></strong> </h5><input  type="text" /> 
 				<input type="button" id="raiseStakeBtn" class="btn btn-primary" value="<liferay-ui:message key="raise.stake.btn" />"/>
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-12 col-sm-12 col-md-7">
+	<div class="col-xs-12 col-sm-7 col-md-7">
 		<div class="details-section-border">
 			<h5><strong><liferay-ui:message key="subject.description" /></strong></h5>
 			<h5>${auction.description}</h5>
 		</div>
 	</div>
-	<div class="col-xs-12 col-sm-12 col-md-7">
+	<div class="col-xs-12 col-sm-7 col-md-7">
 		<div>
 			<h5><strong><liferay-ui:message key="technical.data" /></strong></h5>
 		</div>

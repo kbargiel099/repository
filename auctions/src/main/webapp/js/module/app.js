@@ -8,7 +8,7 @@ var endDate = jQuery('#endDate').val();
 var quantity = jQuery('#quantity').val();
 var auctionTypeId = 1;
 var senderClient = false;
-
+var isWait = false;
 jQuery(document).ready(function(){
 	connect();
 });
@@ -49,6 +49,9 @@ function connect() {
         		jQuery('#currentPrice').val(res.price);
         		jQuery('#price').html('Aktualna cena - ' + currency(res.price/100));
         		showNotifyAlert(res.username + " " + jQuery('#successMsg').val());
+        		if(senderClient){
+        			isWait = false;
+        		}
         	}else if(senderClient == true){
         		showNotifyAlert(jQuery('#errorCode1').val());
 	        	senderClient = false;
@@ -65,10 +68,15 @@ function disconnect() {
 }
 
 function sendForm() {
-	var newPrice = parseInt(jQuery('#currentPrice').val()) + 100;
-    stompClient.send("/app/update/" + auctionId, {}, JSON.stringify({'userId': userId,'username': username,
-    	'price': newPrice,'endDate': endDate,'quantity': quantity,'auctionTypeId': auctionTypeId}));
-    senderClient = true;
+	if(!isWait){
+	    isWait = true;
+	    senderClient = true;
+		var newPrice = parseInt(jQuery('#currentPrice').val()) + 100;
+	    stompClient.send("/app/update/" + auctionId, {}, JSON.stringify({'userId': userId,'username': username,
+	    	'price': newPrice,'endDate': endDate,'quantity': quantity,'auctionTypeId': auctionTypeId}));
+	    //senderClient = true;
+	    //isWait = true;
+	}
 }
 
 $(function () {

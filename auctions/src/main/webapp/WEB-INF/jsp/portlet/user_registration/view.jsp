@@ -17,54 +17,48 @@
 <input type="hidden" id="checkDataUrl" value="${checkData}"/>
 
   <div class="container">
-  	  <div class="col-sm-1 col-md-1" style="height: 100vh;">
-		
-	  </div>
-	  <div class="col-xs-12 col-sm-8 col-md-10">
-	        <h5><strong><liferay-ui:message key="users_management.data.label" /></strong></h5>
-	  </div>
-      <form:form id="registration-form" method = "POST" action = "${submit}" modelAttribute="user">
-		<form:input type="hidden" path ="id" name="id"></form:input>
-		<div class="col-xs-12 col-sm-8 col-md-5">
-			<div class="form-group">
-	           <form:label class="label-control" path = "firstname" name="firstname"><liferay-ui:message key="users_management.firstname.label" /></form:label>
-	           <form:input type="text" class="form-control" path = "firstname" id="firstname" name="firstname"></form:input>
-	           <form:errors path="firstname" cssStyle="color: red;"/>
+		  <div class="col-xs-12 col-sm-8 col-md-10">
+		        <h5><strong><liferay-ui:message key="users_management.data.label" /></strong></h5>
+		  </div>
+	      <form:form id="registration-form" method = "POST" action = "${submit}" modelAttribute="user">
+			<form:input type="hidden" path ="id" name="id"></form:input>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<div class="form-group">
+		           <form:label class="label-control" path = "firstname" name="firstname"><liferay-ui:message key="users_management.firstname.label" /></form:label>
+		           <form:input type="text" class="form-control" path = "firstname" id="firstname" name="firstname"></form:input>
+		           <form:errors path="firstname" cssStyle="color: red;"/>
+				</div>
+				<div class="form-group">
+		           <form:label class="label-control" path = "lastname" name="lastname"><liferay-ui:message key="users_management.lastname.label" /></form:label>
+		           <form:input type="text" class="form-control" path = "lastname" id="lastname" name="lastname"></form:input>
+		           <form:errors path="lastname" cssStyle="color: red;"/>
+				</div>
+				<div class="form-group">
+		           <form:label class="label-control" path = "login" name="login"><liferay-ui:message key="users_management.login.label" /></form:label>
+		           <form:input type="text" class="form-control" path = "login" id="login" name="login"></form:input>
+		           <form:errors path="login" cssStyle="color: red;"/>
+				</div>
 			</div>
-			<div class="form-group">
-	           <form:label class="label-control" path = "lastname" name="lastname"><liferay-ui:message key="users_management.lastname.label" /></form:label>
-	           <form:input type="text" class="form-control" path = "lastname" id="lastname" name="lastname"></form:input>
-	           <form:errors path="lastname" cssStyle="color: red;"/>
-			</div>
-			<div class="form-group">
-	           <form:label class="label-control" path = "login" name="login"><liferay-ui:message key="users_management.login.label" /></form:label>
-	           <form:input type="text" class="form-control" path = "login" id="login" name="login"></form:input>
-	           <form:errors path="login" cssStyle="color: red;"/>
-			</div>
-		</div>
-		<div class="col-xs-12 col-sm-8 col-md-5">
-			<div class="form-group">
-	           <form:label class="label-control" path = "password" name="password"><liferay-ui:message key="users_management.password.label" /></form:label>
-	           <form:input type="password" class="form-control" id="password" path = "password" name="password"></form:input>
-	           <form:errors path="password" name="password" cssStyle="color: red;"/>
-			</div>
-			<div class="form-group">
-	           <form:label class="label-control" path = "email" name="email"><liferay-ui:message key="users_management.email.label" /></form:label>
-	           <form:input type="email" class="form-control" id="email" path = "email" name="email"></form:input>
-	           <form:errors path="email" cssStyle="color: red;"/>
-			</div>
-  		</div>
-  		<div class="col-xs-12 col-sm-8 col-md-8">
-			<div class="row form-group">
-				<a href="${home}"><liferay-ui:message key="return"/></a>
-		        <input class="btn btn-primary pull-right" type="submit" value="<liferay-ui:message key="submit"/> ">
-		  	</div>
-	  	</div>            
-      </form:form>
-   </div>
-   
-   <div id="id">
-   </div>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<div class="form-group">
+		           <form:label class="label-control" path = "password" name="password"><liferay-ui:message key="users_management.password.label" /></form:label>
+		           <form:input type="password" class="form-control" id="password" path = "password" name="password"></form:input>
+		           <form:errors path="password" name="password" cssStyle="color: red;"/>
+				</div>
+				<div class="form-group">
+		           <form:label class="label-control" path = "email" name="email"><liferay-ui:message key="users_management.email.label" /></form:label>
+		           <form:input type="email" class="form-control" id="email" path = "email" name="email"></form:input>
+		           <form:errors path="email" cssStyle="color: red;"/>
+				</div>
+	  		</div>
+	  		<div class="col-xs-12 col-sm-8 col-md-8">
+				<div class="row form-group">
+					<a href="${home}"><liferay-ui:message key="return"/></a>
+			        <input class="btn btn-primary pull-right" type="submit" value="<liferay-ui:message key="submit"/> ">
+			  	</div>
+		  	</div>            
+	      </form:form>
+	   </div>
    
 <script type="text/javascript">
 $.fn.serializeObject = function() {
