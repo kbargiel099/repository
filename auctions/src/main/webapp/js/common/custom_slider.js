@@ -13,9 +13,30 @@ jQuery(document).ready(function(){
 	createSlider('popular-id');
 	createSlider('newest-id');
 	addSliderEvents('popular-id');
-	addSliderEvents('newest-id')
+	addSliderEvents('newest-id');
+	setSizeOfImages(150);
+/*	for(var i=0;i<images.length;i++){
+		console.log(images[i].height +" "+ images[i].width);
+	}console.log("po");
+	for(var i=0;i<images.length;i++){
+		var wsp = images[i].width/images[i].height;
+		var scale = images[i].height/150;
+		images[i].width = (images[i].height/scale) * wsp;
+		images[i].height = 150;
+		console.log(images[i].height +" "+ images[i].width);
+	} */
 });
 
+	function setSizeOfImages(height){
+		var images = document.getElementsByClassName('image');
+		var wsp,scale;
+		for(var i=0;i<images.length;i++){
+			wsp = images[i].width/images[i].height;
+			scale = images[i].height/height;
+			images[i].width = (images[i].height/scale) * wsp;
+			images[i].height = height;
+		}
+	}
 	function createSlider(sliderId){
 		var slider = document.getElementById(sliderId);
 		var elements = slider.getElementsByClassName('slider-element');

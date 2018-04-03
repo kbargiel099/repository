@@ -28,9 +28,13 @@
 						</portlet:renderURL>
 						<div class="col-xs-12 col-sm-4 col-md-4">
 							<a href="${details}">
-								<img src="/images/${item.imageName}" height="200" width="100%" />
+								<img class="image" src="/images/${item.imageName}" />
 							</a>
-							<h4>Cena - ${item.subjectPrice/100} zł</h4> 
+							<h4>
+								<liferay-ui:message key="price" /> - 
+								${item.subjectPrice/100} 
+								<liferay-ui:message key="currency" />
+							<h4> 
 							<strong><h4>${item.name}</h4></strong>
 						</div>
 					</div>
@@ -55,9 +59,13 @@
 									</portlet:renderURL>
 									<div class="col-xs-12 col-sm-4 col-md-4">
 										<a href="${details}">
-											<img src="/images/${item.imageName}" height="200" width="100%" />
+											<img class="image" src="/images/${item.imageName}" />
 										</a>
-										<h4>Cena - ${item.subjectPrice/100} zł</h4> 
+										<h4>
+											<liferay-ui:message key="price" /> - 
+											${item.subjectPrice/100} 
+											<liferay-ui:message key="currency" />
+										</h4> 
 										<strong><h4>${item.name}</h4></strong>
 									</div>
 							</div>
