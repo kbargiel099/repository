@@ -59,6 +59,7 @@ public class CategoryController {
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		
 		ModelAndView model = new ModelAndView(defaultView);
+		model.addObject("currentCategory",currentCategory);
 		model.addObject("auctions",service.getBestAuctionsByCategory(currentCategory));
 		model.addObject("category", getNameFromBundle(currentCategory,themeDisplay.getLocale()));
 		model.addObject("subCategories", createSubCategories(currentCategory,themeDisplay.getLocale()));

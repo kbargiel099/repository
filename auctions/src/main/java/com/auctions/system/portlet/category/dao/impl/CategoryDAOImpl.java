@@ -65,11 +65,11 @@ public class CategoryDAOImpl implements CategoryDAO{
 	public List<AuctionPresenter> getSearchingAuctions(SearchingForm form){
 		String tempSearch = "%"+form.getSearchingText()+"%";
 		
-		return dao.query("SELECT a.id,a.name,i.image_name AS image_name,subject_price FROM auction a "
-				+ "JOIN auction_image i ON a.id=i.auction_id WHERE lower(a.name) LIKE lower(?) "
+		return dao.query("SELECT id,name,image_name AS image_name,subject_price FROM auction_search "
+				+ "WHERE lower(name) LIKE lower(?) AND category_name=? "
 				+ "AND CASE WHEN ?<>'' AND ?<>'' THEN subject_price BETWEEN CAST(? AS BIGINT) AND CAST(? AS BIGINT) "
                 + "ELSE subject_price >= 0 END", 
-				new Object[]{tempSearch,form.getMinPrice(),form.getMaxPrice(),form.getMinPrice(),form.getMaxPrice()},
+				new Object[]{tempSearch,form.getCurrentCategory(),form.getMinPrice(),form.getMaxPrice(),form.getMinPrice(),form.getMaxPrice()},
 				new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {

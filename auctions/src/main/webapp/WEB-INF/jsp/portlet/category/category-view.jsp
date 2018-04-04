@@ -34,6 +34,7 @@
 		  </c:forEach>
 		</ul>
 		<form id="searchingForm">
+			<input type="hidden" id="currentCategory" name="currentCategory" value="${currentCategory}"/>
 			<div class="form-group text-center">
 				<label class="label-control" for="searchingText"><liferay-ui:message key="searching.text" /></label>
 				<input type="text" id="searchingText" name="searchingText" class="form-control"/>
@@ -156,7 +157,7 @@
 				jQuery(JSON.parse(data.auctions)).each(function(index,res){
 					elements.append(createElement(res));
 				});
-				setSizeOfImages(140);
+				setSizeOfImages(160);
 			} 
 		});
  		
@@ -178,7 +179,7 @@
 				jQuery(JSON.parse(data.auctions)).each(function(index,res){
 					elements.append(createElement(res));
 				});
-				setSizeOfImages(140);
+				setSizeOfImages(160);
 			}
 		});
 	}

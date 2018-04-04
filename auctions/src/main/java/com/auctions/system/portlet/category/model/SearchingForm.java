@@ -3,14 +3,16 @@ package com.auctions.system.portlet.category.model;
 public class SearchingForm {
 	
 	private String searchingText;
+	private String currentCategory;
 	private String minPrice = "0";
 	private String maxPrice = "0";
 	
-	public SearchingForm(String searchingText, String minPrice, String maxPrice) {
+	public SearchingForm(String searchingText,String currentCategory, String minPrice, String maxPrice) {
 		super();
 		this.searchingText = searchingText;
-			this.minPrice = minPrice;
-			this.maxPrice = maxPrice;
+		this.currentCategory =currentCategory;
+		this.minPrice = minPrice;
+		this.maxPrice = maxPrice;
 	}
 	
 	public String getSearchingText() {
@@ -32,4 +34,12 @@ public class SearchingForm {
 			this.maxPrice = maxPrice;
 	}
 
+	public String getCurrentCategory() {
+		return currentCategory;
+	}
+
+	public void setCurrentCategory(String currentCategory) {
+		this.currentCategory = currentCategory;
+	}
+	
 }
