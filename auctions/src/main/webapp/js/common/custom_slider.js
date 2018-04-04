@@ -27,16 +27,16 @@ jQuery(document).ready(function(){
 	} */
 });
 
-	function setSizeOfImages(height){
-		var images = document.getElementsByClassName('image');
-		var wsp,scale;
-		for(var i=0;i<images.length;i++){
-			wsp = images[i].width/images[i].height;
-			scale = images[i].height/height;
-			images[i].width = (images[i].height/scale) * wsp;
-			images[i].height = height;
-		}
+function setSizeOfImages(height){
+	var images = document.getElementsByClassName('image');
+	var wsp;
+	for(var i=0;i<images.length;i++){
+		wsp = images[i].height/height;
+		images[i].width = images[i].width/wsp;
+		images[i].height = height;
 	}
+}
+
 	function createSlider(sliderId){
 		var slider = document.getElementById(sliderId);
 		var elements = slider.getElementsByClassName('slider-element');
