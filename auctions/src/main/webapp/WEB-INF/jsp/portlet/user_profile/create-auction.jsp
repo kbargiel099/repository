@@ -66,7 +66,8 @@
 				</div>
 				<div class="form-group">
 		           <form:label class="label-control" path = "subjectPrice" name="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></form:label>
-		           <form:input type="text" class="form-control" path = "subjectPrice" id="subjectPrice" name="subjectPrice"></form:input>
+		           <input type="text" class="form-control" id="price" name="price" value="0"></input>
+		           <form:input type="hidden" path = "subjectPrice" id="subjectPrice" name="subjectPrice"></form:input>
 				</div>
 				<div class="form-group">
 					<img id="output" height="100%" width="100%"/>
@@ -142,6 +143,11 @@
 		var date = new Date(this.value);
 		var timestamp = date.getTime();
 		jQuery("#endDate").val(timestamp);
+	});
+	
+	jQuery("input[id='price']").change(function(){
+		var value = jQuery("#price").val();
+		jQuery('#subjectPrice').val(value * 100);
 	});
 	
 	function startRead() {

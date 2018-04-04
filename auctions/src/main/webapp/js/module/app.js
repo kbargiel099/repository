@@ -47,13 +47,15 @@ function connect() {
         		col3 = jQuery("<td>"+ res.price +"</td>");
         		row.append(col1,col2,col3).prependTo('#auction-notify table tbody');
         		jQuery('#currentPrice').val(res.price);
-        		jQuery('#price').html('Aktualna cena - ' + currency(res.price/100));
-        		showNotifyAlert(res.username + " " + jQuery('#successMsg').val());
+        		jQuery('#price').html('Aktualna cena - ' + currency(res.price/100) + ' ' + jQuery('#currency').val());
+        		//showNotifyAlert(res.username + " " + jQuery('#successMsg').val());
+        		notifyBar(res.username + " " + jQuery('#successMsg').val());
         		if(senderClient){
         			isWait = false;
         		}
         	}else if(senderClient == true){
-        		showNotifyAlert(jQuery('#errorCode1').val());
+        		//showNotifyAlert(jQuery('#errorCode1').val());
+        		notifyBar(jQuery('#errorCode1').val());
 	        	senderClient = false;
         	}
         });
@@ -87,7 +89,8 @@ $(function () {
 		if(Liferay.ThemeDisplay.isSignedIn()){
 			sendForm();
 		}else{
-			showNotifyAlert(jQuery('#userIsNotSignedInMsg').val());
+			//showNotifyAlert(jQuery('#userIsNotSignedInMsg').val());
+			notifyBar(jQuery('#userIsNotSignedInMsg').val());
 		}
 	});
 });

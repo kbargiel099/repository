@@ -9,8 +9,7 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/custom-table.css" />" >
-<div id="alert-notify" class="alert alert-success" style="display: none;">
-</div>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/module/notify-modal.css" />" >
 
 <portlet:renderURL var="getUserProfile">
 	<portlet:param name="page" value="userProfile"/>
@@ -18,6 +17,7 @@
 </portlet:renderURL>
 
 <div class="container">
+	<div id="notify-message"></div>
   	<div class="col-xs-12 col-sm-5 col-md-5">
 		<div class="details-section row">
 			<div class="col-xs-12 col-sm-12 col-md-12">
@@ -108,7 +108,9 @@
 <input type="hidden" id="userIsNotSignedInMsg" value="<liferay-ui:message key="user.is.not.signed.in.msg" />"/>
 <input type="hidden" id="errorCode1" value="<liferay-ui:message key="add.to.database.error.msg" />"/>
 <input type="hidden" id="errorCode2" value="<liferay-ui:message key="auction.has.ended.msg" />"/>
+<input type="hidden" id="currency" value="<liferay-ui:message key="currency" />"/>
 
+<script src="<c:url value="/js/module/notify-modal.js" />"></script>
 <script src="<c:url value="/js/module/sockjs.min.js" />"></script>
 <script src="<c:url value="/js/module/stomp.min.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>

@@ -22,6 +22,8 @@
 </portlet:resourceURL>
 <input type="hidden" id="getBySubcategoryUrl" value="${getBySubcategory}"/>
 
+<div class="notify"><span id="notifyType" class=""></span></div>
+
 <div class="container-fluid">
 	<div id="category-view-menu" class="col-xs-12 col-sm-4 col-md-3">
 		<h2 class="category-view-title text-center">${category}</h2>	
