@@ -12,47 +12,52 @@
 
  <div class="container-fluid">
 	<div class="row">
-		<div class="col-xs-12 col-sm-3 col-md-3">
-			<div class='dad' style="background-color: mediumSeaGreen;">
+		<div class="col-xs-12 col-sm-12 col-md-12">
+			<div class='dad' style="background-color: #66c2ff;">
 			    <span class="btn-span"></span>
 			    <div class='b'><liferay-ui:message key="most-popular" /></div>
 			</div>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-9">
+		<div class="col-xs-12 col-sm-12 col-md-12">
 			<div id="popular-id" class="slideshow-container">
+				<div class="home-page-element">
 				<c:forEach items="${electronicAuctions}" var="item" varStatus="i">
 					<div class="slider-element">
-						<portlet:renderURL var="details">
-							<portlet:param name="page" value="auctionDetails"/>
-							<portlet:param name="id" value="${item.id}"/>
-						</portlet:renderURL>
-						<div class="col-xs-12 col-sm-4 col-md-4">
-							<a href="${details}">
-								<img class="image" src="/images/${item.imageName}" />
-							</a>
-							<h4>
-								<liferay-ui:message key="price" /> - 
-								${item.subjectPrice/100} 
-								<liferay-ui:message key="currency" />
-							<h4> 
-							<strong><h4>${item.name}</h4></strong>
-						</div>
+						
+							<portlet:renderURL var="details">
+								<portlet:param name="page" value="auctionDetails"/>
+								<portlet:param name="id" value="${item.id}"/>
+							</portlet:renderURL>
+							<div class="col-xs-12 col-sm-4 col-md-4">
+								<a href="${details}">
+									<img class="image" src="/images/${item.imageName}" />
+								</a>
+								<h4>
+									<liferay-ui:message key="price" /> - 
+									${item.subjectPrice/100} 
+									<liferay-ui:message key="currency" />
+								</h4> 
+								<strong><h4>${item.name}</h4></strong>
+							</div>
 					</div>
 				</c:forEach>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-xs-12 col-sm-3 col-md-3">
+		<div class="col-xs-12 col-sm-12 col-md-12">
 			<div class='dad' style="background-color: gray;">
 			    <span class="btn-span"></span>
 			    <div class='b'><liferay-ui:message key="recent-added" /></div>
 			</div>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-9">
+		<div class="col-xs-12 col-sm-12 col-md-12">
 			<div id="newest-id" class="slideshow-container">
+			<div class="home-page-element">
 				<c:forEach items="${newestAuctions}" var="item" varStatus="i">
 							<div class="slider-element">
+							
 									<portlet:renderURL var="details">
 										<portlet:param name="page" value="auctionDetails"/>
 										<portlet:param name="id" value="${item.id}"/>
@@ -68,9 +73,10 @@
 										</h4> 
 										<strong><h4>${item.name}</h4></strong>
 									</div>
+							
 							</div>
 				</c:forEach>
-					
+				</div>
 			</div>
 		</div>
 	</div>

@@ -24,13 +24,15 @@
 <portlet:renderURL var="addGradeRender">
 	<portlet:param name="page" value="addGrade"/>
 </portlet:renderURL>
-    
-<div id="user-profile-menu" class="col-xs-12 col-sm-8 col-md-3">	
-	<ul class="horizontal-menu">
-	  <li class="horizontal-menu-item"><a href="${getBoughtRender}"><liferay-ui:message key="user.bought.label" /></a></li>
-	  <li class="horizontal-menu-item"><a href="${getSoldRender}"><liferay-ui:message key="user.sold.label" /></a></li>
-	  <li class="horizontal-menu-item"><a href="${mySettingsRender}"><liferay-ui:message key="user.settings.label" /></a></li>
-	  <li class="horizontal-menu-item"><a href="${createNewAuctionRender}"><liferay-ui:message key="user.create.auction.label" /></a></li>
-	  <li class="horizontal-menu-item"><a href="${addGradeRender}"><liferay-ui:message key="user.add.grade.label" /></a></li>
-	</ul>
+   
+<div style="max-height: 300px;">
+	<div id="user-profile-menu" class="col-xs-12 col-sm-8 col-md-3">	
+		<ul class="horizontal-menu">
+		  <li class="horizontal-menu-item"><a href="${getBoughtRender}"><liferay-ui:message key="user.bought.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="${getSoldRender}"><liferay-ui:message key="user.sold.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="${mySettingsRender}"><liferay-ui:message key="user.settings.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="${createNewAuctionRender}"><liferay-ui:message key="user.create.auction.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="${addGradeRender}"><liferay-ui:message key="user.add.grade.label" /></a></li>
+		</ul>
+	</div>
 </div>

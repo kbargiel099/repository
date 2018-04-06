@@ -10,10 +10,10 @@ jQuery(document).ready(function(){
 	console.log(h2);
 	console.log(h3);
 	console.log(h4);*/
-	createSlider('popular-id');
-	createSlider('newest-id');
-	addSliderEvents('popular-id');
-	addSliderEvents('newest-id');
+	//createSlider('popular-id');
+	//createSlider('newest-id');
+	//addSliderEvents('popular-id');
+	//addSliderEvents('newest-id');
 	setSizeOfImages(150);
 /*	for(var i=0;i<images.length;i++){
 		console.log(images[i].height +" "+ images[i].width);

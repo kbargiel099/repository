@@ -24,7 +24,6 @@
 			<h4 class="user-profile-section-title"><liferay-ui:message key="auction.form.label" /></h4>
 		</div>
 		  <div class="container">	
-		  
 		  	<c:set var="selectTitle">
 		  		<liferay-ui:message key="choose" />
 		  	</c:set>
@@ -102,7 +101,7 @@
 		  	</div>            
 	      </form:form>
 	   </div>
-<div>
+</div>
 	 
 <script  type="text/javascript">
 

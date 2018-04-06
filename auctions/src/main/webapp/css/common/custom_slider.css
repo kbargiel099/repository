@@ -10,6 +10,13 @@
   text-align: center;
 }
 
+.home-page-element {
+  display: block;
+  padding: 30px;
+  margin: 20px;
+  text-align: center;
+}
+
 /* Next & previous buttons */
 .prev, .next {
   cursor: pointer;

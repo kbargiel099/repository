@@ -18,13 +18,13 @@
 
 div.dad{
 	background-color: mediumSeaGreen;
-    height:250px;
+    height:150px;
 /*     width:300px; */
 	width: 100%;
     text-align:center
 }
 .btn-span{ 
-    line-height:250px; 
+    line-height:150px; 
 }
 div.b{
     vertical-align:middle; 
