@@ -199,7 +199,7 @@
 	  };*/
 	  
 	  function getBase64Image(img) {
-	  	return img.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+	  	return img.replace(/^data:(image|video)\/(png|jpg|jpeg|mp4);base64,/, "");
 	}
 	  
 </script>

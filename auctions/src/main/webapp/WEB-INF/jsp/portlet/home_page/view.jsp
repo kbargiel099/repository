@@ -13,9 +13,14 @@
  <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
-			<div class='dad' style="background-color: #66c2ff;">
+<%-- 			<div class='dad' style="background-color: #66c2ff;">
 			    <span class="btn-span"></span>
 			    <div class='b'><liferay-ui:message key="most-popular" /></div>
+			</div> --%>
+			<div class="container">
+				<div class="jumbotron">
+				    <h2><liferay-ui:message key="most-popular" /></h2> 
+				</div>
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12">
@@ -47,9 +52,14 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
-			<div class='dad' style="background-color: gray;">
+<%-- 			<div class='dad' style="background-color: gray;">
 			    <span class="btn-span"></span>
 			    <div class='b'><liferay-ui:message key="recent-added" /></div>
+			</div> --%>
+			<div class="container">
+				<div class="jumbotron">
+				    <h2><liferay-ui:message key="recent-added" /></h2>  
+				</div>
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-12">
