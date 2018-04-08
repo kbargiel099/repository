@@ -47,8 +47,8 @@ public class UserProfileServiceImpl implements UserProfileService{
 	}
 	
 	@Override
-	public boolean createUserAuction(long userId, Auction a) throws ParseException{
-		return dataSource.createUserAuction(userId, a);
+	public boolean createUserAuction(long userId, Auction a, boolean hasVideo) throws ParseException{
+		return dataSource.createUserAuction(userId, a, hasVideo);
 	}
 	
 	@Override

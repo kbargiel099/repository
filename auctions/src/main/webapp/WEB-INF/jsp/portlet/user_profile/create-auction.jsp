@@ -31,6 +31,8 @@
 			<form:input type="hidden" path="id" name="id"></form:input>
 			<form:input type="hidden" path="imageName" id="imageName" name="imageName"></form:input>
 			<form:input type="hidden" path="imageData" id="imageData" name="imageData"></form:input>
+			<form:input type="hidden" path="videoName" id="videoName" name="videoName"></form:input>
+			<form:input type="hidden" path="videoData" id="videoData" name="videoData"></form:input>
 			<div class="col-xs-12 col-sm-8 col-md-4">
 				<div class="form-group">
 		           <form:label class="label-control" path = "name" name="name"><liferay-ui:message key="auction.name.label" /></form:label>
@@ -54,6 +56,18 @@
 				<div>
 					<!-- <input type="file" name="imageFilechooser" id="imageFilechooser" onchange="startRead()"/> -->
 					<input type="file" name="imageFilechooser" id="imageFilechooser" onchange="loadFile(event)"/>
+					<div class="form-group">
+						<img id="output" height="100%" width="100%"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="label-control" name="attachVideo" ><liferay-ui:message key="auction.attachVideo.label" /></label>
+				</div>
+				<div>
+					<input type="file" name="videoFilechooser" id="videoFilechooser" onchange="handleVideoFile(event)"/>
+					<div class="form-group">
+						<output id="list"></output>
+					</div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-8 col-md-4">
@@ -67,9 +81,6 @@
 		           <form:label class="label-control" path = "subjectPrice" name="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></form:label>
 		           <input type="text" class="form-control" id="price" name="price" value="0"></input>
 		           <form:input type="hidden" path = "subjectPrice" id="subjectPrice" name="subjectPrice"></form:input>
-				</div>
-				<div class="form-group">
-					<img id="output" height="100%" width="100%"/>
 				</div>
 				<div class="form-group">
 				 <form:label class="label-control" path = "categoryId" name="categoryId"><liferay-ui:message key="auction.category.label" /></form:label>
@@ -105,6 +116,7 @@
 	 
 <script  type="text/javascript">
 
+	var reader = new FileReader();
 	var subCategories;
 	jQuery(document).ready(function(){
 		jQuery('.selectpicker').selectpicker();
@@ -149,57 +161,39 @@
 		jQuery('#subjectPrice').val(value * 100);
 	});
 	
-	function startRead() {
-		var file = document.getElementById("imageFilechooser").files[0];
-		if (file) {
-		        alert("Name: " + file.name + "\n" + "Last Modified Date :" + file.lastModifiedDate);
-		    }
-	}
-	
-	function createComfirmation(event){
+/* 	function createComfirmation(event){
 		event.preventDefault();
 		var message = Liferay.Language.get("auction.message.success");
 		var url = jQuery("#getBoughtUrl").val();
 		//showAlert("alert alert-success",message,url,false);
 		bootbox.alert(message)
 		//showSaving();
-	}
+	} */
 	
 	var loadFile = function(event) {
-	    var reader = new FileReader();
 	    reader.onload = function(){
 	        var output = document.getElementById('output');
 	        var file = document.getElementById("imageFilechooser").files[0];   
 	        output.src = reader.result;   
 			jQuery("#imageName").val(file.name);
-			jQuery("#imageData").val(getBase64Image(reader.result));
+			jQuery("#imageData").val(getBase64(reader.result));
 	    };
 	    reader.readAsDataURL(event.target.files[0]);
 	};
 
-	 /* var loadFile = function(event) {
-		    var reader = new FileReader();
-		    reader.onload = function(){
-		      var output = document.getElementById('output');
-		      output.src = reader.result;
-		      console.log(reader.result);
-		      console.log(output.src);
-			    jQuery.ajax({
-			    	"url": jQuery("#getImageUrl").val(),
-			    	"type": "POST",
-			    	"data":{
-			    		"image" : JSON.stringify(getBase64Image(reader.result))
-			    	},
-			    	"success": function(data){
-			    		console.log(data);
-			    	}
-			    });
-		    };
-		    reader.readAsDataURL(event.target.files[0]);
-	  };*/
+	function handleVideoFile(event) {
+	    var file = event.target.files[0];
+        var output = '<li><strong>' + escape(file.name) + '</strong></li>';
+	    document.getElementById('list').innerHTML = '<ul>' + output + '</ul>';
+	    jQuery("#videoName").val(file.name);
+	    reader.onload = function(){
+			jQuery("#videoData").val(getBase64(reader.result));
+	    };
+	    reader.readAsDataURL(file);
+	  }
 	  
-	  function getBase64Image(img) {
-	  	return img.replace(/^data:(image|video)\/(png|jpg|jpeg|mp4);base64,/, "");
+	  function getBase64(source) {
+	  	return source.replace(/^data:(image|video)\/(png|jpg|jpeg|mp4);base64,/, "");
 	}
 	  
 </script>

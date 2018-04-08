@@ -1,7 +1,11 @@
 package com.auctions.system.portlet.home_page.controller;
 
+import java.io.IOException;
+
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.home_page.service.HomePageService;
+import com.google.gson.JsonObject;
 
 /**
  * Portlet implementation class HomePageController
@@ -51,6 +57,15 @@ public class HomePageController {
 			@RequestParam("id") long id) throws Exception{
 		
 		return profile.createUserProfileView(id);
+	}
+	
+	@ResourceMapping("getVideoName")
+	public void getVideoName(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("name", auctionProcessing.getVideoName(id));
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
 	}
 
 }

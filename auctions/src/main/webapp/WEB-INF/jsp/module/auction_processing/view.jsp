@@ -16,6 +16,12 @@
 	<portlet:param name="id" value="${seller.id}"/>
 </portlet:renderURL>
 
+<portlet:resourceURL id="getVideoName" var="getVideoName">
+	<portlet:param name="auctionId" value="${auction.id}" />
+</portlet:resourceURL>
+
+<input type="hidden" id="getVideoNameUrl" value="${getVideoName}"></input>
+
 <div class="container">
 	<div id="notify-message"></div>
   	<div class="col-xs-12 col-sm-5 col-md-5">
@@ -97,6 +103,23 @@
 			<h5><strong><liferay-ui:message key="technical.data" /></strong></h5>
 		</div>
 	</div>
+	<div class="col-xs-12 col-sm-7 col-md-7">
+		<div>
+			<h5>
+				<strong>Zobacz wideo 
+					<a id="showVideo" href="javascript:void(0);">link</a>
+				</strong>
+			</h5>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-7 col-md-7">
+		<div id="video">
+<!-- 			<video width="320" height="240" controls>
+			  <source src="/videos/name.mp4" type="video/mp4">
+			</video> -->
+		</div>
+	</div>
+	
 </div>
 
 <input type="hidden" id="id" value="${auction.id}"/>
@@ -114,3 +137,18 @@
 <script src="<c:url value="/js/module/sockjs.min.js" />"></script>
 <script src="<c:url value="/js/module/stomp.min.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>
+<script>
+
+	jQuery('#showVideo').click(function(){
+	    jQuery.ajax({
+	    	"url": jQuery('#getVideoNameUrl').val(),
+	    	"type": "POST",
+	    	"success": function(data){
+	    		var videoElement = '<video width="100%" height="100%" controls>'
+	    				+ '<source src="/videos/'+ data.name +'" type="video/mp4">'
+	    				+ '</video>';
+	    		jQuery('#video').append(videoElement);
+	    	}
+	    });
+	});
+</script>

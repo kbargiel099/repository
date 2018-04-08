@@ -114,17 +114,21 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		return numberOfUpdatedRows > 0 ? true : false;
 	}
 	
-	@Override//Przejrzec sql bo brakuje ważnych pól i definicje aukcji ogolnie
-	public boolean createUserAuction(long userId, Auction a) throws ParseException{
+	@Override//Przejrzec sql bo brakuje ważnych pól i definicje aukcji ogolnie oraz przerobic na procedure
+	public boolean createUserAuction(long userId, Auction a, boolean hasVideo) throws ParseException{
 		
 		Timestamp createDate = new Timestamp(System.currentTimeMillis());
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
 		
-		boolean success = createImage(a.getImageData(),a.getImageName());
-		
+		boolean success = true;
+	
 		try {
-			long auctionId = createAuction(userId, a);
+			if(hasVideo) createVideo(a.getVideoData(),a.getVideoName());
+			
+			createImage(a.getImageData(),a.getImageName());
+			long auctionId = createAuction(userId, a, hasVideo);
 			long imageId = createImageReference(auctionId, a.getImageName());
+			long videoId = createVideoReference(auctionId, a.getVideoName());
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -134,14 +138,14 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		return success;
 	}
 	
-	private long createAuction(long userId, Auction a){
+	private long createAuction(long userId, Auction a, boolean hasVideo){
         Long createdAuctionId = (long) -1;
 		Timestamp createDate = new Timestamp(System.currentTimeMillis());
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
         
         try {
             PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction(userid,name,description,create_date,edit_date,end_date,"
-					+ "statusid,typeid,serial_number,subject_price,subject_quantity,subcategory_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+					+ "statusid,typeid,serial_number,subject_price,subject_quantity,subcategory_id,has_video) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
 	        pst.setLong(1, userId);
 	        pst.setString(2,a.getName());
 	        pst.setString(3, a.getDescription());
@@ -154,6 +158,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	        pst.setLong(10, a.getSubjectPrice());
 	        pst.setInt(11, a.getSubjectQuantity());
 	        pst.setInt(12, a.getSubCategoryId());
+	        pst.setBoolean(13, hasVideo);
 	        pst.executeUpdate();
 	        
 	        ResultSet keys = pst.getGeneratedKeys();
@@ -184,6 +189,22 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		return success;
 	}
 	
+	private boolean createVideo(String videoData,String videoName){
+		boolean success = false;
+		byte[] data = Base64.getDecoder().decode((videoData));
+		FileOutputStream stream;
+		try {
+			stream = new FileOutputStream(Properties.getVideosPath() + videoName);
+		    stream.write(data);
+		    success = true;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return success;
+	}
+	
 	private long createImageReference(long auctionId, String imageName){
         Long createdImageId = (long) -1;
         
@@ -203,6 +224,27 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 			e.printStackTrace();
 		}
         return createdImageId;
+	}
+	
+	private long createVideoReference(long auctionId, String videoName){
+        Long createdVideoId = (long) -1;
+        
+        try {
+    		PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction_video(auctionid,name) VALUES(?,?)",
+    				PreparedStatement.RETURN_GENERATED_KEYS);
+	        pst.setLong(1, auctionId);
+	        pst.setString(2, videoName);
+	        pst.executeUpdate();
+	        ResultSet keys = pst.getGeneratedKeys();
+            if(keys.next())
+            	createdVideoId = keys.getLong(1);
+            
+            pst.close();
+            
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+        return createdVideoId;
 	}
 	
 	

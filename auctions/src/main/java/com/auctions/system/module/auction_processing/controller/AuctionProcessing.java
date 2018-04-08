@@ -21,5 +21,9 @@ public class AuctionProcessing {
 		return model;
 		
 	}	
+	
+	public String getVideoName(long id){
+		return service.getVideoName(id);
+	}	
 }
 

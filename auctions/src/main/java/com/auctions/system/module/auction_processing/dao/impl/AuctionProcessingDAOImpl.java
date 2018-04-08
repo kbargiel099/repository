@@ -41,7 +41,7 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	public AuctionDetails getAuctionDetails(long auctionId){
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
 		
-		return dao.queryForObject("SELECT a.id,serial_number,a.name,i.image_name AS image_name,description,create_date,end_date,subject_price"
+		return dao.queryForObject("SELECT a.id,serial_number,a.name,i.image_name AS image_name,description,create_date,end_date,subject_price,has_video"
 				+ " FROM auction a,auction_image i WHERE a.id=i.auction_id AND a.id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
@@ -49,7 +49,7 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 						return new AuctionDetails(res.getInt("id"),res.getString("serial_number"),
 								res.getString("name"),res.getString("description"),
 								sdf.format(res.getTimestamp("create_date")),sdf.format(res.getTimestamp("end_date")),res.getString("image_name"),
-								10,res.getLong("subject_price"));
+								res.getBoolean("has_video"),10,res.getLong("subject_price"));
 				}
 			});
 	}
@@ -62,6 +62,17 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 					public UserDetails mapRow(ResultSet res, int row) throws SQLException {
 						return new UserDetails(res.getLong("userid"),res.getString("screenname"),res.getString("firstname"),res.getString("lastname"),
 								"623189505",res.getString("emailaddress"));
+				}
+		});
+	}
+	
+	@Override
+	public String getVideoName(long id){
+		return dao.queryForObject("SELECT name FROM auction_video WHERE auctionid=?", 
+				new Object[]{id},new RowMapper<String>(){
+					@Override
+					public String mapRow(ResultSet res, int row) throws SQLException {
+						return res.getString("name");
 				}
 		});
 	}

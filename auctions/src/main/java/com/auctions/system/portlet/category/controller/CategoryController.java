@@ -122,6 +122,15 @@ public class CategoryController {
 		response.setContentType("application/json");
 		response.getWriter().write(res.toString());
 	}
+	
+	@ResourceMapping("getVideoName")
+	public void getVideoName(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("name", auctionProcessing.getVideoName(id));
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
 
 	private HttpServletRequest getOriginal(PortletRequest request){
 		return PortalUtil.getOriginalServletRequest(

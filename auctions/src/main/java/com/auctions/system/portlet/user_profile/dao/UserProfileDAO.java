@@ -22,7 +22,7 @@ public interface UserProfileDAO {
 	
 	public List<SubCategory> getSubCategories();
 	
-	public boolean createUserAuction(long userId, Auction a) throws ParseException;
+	public boolean createUserAuction(long userId, Auction a, boolean hasVideo) throws ParseException;
 	
 	public boolean addAuctionGrade(long userId, AuctionGrade a);
 	

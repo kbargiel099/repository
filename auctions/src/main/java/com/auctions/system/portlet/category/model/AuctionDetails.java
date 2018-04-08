@@ -9,11 +9,12 @@ public class AuctionDetails {
 	private String createDate;
 	private String endDate;	
 	private String imageName;
+	private boolean hasVideo;
 	private int subjectQuantity;
 	private long subjectPrice;
 	
 	public AuctionDetails(int id,String serialNumber, String name, String description, String createDate,
-			String endDate, String imageName, int subjectQuantity, long subjectPrice) {
+			String endDate, String imageName, boolean hasVideo, int subjectQuantity, long subjectPrice) {
 		super();
 		this.id = id;
 		this.serialNumber = serialNumber;
@@ -22,6 +23,7 @@ public class AuctionDetails {
 		this.createDate = createDate;
 		this.endDate = endDate;
 		this.imageName = imageName;
+		this.hasVideo = hasVideo;
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
 	}
@@ -89,6 +91,14 @@ public class AuctionDetails {
 
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
+	}
+
+	public boolean isHasVideo() {
+		return hasVideo;
+	}
+
+	public void setHasVideo(boolean hasVideo) {
+		this.hasVideo = hasVideo;
 	}
 	
 }

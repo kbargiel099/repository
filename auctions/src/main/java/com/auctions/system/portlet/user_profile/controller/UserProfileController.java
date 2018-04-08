@@ -152,8 +152,11 @@ public class UserProfileController {
 	@ActionMapping(params = "action=createNewAuction")
 	public void createNewAuctionAction(ActionRequest request, ActionResponse response,
 			@ModelAttribute("newAuction") Auction auction) throws ParseException{
+		String videoName = auction.getVideoName();
+		boolean hasVideo = videoName.isEmpty() ? false : true;	
+		
 		long userId = PortalUtil.getUserId(request);
-		boolean isCreated = service.createUserAuction(userId, auction);
+		boolean isCreated = service.createUserAuction(userId, auction, hasVideo);
 		if(isCreated){
 			response.setRenderParameter("message", "Pomyślnie utworzono aukcję");
 		}

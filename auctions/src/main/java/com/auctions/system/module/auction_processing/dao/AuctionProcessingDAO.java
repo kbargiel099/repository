@@ -8,5 +8,7 @@ public interface AuctionProcessingDAO {
 	public UserDetails getSellerDetails(long userId);
 	
 	public AuctionDetails getAuctionDetails(long auctionId);
+	
+	public String getVideoName(long id);
 
 }

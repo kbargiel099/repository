@@ -8,5 +8,7 @@ public interface AuctionProcessingService {
 	public UserDetails getSellerDetails(long userId);
 	
 	public AuctionDetails getAuctionDetails(long id);
+	
+	public String getVideoName(long id);
 
 }
