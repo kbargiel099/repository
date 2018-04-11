@@ -23,7 +23,8 @@ public class AuctionProcessing {
 	}	
 	
 	public String getVideoName(long id){
-		return service.getVideoName(id);
+		String name = service.getVideoName(id);
+		return name.split("\\.")[0];
 	}	
 }
 

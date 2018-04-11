@@ -10,10 +10,6 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/custom-table.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/notify-modal.css" />" >
-  <link href="http://vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet">
-
-  <!-- If you'd like to support IE8 -->
-  <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 
 <portlet:renderURL var="getUserProfile">
 	<portlet:param name="page" value="userProfile"/>
@@ -37,11 +33,6 @@
 						</a>
 					</div>
 					<div id="video" style="display: none;">
-<!-- 						<video width="100%" controls>
-		    				<source src="/videos/VID_20180408_083908.mp4" type='video/mp4; codecs="mp4a.40.2"'>
-		    				<source src="/videos/'+ data.name +'" type="video/webm">
-		    				<source src="/videos/'+ data.name +'" type="video/ogg">
-	    				</video> -->
 					</div>
 					<div id="show-video-div">
 						<h5>
@@ -148,30 +139,25 @@
 <script src="<c:url value="/js/module/sockjs.min.js" />"></script>
 <script src="<c:url value="/js/module/stomp.min.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>
-<script src="http://vjs.zencdn.net/6.6.3/video.js"></script>
 <script>
-
+var canPlayMPEG4;
 	jQuery(document).ready(function(){
-			var testEl = document.createElement( "video" ),
-		    mpeg4, h264, ogg, webm;
+			var testEl = document.createElement( "video" );
+/* 		    mpeg4, h264, ogg, webm; */
 			if ( testEl.canPlayType ) {
 			    // Check for MPEG-4 support
-			    mpeg4 = "" !== testEl.canPlayType( 'video/mp4; codecs="mp4v.20.8"' );
+			    canPlayMPEG4 = "" !== testEl.canPlayType( 'video/mp4; codecs="mp4v.20.8"' );
 		
-			    // Check for h264 support
+/* 			    // Check for h264 support
 			    h264 = "" !== ( testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E"' )
-			        && testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' ) );
+			        && testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' ) ); */
 		
-			    // Check for Ogg support
-			    ogg = "" !== testEl.canPlayType( 'video/ogg; codecs="theora"' );
+/* 			    // Check for Ogg support
+			    ogg = "" !== testEl.canPlayType( 'video/ogg; codecs="theora"' ); */
 		
-			    // Check for Webm support
-			    webm = "" !== testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' );
+/* 			    // Check for Webm support
+			    webm = "" !== testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' ); */
 			}
-			console.log("mpeg4 " + mpeg4);
-			console.log("h264 " + h264);
-			console.log("ogg " + ogg);
-			console.log("webm " + webm);
 	});
 
 	jQuery('#showVideo').click(function(){
@@ -179,9 +165,12 @@
 	    	"url": jQuery('#getVideoNameUrl').val(),
 	    	"type": "POST",
 	    	"success": function(data){
+	    		var ext = canPlayMPEG4 ? 'mp4' : 'ogv';
+	    		var media = canPlayMPEG4 ? 'mp4' : 'ogg';
  	    		var videoElement = '<video width="100%" controls>'
-	    				+ '<source src="/videos/'+ data.name +'" type="video/mp4">'
-	    				+ '<source src="/videos/'+ data.name +'" type="video/webm">'
+/*  	    				+ '<source src="/videos/'+ data.name +'.mp4" type="video/mp4">' */
+/*	    				+ '<source src="/videos/'+ data.name +'.webm" type="video/webm">' */
+	    				+ '<source src="/videos/'+ data.name +'.'+ ext +'" type="video/'+ media +'">'
 /* 	    				+ '<source src="/videos/'+ data.name +'" type="video/ogg">'
  	    				+ "<source src="+"/videos/"+ data.name +" type='video/webm;codecs="+"vp8, vorbis"'>"  */
 	    				+ '</video>';  	 
