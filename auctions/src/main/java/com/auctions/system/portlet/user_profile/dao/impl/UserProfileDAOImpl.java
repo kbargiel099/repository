@@ -1,11 +1,10 @@
 package com.auctions.system.portlet.user_profile.dao.impl;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.nio.file.Files;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +30,13 @@ import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
+
+import it.sauronsoftware.jave.AudioAttributes;
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.EncoderException;
+import it.sauronsoftware.jave.EncodingAttributes;
+import it.sauronsoftware.jave.VideoAttributes;
+import it.sauronsoftware.jave.VideoSize;
 
 @Repository("userProfileDAO")
 public class UserProfileDAOImpl implements UserProfileDAO{
@@ -191,6 +197,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	private boolean createVideo(String videoData,String videoName){
 		boolean success = false;
+
 		byte[] data = Base64.getDecoder().decode((videoData));
 		FileOutputStream stream;
 		try {
@@ -202,7 +209,53 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		createWebMVideoFile(videoData, videoName);
+		
 		return success;
+	}
+	 
+	private boolean createWebMVideoFile(String videoData, String videoName){
+		
+		try {
+			File source = new File(Properties.getVideosPath() + videoName);
+			File target = new File(Properties.getVideosPath() + "target.flv");
+			
+			AudioAttributes audio = new AudioAttributes();
+			audio.setCodec("libmp3lame");
+			audio.setBitRate(new Integer(64000));
+			audio.setChannels(new Integer(1));
+			audio.setSamplingRate(new Integer(22050));
+			
+			VideoAttributes video = new VideoAttributes();
+			video.setCodec("flv");
+			video.setBitRate(new Integer(160000));
+			video.setFrameRate(new Integer(15));
+			video.setSize(new VideoSize(400, 300));
+			
+			EncodingAttributes attrs = new EncodingAttributes();
+			attrs.setFormat("flv");
+			attrs.setAudioAttributes(audio);
+			attrs.setVideoAttributes(video);
+			
+			Encoder encoder = new Encoder();
+			encoder.encode(source, target, attrs);
+
+			byte[] bFile = Files.readAllBytes(target.toPath());
+			FileOutputStream stream = new FileOutputStream(target);
+		    stream.write(bFile);
+		    stream.close();
+			
+			return true;
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}  catch (EncoderException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	private long createImageReference(long auctionId, String imageName){

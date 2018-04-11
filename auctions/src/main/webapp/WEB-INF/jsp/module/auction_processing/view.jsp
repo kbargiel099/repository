@@ -10,6 +10,10 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/custom-table.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/notify-modal.css" />" >
+  <link href="http://vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet">
+
+  <!-- If you'd like to support IE8 -->
+  <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 
 <portlet:renderURL var="getUserProfile">
 	<portlet:param name="page" value="userProfile"/>
@@ -24,47 +28,71 @@
 
 <div class="container">
 	<div id="notify-message"></div>
-  	<div class="col-xs-12 col-sm-5 col-md-5">
-		<div class="details-section row">
-			<div class="col-xs-12 col-sm-12 col-md-12">
-				<a class="text-center" href="#">
-					<img src="/images/${auction.imageName}" style="heigh:400px; width:100%;" />
-				</a>
+  		<div class="col-xs-12 col-sm-5 col-md-5">
+			<div class="details-section row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div id="gallery">
+						<a class="text-center" href="#">
+							<img src="/images/${auction.imageName}" style="height:auto; width:100%;" />
+						</a>
+					</div>
+					<div id="video" style="display: none;">
+<!-- 						<video width="100%" controls>
+		    				<source src="/videos/VID_20180408_083908.mp4" type='video/mp4; codecs="mp4a.40.2"'>
+		    				<source src="/videos/'+ data.name +'" type="video/webm">
+		    				<source src="/videos/'+ data.name +'" type="video/ogg">
+	    				</video> -->
+					</div>
+					<div id="show-video-div">
+						<h5>
+							<strong>Zobacz wideo 
+								<a id="showVideo" href="javascript:void(0);">link</a>
+							</strong>
+						</h5>
+					</div>
+					<div id="show-gallery-div" style="display: none;">
+						<h5>
+							<strong>Wróć do galerii 
+								<a id="showGallery" href="javascript:void(0);">link</a>
+							</strong>
+						</h5>
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="details-section row">
+
+			<div class="details-section row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<h4 class="text-center"><strong><liferay-ui:message key="seller.details" /></strong></h4>
+					<div class="padding-left">
+					<a href="${getUserProfile}">
+						<h5>${seller.username}</h5>
+					</a>
+						<h5>${seller.firstname} ${seller.lastname}</h5>
+						<h5>${seller.emailAddress}</h5>
+						<h5>${seller.phoneNumber}</h5>
+					</div>
+				</div>
+			</div>
 			<div class="col-xs-12 col-sm-12 col-md-12">
-				<h4 class="text-center"><strong><liferay-ui:message key="seller.details" /></strong></h4>
-				<div class="padding-left">
-				<a href="${getUserProfile}">
-					<h5>${seller.username}</h5>
-				</a>
-					<h5>${seller.firstname} ${seller.lastname}</h5>
-					<h5>${seller.emailAddress}</h5>
-					<h5>${seller.phoneNumber}</h5>
+				<div id="auction-notify" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow: scroll;height: 200px;width: 100%;">
+	<!-- 				<ul>
+					</ul> -->
+					<h4 class="text-center"><strong><liferay-ui:message key="auction.actual.offers" /></strong></h4>
+					<table>
+						<thead>
+						  <tr>
+						    <th><liferay-ui:message key="auction.username.theader" /></th>
+						    <th><liferay-ui:message key="auction.quantity.theader" /></th>
+						    <th><liferay-ui:message key="auction.price.theader" /></th>
+						  </tr>
+						</thead>
+						<tbody>
+						
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-12">
-			<div id="auction-notify" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow: scroll;height: 200px;width: 100%;">
-<!-- 				<ul>
-				</ul> -->
-				<h4 class="text-center"><strong><liferay-ui:message key="auction.actual.offers" /></strong></h4>
-				<table>
-					<thead>
-					  <tr>
-					    <th><liferay-ui:message key="auction.username.theader" /></th>
-					    <th><liferay-ui:message key="auction.quantity.theader" /></th>
-					    <th><liferay-ui:message key="auction.price.theader" /></th>
-					  </tr>
-					</thead>
-					<tbody>
-					
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
 	
 	<div class="col-xs-12 col-sm-7 col-md-7">
   		<div class="details-section row">
@@ -103,23 +131,6 @@
 			<h5><strong><liferay-ui:message key="technical.data" /></strong></h5>
 		</div>
 	</div>
-	<div class="col-xs-12 col-sm-7 col-md-7">
-		<div>
-			<h5>
-				<strong>Zobacz wideo 
-					<a id="showVideo" href="javascript:void(0);">link</a>
-				</strong>
-			</h5>
-		</div>
-	</div>
-	<div class="col-xs-12 col-sm-7 col-md-7">
-		<div id="video">
-<!-- 			<video width="320" height="240" controls>
-			  <source src="/videos/name.mp4" type="video/mp4">
-			</video> -->
-		</div>
-	</div>
-	
 </div>
 
 <input type="hidden" id="id" value="${auction.id}"/>
@@ -137,18 +148,56 @@
 <script src="<c:url value="/js/module/sockjs.min.js" />"></script>
 <script src="<c:url value="/js/module/stomp.min.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>
+<script src="http://vjs.zencdn.net/6.6.3/video.js"></script>
 <script>
+
+	jQuery(document).ready(function(){
+			var testEl = document.createElement( "video" ),
+		    mpeg4, h264, ogg, webm;
+			if ( testEl.canPlayType ) {
+			    // Check for MPEG-4 support
+			    mpeg4 = "" !== testEl.canPlayType( 'video/mp4; codecs="mp4v.20.8"' );
+		
+			    // Check for h264 support
+			    h264 = "" !== ( testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E"' )
+			        && testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' ) );
+		
+			    // Check for Ogg support
+			    ogg = "" !== testEl.canPlayType( 'video/ogg; codecs="theora"' );
+		
+			    // Check for Webm support
+			    webm = "" !== testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' );
+			}
+			console.log("mpeg4 " + mpeg4);
+			console.log("h264 " + h264);
+			console.log("ogg " + ogg);
+			console.log("webm " + webm);
+	});
 
 	jQuery('#showVideo').click(function(){
 	    jQuery.ajax({
 	    	"url": jQuery('#getVideoNameUrl').val(),
 	    	"type": "POST",
 	    	"success": function(data){
-	    		var videoElement = '<video width="100%" height="100%" controls>'
+ 	    		var videoElement = '<video width="100%" controls>'
 	    				+ '<source src="/videos/'+ data.name +'" type="video/mp4">'
-	    				+ '</video>';
-	    		jQuery('#video').append(videoElement);
+	    				+ '<source src="/videos/'+ data.name +'" type="video/webm">'
+/* 	    				+ '<source src="/videos/'+ data.name +'" type="video/ogg">'
+ 	    				+ "<source src="+"/videos/"+ data.name +" type='video/webm;codecs="+"vp8, vorbis"'>"  */
+	    				+ '</video>';  	 
+		   		jQuery('#gallery').hide();
+	    		jQuery('#show-video-div').hide();
+ 	    		jQuery('#video').html(videoElement);
+	    		jQuery('#video').show();
+	    		jQuery('#show-gallery-div').show();
 	    	}
 	    });
+	});
+	
+	jQuery('#showGallery').click(function(){
+		jQuery('#video').hide();
+		jQuery('#show-gallery-div').hide();
+		jQuery('#gallery').show();
+		jQuery('#show-video-div').show();
 	});
 </script>

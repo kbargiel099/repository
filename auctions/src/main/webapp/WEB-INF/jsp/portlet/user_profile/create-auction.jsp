@@ -193,7 +193,7 @@
 	  }
 	  
 	  function getBase64(source) {
-	  	return source.replace(/^data:(image|video)\/(png|jpg|jpeg|mp4);base64,/, "");
+	  	return source.replace(/^data:(image|video)\/(png|jpg|jpeg|mp4|webm);base64,/, "");
 	}
 	  
 </script>
