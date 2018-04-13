@@ -28,6 +28,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.Properties;
+import com.auctions.system.module.file_converter.Worker;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
@@ -55,6 +56,8 @@ public class UserProfileController {
 	
 	@Autowired
 	ReloadableResourceBundleMessageSource messageSrc;
+	
+	Worker worker = new Worker();
 	
 	@InitBinder("newAuction")
 	private void initBinderAuction(WebDataBinder binder) {
@@ -153,7 +156,9 @@ public class UserProfileController {
 	public void createNewAuctionAction(ActionRequest request, ActionResponse response,
 			@ModelAttribute("newAuction") Auction auction) throws ParseException{
 		String videoName = auction.getVideoName();
-		boolean hasVideo = videoName.isEmpty() ? false : true;	
+		final boolean hasVideo = videoName.isEmpty() ? false : true;	
+		
+		worker.createFiles(auction, hasVideo);
 		
 		long userId = PortalUtil.getUserId(request);
 		boolean isCreated = service.createUserAuction(userId, auction, hasVideo);
