@@ -37,10 +37,6 @@ import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.google.gson.Gson;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-/**
- * Portlet implementation class UserProfileController
- */
-
 @Controller
 @RequestMapping("VIEW")
 public class UserProfileController {
@@ -48,7 +44,6 @@ public class UserProfileController {
 	private final String defaultView = "view";
 	private final String createAuctionView = "create-auction"; 
 	private final String addGradeView = "add-grade";
-	private final String detailsView = "details"; 
 
 	
 	@Autowired

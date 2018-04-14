@@ -79,7 +79,7 @@ public class Converter {
 /*			video.setTag("OGG");*/
 			video.setBitRate(new Integer(819200));
 			video.setFrameRate(new Integer(20));
-			video.setSize(new VideoSize(640, 360));
+			video.setSize(new VideoSize(1280, 720));
 			
 			EncodingAttributes attrs = new EncodingAttributes();
 			attrs.setFormat("ogg");

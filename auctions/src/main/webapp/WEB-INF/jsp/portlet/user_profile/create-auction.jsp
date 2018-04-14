@@ -16,6 +16,7 @@
 
 <input type="hidden" id="getSubCategoriesUrl" value="${getSubCategories}"></input>
 
+
 <div class="container-fluid">
 
 	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>

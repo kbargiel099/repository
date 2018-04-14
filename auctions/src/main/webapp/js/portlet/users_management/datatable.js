@@ -19,7 +19,7 @@ function init(resourceUrl){
 		  } ],
 		//"language": language
 		"language": {
-			"url": "dataTables.german.lang"
+			"url": "pl"
 		}
     } );
 }

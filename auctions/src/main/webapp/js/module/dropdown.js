@@ -1,6 +1,6 @@
 function createDropDownMenu(options){
 	var menuData = '<div class="dropdown">'
-		+'<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">'+ Liferay.Language.get("options")
+		+'<button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">'+ Liferay.Language.get("options")
 		+'<span class="caret"></span></button>'
 		+'<ul class="dropdown-menu">';
 

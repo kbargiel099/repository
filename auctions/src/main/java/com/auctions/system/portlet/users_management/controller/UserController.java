@@ -49,6 +49,7 @@ import com.auctions.system.portlet.users_management.validator.UserValidator;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 
 @Controller
 @RequestMapping("VIEW")
@@ -78,7 +79,7 @@ public class UserController {
 		ModelAndView model = new ModelAndView(defaultView);
 		//AuthenticatedSessionManagerUtil.login(PortalUtil.getHttpServletRequest(request), PortalUtil.getHttpServletResponse(response), "test@liferay.com", "test", false, CompanyConstants.AUTH_TYPE_EA);
 		//AuthenticatedSessionManagerUtil.logout(PortalUtil.getHttpServletRequest(request), PortalUtil.getHttpServletResponse(response));
-		//UserLocalServiceUtil.deleteUser(62409);
+		//UserLocalServiceUtil.deleteUser(65101);
 		//add();
 		
 		return model;
