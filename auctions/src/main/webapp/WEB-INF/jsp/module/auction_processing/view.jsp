@@ -165,6 +165,7 @@ var canPlayMPEG4;
 	    	"url": jQuery('#getVideoNameUrl').val(),
 	    	"type": "POST",
 	    	"success": function(data){
+	    		
 	    		var ext = canPlayMPEG4 ? 'mp4' : 'ogg';
 	    		var media = canPlayMPEG4 ? 'mp4' : 'ogg';
  	    		var videoElement = '<video width="100%" controls>'

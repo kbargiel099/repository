@@ -42,6 +42,8 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.Option;
+import com.auctions.system.portlet.users_management.model.AuctionDatatable;
+import com.auctions.system.portlet.users_management.model.AuctionOptions;
 import com.auctions.system.portlet.users_management.model.User;
 import com.auctions.system.portlet.users_management.model.UserOptions;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
@@ -56,8 +58,12 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 public class UserController {
 
 	private final String defaultView = "view";
-	private final String addEditView = "add_edit"; 
-	private final String detailsView = "details"; 
+	private final String usersView = "users";
+	private final String addEditUserView = "add_edit"; 
+	private final String userDetailsView = "details";
+	private final String auctionsView = "auctions";
+	private final String addEditAuctionView = "add_edit"; 
+	private final String auctionDetailsView = "details"; 
 	
 	private final String imagesPath = "E:\\Szkoła\\Praca inżynierska\\Repozytorium\\repository\\auctions\\images\\";
 	
@@ -85,10 +91,24 @@ public class UserController {
 		return model;
 	}
 	
+	@RenderMapping(params = "page=getUsers")
+	public ModelAndView getUsersView(RenderRequest request, RenderResponse response){
+
+		ModelAndView model = new ModelAndView(usersView);
+		return model;
+	}
+	
+	@RenderMapping(params = "page=getAuctions")
+	public ModelAndView getAuctionsView(RenderRequest request, RenderResponse response){
+
+		ModelAndView model = new ModelAndView(auctionsView);
+		return model;
+	}
+	
 	@RenderMapping(params = "page=add")
 	public ModelAndView addUserView(RenderRequest request, RenderResponse response){
 
-		ModelAndView model = new ModelAndView(addEditView);
+		ModelAndView model = new ModelAndView(addEditUserView);
 		model.addObject("action", "add");
 		model.addObject("user", new User());
 		
@@ -112,7 +132,7 @@ public class UserController {
 	public ModelAndView editUserView(RenderRequest request, RenderResponse response,
 			@RequestParam("userId") int userId){
 
-		ModelAndView model = new ModelAndView(addEditView);
+		ModelAndView model = new ModelAndView(addEditUserView);
 		model.addObject("action", "edit");
 		model.addObject("user", service.getUserById(userId));
 		
@@ -136,7 +156,7 @@ public class UserController {
 	public ModelAndView UserDetailsView(RenderRequest request, RenderResponse response,
 			@RequestParam("userId") int userId){
 
-		ModelAndView model = new ModelAndView(detailsView);
+		ModelAndView model = new ModelAndView(userDetailsView);
 		model.addObject("user", service.getUserById(userId));
 		
 		return model;
@@ -184,6 +204,49 @@ public class UserController {
 		
 		PortletURL deleteUrl = response.createActionURL();
 		deleteUrl.setParameter("userId", Integer.toString(userId));
+		deleteUrl.setParameter("action", "delete");
+		
+		options.add(new Option("details",showDetailsUrl.toString()));
+		options.add(new Option("edit",editUrl.toString()));
+		options.add(new Option("delete",deleteUrl.toString()));
+		return options;
+		
+	}
+	
+	@ResourceMapping(value="getAuctions")
+	public void getAuctions(ResourceRequest request, ResourceResponse response) throws Exception {
+ 
+		JsonObject json = new JsonObject();
+		json.add("data",createAuctionOptions(response));
+		
+	    response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json.toString());
+	}
+	
+	private JsonElement createAuctionOptions(ResourceResponse response){
+		Gson gson = new Gson();
+		List<AuctionOptions> auctions = new ArrayList<AuctionOptions>();
+		
+		for(AuctionDatatable a : service.getAuctions()){
+			auctions.add(new AuctionOptions(a,createOptions2(a.getId(),response)));
+		}
+		return gson.toJsonTree(auctions);
+	}
+	
+	private List<Option> createOptions2(long id,ResourceResponse response){
+		List<Option> options = new ArrayList<Option>();
+		
+		PortletURL showDetailsUrl = response.createRenderURL();
+		showDetailsUrl.setParameter("id", Long.toString(id));
+		showDetailsUrl.setParameter("page", "details");
+		
+		PortletURL editUrl = response.createRenderURL();
+		editUrl.setParameter("id", Long.toString(id));
+		editUrl.setParameter("page", "edit");
+		
+		PortletURL deleteUrl = response.createActionURL();
+		deleteUrl.setParameter("id", Long.toString(id));
 		deleteUrl.setParameter("action", "delete");
 		
 		options.add(new Option("details",showDetailsUrl.toString()));

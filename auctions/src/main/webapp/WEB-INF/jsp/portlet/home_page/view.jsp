@@ -9,14 +9,11 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/custom-btn.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/custom_slider.css" />" >
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/image.css" />" >
 
  <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
-<%-- 			<div class='dad' style="background-color: #66c2ff;">
-			    <span class="btn-span"></span>
-			    <div class='b'><liferay-ui:message key="most-popular" /></div>
-			</div> --%>
 			<div class="container">
 				<div class="jumbotron">
 				    <h2><liferay-ui:message key="most-popular" /></h2> 
@@ -35,7 +32,7 @@
 							</portlet:renderURL>
 							<div class="col-xs-12 col-sm-4 col-md-4">
 								<a href="${details}">
-									<img class="image" src="/images/${item.imageName}" />
+									<img class="image image-160" src="/images/${item.imageName}" />
 								</a>
 								<h4>
 									<liferay-ui:message key="price" /> - 
@@ -52,10 +49,6 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
-<%-- 			<div class='dad' style="background-color: gray;">
-			    <span class="btn-span"></span>
-			    <div class='b'><liferay-ui:message key="recent-added" /></div>
-			</div> --%>
 			<div class="container">
 				<div class="jumbotron">
 				    <h2><liferay-ui:message key="recent-added" /></h2>  
@@ -74,7 +67,7 @@
 									</portlet:renderURL>
 									<div class="col-xs-12 col-sm-4 col-md-4">
 										<a href="${details}">
-											<img class="image" src="/images/${item.imageName}" />
+											<img class="image image-160" src="/images/${item.imageName}" />
 										</a>
 										<h4>
 											<liferay-ui:message key="price" /> - 
@@ -97,4 +90,10 @@
 	</div>  -->
 </div> 
 
-<script src="<c:url value="/js/common/custom_slider.js" />"></script>
+<%-- <script src="<c:url value="/js/common/custom_slider.js" />"></script> --%>
+<%-- <script src="<c:url value="/js/common/image-util.js" />"></script> --%>
+<script>
+	jQuery(document).ready(function(){
+		//setSizeOfImages(160);
+	});
+</script>

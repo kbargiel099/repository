@@ -25,6 +25,7 @@ import org.springframework.stereotype.Repository;
 import com.auctions.system.module.Properties;
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
+import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
@@ -77,6 +78,19 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	}
 	
 	@Override
+	public List<AuctionPresenter> getUserAuctions(long userId){
+		return dao.query("SELECT a.id,a.name,i.image_name AS image_name,subject_price FROM auction a,auction_image i"
+				+ " WHERE a.id=i.auction_id AND a.userid = ?", 
+				new Object[]{userId},new RowMapper<AuctionPresenter>(){
+					@Override
+					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
+								res.getLong("subject_price"));
+				}
+			});
+	}
+	
+	@Override
 	public List<Category> getCategories(){
 		return dao.query("SELECT id,name FROM category",
 				new RowMapper<Category>(){
@@ -120,6 +134,12 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		return numberOfUpdatedRows > 0 ? true : false;
 	}
 	
+	@Override
+	public boolean createAuctionVideo(long auctionId, String videoName){
+		createVideoReference(auctionId,videoName);
+		return true;
+	}
+	
 	@Override//Przejrzec sql bo brakuje ważnych pól i definicje aukcji ogolnie oraz przerobic na procedure
 	public boolean createUserAuction(long userId, Auction a, boolean hasVideo) throws ParseException{
 		
@@ -131,7 +151,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		try {
 			long auctionId = createAuction(userId, a, hasVideo);
 			long imageId = createImageReference(auctionId, a.getImageName());
-			long videoId = createVideoReference(auctionId, a.getVideoName());
+			//long videoId = createVideoReference(auctionId, a.getVideoName());
 			
 		} catch(Exception e) {
 			e.printStackTrace();

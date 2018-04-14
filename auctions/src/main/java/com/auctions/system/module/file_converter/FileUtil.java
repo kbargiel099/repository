@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -42,22 +43,15 @@ public class FileUtil {
 	
 	public static boolean createVideo(final String videoData,final String videoName){
 		boolean success = false;
-		ByteArrayInputStream reader = new ByteArrayInputStream(
-				Base64.getDecoder().decode((videoData)));
+		byte[] buffer = Base64.getDecoder().decode((videoData));
 		FileOutputStream stream;
-		byte[] buffer = new byte[256];
 		try {
 			
-			stream = new FileOutputStream(Properties.getVideosPath() + videoName);
-			while(reader.read(buffer) > 0){
-				stream.write(buffer);
-				if(reader.available() < 256){
-					Arrays.fill(buffer, (byte)0);
-				}
-			}
+			stream = new FileOutputStream(Properties.getVideosPath() + videoName,true);
+			stream.write(buffer);
 		    stream.close();
 		    stream = null;
-		    reader = null;
+
 		    //success = true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

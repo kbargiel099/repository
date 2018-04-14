@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
+import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
@@ -34,6 +35,16 @@ public class UserProfileServiceImpl implements UserProfileService{
 	@Override
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId){
 		return dataSource.getUserBoughtSubjects(userId);
+	}
+	
+	@Override
+	public List<AuctionPresenter> getUserAuctions(long userId){
+		return dataSource.getUserAuctions(userId);
+	}
+	
+	@Override
+	public boolean createAuctionVideo(long auctionId, String videoName){
+		return dataSource.createAuctionVideo(auctionId, videoName);
 	}
 	
 	@Override

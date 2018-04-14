@@ -21,6 +21,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.auctions.system.portlet.users_management.dao.UsersManagementDAO;
+import com.auctions.system.portlet.users_management.model.AuctionDatatable;
 import com.auctions.system.portlet.users_management.model.User;
 
 @Repository("UsersManagementDAO")
@@ -43,6 +44,17 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 			public User mapRow(ResultSet res, int row) throws SQLException {
 				return new User(res.getInt("id"),res.getString("login"),res.getString("password"),res.getString("firstname"),
 						res.getString("lastname"),res.getString("email"));
+			}	
+		});
+	}
+	
+	@Override
+	public List<AuctionDatatable> getAuctions() {
+		return dao.query("SELECT a.id,a.name,a.create_date,i.image_name AS image_name FROM auction a JOIN auction_image i ON i.auction_id = a.id",
+				new RowMapper<AuctionDatatable>(){
+			@Override
+			public AuctionDatatable mapRow(ResultSet res, int row) throws SQLException {
+				return new AuctionDatatable(res.getLong("id"),res.getString("name"),res.getString("create_date"),res.getString("image_name"));
 			}	
 		});
 	}

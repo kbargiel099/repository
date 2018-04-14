@@ -17,7 +17,7 @@ public class AuctionProcessing {
 	public ModelAndView createAuctionDetailsView(long id){
 		ModelAndView model = new ModelAndView(detailsView);
 		model.addObject("auction",service.getAuctionDetails(id));
-		model.addObject("seller", service.getSellerDetails(20156));
+		model.addObject("seller", service.getSellerDetails(20155));
 		return model;
 		
 	}	

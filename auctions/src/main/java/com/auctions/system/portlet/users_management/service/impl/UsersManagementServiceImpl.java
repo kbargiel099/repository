@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.auctions.system.portlet.users_management.dao.UsersManagementDAO;
+import com.auctions.system.portlet.users_management.model.AuctionDatatable;
 import com.auctions.system.portlet.users_management.model.User;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
 
@@ -26,6 +27,10 @@ public class UsersManagementServiceImpl implements UsersManagementService{
 	@Override
 	public boolean createUser(User user,boolean isAdmin){
 		return dataSource.createUser(user,isAdmin);
+	}
+	@Override
+	public List<AuctionDatatable> getAuctions(){
+		return dataSource.getAuctions();
 	}
 	@Override
 	public boolean updateUser(User user){

@@ -18,6 +18,11 @@
 <div class="container">
 
 	<%@include file="/WEB-INF/jsp/portlet/users_management/menu.jsp" %>
+	
+	<div class="col-xs-12 col-sm-8 col-md-9">
+		<h4 class="user-profile-section-title"><liferay-ui:message key="user.add.grade.label" /></h4>
+	</div>
+	
 	<div class="col-xs-12 col-sm-8 col-md-9">
 	      <h2>Dane użytkownika</h2>
 			<div class="form-group">

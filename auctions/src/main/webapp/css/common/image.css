@@ -1,0 +1,14 @@
+ .image-160 {
+	max-height: 160px;
+	max-width: 240px;
+} 
+
+ .image-120 {
+	max-height: 120px;
+	max-width: 180px;
+}
+
+.img-center {
+	display: block;
+	margin: 0 auto;
+} 

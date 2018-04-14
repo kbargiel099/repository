@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
+import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
@@ -17,6 +18,10 @@ public interface UserProfileDAO {
 	public void getImages(long userId);
 	
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId);
+	
+	public List<AuctionPresenter> getUserAuctions(long userId);
+	
+	public boolean createAuctionVideo(long auctionId, String videoName);
 	
 	public List<Category> getCategories();
 	

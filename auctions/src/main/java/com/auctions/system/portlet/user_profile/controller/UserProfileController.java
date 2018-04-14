@@ -28,13 +28,17 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.Properties;
+import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
+import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
+import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
@@ -44,10 +48,18 @@ public class UserProfileController {
 	private final String defaultView = "view";
 	private final String createAuctionView = "create-auction"; 
 	private final String addGradeView = "add-grade";
-
+	private final String settingsView = "settings";
+	private final String userBoughtView = "user-bought";
+	private final String userSoldView = "user-sold";
+	private final String userAuctionsView = "user-auctions";
+	private final String managementView = "management";
 	
 	@Autowired
 	private UserProfileService service;
+	@Autowired
+	AuctionProcessing auctionProcessing;
+	@Autowired
+	ProfileController profile;
 	
 	@Autowired
 	ReloadableResourceBundleMessageSource messageSrc;
@@ -75,28 +87,40 @@ public class UserProfileController {
 	
 	@RequestMapping(params = "page=getBought")
 	public ModelAndView getBoughtAction(RenderRequest request, RenderResponse response){
-		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("boughtView", true);
+		ModelAndView model = new ModelAndView(userBoughtView);
 		
 		List<UserProfileAuction> userBoughtSubjects = service.getUserBoughtSubjects(
 				PortalUtil.getUserId(request));
 				
 		model.addObject("subjects", userBoughtSubjects);
-		model.addObject("path", Properties.getImagesPath());
 		return model;
 	}
 	
 	@RequestMapping(params = "page=getSold")
 	public ModelAndView getSoldAction(RenderRequest request, RenderResponse response){
-		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("soldView", true);
+		ModelAndView model = new ModelAndView(userSoldView);
 		return model;
 	}
 	
 	@RequestMapping(params = "page=mySettings")
 	public ModelAndView mySettingsAction(RenderRequest request, RenderResponse response){
-		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("mySettingsView", true);
+		ModelAndView model = new ModelAndView(settingsView);
+		return model;
+	}
+	
+	@RequestMapping(params = "page=myAuctions")
+	public ModelAndView userAuctionsAction(RenderRequest request, RenderResponse response){
+		ModelAndView model = new ModelAndView(userAuctionsView);
+		model.addObject("auctions", service.getUserAuctions(
+				PortalUtil.getUserId(request)));
+		return model;
+	}
+	
+	@RequestMapping(params = "page=management")
+	public ModelAndView createManagementView(RenderRequest request, RenderResponse response,
+			@RequestParam("auctionId") long id){
+		ModelAndView model = new ModelAndView(managementView);
+		model.addObject("auctionId", id);
 		return model;
 	}
 	
@@ -115,18 +139,6 @@ public class UserProfileController {
 		ModelAndView model = new ModelAndView(addGradeView);
 		model.addObject("auctionGrade", new AuctionGrade());
 		return model;
-	}
-	
-	@ResourceMapping(value = "getImage")
-	public void getImageAction(ResourceRequest request, ResourceResponse response) throws IOException{
-		//ModelAndView model = new ModelAndView(defaultView);
-		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
-		String file =  originalRequest.getParameter("image");
-		
-		response.getWriter().write("odebrano obrazek " + file);
-		//service.createImage(file);
-		//model.addObject("mySettingsView", true);
-		//return model;
 	}
 	
 	@ResourceMapping(value = "getSubCategories")
@@ -171,7 +183,53 @@ public class UserProfileController {
 			response.setRenderParameter("message", "Pomyślnie dodano ocenę");
 		}
 	}
+	
+	@ResourceMapping(value = "createAuctionVideo")
+	public void createAuctionVideo(ResourceRequest request, ResourceResponse response) throws IOException{
+		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
+		long id =  Long.parseLong(originalRequest.getParameter("id"));
+		String name =  originalRequest.getParameter("name");
+		
+		JsonObject result = new JsonObject();
+		result.addProperty("success", service.createAuctionVideo(id, name));
+		response.setContentType("application/json");
+		response.getWriter().write(result.toString());
+	}
 
-
+	@ResourceMapping(value = "submitData")
+	public void submitData(ResourceRequest request, ResourceResponse response) throws IOException{
+		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
+		String data =  originalRequest.getParameter("data");
+		String name =  originalRequest.getParameter("name");
+        
+		FileUtil.createVideo(data, name);
+		JsonObject result = new JsonObject();
+		result.addProperty("success", true);
+		response.setContentType("application/json");
+		response.getWriter().write(result.toString());
+	}
+	
+	@ResourceMapping("getVideoName")
+	public void getVideoName(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("name", auctionProcessing.getVideoName(id));
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
+	
+	@RequestMapping(params = "page=auctionDetails")
+	public ModelAndView getAuctionDetails(RenderRequest request, RenderResponse response,
+			@RequestParam("id") long id) throws Exception{
+		
+		return auctionProcessing.createAuctionDetailsView(id);
+	}
+	
+	@RequestMapping(params = "page=userProfile")
+	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response,
+			@RequestParam("id") long id) throws Exception{
+		
+		return profile.createUserProfileView(id);
+	}
 
 }

@@ -24,6 +24,9 @@
 <portlet:renderURL var="addGradeRender">
 	<portlet:param name="page" value="addGrade"/>
 </portlet:renderURL>
+<portlet:renderURL var="myAuctionsRender">
+	<portlet:param name="page" value="myAuctions"/>
+</portlet:renderURL>
    
 <div style="max-height: 300px;">
 	<div id="user-profile-menu" class="col-xs-12 col-sm-8 col-md-3">	
@@ -33,6 +36,7 @@
 		  <li class="horizontal-menu-item"><a href="${mySettingsRender}"><liferay-ui:message key="user.settings.label" /></a></li>
 		  <li class="horizontal-menu-item"><a href="${createNewAuctionRender}"><liferay-ui:message key="user.create.auction.label" /></a></li>
 		  <li class="horizontal-menu-item"><a href="${addGradeRender}"><liferay-ui:message key="user.add.grade.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="${myAuctionsRender}"><liferay-ui:message key="user.auctions.label" /></a></li>
 		</ul>
 	</div>
 </div>

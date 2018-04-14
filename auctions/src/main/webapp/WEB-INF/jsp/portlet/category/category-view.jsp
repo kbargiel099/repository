@@ -8,6 +8,7 @@
 <portlet:defineObjects />
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/image.css" />" >
 
 <portlet:renderURL var="details">
 	<portlet:param name="page" value="auctionDetails"/>
@@ -66,8 +67,7 @@
 					<div class="col-xs-12 col-sm-4 col-md-4">
 						<div style="position: relative;">
 							<a href="#">
-								<%-- <img class="image" width="100%" style="height: auto;" src="/images/${item.imageName}" /> --%>
-								<img class="image" src="/images/${item.imageName}" />
+								<img class="image image-120 img-center" style="display: block; margin: 0 auto;" src="/images/${item.imageName}" />
 							</a>
 						</div>
 					</div>
@@ -97,9 +97,6 @@
 
 <script type="text/javascript">
 
-	jQuery(document).ready(function(){
-		setSizeOfImages(160);
-	});
 		jQuery(function() {
 		  jQuery("#searchingForm").validate({
 		    rules: {
@@ -125,7 +122,7 @@
 		var elem =  '<div class="category-view-auction row">'
 					+'<div class="col-xs-12 col-sm-12 col-md-4">'
 					+'<a class="text-center" href="#">'
-					+'<img class="image" src="/images/'+ data.imageName +'" />'
+					+'<img class="image image-120 img-center" src="/images/'+ data.imageName +'" />'
 					+'</a></div>'
 					+'<div class="col-xs-12 col-sm-12 col-md-4">'
 					+'<strong><h4>'+ data.name +'</h4></strong>'
@@ -159,7 +156,6 @@
 				jQuery(JSON.parse(data.auctions)).each(function(index,res){
 					elements.append(createElement(res));
 				});
-				setSizeOfImages(160);
 			} 
 		});
  		
@@ -181,7 +177,6 @@
 				jQuery(JSON.parse(data.auctions)).each(function(index,res){
 					elements.append(createElement(res));
 				});
-				setSizeOfImages(160);
 			}
 		});
 	}
@@ -192,26 +187,5 @@
 	}
 	
 	function currency(n){n=parseFloat(n);return isNaN(n)?false:n.toFixed(2);}
-	
-/* 	function setSizeOfImages(height){
-		var images = document.getElementsByClassName('image');
-		var wsp,scale;
-		for(var i=0;i<images.length;i++){
-			wsp = images[i].width/images[i].height;
-			scale = images[i].height/height;
-			images[i].width = (images[i].height/scale) * wsp;
-			images[i].height = height;
-		}
-	} */
-	
-	function setSizeOfImages(height){
-		var images = document.getElementsByClassName('image');
-		var wsp;
-		for(var i=0;i<images.length;i++){
-			wsp = images[i].height/height;
-			images[i].width = images[i].width/wsp;
-			images[i].height = height;
-		}
-	}
 	
 </script>

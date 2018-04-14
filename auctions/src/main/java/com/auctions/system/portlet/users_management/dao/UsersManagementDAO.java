@@ -2,6 +2,7 @@ package com.auctions.system.portlet.users_management.dao;
 
 import java.util.List;
 
+import com.auctions.system.portlet.users_management.model.AuctionDatatable;
 import com.auctions.system.portlet.users_management.model.User;
 
 public interface UsersManagementDAO {
@@ -11,6 +12,8 @@ public interface UsersManagementDAO {
 	public User getUserById(int userId);
 	
 	public boolean createUser(User user,boolean isAdmin);
+	
+	public List<AuctionDatatable> getAuctions();
 	
 	public boolean updateUser(User user);
 	
