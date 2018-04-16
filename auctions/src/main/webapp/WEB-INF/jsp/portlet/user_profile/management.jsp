@@ -24,18 +24,18 @@
 	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
 
 	<div class="col-xs-12 col-sm-8 col-md-8">
-		<h4 class="user-profile-section-title"><liferay-ui:message key="auction.bought.subjects.label" /></h4>
+		<h4 class="user-profile-section-title"><liferay-ui:message key="auction.edition.label" /></h4>
 		
-		<label class="label-control" for="video">Video</label>
+		<label class="label-control" for="video"><liferay-ui:message key="auction.attachVideo.label" /></label>
 	    <input type="file" id="video" name="video" onchange="loadFileVideo(event)"></input>
-	    <strong>Status </strong><p id="status"></p>
+	    <strong><liferay-ui:message key="current.state" /> </strong><p id="status"></p>
 	 
 	   	<form id="video-form">
 	   		<input type="hidden" id="vidName" name="vidName"></input>
 	   		<input type="hidden" id="vid" name="vid"></input>
 	    </form>
 	    <a class="btn btn-info" href="${details}" >
-			<strong>Podgląd</strong>
+			<strong><liferay-ui:message key="show.current" /></strong>
 		</a>	
 	</div>
 </div>

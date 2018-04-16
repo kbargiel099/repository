@@ -168,7 +168,7 @@ public class UserProfileController {
 		worker.createFiles(auction, hasVideo);
 		
 		long userId = PortalUtil.getUserId(request);
-		boolean isCreated = service.createUserAuction(userId, auction, hasVideo);
+		boolean isCreated = service.createUserAuction(userId, auction);
 		if(isCreated){
 			response.setRenderParameter("message", "Pomyślnie utworzono aukcję");
 		}

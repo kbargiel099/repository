@@ -34,8 +34,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	@Override//do przerobienia
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
-		return dao.query("SELECT a.id,a.name,i.image_name AS image_name,subject_price FROM auction a,auction_image i,category s,subcategory sub"
-				+ " WHERE a.subcategory_id=sub.id AND sub.category_id=s.id AND a.id=i.auction_id AND s.name=? ", 
+		return dao.query("SELECT id,name,image_name,subject_price,category_name FROM auction_category WHERE category_name=?", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
@@ -45,23 +44,6 @@ public class CategoryDAOImpl implements CategoryDAO{
 			});
 	}
 	
-/*	public List<AuctionPresenter> getSearchingAuctions(SearchingForm form){
-		String tempSearch = "%"+form.getSearchingText()+"%";
-		
-		return dao.query("SELECT a.id,a.name,i.name AS image_name,i.data AS image_data,subject_price FROM auction a "
-				+ "JOIN image i ON a.imageid=i.id WHERE (lower(a.name) LIKE lower(?) OR lower(a.description) LIKE lower(?)) "
-				+ "AND CASE WHEN ?<>'' AND ?<>'' THEN subject_price BETWEEN CAST(? AS BIGINT) AND CAST(? AS BIGINT) "
-                + "ELSE subject_price >= 0 END", 
-				new Object[]{tempSearch,tempSearch,form.getMinPrice(),form.getMaxPrice(),form.getMinPrice(),form.getMaxPrice()},
-				new RowMapper<AuctionPresenter>(){
-					@Override
-					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						String imageData = new String(res.getBytes("image_data"));
-						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
-								imageData,res.getLong("subject_price"));
-				}
-			});
-	}*/
 	public List<AuctionPresenter> getSearchingAuctions(SearchingForm form){
 		String tempSearch = "%"+form.getSearchingText()+"%";
 		
@@ -81,8 +63,8 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	@Override
 	public List<AuctionPresenter> getAuctionsBySubcategory(int id){
-		return dao.query("SELECT a.id,a.name,i.image_name AS image_name,subject_price FROM auction a "
-				+ "JOIN auction_image i ON a.id=i.auction_id WHERE subcategory_id=? ORDER BY create_date DESC", 
+		return dao.query("SELECT id,name,image_name,subject_price FROM auctions_by_subcategory "
+				+ "WHERE subcategory_id=? ORDER BY create_date DESC", 
 				new Object[]{id},
 				new RowMapper<AuctionPresenter>(){
 					@Override
@@ -94,21 +76,9 @@ public class CategoryDAOImpl implements CategoryDAO{
 	}
 	
 	@Override
-	public AuctionPresenter getBestAuctionsById(int auctionId){
-		return dao.queryForObject("SELECT a.id,a.name,i.name AS image_name,subject_price FROM auction a,auction_image i WHERE a.id=i.auction_id AND a.id=?", 
-				new Object[]{auctionId},new RowMapper<AuctionPresenter>(){
-					@Override
-					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
-								res.getLong("subject_price"));
-				}
-			});
-	}
-	
-	@Override
 	public List<SubCategory> getSubCategories(String categoryName){
-		return dao.query("SELECT sub.id AS sub_id,c.id,sub.name FROM subcategory sub,category c "
-				+ "WHERE c.id=sub.category_id AND c.name=?", 
+		return dao.query("SELECT sub.id AS sub_id,c.id,sub.name FROM subcategory sub "
+                		+ "JOIN category c ON c.id=sub.category_id WHERE c.name=?", 
 				new Object[]{categoryName},new RowMapper<SubCategory>(){
 					@Override
 					public SubCategory mapRow(ResultSet res, int row) throws SQLException {

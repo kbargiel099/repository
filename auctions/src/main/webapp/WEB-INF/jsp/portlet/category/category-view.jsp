@@ -143,7 +143,6 @@
  	function getBySubcategory(obj){
  		var url = getUrlById('getBySubcategoryUrl');
  		var id = jQuery(obj).parent().find('input').val();
- 		console.log(id);
   		jQuery.ajax({
 			"url" : url,
 			"type" : "POST",

@@ -25,20 +25,9 @@ public class ProfileController {
 	
 	public ModelAndView createUserProfileView(long id){
 		ModelAndView model = new ModelAndView(userDetailsView);
-		//model.addObject("auction",service.getAuctionDetails(id));
 		model.addObject("user", service.getUserProfile(id));
 		return model;
 	}
 	
-	@ResourceMapping("addComment")
-	public void searchForMatching(ResourceRequest request, ResourceResponse response,
-			@RequestParam("comment") String form) throws IOException{		
-		Gson gson = new Gson();
-		JsonObject res = new JsonObject();
-
-		res.addProperty("success", true);
-		response.setContentType("application/json");
-		response.getWriter().write(res.toString());
-	}
 }
 

@@ -26,11 +26,6 @@ public class UserProfileServiceImpl implements UserProfileService{
 	public boolean isUserExist(String login, String password) {
 		return dataSource.isUserExist(login, password);
 	}
-
-	@Override
-	public void getImages(long userId) {
-		dataSource.getImages(userId);
-	}
 	
 	@Override
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId){
@@ -58,8 +53,8 @@ public class UserProfileServiceImpl implements UserProfileService{
 	}
 	
 	@Override
-	public boolean createUserAuction(long userId, Auction a, boolean hasVideo) throws ParseException{
-		return dataSource.createUserAuction(userId, a, hasVideo);
+	public boolean createUserAuction(long userId, Auction a) throws ParseException{
+		return dataSource.createUserAuction(userId, a);
 	}
 	
 	@Override

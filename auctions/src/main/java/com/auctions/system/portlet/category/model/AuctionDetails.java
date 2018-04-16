@@ -9,12 +9,14 @@ public class AuctionDetails {
 	private String createDate;
 	private String endDate;	
 	private String imageName;
-	private boolean hasVideo;
+	private String typeName;
+	private long videoId;
 	private int subjectQuantity;
 	private long subjectPrice;
+	private long minimalPrice;
 	
-	public AuctionDetails(int id,String serialNumber, String name, String description, String createDate,
-			String endDate, String imageName, boolean hasVideo, int subjectQuantity, long subjectPrice) {
+	public AuctionDetails(int id,String serialNumber, String name, String description, String createDate, String endDate, 
+			String imageName, String typeName, long videoId, int subjectQuantity, long subjectPrice, long minimalPrice) {
 		super();
 		this.id = id;
 		this.serialNumber = serialNumber;
@@ -23,9 +25,11 @@ public class AuctionDetails {
 		this.createDate = createDate;
 		this.endDate = endDate;
 		this.imageName = imageName;
-		this.hasVideo = hasVideo;
+		this.typeName = typeName;
+		this.videoId = videoId;
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
+		this.minimalPrice = minimalPrice;
 	}
 	
 	public int getId() {
@@ -93,12 +97,32 @@ public class AuctionDetails {
 		this.serialNumber = serialNumber;
 	}
 
-	public boolean isHasVideo() {
-		return hasVideo;
+	public long getVideoId() {
+		return videoId;
 	}
 
-	public void setHasVideo(boolean hasVideo) {
-		this.hasVideo = hasVideo;
+	public void setHasVideo(long videoId) {
+		this.videoId = videoId;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public void setVideoId(long videoId) {
+		this.videoId = videoId;
+	}
+
+	public long getMinimalPrice() {
+		return minimalPrice;
+	}
+
+	public void setMinimalPrice(long minimalPrice) {
+		this.minimalPrice = minimalPrice;
 	}
 	
 }

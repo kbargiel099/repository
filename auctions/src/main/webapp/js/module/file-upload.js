@@ -34,13 +34,11 @@ function sentPackage(data){
     	"success": function(data){
     		bytesSent += size;
     		callback();
-			//console.log("pakiet wysłany");
 			jQuery('#status').html(parseFloat((bytesSent/videoData.length)*100).toFixed(0));
 			if(available > 0){
     			var data = createDataPackage();
     			sentPackage(data);
 			}else{
-				console.log("Koniec");
 				createReference();
 			}
     	}
@@ -57,7 +55,6 @@ function createReference(){
     		"name": file.name
     	},
     	"success": function(data){
-			console.log(data);
 			alert("Plik został zapisany");
     	}
     });

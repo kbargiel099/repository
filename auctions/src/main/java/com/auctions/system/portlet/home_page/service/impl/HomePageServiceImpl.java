@@ -17,16 +17,6 @@ public class HomePageServiceImpl implements HomePageService{
 	HomePageDAO dataSource;
 	
 	@Override
-	public boolean isUserExist(String login, String password) {
-		return dataSource.isUserExist(login, password);
-	}
-
-	@Override
-	public void getImages(long userId) {
-		dataSource.getImages(userId);
-	}
-	
-	@Override
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
 		return dataSource.getBestAuctionsByCategory(category);
 	}
@@ -34,15 +24,6 @@ public class HomePageServiceImpl implements HomePageService{
 	@Override
 	public List<AuctionPresenter> getNewestAuction(){
 		return dataSource.getNewestAuction();
-	}
-	
-	@Override
-	public List<UserProfileAuction> getUserBoughtSubjects(long userId){
-		return dataSource.getUserBoughtSubjects(userId);
-	}
-	@Override
-	public void createImage(){
-		dataSource.createImage();
 	}
 
 }

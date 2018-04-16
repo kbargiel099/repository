@@ -15,8 +15,6 @@ public interface UserProfileDAO {
 
 	public boolean isUserExist(String login, String password);
 	
-	public void getImages(long userId);
-	
 	public List<UserProfileAuction> getUserBoughtSubjects(long userId);
 	
 	public List<AuctionPresenter> getUserAuctions(long userId);
@@ -27,7 +25,7 @@ public interface UserProfileDAO {
 	
 	public List<SubCategory> getSubCategories();
 	
-	public boolean createUserAuction(long userId, Auction a, boolean hasVideo) throws ParseException;
+	public boolean createUserAuction(long userId, Auction a) throws ParseException;
 	
 	public boolean addAuctionGrade(long userId, AuctionGrade a);
 	

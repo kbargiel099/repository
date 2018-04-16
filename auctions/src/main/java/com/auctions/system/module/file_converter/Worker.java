@@ -8,8 +8,6 @@ import com.auctions.system.portlet.user_profile.model.Auction;
 public class Worker {
 
 	ExecutorService executor = Executors.newFixedThreadPool(2);
-/*	List<Future> futures = new ArrayList<Future>();*/
-	
 	
 	public void createFiles(final Auction auction, final boolean hasVideo){
 		executor.execute(new Runnable(){

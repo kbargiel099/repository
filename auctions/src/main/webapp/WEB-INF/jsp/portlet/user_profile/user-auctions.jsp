@@ -48,7 +48,7 @@
 				<div class="col-xs-12 col-sm-4 col-md-4">
 					<input type="hidden" name="id" value="${item.id}" />
 					<button class="btn btn-info" onclick="showDetails(this)" >
-						<strong><liferay-ui:message key="auction.details" /></strong>
+						<strong><liferay-ui:message key="manage" /></strong>
 					</button>	
 				</div>
 			</div>

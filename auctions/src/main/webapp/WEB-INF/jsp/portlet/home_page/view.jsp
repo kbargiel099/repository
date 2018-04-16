@@ -91,9 +91,3 @@
 </div> 
 
 <%-- <script src="<c:url value="/js/common/custom_slider.js" />"></script> --%>
-<%-- <script src="<c:url value="/js/common/image-util.js" />"></script> --%>
-<script>
-	jQuery(document).ready(function(){
-		//setSizeOfImages(160);
-	});
-</script>

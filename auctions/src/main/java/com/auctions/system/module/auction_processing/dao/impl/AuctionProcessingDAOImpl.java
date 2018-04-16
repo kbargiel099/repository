@@ -41,15 +41,15 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	public AuctionDetails getAuctionDetails(long auctionId){
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
 		
-		return dao.queryForObject("SELECT a.id,serial_number,a.name,i.image_name AS image_name,description,create_date,end_date,subject_price,has_video"
-				+ " FROM auction a,auction_image i WHERE a.id=i.auction_id AND a.id=?", 
+		return dao.queryForObject("SELECT id,serial_number,name,image_name,description,create_date,end_date,"
+				+ "subject_price,available,videoid,type_name,minimal_price FROM auction_details WHERE id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
 					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionDetails(res.getInt("id"),res.getString("serial_number"),
 								res.getString("name"),res.getString("description"),
 								sdf.format(res.getTimestamp("create_date")),sdf.format(res.getTimestamp("end_date")),res.getString("image_name"),
-								res.getBoolean("has_video"),10,res.getLong("subject_price"));
+								res.getString("type_name"),res.getLong("videoid"),res.getInt("available"),res.getLong("subject_price"),res.getLong("minimal_price"));
 				}
 			});
 	}
@@ -68,7 +68,7 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public String getVideoName(long id){
-		return dao.queryForObject("SELECT name FROM auction_video WHERE auctionid=?", 
+		return dao.queryForObject("SELECT v.name FROM auction_video v JOIN auction a on videoid=v.id WHERE a.id=?", 
 				new Object[]{id},new RowMapper<String>(){
 					@Override
 					public String mapRow(ResultSet res, int row) throws SQLException {

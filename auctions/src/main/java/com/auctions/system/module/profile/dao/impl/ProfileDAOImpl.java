@@ -39,23 +39,6 @@ public class ProfileDAOImpl implements ProfileDAO{
 	}
 	
 	@Override
-	public AuctionDetails getAuctionDetails(long auctionId){
-		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
-		
-		return dao.queryForObject("SELECT a.id,serial_number,a.name,i.image_name AS image_name,description,create_date,end_date,subject_price,has_video"
-				+ " FROM auction a,auction_image i WHERE a.id=i.auction_id AND a.id=?", 
-				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
-					@Override
-					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionDetails(res.getInt("id"),res.getString("serial_number"),
-								res.getString("name"),res.getString("description"),
-								sdf.format(res.getTimestamp("create_date")),sdf.format(res.getTimestamp("end_date")),res.getString("image_name"),
-								res.getBoolean("has_video"),10,res.getLong("subject_price"));
-				}
-			});
-	}
-	
-	@Override
 	public UserProfile getUserProfile(long userId){
 		return daoPortal.queryForObject("SELECT userid,screenname,firstname,lastname,emailaddress,createdate,logindate FROM user_ WHERE userid=?", 
 				new Object[]{userId},new RowMapper<UserProfile>(){

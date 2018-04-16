@@ -5,11 +5,6 @@
 
 <portlet:defineObjects />
 
-<portlet:resourceURL id="submitData" var="submitData">
-</portlet:resourceURL>
-
-<input type="hidden" id="submitDataUrl" value="${submitData}"></input>
-
 <div class="container-fluid">
 
 	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
@@ -19,5 +14,3 @@
 	</div>
 	    
 </div>
-
-<script src="<c:url value="/js/module/file-upload.js" />"></script>

@@ -37,8 +37,6 @@
 
     <tx:annotation-driven transaction-manager="txManager"/>
 
-    <!-- a PlatformTransactionManager is still required -->
-
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- (this dependency is defined somewhere else) -->
         <property name="dataSource" ref="dataSource"/>
@@ -60,8 +58,7 @@
 	  <property name="from" value="bardzi18@interia.pl"/>
 	  <property name="subject" value="Rejestracja"/>
 	</bean>
-	
-	
+		
 	<bean id="mailManager" class="com.auctions.system.module.mail_manager.impl.SimpleMailManager">
 	  <property name="mailSender" ref="mailSender"/>
 	  <property name="templateMessage" ref="templateMessage"/>

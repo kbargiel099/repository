@@ -7,6 +7,4 @@ public interface ProfileService {
 	
 	public UserProfile getUserProfile(long userId);
 	
-	public AuctionDetails getAuctionDetails(long id);
-
 }

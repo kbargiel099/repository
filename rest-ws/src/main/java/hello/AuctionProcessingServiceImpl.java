@@ -10,8 +10,18 @@ public class AuctionProcessingServiceImpl implements AuctionProcessingService{
 	AuctionProcessingDAO dataSource;
 	
 	@Override
-	public boolean insertData(long userId, long auctionId, long price, int quantity){
-		return dataSource.insertData(userId, auctionId,price,quantity);
+	public boolean proceedOffer(long userId, long auctionId, long price, int quantity){
+		return dataSource.proceedOffer(userId, auctionId,price,quantity);
+	}
+	
+	@Override
+	public boolean proceedPurchase(long userId, long auctionId, long price, int quantity){
+		return dataSource.proceedPurchase(userId, auctionId, price, quantity);
+	}
+	
+	@Override
+	public boolean markAuctionsEnded(){
+		return dataSource.markAuctionsEnded();
 	}
 	
 }

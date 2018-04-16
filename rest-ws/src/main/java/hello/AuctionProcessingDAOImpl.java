@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -23,17 +24,29 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	}
 
 	@Override
-	public boolean insertData(long userId, long auctionId, long price, int quantity) {
+	public boolean proceedOffer(long userId, long auctionId, long price, int quantity) {
 		int numberOfInsertedRows = dao.update("INSERT INTO auction_process(userid,auctionid,price,quantity,create_date) VALUES(?,?,?,?,current_timestamp)",
 				new Object[]{userId,auctionId,price,quantity});
 		return numberOfInsertedRows > 0 ? true : false;
 	}
 	
-	/*@Override
-	public boolean isUserExist(String login, String password){
-		return daoPortal.queryForObject("SELECT EXISTS (SELECT userid FROM user_ WHERE emailaddress=?)",
-				new Object[]{login}, Boolean.class);
-	}*/
+	@Override
+	public boolean proceedPurchase(long userId, long auctionId, long price, int quantity) {
+		int numberOfInsertedRows;
+		try{
+			numberOfInsertedRows = dao.update("INSERT INTO auction_purchase(userid,auctionid,price,quantity,create_date) VALUES(?,?,?,?,current_timestamp)",
+					new Object[]{userId,auctionId,price,quantity});
+		} catch(UncategorizedSQLException e){
+			e.printStackTrace();
+			return false;
+		}
+		return numberOfInsertedRows > 0 ? true : false;
+	}
 	
+	@Override
+	public boolean markAuctionsEnded() {
+		int numberOfInsertedRows = dao.update("UPDATE auction SET statusid=2 WHERE end_date < current_date");
+		return numberOfInsertedRows > 0 ? true : false;
+	}
 
 }

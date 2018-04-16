@@ -41,11 +41,12 @@
 				</div>
 				<div class="form-group">
 		           <form:label class="label-control" path="auctionTypeId" name="auctionTypeId"><liferay-ui:message key="auction.type.label" /></form:label>
-		           <form:select class="selectpicker form-control" path="auctionTypeId" id="auctionTypeId" name="auctionTypeId" title="${selectTitle}">   		
+					<select class="selectpicker form-control" id="auctionTypeIdSelect" title="${selectTitle}"> 		
 						<c:forEach items="${auctionTypes}" var="item">
 							<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
 						</c:forEach>
-		           </form:select>
+		           </select>
+		           <form:input type="hidden" path="auctionTypeId" id="auctionTypeId" name="auctionTypeId" value=""/>
 				</div>
 				<div class="form-group">
 		           <form:label class="label-control" path = "subjectQuantity" name="subjectQuantity"><liferay-ui:message key="auction.subjectQuantity.label" /></form:label>
@@ -61,15 +62,15 @@
 						<img id="output" height="100%" width="100%"/>
 					</div>
 				</div>
-				<div class="form-group">
+<%-- 				<div class="form-group">
 					<label class="label-control" name="attachVideo" ><liferay-ui:message key="auction.attachVideo.label" /></label>
-				</div>
+				</div> 
 				<div>
 					<input type="file" name="videoFilechooser" id="videoFilechooser" onchange="handleVideoFile(event)"/>
 					<div class="form-group">
 						<output id="list"></output>
 					</div>
-				</div>
+				</div> --%>
 			</div>
 			<div class="col-xs-12 col-sm-8 col-md-4">
 				<div class="form-group">
@@ -84,7 +85,7 @@
 		           <form:input type="hidden" path = "subjectPrice" id="subjectPrice" name="subjectPrice"></form:input>
 				</div>
 				<div class="form-group">
-				 <form:label class="label-control" path = "categoryId" name="categoryId"><liferay-ui:message key="auction.category.label" /></form:label>
+				    <form:label class="label-control" path = "categoryId" name="categoryId"><liferay-ui:message key="auction.category.label" /></form:label>
 					<select class="selectpicker form-control" id="categoryIdSelect" title="${selectTitle}">
 						<c:forEach items="${categories}" var="item">
 							<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
@@ -93,24 +94,19 @@
 					</select>
 				</div>
 				<div class="form-group">
-				 <form:label class="label-control" path = "subCategoryId" name="subCategoryId"><liferay-ui:message key="auction.subcategory.label" /></form:label>
+				    <form:label class="label-control" path = "subCategoryId" name="subCategoryId"><liferay-ui:message key="auction.subcategory.label" /></form:label>
 					<select class="selectpicker form-control" id="subCategoryIdSelect" title="${selectTitle}">
 					</select>
 					<form:input type="hidden" path="subCategoryId" id="subCategoryId" name="subCategoryId" value=""/>
 				</div>
-	  		</div>
-	  		<div class="col-xs-12 col-sm-8 col-md-8">
-	  			<div class="form-group">
-		           <form:label class="label-control" path = "description" name="description"><liferay-ui:message key="auction.description.label" /></form:label>
-		           <form:textarea  rows="5" class="form-control" id="description" path = "description" name="description"></form:textarea>
+		  		<div class="form-group">
+			        <form:label class="label-control" path = "description" name="description"><liferay-ui:message key="auction.description.label" /></form:label>
+			        <form:textarea  rows="5" class="form-control" id="description" path = "description" name="description"></form:textarea>
 				</div>
-	  		</div>
-	  		<div class="row col-xs-12 col-sm-8 col-md-8">
 				<div class="form-group">
-			        <!-- <input class="btn btn-primary pull-right" type="submit" onclick="createComfirmation(event)" value="<liferay-ui:message key="submit"/> "> -->
 			  		<input class="btn btn-primary pull-right" type="submit" value="<liferay-ui:message key="submit"/> ">
 			  	</div>
-		  	</div>            
+	  		</div>          
 	      </form:form>
 	   </div>
 </div>
@@ -151,6 +147,11 @@
 		jQuery("#subCategoryId").val(id);
 	});
 	
+	jQuery("#auctionTypeIdSelect").change(function(){
+		var id = jQuery("#auctionTypeIdSelect option:selected").val();
+		jQuery("#auctionTypeId").val(id);
+	});
+	
 	jQuery("input[type='date']").change(function(){
 		var date = new Date(this.value);
 		var timestamp = date.getTime();
@@ -161,15 +162,6 @@
 		var value = jQuery("#price").val();
 		jQuery('#subjectPrice').val(value * 100);
 	});
-	
-/* 	function createComfirmation(event){
-		event.preventDefault();
-		var message = Liferay.Language.get("auction.message.success");
-		var url = jQuery("#getBoughtUrl").val();
-		//showAlert("alert alert-success",message,url,false);
-		bootbox.alert(message)
-		//showSaving();
-	} */
 	
 	var loadFile = function(event) {
 	    reader.onload = function(){
@@ -182,7 +174,7 @@
 	    reader.readAsDataURL(event.target.files[0]);
 	};
 
-	function handleVideoFile(event) {
+/* 	function handleVideoFile(event) {
 	    var file = event.target.files[0];
         var output = '<li><strong>' + escape(file.name) + '</strong></li>';
 	    document.getElementById('list').innerHTML = '<ul>' + output + '</ul>';
@@ -191,7 +183,7 @@
 			jQuery("#videoData").val(getBase64(reader.result));
 	    };
 	    reader.readAsDataURL(file);
-	  }
+	  } */
 	  
 	  function getBase64(source) {
 	  	return source.replace(/^data:(image|video)\/(png|jpg|jpeg|mp4|webm);base64,/, "");

@@ -23,11 +23,6 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 	
 	@Override
-	public AuctionPresenter getBestAuctionsById(int auctionId){
-		return dataSource.getBestAuctionsById(auctionId);
-	}
-	
-	@Override
 	public List<SubCategory> getSubCategories(String categoryName){
 		return dataSource.getSubCategories(categoryName);
 	}

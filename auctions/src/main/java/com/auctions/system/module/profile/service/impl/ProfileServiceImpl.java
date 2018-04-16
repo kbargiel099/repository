@@ -18,8 +18,4 @@ public class ProfileServiceImpl implements ProfileService {
 		return dataSource.getUserProfile(userId);
 	}
 	
-	public AuctionDetails getAuctionDetails(long auctionId){
-		return dataSource.getAuctionDetails(auctionId);
-	}
-
 }

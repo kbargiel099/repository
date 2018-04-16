@@ -10,8 +10,6 @@ public interface CategoryService{
 	
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category);
 	
-	public AuctionPresenter getBestAuctionsById(int auctionId);
-	
 	public List<SubCategory> getSubCategories(String categoryName);
 	
 	public List<AuctionPresenter> getAuctionsBySubcategory(int id);

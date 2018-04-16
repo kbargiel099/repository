@@ -7,6 +7,4 @@ public interface ProfileDAO {
 	
 	public UserProfile getUserProfile(long userId);
 	
-	public AuctionDetails getAuctionDetails(long auctionId);
-
 }
