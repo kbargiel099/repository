@@ -114,11 +114,8 @@
 		  });
 		});
 		
- 	function getUrlById(id){
-		return jQuery('#'+ id).val();
-	} 
  	function createElement(data){
-		var url = getUrlById('detailsUrl');
+		var url = jQuery('#detailsUrl').val();
 		var elem =  '<div class="category-view-auction row">'
 					+'<div class="col-xs-12 col-sm-12 col-md-4">'
 					+'<a class="text-center" href="#">'
@@ -135,13 +132,13 @@
  	} 
 	
  	function showDetails(obj){
- 		var url = getUrlById('detailsUrl');
+ 		var url = jQuery('#detailsUrl').val();
  		var id = jQuery(obj).parent().find('input').val();
  		location.href = buildUrl(url,'id',id);
  	}
  	
  	function getBySubcategory(obj){
- 		var url = getUrlById('getBySubcategoryUrl');
+ 		var url = jQuery('#getBySubcategoryUrl').val();
  		var id = jQuery(obj).parent().find('input').val();
   		jQuery.ajax({
 			"url" : url,
@@ -164,6 +161,7 @@
 		var url = jQuery("#searchTextUrl").val();
 		var searching = JSON.stringify(jQuery("#searchingForm")
 				.serializeObject());
+		console.log(searching);
   		jQuery.ajax({
 			"url" : url,
 			"type" : "POST",

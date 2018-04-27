@@ -14,10 +14,11 @@ public class AuctionProcessing {
 	@Autowired
 	AuctionProcessingService service;
 	
-	public ModelAndView createAuctionDetailsView(long id){
+	public ModelAndView createAuctionDetailsView(long id,long userId){
 		ModelAndView model = new ModelAndView(detailsView);
 		model.addObject("auction",service.getAuctionDetails(id));
 		model.addObject("seller", service.getSellerDetails(20155));
+		model.addObject("isObserved",service.isObserved(userId, id));
 		return model;
 		
 	}	
@@ -25,6 +26,15 @@ public class AuctionProcessing {
 	public String getVideoName(long id){
 		String name = service.getVideoName(id);
 		return name.split("\\.")[0];
+	}
+	
+	public boolean createObservation(long userId, long auctionId){
+		return service.createObservation(userId, auctionId);
+	}
+	
+	public boolean removeObservation(long userId, long auctionId){
+		
+		return service.removeObservation(userId, auctionId);
 	}	
 }
 

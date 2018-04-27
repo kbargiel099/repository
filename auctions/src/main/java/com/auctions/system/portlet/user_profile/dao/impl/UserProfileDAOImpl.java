@@ -1,16 +1,10 @@
 package com.auctions.system.portlet.user_profile.dao.impl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.Base64;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +16,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.auctions.system.module.Properties;
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
@@ -31,13 +24,6 @@ import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
-
-import it.sauronsoftware.jave.AudioAttributes;
-import it.sauronsoftware.jave.Encoder;
-import it.sauronsoftware.jave.EncoderException;
-import it.sauronsoftware.jave.EncodingAttributes;
-import it.sauronsoftware.jave.VideoAttributes;
-import it.sauronsoftware.jave.VideoSize;
 
 @Repository("userProfileDAO")
 public class UserProfileDAOImpl implements UserProfileDAO{
@@ -66,21 +52,35 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	}
 	
 	@Override
-	public List<UserProfileAuction> getUserBoughtSubjects(long userId){
-		return dao.query("SELECT a.name,i.image_name AS image_name FROM auction a,auction_image i WHERE a.id=i.auction_id AND userid=?", 
-				new Object[]{userId},new RowMapper<UserProfileAuction>(){
+	public List<AuctionPresenter> getUserBoughtSubjects(long userId){
+		return dao.query("SELECT auctionid,name,image_name,p.quantity,p.create_date,p.price FROM auction_main m"
+						 + " JOIN auction_purchase p ON id=auctionid WHERE p.userid=?", 
+				new Object[]{userId},new RowMapper<AuctionPresenter>(){
 					@Override
-					public UserProfileAuction mapRow(ResultSet res, int row) throws SQLException {
-						return new UserProfileAuction(res.getString("name"),
-								res.getString("image_name"));
-				}
+					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionPresenter(res.getInt("auctionid"),res.getString("name"),res.getString("image_name"),
+								res.getLong("subject_price"));
+					}
+				
 			});
 	}
 	
 	@Override
 	public List<AuctionPresenter> getUserAuctions(long userId){
-		return dao.query("SELECT a.id,a.name,i.image_name AS image_name,subject_price FROM auction a,auction_image i"
-				+ " WHERE a.id=i.auction_id AND a.userid = ?", 
+		return dao.query("SELECT id,name,image_name,subject_price FROM auction_profile_view WHERE userid=?", 
+				new Object[]{userId},new RowMapper<AuctionPresenter>(){
+					@Override
+					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
+								res.getLong("subject_price"));
+				}
+			});
+	}
+	
+	@Override
+	public List<AuctionPresenter> getUserObservation(long userId){
+		return dao.query("SELECT id,name,image_name,subject_price FROM auction_main"
+				+ " JOIN auction_observation ON id=auctionid WHERE userid=?", 
 				new Object[]{userId},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {

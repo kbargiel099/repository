@@ -34,7 +34,11 @@ import com.auctions.system.portlet.user_registration.validator.UserValidator;
 import com.auctions.system.portlet.users_management.model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 /**
@@ -123,20 +127,20 @@ public class UserRegistration{
 		
 		boolean autoPassword = false;
 		long facebookId = 0;
-		long companyId = 20116;
+		long companyId = 20115;
 		int prefixId = 0;
 		int suffixId = 0;
 		boolean male = true;
-		int birthdayMonth = 0;
-		int birthdayDay = 0;
-		int birthdayYear = 0;
+		int birthdayMonth = 1;
+		int birthdayDay = 10;
+		int birthdayYear = 1980;
 		String jobTitle = null;
 		long[] organizationIds = null;
-		long[] roleIds = new long[]{20126};
+		long[] roleIds = new long[]{20125};
 		long[] userGroupIds = new long[]{};
 		boolean sendMail = false;
 
-		/*try {
+		try {
 			UserLocalServiceUtil.addUser(
 				0, companyId, autoPassword, user.getPassword(), user.getPassword(),
 				autoPassword, user.getLogin(), user.getEmail(), facebookId, null,
@@ -147,7 +151,7 @@ public class UserRegistration{
 		} catch (PortalException e) {
 			isCreated = false;
 			e.printStackTrace();
-		}*/
+		}
 		
 		mailManager.sendMail(user.getEmail(),user.getFirstname(),themeDisplay.getLocale());
 		

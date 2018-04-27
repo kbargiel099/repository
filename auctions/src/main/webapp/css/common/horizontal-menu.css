@@ -56,3 +56,7 @@
 .div-layout {
 	height: 100vh;
 }
+
+#proceed-form .form-group {
+	margin: 0;
+}

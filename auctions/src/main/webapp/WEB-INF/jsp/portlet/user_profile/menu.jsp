@@ -19,10 +19,13 @@
 	<portlet:param name="page" value="mySettings"/>
 </portlet:renderURL>
 <portlet:renderURL var="createNewAuctionRender">
-	<portlet:param name="page" value="createNewAuction"/>
+	<portlet:param name="page" value="createNewAuction"/> 
 </portlet:renderURL>
 <portlet:renderURL var="addGradeRender">
 	<portlet:param name="page" value="addGrade"/>
+</portlet:renderURL>
+<portlet:renderURL var="observationsRender">
+	<portlet:param name="page" value="observations"/>
 </portlet:renderURL>
 <portlet:renderURL var="myAuctionsRender">
 	<portlet:param name="page" value="myAuctions"/>
@@ -36,6 +39,7 @@
 		  <li class="horizontal-menu-item"><a href="${mySettingsRender}"><liferay-ui:message key="user.settings.label" /></a></li>
 		  <li class="horizontal-menu-item"><a href="${createNewAuctionRender}"><liferay-ui:message key="user.create.auction.label" /></a></li>
 		  <li class="horizontal-menu-item"><a href="${addGradeRender}"><liferay-ui:message key="user.add.grade.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="${observationsRender}"><liferay-ui:message key="user.observation.label" /></a></li>
 		  <li class="horizontal-menu-item"><a href="${myAuctionsRender}"><liferay-ui:message key="user.auctions.label" /></a></li>
 		</ul>
 	</div>

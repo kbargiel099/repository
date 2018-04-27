@@ -38,7 +38,7 @@
 	    </div>
 	    <div>
 <!-- 	    <p class="text-center"><a class="btn btn-primary" href="javascript:submitLogin();" id="submitLogin">Wyślij</a></p> -->
-	     	<p class="text-center" style="padding-top: 30px;"><a class="btn btn-primary" type="submit" id="submitLogin">Wyślij</a></p>
+	     	<p class="text-center" style="padding-top: 30px;"><a class="btn btn-primary" type="submit" id="submitLogin"><liferay-ui:message key="send.form" /></a></p>
 	  	</div>
   	</form>
   </div>

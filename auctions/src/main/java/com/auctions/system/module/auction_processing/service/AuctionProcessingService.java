@@ -10,5 +10,11 @@ public interface AuctionProcessingService {
 	public AuctionDetails getAuctionDetails(long id);
 	
 	public String getVideoName(long id);
+	
+	public boolean createObservation(long userId,long auctionId);
+	
+	public boolean removeObservation(long userId,long auctionId);
+	
+	public boolean isObserved(long userId,long auctionId);
 
 }

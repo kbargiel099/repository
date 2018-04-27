@@ -34,7 +34,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	@Override//do przerobienia
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
-		return dao.query("SELECT id,name,image_name,subject_price,category_name FROM auction_category WHERE category_name=?", 
+		return dao.query("SELECT id,name,image_name,subject_price,category_name FROM auction_main WHERE category_name=?", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
@@ -48,10 +48,8 @@ public class CategoryDAOImpl implements CategoryDAO{
 		String tempSearch = "%"+form.getSearchingText()+"%";
 		
 		return dao.query("SELECT id,name,image_name AS image_name,subject_price FROM auction_search "
-				+ "WHERE lower(name) LIKE lower(?) AND category_name=? "
-				+ "AND CASE WHEN ?<>'' AND ?<>'' THEN subject_price BETWEEN CAST(? AS BIGINT) AND CAST(? AS BIGINT) "
-                + "ELSE subject_price >= 0 END", 
-				new Object[]{tempSearch,form.getCurrentCategory(),form.getMinPrice(),form.getMaxPrice(),form.getMinPrice(),form.getMaxPrice()},
+				+ "WHERE lower(name) LIKE lower(?) AND category_name=? " + preprareQueryForSearching(form), 
+				new Object[]{tempSearch,form.getCurrentCategory()},
 				new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
@@ -59,6 +57,24 @@ public class CategoryDAOImpl implements CategoryDAO{
 								res.getLong("subject_price"));
 				}
 			});
+	}
+	
+	private String preprareQueryForSearching(SearchingForm form){
+		String query = "";
+		boolean hasMin = form.getMinPrice().isEmpty() ? false : true;
+		boolean hasMax = form.getMaxPrice().isEmpty() ? false : true;
+		
+		if(hasMin && hasMax){
+			query += " AND subject_price BETWEEN CAST('"+ form.getMinPrice() +"' AS BIGINT) AND CAST('"+ form.getMaxPrice() +"' AS BIGINT) ";
+		}else if(hasMin && !hasMax){
+			query += " AND subject_price >= CAST('"+ form.getMinPrice() +"' AS BIGINT) ";
+		}else if(!hasMin && hasMax){
+			query =  " AND subject_price <= CAST('"+ form.getMaxPrice() +"' AS BIGINT)";
+		}else{
+			query += " AND subject_price >= 0 ";
+		}
+		return query;
+		
 	}
 	
 	@Override

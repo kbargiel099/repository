@@ -10,5 +10,11 @@ public interface AuctionProcessingDAO {
 	public AuctionDetails getAuctionDetails(long auctionId);
 	
 	public String getVideoName(long id);
+	
+	public boolean createObservation(long userId,long auctionId);
+	
+	public boolean removeObservation(long userId,long auctionId);
+	
+	public boolean isObserved(long userId,long auctionId);
 
 }

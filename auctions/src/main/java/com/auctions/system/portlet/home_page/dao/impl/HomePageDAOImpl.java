@@ -15,12 +15,10 @@ import org.springframework.stereotype.Repository;
 
 import com.auctions.system.portlet.home_page.dao.HomePageDAO;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
-import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 
 @Repository("homePageDAO")
 public class HomePageDAOImpl implements HomePageDAO{
 
-	private JdbcTemplate daoPortal;
 	private JdbcTemplate dao;
 	
 	@Autowired
@@ -33,7 +31,6 @@ public class HomePageDAOImpl implements HomePageDAO{
 	
 	@PostConstruct
 	public void init() {
-		daoPortal = new JdbcTemplate(dataSourcePortal);
 		dao = new JdbcTemplate(dataSource);
 	}
 	

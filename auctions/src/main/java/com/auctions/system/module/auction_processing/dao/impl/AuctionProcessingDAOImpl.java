@@ -76,5 +76,30 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 				}
 		});
 	}
+	
+	@Override
+	public boolean createObservation(long userId,long auctionId){
+		int numberOfInsertedRows = dao.update("INSERT INTO auction_observation(userid,auctionid) VALUES(?,?)", 
+				new Object[]{userId,auctionId});
+		return numberOfInsertedRows > 0 ? true : false;
+	}
+	
+	@Override
+	public boolean removeObservation(long userId,long auctionId){
+		int numberOfDeletedRows = dao.update("DELETE FROM auction_observation WHERE userid=? AND auctionid=?", 
+				new Object[]{userId,auctionId});
+		return numberOfDeletedRows > 0 ? true : false;
+	}
+	
+	@Override
+	public boolean isObserved(long userId,long auctionId){
+		return dao.queryForObject("SELECT CASE WHEN EXISTS (SELECT 1 FROM auction_observation WHERE userid=? AND auctionid=?) THEN true ELSE false END", 
+				new Object[]{userId,auctionId},new RowMapper<Boolean>(){
+					@Override
+					public Boolean mapRow(ResultSet res, int row) throws SQLException {
+						return res.getBoolean(1);
+				}
+		});
+	}
 
 }

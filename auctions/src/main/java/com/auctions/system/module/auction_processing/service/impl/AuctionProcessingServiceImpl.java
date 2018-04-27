@@ -25,5 +25,17 @@ public class AuctionProcessingServiceImpl implements AuctionProcessingService {
 	public String getVideoName(long id){
 		return dataSource.getVideoName(id);
 	}
+	
+	public boolean createObservation(long userId,long auctionId){
+		return dataSource.createObservation(userId, auctionId);
+	}
+	
+	public boolean removeObservation(long userId,long auctionId){
+		return dataSource.removeObservation(userId, auctionId);
+	}
+	
+	public boolean isObserved(long userId,long auctionId){
+		return dataSource.isObserved(userId, auctionId);
+	}
 
 }

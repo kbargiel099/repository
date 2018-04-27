@@ -15,9 +15,11 @@ public interface UserProfileService {
 
 	public boolean isUserExist(String login, String password);
 	
-	public List<UserProfileAuction> getUserBoughtSubjects(long userId);
+	public List<AuctionPresenter> getUserBoughtSubjects(long userId);
 	
 	public List<AuctionPresenter> getUserAuctions(long userId);
+	
+	public List<AuctionPresenter> getUserObservation(long userId);
 	
 	public boolean createAuctionVideo(long auctionId, String videoName);
 	

@@ -52,6 +52,7 @@ public class UserProfileController {
 	private final String userBoughtView = "user-bought";
 	private final String userSoldView = "user-sold";
 	private final String userAuctionsView = "user-auctions";
+	private final String userObservationView = "user-observation";
 	private final String managementView = "management";
 	
 	@Autowired
@@ -112,6 +113,14 @@ public class UserProfileController {
 	public ModelAndView userAuctionsAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(userAuctionsView);
 		model.addObject("auctions", service.getUserAuctions(
+				PortalUtil.getUserId(request)));
+		return model;
+	}
+	
+	@RequestMapping(params = "page=observations")
+	public ModelAndView userObservationAction(RenderRequest request, RenderResponse response){
+		ModelAndView model = new ModelAndView(userObservationView);
+		model.addObject("auctions", service.getUserObservation(
 				PortalUtil.getUserId(request)));
 		return model;
 	}
@@ -221,8 +230,8 @@ public class UserProfileController {
 	@RequestMapping(params = "page=auctionDetails")
 	public ModelAndView getAuctionDetails(RenderRequest request, RenderResponse response,
 			@RequestParam("id") long id) throws Exception{
-		
-		return auctionProcessing.createAuctionDetailsView(id);
+		long userId = PortalUtil.getUserId(request);
+		return auctionProcessing.createAuctionDetailsView(id,userId);
 	}
 	
 	@RequestMapping(params = "page=userProfile")
@@ -230,6 +239,28 @@ public class UserProfileController {
 			@RequestParam("id") long id) throws Exception{
 		
 		return profile.createUserProfileView(id);
+	}
+	
+	@ResourceMapping("createObservation")
+	public void createObservation(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("success",auctionProcessing
+				.createObservation(PortalUtil.getUserId(request), id));
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
+	
+	@ResourceMapping("removeObservation")
+	public void removeObservation(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("success",auctionProcessing
+				.removeObservation(PortalUtil.getUserId(request), id));
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
 	}
 
 }

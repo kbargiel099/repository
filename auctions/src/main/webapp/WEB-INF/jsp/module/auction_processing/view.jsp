@@ -19,8 +19,17 @@
 <portlet:resourceURL id="getVideoName" var="getVideoName">
 	<portlet:param name="auctionId" value="${auction.id}" />
 </portlet:resourceURL>
-
 <input type="hidden" id="getVideoNameUrl" value="${getVideoName}"></input>
+
+<portlet:resourceURL id="createObservation" var="createObservation">
+	<portlet:param name="auctionId" value="${auction.id}" />
+</portlet:resourceURL>
+<input type="hidden" id="createObservationUrl" value="${createObservation}"></input>
+
+<portlet:resourceURL id="removeObservation" var="removeObservation">
+	<portlet:param name="auctionId" value="${auction.id}" />
+</portlet:resourceURL>
+<input type="hidden" id="removeObservationUrl" value="${removeObservation}"></input>
 
 <div class="container">
 	<div id="validation-info" class="alert alert-danger" style="display: none;">
@@ -112,6 +121,19 @@
 				</h5>
 			</div>
 			<div class="col-xs-12 col-sm-5 col-md-5">
+				<div id="removeObservation" style="display: none;">
+					<strong><liferay-ui:message key="currently.observe" /></strong>  
+					<a id="remove-observe" href="javascript:void(0);">
+						<strong><liferay-ui:message key="remove.observe" /></strong>
+					</a>
+				</div>
+				<div id="createObservation" style="display: none;">
+					<a id="create-observe" href="javascript:void(0);">
+						<strong><liferay-ui:message key="create.observe" /></strong>
+					</a>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-5 col-md-5">
 				<h5><strong><liferay-ui:message key="create.date" /></strong>  - ${auction.createDate}</h5>
 				<h5><strong><liferay-ui:message key="end.date" /></strong> - ${auction.endDate}</h5>
 			</div>
@@ -121,37 +143,35 @@
 				<h5><strong><liferay-ui:message key="available.quantity" /></strong> - ${auction.subjectQuantity} sztuk</h5>
 			</div>
 			<div class="col-xs-12 col-sm-5 col-md-5">
-				<form id="proceed-form">
 					<c:choose>
-						<c:when test="${auction.typeName == 'multi_subject'}">
-							<div class="form-group">
-								<h5><strong><liferay-ui:message key="enter.price" /></strong> </h5><input id="price-input" name="price-input" type="text" />
-							</div>
-							<div class="form-group">
-								<h5><strong><liferay-ui:message key="enter.quantity" /></strong> </h5><input id="quantity-input" name="quantity-input" type="text" />
-							</div>
-							<input type="submit" id="raiseStakeBtn" class="btn btn-primary" value="<liferay-ui:message key="raise.stake.btn" />"/>
-						</c:when>
 						<c:when test="${auction.typeName == 'quick_purchase'}">
-							<c:if test="${auction.subjectQuantity > 1}">
-								<div class="form-group">
-									<h5><strong><liferay-ui:message key="enter.quantity" /></strong> </h5><input id="quantity-input" name="quantity-input" type="text" />
+							<form id="proceed-form">
+								<c:if test="${auction.subjectQuantity > 1}">
+									<div class="form-group">
+										<h5><strong><liferay-ui:message key="enter.quantity" /></strong> </h5><input id="quantity-input" name="quantity-input" type="text" />
+									</div>
+								</c:if>
+								<input type="submit" id="quickPurchaseBtn" class="btn btn-primary" value="<liferay-ui:message key="purchase.btn" />"/>
+								<div id ="refreshPage" style="display: none;">
+									<strong><liferay-ui:message key="refresh.notify" /></strong>
+									<input type="button" id="refreshBtn" class="btn btn-info" value="<liferay-ui:message key="refresh.btn" />"/>
 								</div>
-							</c:if>
-							<input type="submit" id="quickPurchaseBtn" class="btn btn-primary" value="<liferay-ui:message key="purchase.btn" />"/>
-							<div id ="refreshPage" style="display: none;">
-								<strong><liferay-ui:message key="refresh.notify" /></strong>
-								<input type="button" id="refreshBtn" class="btn btn-info" value="<liferay-ui:message key="refresh.btn" />"/>
-							</div>
+							</form>
 						</c:when>
 						<c:otherwise>
-							<div class="form-group">
-								<h5><strong><liferay-ui:message key="enter.price" /></strong> </h5><input id="price-input" name="price-input" type="text" />
-							</div>
-							<input type="submit" id="raiseStakeBtn" class="btn btn-primary" value="<liferay-ui:message key="raise.stake.btn" />"/>
+							<form id="proceed-form">
+								<div class="form-group">
+									<h5><strong><liferay-ui:message key="enter.price" /></strong> </h5><input id="price-input" name="price-input" type="text" />
+								</div>
+								<c:if test="${auction.subjectQuantity > 1}">
+									<div class="form-group">
+										<h5><strong><liferay-ui:message key="enter.quantity" /></strong> </h5><input id="quantity-input" name="quantity-input" type="text" />
+									</div>
+								</c:if>
+								<input type="submit" id="raiseStakeBtn" class="btn btn-primary" value="<liferay-ui:message key="raise.stake.btn" />"/>
+							</form>
 						</c:otherwise>
 					</c:choose>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -173,6 +193,7 @@
 <input type="hidden" id="currentPrice" value="${auction.subjectPrice}"/>
 <input type="hidden" id="endDate" value="${auction.endDate}"/>
 <input type="hidden" id="quantity" value="${auction.subjectQuantity}"/>
+<input type="hidden" id="isObserved" value="${isObserved}"/>
 
 <input type="hidden" id="successMsg" value="<liferay-ui:message key="raise.stake.success.msg" />"/>
 <input type="hidden" id="userIsNotSignedInMsg" value="<liferay-ui:message key="user.is.not.signed.in.msg" />"/>

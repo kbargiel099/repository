@@ -19,6 +19,7 @@ import com.auctions.system.module.auction_processing.controller.AuctionProcessin
 import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.home_page.service.HomePageService;
 import com.google.gson.JsonObject;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 /**
  * Portlet implementation class HomePageController
@@ -36,7 +37,7 @@ public class HomePageController {
 	@Autowired
 	ProfileController profile;
 	
-	@RenderMapping
+	@RenderMapping()
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
 
 		ModelAndView model = new ModelAndView(defaultView);
@@ -49,7 +50,8 @@ public class HomePageController {
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response,
 			@RequestParam("id") long id) throws Exception{
 		
-		return auctionProcessing.createAuctionDetailsView(id);
+		long userId = PortalUtil.getUserId(request);
+		return auctionProcessing.createAuctionDetailsView(id,userId);
 	}
 	
 	@RequestMapping(params = "page=userProfile")
@@ -64,6 +66,28 @@ public class HomePageController {
 			@RequestParam("auctionId") int id) throws IOException{	
 		JsonObject obj = new JsonObject();
 		obj.addProperty("name", auctionProcessing.getVideoName(id));
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
+	
+	@ResourceMapping("createObservation")
+	public void createObservation(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("success",auctionProcessing
+				.createObservation(PortalUtil.getUserId(request), id));
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
+	
+	@ResourceMapping("removeObservation")
+	public void removeObservation(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("success",auctionProcessing
+				.removeObservation(PortalUtil.getUserId(request), id));
+		
 		response.setContentType("application/json");
 		response.getWriter().write(obj.toString());
 	}
