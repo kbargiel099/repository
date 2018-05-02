@@ -33,6 +33,7 @@ import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
 import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.category.model.SubCategory;
+import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
@@ -90,7 +91,7 @@ public class UserProfileController {
 	public ModelAndView getBoughtAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(userBoughtView);
 		
-		List<UserProfileAuction> userBoughtSubjects = service.getUserBoughtSubjects(
+		List<AuctionPresenter> userBoughtSubjects = service.getUserBoughtSubjects(
 				PortalUtil.getUserId(request));
 				
 		model.addObject("subjects", userBoughtSubjects);

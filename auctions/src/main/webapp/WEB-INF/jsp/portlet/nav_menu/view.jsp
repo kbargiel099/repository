@@ -1,10 +1,13 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<portlet:defineObjects />
+<portlet:defineObjects/>
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/portlet/navigation_menu/nav-main.css" />" /> 
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/chat/_message_popup.css" />" /> 
 
 <nav class="navbar navbar-inverse" style="background-color: #2d67f6;">
  	<div class="container-fluid">
@@ -31,6 +34,27 @@
 		        <li><a href="#"><liferay-ui:message key="occasions"/></a></li>
 		    </ul>
 		    <ul class="nav navbar-nav navbar-right">
+		    	<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Poczta
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+					<c:choose>
+						<c:when test="${fn:length(messages) gt 0}">
+							<c:forEach items="${messages}" var="it">
+							
+								<portlet:resourceURL id="getMessagesFromUser" var="getMessagesFromUser">
+									<portlet:param name="userId" value="${it.senderId}" />
+								</portlet:resourceURL>
+								<li><a id="${it.senderId}" href="javascript:register_popup(${it.senderId}, '${it.screenName}','${getMessagesFromUser}');">Wiadomość od ${it.screenName}</a></li>
+							
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<li><a href="javascript:void(0);">Brak nowych wiadomości</a></li>
+						</c:otherwise>
+					</c:choose>
+					</ul>
+				</li>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#"><liferay-ui:message key="language" />
 					<span class="caret"></span></a>
@@ -43,3 +67,10 @@
     </div>
   </div>
 </nav>
+
+<script src="<c:url value="/js/portlet/navigation_menu/notify-proceed.js" />"></script>
+<script src="<c:url value="/js/portlet/navigation_menu/message_popup.js" />"></script>
+<script>
+	
+</script>
+

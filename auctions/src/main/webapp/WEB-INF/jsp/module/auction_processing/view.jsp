@@ -8,7 +8,7 @@
 <portlet:defineObjects />
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/module/custom-table.css" />" >
+<%-- <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/custom-table.css" />" > --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/notify-modal.css" />" >
 
 <portlet:renderURL var="getUserProfile">
@@ -202,8 +202,8 @@
 <input type="hidden" id="currency" value="<liferay-ui:message key="currency" />"/>
 
 <script src="<c:url value="/js/module/notify-modal.js" />"></script>
-<script src="<c:url value="/js/module/sockjs.min.js" />"></script>
-<script src="<c:url value="/js/module/stomp.min.js" />"></script>
+<%-- <script src="<c:url value="/js/module/sockjs.min.js" />"></script>
+<script src="<c:url value="/js/module/stomp.min.js" />"></script> --%>
 <script src="<c:url value="/js/module/app.js" />"></script>
 <script>
 var canPlayMPEG4;

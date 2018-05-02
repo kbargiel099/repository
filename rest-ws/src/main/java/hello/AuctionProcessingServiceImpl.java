@@ -1,5 +1,7 @@
 package hello;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,11 @@ public class AuctionProcessingServiceImpl implements AuctionProcessingService{
 	@Override
 	public boolean markAuctionsEnded(){
 		return dataSource.markAuctionsEnded();
+	}
+	
+	@Override
+	public boolean createChatMessage(long senderId,long receiverId, String message, Date date){
+		return dataSource.createChatMessage(senderId, receiverId, message, date);
 	}
 	
 }

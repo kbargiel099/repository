@@ -10,7 +10,7 @@ var isWait = false;
 var isQuickPurchase = jQuery('#type').val() == 'quick_purchase' ? true : false;
 
 jQuery(document).ready(function(){
-	connect();
+	connect2();
 	provideValidation();
 	showObservation();
 });
@@ -70,7 +70,7 @@ jQuery('#remove-observe').click(function(){
 });
 
 
-function connect() {
+function connect2() {
     var socket = new SockJS('http://192.168.0.15:8143/notification');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
@@ -117,7 +117,7 @@ function addOfferToList(res) {
 	row.append(col1,col2,col3).prependTo('#auction-notify table tbody');
 }
 
-function sendForm() {
+function sendForm2() {
 	if(!isWait){
 	    isWait = true;
 	    senderClient = true;
@@ -155,7 +155,7 @@ function updatePriceValidation(){
 	jQuery( "#raiseStakeBtn" ).click(function() { 
 		if(Liferay.ThemeDisplay.isSignedIn()){
 			if(validate()){
-				sendForm();
+				sendForm2();
 			}else{
 			    jQuery('#validation-info').show();
 			}

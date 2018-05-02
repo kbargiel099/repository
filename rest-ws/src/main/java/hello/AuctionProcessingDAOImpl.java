@@ -1,5 +1,7 @@
 package hello;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
@@ -46,6 +48,13 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	@Override
 	public boolean markAuctionsEnded() {
 		int numberOfInsertedRows = dao.update("UPDATE auction SET statusid=2 WHERE end_date < current_date");
+		return numberOfInsertedRows > 0 ? true : false;
+	}
+	
+	@Override
+	public boolean createChatMessage(long senderId,long receiverId, String message, Date date){
+		int numberOfInsertedRows = dao.update("INSERT INTO chat_messages(senderid,receiverid,message,create_date,is_read) VALUES(?,?,?,?,?)",
+				new Object[]{senderId,receiverId,message,date,false});
 		return numberOfInsertedRows > 0 ? true : false;
 	}
 

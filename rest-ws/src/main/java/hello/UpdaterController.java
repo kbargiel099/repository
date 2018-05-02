@@ -68,6 +68,22 @@ public class UpdaterController {
         }
     }
     
+    @MessageMapping("/conversation/{id}")
+    @SendTo("/message/{id}")
+    public Response proceedConversation(@DestinationVariable String id, MessageRequestForm form) throws Exception {    	
+        
+    	Date createDate = new Date();
+    	boolean isInserted = service.createChatMessage(Long.parseLong(form.getSenderId()),Long.parseLong(id),
+    				form.getMessage(),createDate);
+
+    	if(isInserted){
+            return new MessageResponse(true,form.getSenderName(),form.getMessage(), createDate.toString());
+    	}else{
+    		return new ResponseError(1);
+    	}
+    	
+    }
+    
     private boolean isCurrentTimeBefore(String end){
     	SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd hh.mm.ss");
     	
