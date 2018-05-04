@@ -9,11 +9,8 @@ import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
-import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 
 public interface UserProfileDAO {
-
-	public boolean isUserExist(String login, String password);
 	
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId);
 	

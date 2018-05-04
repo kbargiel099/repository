@@ -119,8 +119,6 @@ public class UserRegistration{
 	public void addUserAction(ActionRequest request, ActionResponse response,
 		@ModelAttribute("user") @Valid User user, BindingResult result) throws IOException{
 	
-		//boolean isAdded = service.createUser(user,false);
-		//com.liferay.portal.kernel.model.User user = UserLocalServiceUtil.createUser(userId)
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		String home = themeDisplay.getURLHome();
 		boolean isCreated = true;

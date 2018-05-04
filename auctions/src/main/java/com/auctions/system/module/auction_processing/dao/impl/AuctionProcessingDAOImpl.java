@@ -3,6 +3,7 @@ package com.auctions.system.module.auction_processing.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.auctions.system.module.auction_processing.dao.AuctionProcessingDAO;
+import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.UserDetails;
 
@@ -98,6 +100,18 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 					@Override
 					public Boolean mapRow(ResultSet res, int row) throws SQLException {
 						return res.getBoolean(1);
+				}
+		});
+	}
+	
+	@Override
+	public List<AuctionOffer> getAllOffers(long auctionId){
+		return dao.query("SELECT userid,price,quantity FROM auction_process WHERE auctionid=?", 
+				new Object[]{auctionId},new RowMapper<AuctionOffer>(){
+					@Override
+					public AuctionOffer mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionOffer(res.getLong("userid"),res.getLong("price"),
+							res.getInt("quantity"));
 				}
 		});
 	}

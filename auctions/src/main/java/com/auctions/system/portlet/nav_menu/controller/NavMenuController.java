@@ -1,8 +1,6 @@
 package com.auctions.system.portlet.nav_menu.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -17,14 +15,9 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.auctions.system.portlet.nav_menu.model.MessageModel;
-import com.auctions.system.portlet.nav_menu.model.UserData;
 import com.auctions.system.portlet.nav_menu.service.NavService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 /**
@@ -40,25 +33,12 @@ public class NavMenuController {
 	private final String defaultView = "view";
 	
 	@RenderMapping
-	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
+	public ModelAndView defaulView(RenderRequest request, RenderResponse response){
 		long id = PortalUtil.getUserId(request);
 		
 		ModelAndView model = new ModelAndView(defaultView);	
-		model.addObject("messages", createUnreadMessages(id));
+		model.addObject("messages", service.getSenderIdsToNotify(id));
 		return model;
-	}
-	
-	private List<UserData> createUnreadMessages(long receiverId) throws PortalException{
-		List<UserData> messages = new ArrayList<UserData>();
-		User user;
-		
-		for(UserData m : service.getSenderIdsToNotify(receiverId)){
-			user = UserLocalServiceUtil.getUserById(m.getSenderId());
-			m.setScreenName(user.getScreenName());
-			messages.add(m);
-		}
-		
-		return messages;
 	}
 	
 	@ResourceMapping("getMessagesFromUser")
@@ -75,6 +55,15 @@ public class NavMenuController {
 		response.getWriter().write(obj.toString());
 	}
 
-	
+	@ResourceMapping("markMessagesAsRead")
+	public void markMessagesAsRead(ResourceRequest request, ResourceResponse response,
+			@RequestParam("userId") long id) throws IOException{
+		
+		JsonObject obj = new JsonObject();
+		obj.addProperty("success",service.markMessagesAsRead(id,PortalUtil.getUserId(request)));
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
 }
 

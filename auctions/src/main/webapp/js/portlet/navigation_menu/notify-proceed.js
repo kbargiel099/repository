@@ -3,6 +3,7 @@ var senderClientChat = false;
 var isWaitChat = false;
 var username = Liferay.ThemeDisplay.getUserName();
 var userId = Liferay.ThemeDisplay.getUserId();
+var notificationListIdPrefix = 'prefix_';
 
 function addOfferToList2(res) {
 	alert(res.message);
@@ -25,11 +26,11 @@ function showNotifyAlert2(message) {
 	}, 2000);
 }
 
-function sendForm(receiverId,message) {
+function sendForm(receiverId,name,message) {
 	if(!isWaitChat){
 		isWaitChat = true;
 	    senderClientChat = true;
-	    stompClientChat.send("/app/conversation/" + receiverId, {}, JSON.stringify({'senderId': userId,'senderName': username,
+	    stompClientChat.send("/app/conversation/" + receiverId, {}, JSON.stringify({'senderId': userId,'senderName': name,
 	    	'receiverId': receiverId,'message': message}));
 	}
 }

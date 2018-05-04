@@ -13,7 +13,6 @@ import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
-import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 
 @Service("userProfileService")
@@ -21,11 +20,6 @@ public class UserProfileServiceImpl implements UserProfileService{
 
 	@Autowired
 	UserProfileDAO dataSource;
-	
-	@Override
-	public boolean isUserExist(String login, String password) {
-		return dataSource.isUserExist(login, password);
-	}
 	
 	@Override
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId){

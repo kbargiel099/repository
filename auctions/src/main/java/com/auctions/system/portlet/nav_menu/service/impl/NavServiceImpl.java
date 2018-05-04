@@ -25,5 +25,10 @@ public class NavServiceImpl implements NavService{
 	public List<MessageAndDate> getUnreadMessagesFromUser(long senderId, long receiverId){
 		return dataSource.getUnreadMessagesFromUser(senderId, receiverId);
 	}
+	
+	@Override
+	public boolean markMessagesAsRead(long senderId, long receiverId){
+		return dataSource.markMessagesAsRead(senderId, receiverId);
+	}
 
 }

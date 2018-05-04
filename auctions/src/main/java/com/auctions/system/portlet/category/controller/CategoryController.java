@@ -156,6 +156,17 @@ public class CategoryController {
 		response.setContentType("application/json");
 		response.getWriter().write(obj.toString());
 	}
+	
+	@ResourceMapping("getAllOffers")
+	public void getAllOffers(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("offers",new Gson().toJson(auctionProcessing.getAllOffers(id)));
+		obj.addProperty("success", true);
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
 
 	private HttpServletRequest getOriginal(PortletRequest request){
 		return PortalUtil.getOriginalServletRequest(

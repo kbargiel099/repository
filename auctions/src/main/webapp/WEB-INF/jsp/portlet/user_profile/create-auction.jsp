@@ -56,21 +56,11 @@
 					<label class="label-control" name="attachImage" ><liferay-ui:message key="auction.attachImage.label" /></label>
 				</div>
 				<div>
-					<!-- <input type="file" name="imageFilechooser" id="imageFilechooser" onchange="startRead()"/> -->
 					<input type="file" name="imageFilechooser" id="imageFilechooser" onchange="loadFile(event)"/>
 					<div class="form-group">
 						<img id="output" height="100%" width="100%"/>
 					</div>
 				</div>
-<%-- 				<div class="form-group">
-					<label class="label-control" name="attachVideo" ><liferay-ui:message key="auction.attachVideo.label" /></label>
-				</div> 
-				<div>
-					<input type="file" name="videoFilechooser" id="videoFilechooser" onchange="handleVideoFile(event)"/>
-					<div class="form-group">
-						<output id="list"></output>
-					</div>
-				</div> --%>
 			</div>
 			<div class="col-xs-12 col-sm-8 col-md-4">
 				<div class="form-group">

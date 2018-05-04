@@ -31,7 +31,7 @@ public class UpdaterController {
     }
     
     @MessageMapping("/update/{id}")
-    @SendTo("/topic/notify/{id}")
+    @SendTo("/message/notify/{id}")
     public Response proceed(@DestinationVariable String id,RequestForm form) throws Exception {    	
     	boolean isInserted = false;
     	
@@ -50,7 +50,7 @@ public class UpdaterController {
     }
     
     @MessageMapping("/purchase/{id}")
-    @SendTo("/topic/notify/{id}")
+    @SendTo("/message/notify/{id}")
     public Response proceedPurchase(@DestinationVariable String id, RequestForm form) throws Exception {    	
     	boolean isInserted = false;
     	
@@ -77,7 +77,7 @@ public class UpdaterController {
     				form.getMessage(),createDate);
 
     	if(isInserted){
-            return new MessageResponse(true,form.getSenderName(),form.getMessage(), createDate.toString());
+            return new MessageResponse(true,form.getSenderId(),form.getSenderName(),form.getMessage(), createDate.toString());
     	}else{
     		return new ResponseError(1);
     	}

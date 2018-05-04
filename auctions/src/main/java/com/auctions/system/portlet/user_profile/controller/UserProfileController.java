@@ -27,7 +27,6 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.auctions.system.module.Properties;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
@@ -36,10 +35,12 @@ import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
-import com.auctions.system.portlet.user_profile.model.UserProfileAuction;
+import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
@@ -94,7 +95,7 @@ public class UserProfileController {
 		List<AuctionPresenter> userBoughtSubjects = service.getUserBoughtSubjects(
 				PortalUtil.getUserId(request));
 				
-		model.addObject("subjects", userBoughtSubjects);
+		model.addObject("auctions", userBoughtSubjects);
 		return model;
 	}
 	
@@ -107,7 +108,29 @@ public class UserProfileController {
 	@RequestMapping(params = "page=mySettings")
 	public ModelAndView mySettingsAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(settingsView);
+		model.addObject("userPassword", new UserPassword());
 		return model;
+	}
+	
+	@ActionMapping(params = "action=changePassword")
+	public void changePasswordAction(ActionRequest request, ActionResponse response,
+			@ModelAttribute("userPassword") UserPassword p) throws ParseException{
+		
+		try{
+			//User user = PortalUtil.getUser(request);
+			//user.setPassword(p.getPassword());
+			//long userId = PortalUtil.getUserId(request);
+			long userId = PortalUtil.getUserId(request);
+			
+			//UserLocalServiceUtil.updateUser(user);
+			UserLocalServiceUtil.updatePassword(userId, p.getPassword(), p.getRepeatedPassword(), false); 
+			
+			response.setRenderParameter("message", "Hasło zostało zmienione");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			response.setRenderParameter("page", "mySettings");
+		}
 	}
 	
 	@RequestMapping(params = "page=myAuctions")
@@ -259,6 +282,17 @@ public class UserProfileController {
 		JsonObject obj = new JsonObject();
 		obj.addProperty("success",auctionProcessing
 				.removeObservation(PortalUtil.getUserId(request), id));
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
+	
+	@ResourceMapping("getAllOffers")
+	public void getAllOffers(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("offers",new Gson().toJson(auctionProcessing.getAllOffers(id)));
+		obj.addProperty("success", true);
 		
 		response.setContentType("application/json");
 		response.getWriter().write(obj.toString());

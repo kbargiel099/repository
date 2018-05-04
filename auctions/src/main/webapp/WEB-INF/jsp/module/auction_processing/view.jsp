@@ -21,6 +21,11 @@
 </portlet:resourceURL>
 <input type="hidden" id="getVideoNameUrl" value="${getVideoName}"></input>
 
+<portlet:resourceURL id="getAllOffers" var="getAllOffers">
+	<portlet:param name="auctionId" value="${auction.id}" />
+</portlet:resourceURL>
+<input type="hidden" id="getAllOffersUrl" value="${getAllOffers}"></input>
+
 <portlet:resourceURL id="createObservation" var="createObservation">
 	<portlet:param name="auctionId" value="${auction.id}" />
 </portlet:resourceURL>
@@ -85,6 +90,9 @@
 						<h5>${seller.firstname} ${seller.lastname}</h5>
 						<h5>${seller.emailAddress}</h5>
 						<h5>${seller.phoneNumber}</h5>
+						<div id="createChatInAuction" style="display:none;">
+				
+						</div>
 					</div>
 				</div>
 			</div>
@@ -188,6 +196,8 @@
 	</div>
 </div>
 
+<input type="hidden" id="seller-id" value="${seller.id}"/>
+<input type="hidden" id="seller-username" value="${seller.username}"/>
 <input type="hidden" id="type" value="${auction.typeName}"/>
 <input type="hidden" id="id" value="${auction.id}"/>
 <input type="hidden" id="currentPrice" value="${auction.subjectPrice}"/>
@@ -202,8 +212,6 @@
 <input type="hidden" id="currency" value="<liferay-ui:message key="currency" />"/>
 
 <script src="<c:url value="/js/module/notify-modal.js" />"></script>
-<%-- <script src="<c:url value="/js/module/sockjs.min.js" />"></script>
-<script src="<c:url value="/js/module/stomp.min.js" />"></script> --%>
 <script src="<c:url value="/js/module/app.js" />"></script>
 <script>
 var canPlayMPEG4;
@@ -255,5 +263,14 @@ var canPlayMPEG4;
 		jQuery('#show-gallery-div').hide();
 		jQuery('#gallery').show();
 		jQuery('#show-video-div').show();
+	});
+	
+	jQuery(document).ready(function(){
+
+		if(Liferay.ThemeDisplay.getUserId() != parseInt(jQuery('#seller-id').val())){
+			jQuery('#createChatInAuction').append(createChatLink(jQuery('#seller-id').val(),
+					jQuery('#seller-username').val(),'Napisz do'));
+			jQuery('#createChatInAuction').show();
+		}
 	});
 </script>

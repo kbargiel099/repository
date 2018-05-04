@@ -13,7 +13,27 @@ jQuery(document).ready(function(){
 	connect2();
 	provideValidation();
 	showObservation();
+	getAllOffers();
 });
+
+function getAllOffers(){
+	if(!isQuickPurchase){
+	    jQuery.ajax({
+	    	"url": jQuery('#getAllOffersUrl').val(),
+	    	"type": "POST",
+	    	"success": function(data){
+	    		if(data.success){
+		    		var res = JSON.parse(data.offers);
+		    		for(var i=res.length-1;i>=0;i--){
+		    			addOfferToList(res[i]);
+		    		}
+	    		}else{
+	    			alert("Wystąpił błąd");
+	    		}
+	    	}
+	    });
+	}
+}
 
 function showObservation(){
 	if(Liferay.ThemeDisplay.isSignedIn()){
@@ -75,8 +95,9 @@ function connect2() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/notify/'+jQuery('#id').val(), function (data) {
+        stompClient.subscribe('/message/notify/'+jQuery('#id').val(), function (data) {
         	var res = JSON.parse(data.body);
+        	console.log(res);
         	if(res.success == true){
 
         		if(isQuickPurchase){
@@ -100,13 +121,6 @@ function connect2() {
         	updatePriceValidation();
         });
     });
-}
-
-function disconnect() {
-    if (stompClient !== null) {
-        stompClient.disconnect();
-    }
-    console.log("Disconnected");
 }
 
 function addOfferToList(res) {

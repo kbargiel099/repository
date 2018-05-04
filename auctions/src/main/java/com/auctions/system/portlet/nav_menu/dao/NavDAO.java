@@ -10,5 +10,7 @@ public interface NavDAO {
 	public List<UserData> getSenderIdsToNotify(long receiverId);
 	
 	public List<MessageAndDate> getUnreadMessagesFromUser(long senderId, long receiverId);
+	
+	public boolean markMessagesAsRead(long senderId, long receiverId);
 
 }

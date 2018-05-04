@@ -3,14 +3,16 @@ package hello;
 public class MessageResponse extends Response{
 
     private boolean success;
-    private String username;
+    private String senderId;
+    private String senderName;
     private String message;
     private String date;
     	
-	public MessageResponse(boolean success, String username, String message, String date) {
+	public MessageResponse(boolean success, String senderId, String senderName, String message, String date) {
 		super();
 		this.success = success;
-		this.username = username;
+		this.senderId = senderId;
+		this.senderName = senderName;
 		this.message = message;
 		this.date = date;
 	}
@@ -23,12 +25,12 @@ public class MessageResponse extends Response{
 		this.success = success;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getSenderId() {
+		return senderId;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setSenderId(String senderId) {
+		this.senderId = senderId;
 	}
 
 	public String getMessage() {
@@ -45,6 +47,14 @@ public class MessageResponse extends Response{
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public String getSenderName() {
+		return senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
 	}
     
 }

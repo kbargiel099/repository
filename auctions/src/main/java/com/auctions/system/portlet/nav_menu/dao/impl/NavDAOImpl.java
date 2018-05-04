@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import com.auctions.system.portlet.nav_menu.dao.NavDAO;
 import com.auctions.system.portlet.nav_menu.model.MessageAndDate;
-import com.auctions.system.portlet.nav_menu.model.MessageModel;
 import com.auctions.system.portlet.nav_menu.model.UserData;
 
 @Repository("navDAO")
@@ -54,7 +53,12 @@ public class NavDAOImpl implements NavDAO{
 		});
 	}
 	
-	
+	@Override
+	public boolean markMessagesAsRead(long senderId, long receiverId){	
+		int numberOfUpdatedRows =  dao.update("UPDATE chat_messages SET is_read=? WHERE senderid=? AND receiverid=? AND is_read=?", 
+				new Object[]{true,senderId,receiverId,false});
+		return numberOfUpdatedRows > 0 ? true : false;
+	}
 	
 
 }

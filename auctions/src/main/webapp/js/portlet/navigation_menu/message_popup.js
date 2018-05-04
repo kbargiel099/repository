@@ -63,7 +63,7 @@
                 for(var iii = 0; iii < popups.length; iii++)
                 {   
                     //already registered. Bring it to front.
-                    if(name == popups[iii])
+                    if(id == popups[iii])
                     {
                         //Array.remove(popups, iii);
                     
@@ -82,18 +82,21 @@
                 	return;
                 }
                 console.log("dalszy ciąg");
-                var element = '<div class="popup-box chat-popup" id="'+ name +'">';
+                var element = '<div class="popup-box chat-popup" id="'+ id +'">';
                 element = element + '<div class="popup-head">';
                 element = element + '<div class="popup-head-left">'+ name +'</div>';
-                element = element + '<div class="popup-head-right"><a href="javascript:close_popup(\''+ name +'\');">&#10005;</a></div>';
+                element = element + '<div class="popup-head-right"><a href="javascript:close_popup(\''+ id +'\');">&#10005;</a></div>';
                 element = element + '<div style="clear: both"></div></div><div class="popup-messages"><table><tbody></tbody></table></div>';
                 element = element + '<div class="popup-inputs">';
                 element = element + '<div class="pull-left col-xs-9"><input class="chat-input" type="text" id="send-message-input"></div>';
                 element = element + '<div class="col-xs-2"><a class="chat-button" href="javascript:void(0);" id="send-message-button">Wyślij</a></div></div></div>';
                 
-                document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element;  
+                //document.getElementsByTagName("body")[0].appendChild(element);
+                jQuery('body').append(element);
+                //document.getElementsByTagName("body")[0].innerHTML = document.getElementsByTagName("body")[0].innerHTML + element;
+                //document.getElementById("popup-window").innerHTML = element;  
         
-                popups.unshift(name);
+                popups.unshift(id);
                         
                 calculate_popups();
                 
@@ -101,8 +104,8 @@
                 
                 jQuery('#send-message-button').click(function(){
                 	var message = jQuery('#send-message-input').val();
-                	sendForm(id,message);
-                	addMessageAsSender(name,message);
+                	sendForm(id,name,message);
+                	addMessageAsSender(id,message);
                 });
                 
             	jQuery.ajax({
@@ -114,9 +117,10 @@
             				
             				for(var i=0;i<messages.length;i++){
             					console.log(messages[i]);
-            					addMessageAsReceiver(name,messages[i].message);
+            					addMessageAsReceiver(id,messages[i].message);
             				}
-        					connectForChat(id,name);
+        					connectForChat(id);
+        					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),id);
             			}
             			else
             				alert("Wystapil blad");
@@ -125,7 +129,31 @@
                 
             }
             
-            function connectForChat(receiverId,popupMessagesId){
+            function markMessagesAsRead(url,userId){
+            	jQuery.ajax({
+            		"url":url + '&userId=' + userId,
+            		"type":"GET",
+            		"success": function(data){
+            			console.log(data);
+            			if(data.success == true){
+            				
+            				var list = document.getElementById('notification-list');
+            				var pp = document.getElementById(notificationListIdPrefix + userId);
+            				list.removeChild(pp);
+            				if(list.getElementsByTagName('li').length == 0){
+            					var elem = document.createElement('li');
+            					elem.innerHTML = '<a href="javascript:void(0);">Brak nowych wiadomości</a>';
+            					list.appendChild(elem);
+            				}
+
+            			}
+            			else
+            				alert("Wystapil blad");
+            		}
+            	});
+            }
+            
+            function connectForChat(popupMessagesId){
                 var socketForChat = new SockJS('http://192.168.0.15:8143/notification');
             	stompClientChat = Stomp.over(socketForChat);
             	stompClientChat.connect({}, function (frame) {
@@ -135,15 +163,35 @@
                     	console.log(res);
                     	if(res.success == true){
                     		
-                    		//if(senderClientChat){
-                    		//	addMessageAsSender(popupMessagesId,res.message);
-                    			senderClientChat = false;
-                    			isWaitChat = false;
-                    		//}else{
-                    			addMessageAsReceiver(popupMessagesId,res.message);
-                    		//}
+                			senderClientChat = false;
+                			isWaitChat = false;
+                			
+                			for(var i=0;i<popups.length;i++){
+                				if(popups[i] == res.senderId){
+                        			addMessageAsReceiver(popupMessagesId,res.message);
+                				}
+                			}
+                			
+                			var isSenderExist = false;
+                			var list = document.getElementById('notification-list');
+                			var elements = list.getElementsByTagName('li');
+                			for(var i=0;i<elements.length;i++){
+                				if(elements[i].id == notificationListIdPrefix + res.senderId){
+                					console.log(res.senderId + " jest");
+                					isSenderExist = true;
+                				}
+                			}
+                			
+                			if(!isSenderExist){
+                				
+            					var li = document.createElement('li');
+            					li.id = notificationListIdPrefix + res.senderId;
+            					
+            					li.appendChild(createChatLink(res.senderId,res.senderName,'Wiadomość od'));
+            					console.log(li);
+            					list.appendChild(li);
+                			}
                     		
-                    	//}else if(senderClientChat == true){
                     	}else{
                     		responsiveNotify("Wystąpił błąd");
             	        	senderClientChat = false;
@@ -152,6 +200,7 @@
                     });
                 });
             }
+       
             
             function addMessageAsSender(id,message){
             	var row = document.createElement("tr");

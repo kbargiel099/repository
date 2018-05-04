@@ -7,7 +7,16 @@
 <portlet:defineObjects/>
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/portlet/navigation_menu/nav-main.css" />" /> 
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/chat/_message_popup.css" />" /> 
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/chat/_message_popup.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/module/custom-table.css" />" /> 
+
+<portlet:resourceURL id="getMessagesFromUser" var="getMessagesFromUser">
+</portlet:resourceURL>
+<input type="hidden" id="getMessagesFromUserUrl" value="${getMessagesFromUser}" />
+
+<portlet:resourceURL id="markMessagesAsRead" var="markMessagesAsRead">
+</portlet:resourceURL>
+<input type="hidden" id="markMessagesAsReadUrl" value="${markMessagesAsRead}" />
 
 <nav class="navbar navbar-inverse" style="background-color: #2d67f6;">
  	<div class="container-fluid">
@@ -37,15 +46,12 @@
 		    	<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Poczta
 					<span class="caret"></span></a>
-					<ul class="dropdown-menu">
+					<ul class="dropdown-menu" id="notification-list">
 					<c:choose>
 						<c:when test="${fn:length(messages) gt 0}">
 							<c:forEach items="${messages}" var="it">
 							
-								<portlet:resourceURL id="getMessagesFromUser" var="getMessagesFromUser">
-									<portlet:param name="userId" value="${it.senderId}" />
-								</portlet:resourceURL>
-								<li><a id="${it.senderId}" href="javascript:register_popup(${it.senderId}, '${it.screenName}','${getMessagesFromUser}');">Wiadomość od ${it.screenName}</a></li>
+								<li id="prefix_${it.senderId}"><a href="javascript:register_popup('${it.senderId}', '${it.screenName}','${getMessagesFromUser}&userId=${it.senderId}');">Wiadomość od ${it.screenName}</a></li>
 							
 							</c:forEach>
 						</c:when>
@@ -71,6 +77,16 @@
 <script src="<c:url value="/js/portlet/navigation_menu/notify-proceed.js" />"></script>
 <script src="<c:url value="/js/portlet/navigation_menu/message_popup.js" />"></script>
 <script>
+
+function createChatLink(senderId,senderName,text){
+	var url = jQuery('#getMessagesFromUserUrl').val() + '&userId=' + senderId;
 	
+	var a = document.createElement('a');
+	a.href = 'javascript:register_popup("'+ senderId +'","'+ senderName +'","'+ url +'");';
+	a.innerHTML = text + ' ' + senderName;
+	
+	return a;
+}
+
 </script>
 

@@ -1,9 +1,12 @@
 package com.auctions.system.module.auction_processing.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.auctions.system.module.auction_processing.dao.AuctionProcessingDAO;
+import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.UserDetails;
@@ -38,4 +41,7 @@ public class AuctionProcessingServiceImpl implements AuctionProcessingService {
 		return dataSource.isObserved(userId, auctionId);
 	}
 
+	public List<AuctionOffer> getAllOffers(long auctionId){
+		return dataSource.getAllOffers(auctionId);
+	}
 }

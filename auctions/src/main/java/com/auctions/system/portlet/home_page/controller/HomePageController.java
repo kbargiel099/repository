@@ -18,6 +18,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.home_page.service.HomePageService;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.util.PortalUtil;
 
@@ -87,6 +88,17 @@ public class HomePageController {
 		JsonObject obj = new JsonObject();
 		obj.addProperty("success",auctionProcessing
 				.removeObservation(PortalUtil.getUserId(request), id));
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
+	
+	@ResourceMapping("getAllOffers")
+	public void getAllOffers(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("offers",new Gson().toJson(auctionProcessing.getAllOffers(id)));
+		obj.addProperty("success", true);
 		
 		response.setContentType("application/json");
 		response.getWriter().write(obj.toString());

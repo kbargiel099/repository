@@ -1,9 +1,12 @@
 package com.auctions.system.module.auction_processing.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.portlet.ModelAndView;
 
+import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
 
 @Component
@@ -22,6 +25,10 @@ public class AuctionProcessing {
 		return model;
 		
 	}	
+	
+	public List<AuctionOffer> getAllOffers(long auctionId){
+		return service.getAllOffers(auctionId);
+	}
 	
 	public String getVideoName(long id){
 		String name = service.getVideoName(id);

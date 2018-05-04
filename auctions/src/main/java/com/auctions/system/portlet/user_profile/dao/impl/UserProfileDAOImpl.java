@@ -45,20 +45,13 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	}
 	
 	@Override
-	public boolean isUserExist(String login, String password){
-		return daoPortal.queryForObject("SELECT EXISTS (SELECT userid FROM user_ WHERE emailaddress=?)",
-				new Object[]{login}, Boolean.class);
-	}
-	
-	@Override
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId){
-		return dao.query("SELECT auctionid,name,image_name,p.quantity,p.create_date,p.price FROM auction_main m"
-						 + " JOIN auction_purchase p ON id=auctionid WHERE p.userid=?", 
+		return dao.query("SELECT auctionid,name,quantity,image_name,create_date,price FROM user_purchase_view WHERE userid=?", 
 				new Object[]{userId},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionPresenter(res.getInt("auctionid"),res.getString("name"),res.getString("image_name"),
-								res.getLong("subject_price"));
+								res.getLong("price"));
 					}
 				
 			});
