@@ -18,8 +18,6 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.home_page.service.HomePageService;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 /**
@@ -65,44 +63,26 @@ public class HomePageController {
 	@ResourceMapping("getVideoName")
 	public void getVideoName(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{	
-		JsonObject obj = new JsonObject();
-		obj.addProperty("name", auctionProcessing.getVideoName(id));
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
+		auctionProcessing.getVideoName(id, response);
 	}
 	
 	@ResourceMapping("createObservation")
 	public void createObservation(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{	
-		JsonObject obj = new JsonObject();
-		obj.addProperty("success",auctionProcessing
-				.createObservation(PortalUtil.getUserId(request), id));
-		
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
+		auctionProcessing.createObservation(PortalUtil.getUserId(request), id, response);
 	}
 	
 	@ResourceMapping("removeObservation")
 	public void removeObservation(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{	
-		JsonObject obj = new JsonObject();
-		obj.addProperty("success",auctionProcessing
-				.removeObservation(PortalUtil.getUserId(request), id));
-		
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
+		auctionProcessing.removeObservation(PortalUtil.getUserId(request), id, response);
 	}
 	
 	@ResourceMapping("getAllOffers")
 	public void getAllOffers(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{	
-		JsonObject obj = new JsonObject();
-		obj.addProperty("offers",new Gson().toJson(auctionProcessing.getAllOffers(id)));
-		obj.addProperty("success", true);
-		
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
+		auctionProcessing.getAllOffers(id, response);
 	}
-
+	
 }
 	

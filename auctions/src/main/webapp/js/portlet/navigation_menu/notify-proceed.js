@@ -1,7 +1,7 @@
 var stompClientChat = null;
 var senderClientChat = false;
 var isWaitChat = false;
-var username = Liferay.ThemeDisplay.getUserName();
+var username = jQuery('#username').val();
 var userId = Liferay.ThemeDisplay.getUserId();
 var notificationListIdPrefix = 'prefix_';
 
@@ -26,11 +26,11 @@ function showNotifyAlert2(message) {
 	}, 2000);
 }
 
-function sendForm(receiverId,name,message) {
+function sendForm(receiverId,message) {
 	if(!isWaitChat){
 		isWaitChat = true;
 	    senderClientChat = true;
-	    stompClientChat.send("/app/conversation/" + receiverId, {}, JSON.stringify({'senderId': userId,'senderName': name,
+	    stompClientChat.send("/app/conversation/" + receiverId, {}, JSON.stringify({'senderId': userId,'senderName': username,
 	    	'receiverId': receiverId,'message': message}));
 	}
 }

@@ -1,3 +1,9 @@
+			jQuery(document).ready(function(){
+				if(Liferay.ThemeDisplay.isSignedIn()){
+					connectForChat();
+				}
+			});
+
 			//this function can remove a array element.
             Array.remove = function(array, from, to) {
                 var rest = array.slice((to || from) + 1 || array.length);
@@ -104,8 +110,9 @@
                 
                 jQuery('#send-message-button').click(function(){
                 	var message = jQuery('#send-message-input').val();
-                	sendForm(id,name,message);
+                	sendForm(id,message);
                 	addMessageAsSender(id,message);
+                	jQuery('#send-message-input').val("");
                 });
                 
             	jQuery.ajax({
@@ -119,7 +126,6 @@
             					console.log(messages[i]);
             					addMessageAsReceiver(id,messages[i].message);
             				}
-        					connectForChat(id);
         					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),id);
             			}
             			else
@@ -153,7 +159,7 @@
             	});
             }
             
-            function connectForChat(popupMessagesId){
+            function connectForChat(){
                 var socketForChat = new SockJS('http://192.168.0.15:8143/notification');
             	stompClientChat = Stomp.over(socketForChat);
             	stompClientChat.connect({}, function (frame) {
@@ -168,7 +174,7 @@
                 			
                 			for(var i=0;i<popups.length;i++){
                 				if(popups[i] == res.senderId){
-                        			addMessageAsReceiver(popupMessagesId,res.message);
+                        			addMessageAsReceiver(res.senderId,res.message);
                 				}
                 			}
                 			

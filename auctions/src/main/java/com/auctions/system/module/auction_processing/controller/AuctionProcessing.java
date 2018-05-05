@@ -1,13 +1,16 @@
 package com.auctions.system.module.auction_processing.controller;
 
-import java.util.List;
+import java.io.IOException;
+
+import javax.portlet.ResourceResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.portlet.ModelAndView;
 
-import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 @Component
 public class AuctionProcessing {
@@ -26,22 +29,39 @@ public class AuctionProcessing {
 		
 	}	
 	
-	public List<AuctionOffer> getAllOffers(long auctionId){
-		return service.getAllOffers(auctionId);
-	}
-	
-	public String getVideoName(long id){
-		String name = service.getVideoName(id);
-		return name.split("\\.")[0];
-	}
-	
-	public boolean createObservation(long userId, long auctionId){
-		return service.createObservation(userId, auctionId);
-	}
-	
-	public boolean removeObservation(long userId, long auctionId){
+	public void getAllOffers(long auctionId, ResourceResponse response) throws IOException{
+		JsonObject obj = new JsonObject();
+		obj.addProperty("offers",new Gson().toJson(service.getAllOffers(auctionId)));
+		obj.addProperty("success", true);
 		
-		return service.removeObservation(userId, auctionId);
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
+	
+	public void getVideoName(long id, ResourceResponse response) throws IOException{
+		String name = service.getVideoName(id);
+		
+		JsonObject obj = new JsonObject();
+		obj.addProperty("name", name.split("\\.")[0]);
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
+	
+	public void createObservation(long userId, long auctionId, ResourceResponse response) throws IOException{
+		JsonObject obj = new JsonObject();
+		obj.addProperty("success",service.createObservation(userId, auctionId));
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
+	}
+	
+	public void removeObservation(long userId, long auctionId, ResourceResponse response) throws IOException{
+		JsonObject obj = new JsonObject();
+		obj.addProperty("success",service.removeObservation(userId, auctionId));
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
 	}	
 }
 

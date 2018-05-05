@@ -222,9 +222,9 @@ var canPlayMPEG4;
 			    // Check for MPEG-4 support
 			    canPlayMPEG4 = "" !== testEl.canPlayType( 'video/mp4; codecs="mp4v.20.8"' );
 		
-/* 			    // Check for h264 support
-			    h264 = "" !== ( testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E"' )
-			        && testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' ) ); */
+			    // Check for h264 support
+/* 			    h264 = "" !== ( testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E"' )
+			        && testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' ) );  */
 		
 /* 			    // Check for Ogg support
 			    ogg = "" !== testEl.canPlayType( 'video/ogg; codecs="theora"' ); */
@@ -240,8 +240,8 @@ var canPlayMPEG4;
 	    	"type": "POST",
 	    	"success": function(data){
 	    		
-	    		var ext = canPlayMPEG4 ? 'mp4' : 'webm';
-	    		var media = canPlayMPEG4 ? 'mp4' : 'webm';
+	    		var ext = canPlayMPEG4 ? 'mp4' : 'ogg';
+	    		var media = canPlayMPEG4 ? 'mp4' : 'ogg';
  	    		var videoElement = '<video width="100%" controls>'
 /*  	    				+ '<source src="/videos/'+ data.name +'.mp4" type="video/mp4">' */
 /*	    				+ '<source src="/videos/'+ data.name +'.webm" type="video/webm">' */

@@ -39,7 +39,6 @@ import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
@@ -115,21 +114,15 @@ public class UserProfileController {
 	@ActionMapping(params = "action=changePassword")
 	public void changePasswordAction(ActionRequest request, ActionResponse response,
 			@ModelAttribute("userPassword") UserPassword p) throws ParseException{
-		
 		try{
-			//User user = PortalUtil.getUser(request);
-			//user.setPassword(p.getPassword());
-			//long userId = PortalUtil.getUserId(request);
-			long userId = PortalUtil.getUserId(request);
-			
-			//UserLocalServiceUtil.updateUser(user);
-			UserLocalServiceUtil.updatePassword(userId, p.getPassword(), p.getRepeatedPassword(), false); 
-			
-			response.setRenderParameter("message", "Hasło zostało zmienione");
+			 long userId = PortalUtil.getUserId(request);
+			 UserLocalServiceUtil.updatePassword(userId, p.getPassword(), p.getRepeatedPassword(), false); 
+		
+			 response.setRenderParameter("message", "Hasło zostało zmienione");
 			
 		}catch(Exception e){
-			e.printStackTrace();
-			response.setRenderParameter("page", "mySettings");
+			 e.printStackTrace();
+			 response.setRenderParameter("page", "mySettings");
 		}
 	}
 	
@@ -242,15 +235,6 @@ public class UserProfileController {
 		response.getWriter().write(result.toString());
 	}
 	
-	@ResourceMapping("getVideoName")
-	public void getVideoName(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException{	
-		JsonObject obj = new JsonObject();
-		obj.addProperty("name", auctionProcessing.getVideoName(id));
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
-	}
-	
 	@RequestMapping(params = "page=auctionDetails")
 	public ModelAndView getAuctionDetails(RenderRequest request, RenderResponse response,
 			@RequestParam("id") long id) throws Exception{
@@ -265,37 +249,34 @@ public class UserProfileController {
 		return profile.createUserProfileView(id);
 	}
 	
+	@ResourceMapping("getVideoName")
+	public void getVideoName(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") int id) throws IOException{	
+		auctionProcessing.getVideoName(id, response);
+	}
+	
+	@ResourceMapping("convertVideo")
+	public void getVideoName(ResourceRequest request, ResourceResponse response,
+			@RequestParam("videoName") String name) throws IOException{	
+		worker.convertVideoToWebm(name);
+	}
+	
 	@ResourceMapping("createObservation")
 	public void createObservation(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{	
-		JsonObject obj = new JsonObject();
-		obj.addProperty("success",auctionProcessing
-				.createObservation(PortalUtil.getUserId(request), id));
-		
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
+		auctionProcessing.createObservation(PortalUtil.getUserId(request), id, response);
 	}
 	
 	@ResourceMapping("removeObservation")
 	public void removeObservation(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{	
-		JsonObject obj = new JsonObject();
-		obj.addProperty("success",auctionProcessing
-				.removeObservation(PortalUtil.getUserId(request), id));
-		
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
+		auctionProcessing.removeObservation(PortalUtil.getUserId(request), id, response);
 	}
 	
 	@ResourceMapping("getAllOffers")
 	public void getAllOffers(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{	
-		JsonObject obj = new JsonObject();
-		obj.addProperty("offers",new Gson().toJson(auctionProcessing.getAllOffers(id)));
-		obj.addProperty("success", true);
-		
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
+		auctionProcessing.getAllOffers(id, response);
 	}
 
 }

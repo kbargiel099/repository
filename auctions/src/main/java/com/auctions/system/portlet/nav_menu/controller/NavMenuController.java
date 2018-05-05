@@ -15,6 +15,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.UserUtil;
 import com.auctions.system.portlet.nav_menu.service.NavService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -38,6 +39,7 @@ public class NavMenuController {
 		
 		ModelAndView model = new ModelAndView(defaultView);	
 		model.addObject("messages", service.getSenderIdsToNotify(id));
+		model.addObject("username", UserUtil.getScreenName(id));
 		return model;
 	}
 	

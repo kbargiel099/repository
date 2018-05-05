@@ -1,6 +1,4 @@
 var stompClient = null;
-var username = Liferay.ThemeDisplay.getUserName();
-var userId = Liferay.ThemeDisplay.getUserId();
 var auctionId = jQuery('#id').val();
 var endDate = jQuery('#endDate').val();
 var quantity = jQuery('#quantity').val();

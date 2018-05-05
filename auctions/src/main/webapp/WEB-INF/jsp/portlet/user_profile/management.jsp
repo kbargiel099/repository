@@ -19,6 +19,10 @@
 </portlet:resourceURL>
 <input type="hidden" id="createAuctionVideoUrl" value="${createAuctionVideo}"></input>
 
+<portlet:resourceURL id="convertVideo" var="convertVideo">
+</portlet:resourceURL>
+<input type="hidden" id="convertVideoUrl" value="${convertVideo}"></input>
+
 <div class="container-fluid">
 
 	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>

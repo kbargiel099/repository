@@ -19,4 +19,14 @@ public class Worker {
 			}
 		}); 
 	}
+	
+	public void convertVideoToWebm(final String videoName){
+		executor.execute(new Runnable(){
+			@Override
+			public void run() {
+				
+				 Converter.convertVideoFile(videoName);
+			}
+		}); 
+	}
 }

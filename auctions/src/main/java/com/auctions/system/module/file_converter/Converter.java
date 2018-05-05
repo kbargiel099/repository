@@ -18,51 +18,56 @@ import it.sauronsoftware.jave.VideoSize;
 public class Converter {
 
 	
-	/*	private boolean createWebMVideoFile(String videoData, String videoName){
+/*	public static boolean createWebMVideoFile(String videoName){
 	
-	try {
-		File source = new File(Properties.getVideosPath() + videoName);
-		File target = new File(Properties.getVideosPath() + "target123.mp4");
+		String targetFileName = videoName.split("\\.")[0] + ".mp4";
+		try {
+			File source = new File(Properties.getVideosPath() + videoName);
+			File target = new File(Properties.getVideosPath() + targetFileName);
+			
+			AudioAttributes audio = new AudioAttributes();
+			audio.setCodec("libfaac");
+			//audio.setCodec(AudioAttributes.DIRECT_STREAM_COPY);
+			audio.setBitRate(new Integer(96000));
+			audio.setChannels(new Integer(2));
+			audio.setSamplingRate(new Integer(44100));
 		
-		AudioAttributes audio = new AudioAttributes();
-		audio.setCodec("libmp3lame");
-		audio.setBitRate(new Integer(64000));
-		audio.setChannels(new Integer(1));
-		audio.setSamplingRate(new Integer(22050));
+			VideoAttributes video = new VideoAttributes();
+			video.setCodec("libx264");
+			
+			video.setBitRate(new Integer(640000));
+			video.setFrameRate(new Integer(25));
+			video.setSize(new VideoSize(640, 480));
+			
+			EncodingAttributes attrs = new EncodingAttributes();
+			
+			attrs.setFormat("mp4");
+			attrs.setAudioAttributes(audio);
+			attrs.setVideoAttributes(video);
+			
+			Encoder encoder = new Encoder();
+			encoder.encode(source, target, attrs);
+	
+			byte[] bFile = Files.readAllBytes(target.toPath());
+			FileOutputStream stream = new FileOutputStream(target);
+		    stream.write(bFile);
+		    stream.close();
+			
+			return true;
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}  catch (EncoderException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}*/
+	
+	public static boolean convertVideoFile(String videoName){
 		
-		VideoAttributes video = new VideoAttributes();
-		video.setCodec("h264");
-		video.setBitRate(new Integer(160000));
-		video.setFrameRate(new Integer(15));
-		video.setSize(new VideoSize(400, 300));
-		
-		EncodingAttributes attrs = new EncodingAttributes();
-		
-		attrs.setFormat("h264");
-		attrs.setAudioAttributes(audio);
-		attrs.setVideoAttributes(video);
-		
-		Encoder encoder = new Encoder();
-		encoder.encode(source, target, attrs);
-
-		byte[] bFile = Files.readAllBytes(target.toPath());
-		FileOutputStream stream = new FileOutputStream(target);
-	    stream.write(bFile);
-	    stream.close();
-		
-		return true;
-	} catch (IllegalArgumentException e) {
-		e.printStackTrace();
-	}  catch (EncoderException e) {
-		e.printStackTrace();
-	} catch (FileNotFoundException e) {
-		e.printStackTrace();
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-	return false;
-}*/
-	static boolean convertVideoFile(String videoData, String videoName){
 		String targetFileName = videoName.split("\\.")[0] + ".ogg";
 		try {
 			File source = new File(Properties.getVideosPath() + videoName);
@@ -70,15 +75,15 @@ public class Converter {
 			
 			AudioAttributes audio = new AudioAttributes();
 			audio.setCodec("libvorbis");
-			audio.setBitRate(new Integer(96000));
+			audio.setBitRate(new Integer(128000));
 			audio.setChannels(new Integer(2));
-			audio.setSamplingRate(new Integer(441000));
+			audio.setSamplingRate(new Integer(44100));
 			
 			VideoAttributes video = new VideoAttributes();
 			video.setCodec("libtheora");
-/*			video.setTag("OGG");*/
+			video.setTag("OGG");
 			video.setBitRate(new Integer(819200));
-			video.setFrameRate(new Integer(20));
+			video.setFrameRate(new Integer(25));
 			video.setSize(new VideoSize(1280, 720));
 			
 			EncodingAttributes attrs = new EncodingAttributes();
@@ -88,7 +93,7 @@ public class Converter {
 			
 			Encoder encoder = new Encoder();
 			System.out.println("ENCODERS");
-			encoder.encode(source, target, attrs);
+			encoder.encode(source, target, attrs, new ProgressListener());
 			byte[] bFile = Files.readAllBytes(target.toPath());
 
 			FileOutputStream stream = new FileOutputStream(target);

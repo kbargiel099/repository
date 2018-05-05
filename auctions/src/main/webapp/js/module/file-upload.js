@@ -55,7 +55,21 @@ function createReference(){
     		"name": file.name
     	},
     	"success": function(data){
-			alert("Plik został zapisany");
+    		jQuery('#status').html("Plik został zapisany");
+			convertVideo();
+    	}
+    });
+}
+
+function convertVideo(){
+    jQuery.ajax({
+    	"url": jQuery('#convertVideoUrl').val(),
+    	"type": "POST",
+    	"data": {
+    		"videoName": file.name
+    	},
+    	"success": function(data){
+			alert("Konwersja się powiodła");
     	}
     });
 }
