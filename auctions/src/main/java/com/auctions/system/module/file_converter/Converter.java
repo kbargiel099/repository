@@ -66,7 +66,7 @@ public class Converter {
 		return false;
 	}*/
 	
-	public static boolean convertVideoFile(String videoName){
+	public static boolean convertVideoFile(String videoName, ProgressListener listener){
 		
 		String targetFileName = videoName.split("\\.")[0] + ".ogg";
 		try {
@@ -92,8 +92,8 @@ public class Converter {
 			attrs.setVideoAttributes(video);
 			
 			Encoder encoder = new Encoder();
-			System.out.println("ENCODERS");
-			encoder.encode(source, target, attrs, new ProgressListener());
+			//System.out.println("ENCODERS");
+			encoder.encode(source, target, attrs, listener);
 			byte[] bFile = Files.readAllBytes(target.toPath());
 
 			FileOutputStream stream = new FileOutputStream(target);

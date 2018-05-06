@@ -187,11 +187,8 @@ public class UserProfileController {
 	
 	@ActionMapping(params = "action=createNewAuction")
 	public void createNewAuctionAction(ActionRequest request, ActionResponse response,
-			@ModelAttribute("newAuction") Auction auction) throws ParseException{
-		String videoName = auction.getVideoName();
-		final boolean hasVideo = videoName.isEmpty() ? false : true;	
-		
-		worker.createFiles(auction, hasVideo);
+			@ModelAttribute("newAuction") Auction auction) throws ParseException{		
+		worker.createImages(auction);
 		
 		long userId = PortalUtil.getUserId(request);
 		boolean isCreated = service.createUserAuction(userId, auction);
@@ -245,7 +242,6 @@ public class UserProfileController {
 	@RequestMapping(params = "page=userProfile")
 	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response,
 			@RequestParam("id") long id) throws Exception{
-		
 		return profile.createUserProfileView(id);
 	}
 	
@@ -256,9 +252,19 @@ public class UserProfileController {
 	}
 	
 	@ResourceMapping("convertVideo")
-	public void getVideoName(ResourceRequest request, ResourceResponse response,
+	public void convertVideo(ResourceRequest request, ResourceResponse response,
 			@RequestParam("videoName") String name) throws IOException{	
-		worker.convertVideoToWebm(name);
+		worker.convertVideoToWebm(PortalUtil.getUserId(request),name);
+	}
+	
+	@ResourceMapping("checkConversionStatus")
+	public void checkConversionStatus(ResourceRequest request, ResourceResponse response) throws IOException{	
+		JsonObject obj = new JsonObject();
+		obj.addProperty("progress", new Gson().toJson(
+				worker.checkProgress(PortalUtil.getUserId(request))));
+		
+		response.setContentType("application/json");
+		response.getWriter().write(obj.toString());
 	}
 	
 	@ResourceMapping("createObservation")

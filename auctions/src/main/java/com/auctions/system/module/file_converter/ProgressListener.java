@@ -5,22 +5,24 @@ import it.sauronsoftware.jave.MultimediaInfo;
 
 public class ProgressListener implements EncoderProgressListener{
 
-	@Override
-	public void message(String arg0) {
-		// TODO Auto-generated method stub
-		
+	Worker worker;
+	long userId;
+	
+	public ProgressListener(long userId,Worker worker){
+		this.userId = userId;
+		this.worker = worker;
 	}
-
+	
 	@Override
 	public void progress(int permil) {
-		System.out.println("Progress " + permil);
-		
+		//System.out.println("Progress " + permil);
+		worker.updateValue(userId, permil);
 	}
 
 	@Override
-	public void sourceInfo(MultimediaInfo arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void message(String arg0) {}
+	
+	@Override
+	public void sourceInfo(MultimediaInfo arg0) {}
 
 }

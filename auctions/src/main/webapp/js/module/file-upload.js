@@ -6,6 +6,10 @@ var bytesSent = 0;
 var url = jQuery('#submitDataUrl').val();
 var file;
 
+jQuery(document).ready(function(){
+	checkConversionStatus();
+});
+
 function callback(){
 	isSent = false;
 	available = videoData.length - bytesSent;
@@ -34,31 +38,17 @@ function sentPackage(data){
     	"success": function(data){
     		bytesSent += size;
     		callback();
-			jQuery('#status').html(parseFloat((bytesSent/videoData.length)*100).toFixed(0));
+			jQuery('#status').html(parseFloat((bytesSent/videoData.length)*100).toFixed(0) + "%");
 			if(available > 0){
     			var data = createDataPackage();
     			sentPackage(data);
 			}else{
-				createReference();
+				jQuery('#status').html("100%");
+				convertVideo();
 			}
     	}
     });
     
-}
-
-function createReference(){
-    jQuery.ajax({
-    	"url": jQuery('#createAuctionVideoUrl').val(),
-    	"type": "POST",
-    	"data": {
-    		"id": jQuery('#auctionId').val(),
-    		"name": file.name
-    	},
-    	"success": function(data){
-    		jQuery('#status').html("Plik został zapisany");
-			convertVideo();
-    	}
-    });
 }
 
 function convertVideo(){
@@ -69,7 +59,53 @@ function convertVideo(){
     		"videoName": file.name
     	},
     	"success": function(data){
-			alert("Konwersja się powiodła");
+    		checkConversionStatus();
+    	}
+    });
+}
+
+function checkConversionStatus(){
+    jQuery.ajax({
+    	"url": jQuery('#checkConversionStatusUrl').val(),
+    	"type": "POST",
+    	"success": function(data){
+    		var info = JSON.parse(data.progress);
+    		console.log(info);
+    		if(info.progress == -1){
+    			console.log("Koniec"); 
+    		}else {
+    			if(info.progress <= 1000){
+        			console.log(info.progress);
+        			jQuery('#video').hide();
+        			jQuery('#filename').html(info.name);
+        			jQuery('#filename-div').show();
+        			jQuery('#status').html("100%");
+        			jQuery('#conversion').html(parseFloat(info.progress/10).toFixed(0) + "%");
+        			
+            		setTimeout(function(){ 
+            			checkConversionStatus();}, 2000);
+            		
+            		if(info.progress == 1000){
+            			console.log("create reference");
+            			createReference(info.name);
+            		}
+    			}
+    		}
+    	}
+    });
+}
+
+function createReference(name){
+    jQuery.ajax({
+    	"url": jQuery('#createAuctionVideoUrl').val(),
+    	"type": "POST",
+    	"data": {
+    		"id": jQuery('#auctionId').val(),
+    		"name": name
+    	},
+    	"success": function(data){
+    		//jQuery('#status').html("Plik został zapisany");
+    		alert("Plik dodany poprawnie");
     	}
     });
 }

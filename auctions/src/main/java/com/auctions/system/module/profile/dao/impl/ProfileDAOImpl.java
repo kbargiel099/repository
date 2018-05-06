@@ -2,7 +2,6 @@ package com.auctions.system.module.profile.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import com.auctions.system.module.profile.dao.ProfileDAO;
 import com.auctions.system.module.profile.model.UserProfile;
-import com.auctions.system.portlet.category.model.AuctionDetails;
-import com.auctions.system.portlet.category.model.UserDetails;
 
 @Repository("profileDAO")
 public class ProfileDAOImpl implements ProfileDAO{

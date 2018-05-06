@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import com.auctions.system.module.profile.dao.ProfileDAO;
 import com.auctions.system.module.profile.model.UserProfile;
 import com.auctions.system.module.profile.service.ProfileService;
-import com.auctions.system.portlet.category.model.AuctionDetails;
 
 @Service("profileService")
 public class ProfileServiceImpl implements ProfileService {
