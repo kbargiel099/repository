@@ -158,22 +158,23 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
         
         try {
-            PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction(userid,name,description,create_date,edit_date,end_date,"
-					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,videoid) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction(userid,name,description,create_date,edit_date,end_date,minimal_price,"
+					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,videoid) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
 	        pst.setLong(1, userId);
 	        pst.setString(2,a.getName());
 	        pst.setString(3, a.getDescription());
 	        pst.setTimestamp(4, createDate);
 	        pst.setTimestamp(5, createDate);
 	        pst.setTimestamp(6, endDate);
-	        pst.setInt(7, 1);
-	        pst.setInt(8, a.getAuctionTypeId());
-	        pst.setLong(9, a.getSerialNumber());
-	        pst.setLong(10, a.getSubjectPrice());
-	        pst.setInt(11, a.getSubjectQuantity());
+	        pst.setInt(7, 0);
+	        pst.setInt(8, 1);
+	        pst.setInt(9, a.getAuctionTypeId());
+	        pst.setLong(10, a.getSerialNumber());
+	        pst.setLong(11, a.getSubjectPrice());
 	        pst.setInt(12, a.getSubjectQuantity());
-	        pst.setInt(13, a.getSubCategoryId());
-	        pst.setLong(14, -1);
+	        pst.setInt(13, a.getSubjectQuantity());
+	        pst.setInt(14, a.getSubCategoryId());
+	        pst.setLong(15, -1);
 	        pst.executeUpdate();
 	        
 	        ResultSet keys = pst.getGeneratedKeys();
@@ -193,7 +194,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
         Long createdImageId = (long) -1;
         
         try {
-    		PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction_image(auction_id,image_name) VALUES(?,?)",
+    		PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction_image(auctionid,image_name) VALUES(?,?)",
     				PreparedStatement.RETURN_GENERATED_KEYS);
 	        pst.setLong(1, auctionId);
 	        pst.setString(2, imageName);

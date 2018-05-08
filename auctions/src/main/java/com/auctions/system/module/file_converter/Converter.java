@@ -74,7 +74,8 @@ public class Converter {
 			File target = new File(Properties.getVideosPath() + targetFileName);
 			
 			AudioAttributes audio = new AudioAttributes();
-			audio.setCodec("libvorbis");
+			audio.setCodec("vorbis");
+			//audio.setCodec("libvorbis");
 			audio.setBitRate(new Integer(128000));
 			audio.setChannels(new Integer(2));
 			audio.setSamplingRate(new Integer(44100));
@@ -92,6 +93,9 @@ public class Converter {
 			attrs.setVideoAttributes(video);
 			
 			Encoder encoder = new Encoder();
+			//for(String s : encoder.getAudioEncoders()){
+			//	System.out.println(s);
+			//}
 			//System.out.println("ENCODERS");
 			encoder.encode(source, target, attrs, listener);
 			byte[] bFile = Files.readAllBytes(target.toPath());
