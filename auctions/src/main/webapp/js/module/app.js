@@ -22,7 +22,7 @@ function getAllOffers(){
 	    	"success": function(data){
 	    		if(data.success){
 		    		var res = JSON.parse(data.offers);
-		    		for(var i=res.length-1;i>=0;i--){
+		    		for(var i=0;i<res.length;i++){
 		    			addOfferToList(res[i]);
 		    		}
 	    		}else{

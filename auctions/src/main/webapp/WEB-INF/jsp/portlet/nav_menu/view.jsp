@@ -44,8 +44,8 @@
 		    </ul>
 		    <ul class="nav navbar-nav navbar-right">
 		    	<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Poczta
-					<span class="caret"></span></a>
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="notify-view-element" class=" glyphicon glyphicon-envelope"></span>
+					<!-- <span class="caret"></span> --></a>
 					<ul class="dropdown-menu" id="notification-list">
 					<c:choose>
 						<c:when test="${fn:length(messages) gt 0}">
@@ -56,7 +56,7 @@
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<li><a href="javascript:void(0);">Brak nowych wiadomości</a></li>
+							<li id="no-message-elem"><a href="javascript:void(0);">Brak nowych wiadomości</a></li>
 						</c:otherwise>
 					</c:choose>
 					</ul>

@@ -148,6 +148,7 @@
             				list.removeChild(pp);
             				if(list.getElementsByTagName('li').length == 0){
             					var elem = document.createElement('li');
+            					elem.id = 'no-message-elem';
             					elem.innerHTML = '<a href="javascript:void(0);">Brak nowych wiadomości</a>';
             					list.appendChild(elem);
             				}
@@ -169,8 +170,8 @@
                     	console.log(res);
                     	if(res.success == true){
                     		
-                			senderClientChat = false;
-                			isWaitChat = false;
+                			//senderClientChat = false;
+                			//isWaitChat = false;
                 			
                 			for(var i=0;i<popups.length;i++){
                 				if(popups[i] == res.senderId){
@@ -183,19 +184,20 @@
                 			var elements = list.getElementsByTagName('li');
                 			for(var i=0;i<elements.length;i++){
                 				if(elements[i].id == notificationListIdPrefix + res.senderId){
-                					console.log(res.senderId + " jest");
                 					isSenderExist = true;
                 				}
                 			}
                 			
                 			if(!isSenderExist){
-                				
-            					var li = document.createElement('li');
-            					li.id = notificationListIdPrefix + res.senderId;
-            					
-            					li.appendChild(createChatLink(res.senderId,res.senderName,'Wiadomość od'));
-            					console.log(li);
-            					list.appendChild(li);
+                				if(!isVisible(document.getElementById(res.senderId))){
+                					var li = document.createElement('li');
+                					li.id = notificationListIdPrefix + res.senderId;
+                					li.appendChild(createChatLink(res.senderId,res.senderName,'Wiadomość od'));
+                					list.appendChild(li);
+                					
+                					document.getElementById('no-message-elem').remove();
+                					jQuery('#notify-view-element').addClass('mail_notify');
+                				}
                 			}
                     		
                     	}else{
@@ -250,6 +252,13 @@
                 
             }
             
+            function isVisible(element) {
+            	if(element != null){
+            		var style = window.getComputedStyle(element);
+                	return (style.display != 'none')
+            	}
+            	return false;
+            }
             //recalculate when window is loaded and also when window is resized.
             window.addEventListener("resize", calculate_popups);
             window.addEventListener("load", calculate_popups);
