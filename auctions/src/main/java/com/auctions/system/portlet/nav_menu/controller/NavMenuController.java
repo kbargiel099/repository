@@ -21,9 +21,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-/**
- * Portlet implementation class Controller
- */
 @Controller
 @RequestMapping("VIEW")
 public class NavMenuController {

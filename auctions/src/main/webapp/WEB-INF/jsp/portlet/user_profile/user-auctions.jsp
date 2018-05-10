@@ -65,8 +65,4 @@
  		location.href = buildUrl(url,'auctionId',id);
  	}
 	
-	var buildUrl = function(base, key, value) {
-	    var separator = (base.indexOf('?') > -1) ? '&' : '?';
-	    return base + separator + key + '=' + value;
-	}
 </script>

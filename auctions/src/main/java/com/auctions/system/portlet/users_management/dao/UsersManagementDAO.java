@@ -15,6 +15,10 @@ public interface UsersManagementDAO {
 	
 	public List<AuctionDatatable> getAuctions();
 	
+	public boolean activateAuction(long auctionId);
+	
+	public boolean suspendAuction(long auctionId);
+	
 	public boolean deleteAuction(long auctionId) ;
 	
 	public boolean updateUser(User user);

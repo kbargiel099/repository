@@ -45,7 +45,8 @@ public class NavDAOImpl implements NavDAO{
 	@Override
 	public List<MessageAndDate> getUnreadMessagesFromUser(long senderId, long receiverId){	
 		return dao.query("SELECT message,create_date FROM chat_messages WHERE senderid=? AND receiverid=? AND is_read=?", 
-				new Object[]{senderId,receiverId,false},new RowMapper<MessageAndDate>(){
+		//return dao.query("SELECT message,create_date FROM chat_messages WHERE senderid=? AND receiverid=? LIMIT 10", 
+			new Object[]{senderId,receiverId,false},new RowMapper<MessageAndDate>(){
 			@Override
 			public MessageAndDate mapRow(ResultSet res, int row) throws SQLException {
 				return new MessageAndDate(res.getString("message"),res.getDate("create_date"));

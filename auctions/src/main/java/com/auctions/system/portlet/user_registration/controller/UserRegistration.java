@@ -41,9 +41,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
-/**
- * Portlet implementation class UserRegistration
- */
 @Controller("userRegistration")
 @RequestMapping(value = "VIEW")
 public class UserRegistration{
@@ -66,16 +63,10 @@ public class UserRegistration{
 	
 	@RenderMapping
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
-		
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		ModelAndView model = new ModelAndView(defaultView);
 		model.addObject("user", new User());
 		model.addObject("home", themeDisplay.getURLHome());
-		
-		//com.liferay.portal.kernel.model.User user = UserLocalServiceUtil.getUser(65101);
-		//user.setPasswordReset(false);
-		//UserLocalServiceUtil.updateUser(user);
-		//mailManager.sendMail("abstergo887@gmail.com", "nowy-Serwis",themeDisplay.getLocale());
 		return model;
 	}
 	

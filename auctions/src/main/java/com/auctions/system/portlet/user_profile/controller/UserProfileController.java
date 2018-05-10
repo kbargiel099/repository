@@ -30,7 +30,6 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
-import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
@@ -44,7 +43,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
-public class UserProfileController {
+public class UserProfileController extends AuctionProcessing{
 
 	private final String defaultView = "view";
 	private final String createAuctionView = "create-auction"; 
@@ -58,10 +57,6 @@ public class UserProfileController {
 	
 	@Autowired
 	private UserProfileService service;
-	@Autowired
-	AuctionProcessing auctionProcessing;
-	@Autowired
-	ProfileController profile;
 	
 	@Autowired
 	ReloadableResourceBundleMessageSource messageSrc;
@@ -232,25 +227,6 @@ public class UserProfileController {
 		response.getWriter().write(result.toString());
 	}
 	
-	@RequestMapping(params = "page=auctionDetails")
-	public ModelAndView getAuctionDetails(RenderRequest request, RenderResponse response,
-			@RequestParam("id") long id) throws Exception{
-		long userId = PortalUtil.getUserId(request);
-		return auctionProcessing.createAuctionDetailsView(id,userId);
-	}
-	
-	@RequestMapping(params = "page=userProfile")
-	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response,
-			@RequestParam("id") long id) throws Exception{
-		return profile.createUserProfileView(id);
-	}
-	
-	@ResourceMapping("getVideoName")
-	public void getVideoName(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException{	
-		auctionProcessing.getVideoName(id, response);
-	}
-	
 	@ResourceMapping("convertVideo")
 	public void convertVideo(ResourceRequest request, ResourceResponse response,
 			@RequestParam("videoName") String name) throws IOException{	
@@ -265,24 +241,6 @@ public class UserProfileController {
 		
 		response.setContentType("application/json");
 		response.getWriter().write(obj.toString());
-	}
-	
-	@ResourceMapping("createObservation")
-	public void createObservation(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException{	
-		auctionProcessing.createObservation(PortalUtil.getUserId(request), id, response);
-	}
-	
-	@ResourceMapping("removeObservation")
-	public void removeObservation(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException{	
-		auctionProcessing.removeObservation(PortalUtil.getUserId(request), id, response);
-	}
-	
-	@ResourceMapping("getAllOffers")
-	public void getAllOffers(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException{	
-		auctionProcessing.getAllOffers(id, response);
 	}
 
 }

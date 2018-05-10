@@ -163,20 +163,4 @@
 	    };
 	    reader.readAsDataURL(event.target.files[0]);
 	};
-
-/* 	function handleVideoFile(event) {
-	    var file = event.target.files[0];
-        var output = '<li><strong>' + escape(file.name) + '</strong></li>';
-	    document.getElementById('list').innerHTML = '<ul>' + output + '</ul>';
-	    jQuery("#videoName").val(file.name);
-	    reader.onload = function(){
-			jQuery("#videoData").val(getBase64(reader.result));
-	    };
-	    reader.readAsDataURL(file);
-	  } */
-	  
-	  function getBase64(source) {
-	  	return source.replace(/^data:(image|video)\/(png|jpg|jpeg|mp4|webm);base64,/, "");
-	}
-	  
 </script>

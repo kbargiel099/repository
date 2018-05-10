@@ -8,18 +8,15 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
-import com.auctions.system.portlet.users_management.validator.UserValidator;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -27,7 +24,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 
 @Controller
 @RequestMapping("VIEW")
-public class UserController {
+public class UserController extends AuctionProcessing{
 
 	private final String defaultView = "view";
 	private final String usersView = "users";
@@ -39,15 +36,6 @@ public class UserController {
 		
 	@Autowired
 	private UsersManagementService service;
-	
-	@Autowired
-	private UserValidator Validator;
-	
-	@InitBinder("user")
-	private void initBinder(WebDataBinder binder) {
-		binder.setValidator(Validator);
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
-	}
 	
 	@RenderMapping
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
@@ -147,6 +135,26 @@ public class UserController {
 		
 	    response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json.toString());
+	}
+	
+	@ResourceMapping(value="activate")
+	public void activateAuction(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") long id) throws Exception {
+		JsonObject json = new JsonObject();
+		json.addProperty("success",service.activateAuction(id));
+		
+	    response.setContentType("application/json");
+	    response.getWriter().write(json.toString());
+	}
+	
+	@ResourceMapping(value="suspend")
+	public void suspendAuction(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") long id) throws Exception {
+		JsonObject json = new JsonObject();
+		json.addProperty("success",service.suspendAuction(id));
+		
+	    response.setContentType("application/json");
 	    response.getWriter().write(json.toString());
 	}
 	

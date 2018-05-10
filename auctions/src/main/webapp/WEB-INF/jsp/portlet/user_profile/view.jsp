@@ -22,11 +22,5 @@ jQuery(document).ready(function(){
 		showNotifyAlert(msg);
 	}
 });
-function showNotifyAlert(message) {
-	var box = bootbox.alert(message);
-	setTimeout(function() {
-		box.modal('hide');
-	   }, 2000);
-}
 
 </script>

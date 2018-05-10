@@ -211,7 +211,6 @@
 <input type="hidden" id="errorCode2" value="<liferay-ui:message key="auction.has.ended.msg" />"/>
 <input type="hidden" id="currency" value="<liferay-ui:message key="currency" />"/>
 
-<script src="<c:url value="/js/module/notify-modal.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>
 <script>
 var canPlayMPEG4;

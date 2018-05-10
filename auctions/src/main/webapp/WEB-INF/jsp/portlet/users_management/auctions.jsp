@@ -16,7 +16,7 @@
 </portlet:renderURL>
 
 <portlet:renderURL var="details">
-	<portlet:param name="page" value="details"/>
+	<portlet:param name="page" value="auctionDetails"/>
 </portlet:renderURL>
 <input type="hidden" id="detailsUrl" value="${details}"/>
 
@@ -24,6 +24,14 @@
 	<portlet:param name="page" value="edit"/>
 </portlet:renderURL>
 <input type="hidden" id="editUrl" value="${edit}"/>
+
+<portlet:resourceURL id="suspend" var="suspend">
+</portlet:resourceURL>
+<input type="hidden" id="suspendUrl" value="${suspend}"/>
+
+<portlet:resourceURL id="activate" var="activate">
+</portlet:resourceURL>
+<input type="hidden" id="activateUrl" value="${activate}"/>
 
 <portlet:resourceURL id="delete" var="delete">
 </portlet:resourceURL>

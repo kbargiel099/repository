@@ -27,11 +27,11 @@
 
 <div class="container-fluid">
 	<div id="category-view-menu" class="col-xs-12 col-sm-4 col-md-3">
-		<h2 class="category-view-title text-center">${category}</h2>	
+		<h2 class="category-view-title text-center"><liferay-ui:message key="${currentCategory}" /></h2>	
 		<ul class="horizontal-menu">
 		  <c:forEach items="${subCategories}" var="item">
 		  	<li class="horizontal-menu-item">
-		  		<a href="javascript:void()" onclick="getBySubcategory(this)">${item.name}</a>
+		  		<a href="javascript:void()" onclick="getBySubcategory(this)"><liferay-ui:message key="${item.name}"/></a>
 		  		<input type="hidden" name="id" value="${item.id}"/>
 		  	</li>
 		  </c:forEach>
@@ -176,13 +176,5 @@
 				});
 			}
 		});
-	}
-	
-	var buildUrl = function(base, key, value) {
-	    var separator = (base.indexOf('?') > -1) ? '&' : '?';
-	    return base + separator + key + '=' + value;
-	}
-	
-	function currency(n){n=parseFloat(n);return isNaN(n)?false:n.toFixed(2);}
-	
+	}	
 </script>

@@ -33,6 +33,14 @@ public class UsersManagementServiceImpl implements UsersManagementService{
 		return dataSource.getAuctions();
 	}
 	@Override
+	public boolean activateAuction(long auctionId){
+		return dataSource.activateAuction(auctionId);
+	}
+	@Override
+	public boolean suspendAuction(long auctionId){
+		return dataSource.suspendAuction(auctionId);
+	}
+	@Override
 	public boolean deleteAuction(long auctionId){
 		return dataSource.deleteAuction(auctionId);
 	}

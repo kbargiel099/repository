@@ -13,10 +13,10 @@
 	<portlet:param name="page" value="add"/>
 </portlet:renderURL>
 
-<portlet:renderURL var="details">
-	<portlet:param name="page" value="details"/>
+<portlet:renderURL var="profile">
+	<portlet:param name="page" value="userProfile"/>
 </portlet:renderURL>
-<input type="hidden" id="detailsUrl" value="${details}"/>
+<input type="hidden" id="profileUrl" value="${profile}"/>
 
 <portlet:renderURL var="edit">
 	<portlet:param name="page" value="edit"/>

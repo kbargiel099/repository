@@ -1,40 +1,25 @@
 package com.auctions.system.portlet.home_page.controller;
 
-import java.io.IOException;
-
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
-import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.home_page.service.HomePageService;
-import com.liferay.portal.kernel.util.PortalUtil;
 
-/**
- * Portlet implementation class HomePageController
- */
 @Controller
 @RequestMapping("VIEW")
-public class HomePageController {
+public class HomePageController extends AuctionProcessing {
 
 	private final String defaultView = "view";
 	
 	@Autowired
 	private HomePageService service;
-	@Autowired
-	AuctionProcessing auctionProcessing;
-	@Autowired
-	ProfileController profile;
 	
 	@RenderMapping()
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
@@ -43,45 +28,6 @@ public class HomePageController {
 		model.addObject("electronicAuctions",service.getBestAuctionsByCategory("electronics"));
 		model.addObject("newestAuctions", service.getNewestAuction());
 		return model;
-	}
-	
-	@RequestMapping(params = "page=auctionDetails")
-	public ModelAndView defaulView(RenderRequest request, RenderResponse response,
-			@RequestParam("id") long id) throws Exception{
-		
-		long userId = PortalUtil.getUserId(request);
-		return auctionProcessing.createAuctionDetailsView(id,userId);
-	}
-	
-	@RequestMapping(params = "page=userProfile")
-	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response,
-			@RequestParam("id") long id) throws Exception{
-		
-		return profile.createUserProfileView(id);
-	}
-	
-	@ResourceMapping("getVideoName")
-	public void getVideoName(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException{	
-		auctionProcessing.getVideoName(id, response);
-	}
-	
-	@ResourceMapping("createObservation")
-	public void createObservation(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException{	
-		auctionProcessing.createObservation(PortalUtil.getUserId(request), id, response);
-	}
-	
-	@ResourceMapping("removeObservation")
-	public void removeObservation(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException{	
-		auctionProcessing.removeObservation(PortalUtil.getUserId(request), id, response);
-	}
-	
-	@ResourceMapping("getAllOffers")
-	public void getAllOffers(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException{	
-		auctionProcessing.getAllOffers(id, response);
 	}
 	
 }

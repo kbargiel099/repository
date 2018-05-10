@@ -6,13 +6,15 @@ public class AuctionDatatable {
 	private String name;
 	private String createDate;
 	private String imageName;
+	private String status;
 	
-	public AuctionDatatable(long id, String name, String createDate, String imageName) {
+	public AuctionDatatable(long id, String name, String createDate, String imageName, String status) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.createDate = createDate;
 		this.imageName = imageName;
+		this.status = status;
 	}
 	
 	public AuctionDatatable(AuctionDatatable auction) {
@@ -20,6 +22,7 @@ public class AuctionDatatable {
 		this.name = auction.getName();
 		this.createDate = auction.getCreateDate();
 		this.imageName = auction.getImageName();
+		this.status = auction.getStatus();
 	}
 
 	public long getId() {
@@ -46,7 +49,11 @@ public class AuctionDatatable {
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
 	}
-	
-	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	
 }

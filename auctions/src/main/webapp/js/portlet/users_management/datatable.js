@@ -8,30 +8,30 @@ function initUsers(resourceUrl){
         },
         "columns": [
             { "data": "login" },
-			{ "data": "email" },
 			{ "data": "firstname" },
 			{ "data": "lastname" },
-            { "data": "options" }
+			{ "data": "email" },
+            { "data": "options","width": "30%" }
         ],
 	    "columnDefs": [ {
 		    "targets": 4,
 		    "render": function(data,type,full,row){
 			console.log(full);
-				var array = [{type:'details',url:buildUrl(jQuery('#detailsUrl').val(),'userId',full.id)},
-							 {type:'edit',url:buildUrl(jQuery('#editUrl').val(),'userId',full.id)}];
-				if(full.lockout){
-					array.push({type:'unlock',url:buildUrl(jQuery('#unlockUrl').val(),'userId',full.id)});
-				}else{
-					array.push({type:'lock',url:buildUrl(jQuery('#lockUrl').val(),'userId',full.id)});
-				}
+				var optionForLock = full.lockout ? {type:'unlock',url:buildUrl(jQuery('#unlockUrl').val(),'userId',full.id)}
+						: {type:'lock',url:buildUrl(jQuery('#lockUrl').val(),'userId',full.id)};
+				
+				var array = [{type:'details',url:buildUrl(jQuery('#profileUrl').val(),'id',full.id)},
+							 {type:'edit',url:buildUrl(jQuery('#editUrl').val(),'userId',full.id)},
+							  optionForLock];
+				
 				return createDropDownMenu(array);
 			}
 		  } ],
 		//"language": language
 		"language": {
 			"url": "pl"
-		},
-		responsive: true
+		}//},
+		//responsive: true
     } );
 }
 
@@ -46,14 +46,19 @@ function initAuctions(resourceUrl){
 	            { "data": "name" },
 				{ "data": "createDate" },
 				{ "data": "imageName" },
-	            { "data": "options" }
+	            { "data": "options","width": "30%" }
 	        ],
 		    "columnDefs": [ {
 			    "targets": 4,
 			    "render": function(data,type,full,row){
-					var array = [{type:'details',url:buildUrl(jQuery('#detailsUrl').val(),'auctionId',full.id)},
+					var optionForSuspending = (full.status === 'suspended') ? {type:'unlock',url:buildUrl(jQuery('#activateUrl').val(),'auctionId',full.id)}
+							: {type:'lock',url:buildUrl(jQuery('#suspendUrl').val(),'auctionId',full.id)};
+							
+					var array = [{type:'details',url:buildUrl(jQuery('#detailsUrl').val(),'id',full.id)},
 								 {type:'edit',url:buildUrl(jQuery('#editUrl').val(),'auctionId',full.id)},
+								 optionForSuspending,
 								 {type:'delete',url:buildUrl(jQuery('#deleteUrl').val(),'auctionId',full.id)}];
+								 
 					return createDropDownMenu(array);
 				}
 			  },{
@@ -65,8 +70,8 @@ function initAuctions(resourceUrl){
 			//"language": language
 			"language": {
 				"url": "pl"
-			},
-			responsive: true
+			}//},
+			//responsive: true
 	    } );
 	}
 
@@ -77,12 +82,8 @@ function sendRequest(url){
 			"success" : function(data){
 				if(data.success){
 					table.ajax.reload();
+					responsiveNotify("Udało się");
 				}
 			} 
 		});
-}
-
-var buildUrl = function(base, key, value) {
-    var separator = (base.indexOf('?') > -1) ? '&' : '?';
-    return base + separator + key + '=' + value;
 }

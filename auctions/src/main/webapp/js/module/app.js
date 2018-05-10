@@ -193,22 +193,6 @@ function showRefreshPageBtn(){
 		window.location.reload();
 	});
 }
-	
-function responsiveNotify(message){
-	var width = jQuery(window).width();
-	if(width > 1000){
-		showNotifyAlert(message);
-	}else{
-		notifyBar(message);
-	}
-}
-function showNotifyAlert(message) {
-	var box = bootbox.alert(message);
-	setTimeout(function() {
-		box.modal('hide');
-	}, 2000);
-}
-
 
 function provideValidation(){
 	
@@ -265,6 +249,3 @@ function provideValidation(){
 function validate(){
 	return jQuery('#proceed-form').valid();
 }
-
-
-function currency(n){n=parseFloat(n);return isNaN(n)?false:n.toFixed(2);}
