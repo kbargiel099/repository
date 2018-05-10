@@ -1,9 +1,12 @@
 			jQuery(document).ready(function(){
 				if(Liferay.ThemeDisplay.isSignedIn()){
 					connectForChat();
+					
 				}
 			});
 
+			window
+			
 			//this function can remove a array element.
             Array.remove = function(array, from, to) {
                 var rest = array.slice((to || from) + 1 || array.length);
@@ -22,19 +25,19 @@
             //this is used to close a popup
             function close_popup(id)
             {
-                for(var iii = 0; iii < popups.length; iii++)
-                {
+                //for(var iii = 0; iii < popups.length; iii++)
+                //{
                     if(id == popups[iii])
                     {
-                        //Array.remove(popups, iii);
-                        
-                        document.getElementById(id).style.display = "none";
+                        Array.remove(popups, iii);
+                        document.getElementById(id).remove();
+                        //document.getElementById(id).style.display = "none";
                         
                         //calculate_popups();
                         
                         return;
                     }
-                }   
+                //}   
             }
         
 

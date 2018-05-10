@@ -1,12 +1,5 @@
 package com.auctions.system.portlet.users_management.dao.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -16,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -27,30 +21,37 @@ import com.auctions.system.portlet.users_management.model.User;
 @Repository("UsersManagementDAO")
 public class UsersManagementDAOImpl implements UsersManagementDAO {
 
+	private JdbcTemplate daoPortal;
 	private JdbcTemplate dao;
 	
 	@Autowired
+	@Qualifier("dataSource-lportal")
+	private DataSource dataSourcePortal;
+	
+	@Autowired
+	@Qualifier("dataSource")
 	private DataSource dataSource;
 	
 	@PostConstruct
 	public void init() {
-	 dao = new JdbcTemplate(dataSource);
+		daoPortal = new JdbcTemplate(dataSourcePortal);
+		dao = new JdbcTemplate(dataSource);
 	}
 	
 	@Override
-	public List<User> getUser() {
-		return dao.query("SELECT id,login,password,firstname,lastname,email FROM users", new RowMapper<User>(){
+	public List<User> getUsers() {
+		return daoPortal.query("SELECT userid,screenname,firstname,lastname,emailaddress,lockout FROM user_ WHERE emailaddress NOT LIKE 'default%'", new RowMapper<User>(){
 			@Override
 			public User mapRow(ResultSet res, int row) throws SQLException {
-				return new User(res.getInt("id"),res.getString("login"),res.getString("password"),res.getString("firstname"),
-						res.getString("lastname"),res.getString("email"));
+				return new User(res.getLong("userid"),res.getString("screenname"),res.getString("firstname"),
+						res.getString("lastname"),res.getString("emailaddress"),res.getBoolean("lockout"));
 			}	
 		});
 	}
 	
 	@Override
 	public List<AuctionDatatable> getAuctions() {
-		return dao.query("SELECT a.id,a.name,a.create_date,i.image_name AS image_name FROM auction a JOIN auction_image i ON i.auction_id = a.id",
+		return dao.query("SELECT id,name,create_date,image_name FROM auction_main",
 				new RowMapper<AuctionDatatable>(){
 			@Override
 			public AuctionDatatable mapRow(ResultSet res, int row) throws SQLException {
@@ -58,15 +59,23 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 			}	
 		});
 	}
+	
+	@Override
+	public boolean deleteAuction(long auctionId) {
+		int numberOfDeletedRows =  dao.update("DELETE FROM auction WHERE id=?",
+				new Object[]{auctionId});
+		return numberOfDeletedRows > 0 ? true : false;
+		
+	}
 
 	@Override
 	public User getUserById(int userId) {
-		return dao.queryForObject("SELECT id,login,password,firstname,lastname,email FROM users WHERE id = ?", 
+		return daoPortal.queryForObject("SELECT userid,screenname,password,firstname,lastname,emailaddress,lockout FROM user_ WHERE userid = ?", 
 			new Object[]{userId},new RowMapper<User>(){
 				@Override
 				public User mapRow(ResultSet res, int row) throws SQLException {
-					return new User(res.getInt("id"),res.getString("login"),res.getString("password"),res.getString("firstname"),
-							res.getString("lastname"),res.getString("email"));
+					return new User(res.getLong("userid"),res.getString("screenname"),res.getString("password"),res.getString("firstname"),
+							res.getString("lastname"),res.getString("emailaddress"),res.getBoolean("lockout"));
 			}
 		});
 	}
@@ -75,7 +84,7 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 	public boolean createUser(User user,boolean isAdmin){
 		Timestamp stamp = new Timestamp(0);
 		
-		int numberOfUpdatedRows =  dao.update("INSERT INTO users(login,password,email,firstname,lastname,isActive,isAdmin,createDate,editDate) VALUES(?,?,?,?,?,?,?,?,?)",
+		int numberOfUpdatedRows =  daoPortal.update("INSERT INTO users(login,password,email,firstname,lastname,isActive,isAdmin,createDate,editDate) VALUES(?,?,?,?,?,?,?,?,?)",
 				new Object[]{user.getLogin(),user.getPassword(),user.getEmail(),user.getFirstname(),user.getLastname(),true,isAdmin,stamp,stamp});
 		
 		return numberOfUpdatedRows > 0 ? true : false;
@@ -84,7 +93,7 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 	@Override
 	public boolean updateUser(User user){
 		Timestamp stamp = new Timestamp(0);
-		int numberOfUpdatedRows =  dao.update("UPDATE users SET login=?,password=?,firstname=?,lastname=?,email=?,editDate=? WHERE id = ?",
+		int numberOfUpdatedRows =  daoPortal.update("UPDATE users SET login=?,password=?,firstname=?,lastname=?,email=?,editDate=? WHERE id = ?",
 				new Object[]{user.getLogin(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),stamp,user.getId()});
 		
 		return numberOfUpdatedRows > 0 ? true : false;
@@ -92,7 +101,7 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 
 	@Override
 	public boolean deleteUser(int userId) {
-		int numberOfDeletedRows =  dao.update("DELETE FROM users WHERE id = ?",
+		int numberOfDeletedRows =  daoPortal.update("DELETE FROM users WHERE id = ?",
 				new Object[]{userId});
 		
 		return numberOfDeletedRows > 0 ? true : false;

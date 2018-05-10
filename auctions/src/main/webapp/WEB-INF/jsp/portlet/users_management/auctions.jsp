@@ -11,9 +11,24 @@
 <portlet:resourceURL id="getAuctions" var="getAuctions" />
 <input type="hidden" id="getAuctionsUrl" value="${getAuctions}"></input>
 
-<portlet:renderURL var="addAuction">
+<portlet:renderURL var="add">
 	<portlet:param name="page" value="add"/>
 </portlet:renderURL>
+
+<portlet:renderURL var="details">
+	<portlet:param name="page" value="details"/>
+</portlet:renderURL>
+<input type="hidden" id="detailsUrl" value="${details}"/>
+
+<portlet:renderURL var="edit">
+	<portlet:param name="page" value="edit"/>
+</portlet:renderURL>
+<input type="hidden" id="editUrl" value="${edit}"/>
+
+<portlet:resourceURL id="delete" var="delete">
+</portlet:resourceURL>
+<input type="hidden" id="deleteUrl" value="${delete}"/>
+
 <div class="container">
 
 	<%@include file="/WEB-INF/jsp/portlet/users_management/menu.jsp" %>
@@ -23,7 +38,7 @@
 	</div>
 	
 	<div class="col-xs-12 col-sm-8 col-md-9">
-		<a class="btn btn-primary btn-sm" href="${addAuction}">
+		<a class="btn btn-primary btn-sm" href="${add}">
 			<liferay-ui:message key="add" />
 		</a>
 		<table id="auctions" class="display">
@@ -50,10 +65,8 @@
 </div>
 
 <script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
-<script src="<c:url value="/js/common/image-util.js" />"></script>
 <script type="text/javascript" >
 	jQuery(document).ready(function(){
 		initAuctions(jQuery("#getAuctionsUrl").val());
-		//setSizeOfImages(240);
 	});
 </script>

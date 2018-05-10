@@ -18,7 +18,7 @@ public class UsersManagementServiceImpl implements UsersManagementService{
 	
 	@Override
 	public List<User> getUsers() {
-		return dataSource.getUser();
+		return dataSource.getUsers();
 	}
 	@Override
 	public User getUserById(int userId){
@@ -31,6 +31,10 @@ public class UsersManagementServiceImpl implements UsersManagementService{
 	@Override
 	public List<AuctionDatatable> getAuctions(){
 		return dataSource.getAuctions();
+	}
+	@Override
+	public boolean deleteAuction(long auctionId){
+		return dataSource.deleteAuction(auctionId);
 	}
 	@Override
 	public boolean updateUser(User user){

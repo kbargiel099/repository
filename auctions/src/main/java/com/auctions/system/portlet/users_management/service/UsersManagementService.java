@@ -15,6 +15,8 @@ public interface UsersManagementService {
 	
 	public List<AuctionDatatable> getAuctions();
 	
+	public boolean deleteAuction(long auctionId);
+	
 	public boolean updateUser(User user);
 	
 	public boolean deleteUser(int userId);

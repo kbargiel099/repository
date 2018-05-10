@@ -12,6 +12,25 @@
 <portlet:renderURL var="addUser">
 	<portlet:param name="page" value="add"/>
 </portlet:renderURL>
+
+<portlet:renderURL var="details">
+	<portlet:param name="page" value="details"/>
+</portlet:renderURL>
+<input type="hidden" id="detailsUrl" value="${details}"/>
+
+<portlet:renderURL var="edit">
+	<portlet:param name="page" value="edit"/>
+</portlet:renderURL>
+<input type="hidden" id="editUrl" value="${edit}"/>
+
+<portlet:resourceURL id="lock" var="lock">
+</portlet:resourceURL>
+<input type="hidden" id="lockUrl" value="${lock}"/>
+
+<portlet:resourceURL id="unlock" var="unlock">
+</portlet:resourceURL>
+<input type="hidden" id="unlockUrl" value="${unlock}"/>
+
 <div class="container">
 
 	<%@include file="/WEB-INF/jsp/portlet/users_management/menu.jsp" %>
@@ -46,8 +65,8 @@
 		</table>
 	</div>
 </div>
-<script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
 
+<script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
 <script type="text/javascript" >
 	jQuery(document).ready(function(){
 		initUsers(jQuery("#getUsersUrl").val());
