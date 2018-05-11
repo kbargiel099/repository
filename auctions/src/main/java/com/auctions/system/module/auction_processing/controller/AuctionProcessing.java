@@ -8,7 +8,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
@@ -20,8 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-@Controller
-@RequestMapping("VIEW")
+@Component
 public class AuctionProcessing extends ProfileController{
 	
 	private final String detailsView = "auction-details-view";

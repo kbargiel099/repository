@@ -28,7 +28,8 @@ var loadFileVideo = function(event) {
 
 function sentPackage(data){
 	isSent = true;
-	params = [{'name':'data','value':data},{'name':'name','value':file.name}];
+	params = [{'name':'data','value':data},
+		      {'name':'name','value':file.name}];
 	sendRequestParams(url,params,afterSuccessSending);
 }
 
@@ -95,4 +96,3 @@ function createDataPackage(){
 	}
 	return temp;
 }
-

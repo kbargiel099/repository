@@ -14,20 +14,13 @@ function init(){
 
 function submitLogin(){
 	var url = jQuery("#signInUrl").val();
-	var form = JSON.stringify(jQuery("#login-form")
-			.serializeObject());  
-
-	jQuery.ajax({
-		"url":url,
-		"type": "POST",
-		"data":{
-			"form": form
-		},
-		"success": function(data){
-			if(data.success == true)
-				window.location.href = themeDisplay.getURLHome();
-			else
-				jQuery("#login-validation-info").show();
-		}
-	});
+	var params = [{'name':'form','value':JSON.stringify(jQuery("#login-form").serializeObject())}];  
+	sendRequestParams(url,params,signInCallback);
 }
+
+var signInCallback = function(data){
+	if(data.success == true)
+		window.location.href = themeDisplay.getURLHome();
+	else
+		jQuery("#login-validation-info").show();
+};

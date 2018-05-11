@@ -1,7 +1,6 @@
 			jQuery(document).ready(function(){
 				if(Liferay.ThemeDisplay.isSignedIn()){
 					connectForChat();
-					
 				}
 			});        
             //this variable represents the total number of popups can be displayed according to the viewport width
@@ -59,9 +58,7 @@
                 element = element + '<div class="col-xs-2"><a class="chat-button" href="javascript:void(0);" id="send-message-button">Wyślij</a></div></div></div>';
                 
                 jQuery('body').append(element);
-        
                 popups.unshift(id);
-                        
                 calculate_popups();
                 
                 console.log(popups);
@@ -73,25 +70,22 @@
                 	jQuery('#send-message-input').val("");
                 });
                 
-            	jQuery.ajax({
-            		"url":url,
-            		"type":"GET",
-            		"success": function(data){
-            			if(data.success == true){
-            				var messages = JSON.parse(data.messages);
-            				
-            				for(var i=0;i<messages.length;i++){
-            					console.log(messages[i]);
-            					addMessageAsReceiver(id,messages[i].message);
-            				}
-        					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),id);
-            			}
-            			else
-            				alert("Wystapil blad");
-            		}
-            	});
-                
+                sendRequest(url,loadMessagesCallback);
             }
+            
+            var loadMessagesCallback = function(data){
+    			if(data.success == true){
+    				var messages = JSON.parse(data.messages);
+    				
+    				for(var i=0;i<messages.length;i++){
+    					console.log(messages[i]);
+    					addMessageAsReceiver(id,messages[i].message);
+    				}
+					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),id);
+    			}
+    			else
+    				alert("Wystapil blad");
+            };
             
             function markMessagesAsRead(url,userId){
             	jQuery.ajax({

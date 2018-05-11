@@ -4,15 +4,14 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 
 import com.auctions.system.module.profile.service.ProfileService;
 
-@Controller
-@RequestMapping("VIEW")
+@Component
 public class ProfileController {
 	
 	private final String userDetailsView = "user-details-view";

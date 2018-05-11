@@ -107,14 +107,9 @@
 	var subCategories;
 	jQuery(document).ready(function(){
 		jQuery('.selectpicker').selectpicker();
-		var url = jQuery("#getSubCategoriesUrl").val();
-	    jQuery.ajax({
-	    	"url": url,
-	    	"type": "POST",
-	    	"success": function(data){
-	    		subCategories = data;
-	    	}
-	    });
+		sendRequest(jQuery("#getSubCategoriesUrl").val(),
+				function(data){subCategories = data;});
+
 	});
 	
 	jQuery("#categoryIdSelect").change(function(){

@@ -56,7 +56,7 @@ function initAuctions(resourceUrl){
 							
 					var array = [{type:'details',url:buildUrl(jQuery('#detailsUrl').val(),'id',full.id)},
 								 {type:'edit',url:buildUrl(jQuery('#editUrl').val(),'auctionId',full.id)},
-								 optionForSuspending,
+								  optionForSuspending,
 								 {type:'delete',url:buildUrl(jQuery('#deleteUrl').val(),'auctionId',full.id)}];
 								 
 					return createDropDownMenu(array);
