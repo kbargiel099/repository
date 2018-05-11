@@ -11,7 +11,7 @@ public class Worker {
 
 	private int conversionComplete = 1000;
 	private Map<Long,FileInfo> filesConvertingProgress = new HashMap<Long,FileInfo>();
-	ExecutorService executor = Executors.newFixedThreadPool(2);
+	ExecutorService executor = Executors.newFixedThreadPool(10);
 	
 	public void createImages(final Auction auction){
 		executor.execute(new Runnable(){

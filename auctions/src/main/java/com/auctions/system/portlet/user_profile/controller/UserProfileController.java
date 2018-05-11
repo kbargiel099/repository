@@ -63,11 +63,6 @@ public class UserProfileController extends AuctionProcessing{
 	
 	Worker worker = new Worker();
 	
-	@InitBinder("newAuction")
-	private void initBinderAuction(WebDataBinder binder) {
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
-	}
-	
 	@InitBinder("auctionGrade")
 	private void initBinderGrade(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
@@ -180,16 +175,17 @@ public class UserProfileController extends AuctionProcessing{
 		return subCategories;
 	}
 	
-	@ActionMapping(params = "action=createNewAuction")
-	public void createNewAuctionAction(ActionRequest request, ActionResponse response,
-			@ModelAttribute("newAuction") Auction auction) throws ParseException{		
+	@ResourceMapping("submitAuction")
+	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response,
+			@RequestParam("newAuction") String form) throws ParseException{
+		Auction auction = new Gson().fromJson(form, Auction.class);
 		worker.createImages(auction);
-		
+
 		long userId = PortalUtil.getUserId(request);
 		boolean isCreated = service.createUserAuction(userId, auction);
-		if(isCreated){
+/*		if(isCreated){
 			response.setRenderParameter("message", "Pomyślnie utworzono aukcję");
-		}
+		}*/
 	}
 	
 	@ActionMapping(params = "action=addGrade")

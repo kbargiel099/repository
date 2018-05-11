@@ -12,8 +12,6 @@ public class Auction {
 	private int subCategoryId;
 	private String imageName;
 	private String imageData;
-	private String videoName;
-	private String videoData;
 	private String description;
 	private int subjectQuantity;
 	private long subjectPrice;
@@ -24,8 +22,8 @@ public class Auction {
 	
 	public Auction(int id, String name, long serialNumber,
 			String endDate, int auctionTypeId, int categoryId, int subCategoryId,
-			String imageName, String imageData, String videoName, String videoData,
-			String description, int subjectQuantity, long subjectPrice) {
+			String imageName, String imageData, String description,
+			int subjectQuantity, long subjectPrice) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -36,8 +34,6 @@ public class Auction {
 		this.subCategoryId = subCategoryId;
 		this.imageName = imageName;
 		this.imageData = imageData;
-		this.videoName = videoName;
-		this.videoData = videoData;
 		this.description = description;
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
@@ -137,22 +133,6 @@ public class Auction {
 
 	public void setSubCategoryId(int subCategoryId) {
 		this.subCategoryId = subCategoryId;
-	}
-
-	public String getVideoName() {
-		return videoName;
-	}
-
-	public void setVideoName(String videoName) {
-		this.videoName = videoName;
-	}
-
-	public String getVideoData() {
-		return videoData;
-	}
-
-	public void setVideoData(String videoData) {
-		this.videoData = videoData;
 	}
 	
 	//private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
