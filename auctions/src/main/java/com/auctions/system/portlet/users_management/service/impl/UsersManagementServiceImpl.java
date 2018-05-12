@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.portlet.users_management.dao.UsersManagementDAO;
 import com.auctions.system.portlet.users_management.model.AuctionDatatable;
 import com.auctions.system.portlet.users_management.model.User;
@@ -25,10 +26,6 @@ public class UsersManagementServiceImpl implements UsersManagementService{
 		return dataSource.getUserById(userId);
 	}
 	@Override
-	public boolean createUser(User user,boolean isAdmin){
-		return dataSource.createUser(user,isAdmin);
-	}
-	@Override
 	public List<AuctionDatatable> getAuctions(){
 		return dataSource.getAuctions();
 	}
@@ -45,12 +42,12 @@ public class UsersManagementServiceImpl implements UsersManagementService{
 		return dataSource.deleteAuction(auctionId);
 	}
 	@Override
-	public boolean updateUser(User user){
-		return dataSource.updateUser(user);
+	public List<AuctionOffer> getPurchases(long auctionId){
+		return dataSource.getPurchases(auctionId);
 	}
 	@Override
-	public boolean deleteUser(int userId) {
-		return dataSource.deleteUser(userId);
+	public List<AuctionOffer> getWonOffers(long auctionId){
+		return dataSource.getWonOffers(auctionId);
 	}
 
 }

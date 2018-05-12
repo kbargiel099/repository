@@ -5,8 +5,13 @@
 			});        
             //this variable represents the total number of popups can be displayed according to the viewport width
             var total_popups = 0;
-            
+            var smallWidth = 640;
             var popups = [];
+            
+            var popupWidth =  window.innerWidth > smallWidth ? 320 : window.outerWidth;
+            //var popupWidth = window.innerWidth > 640 ? 25 : 100;
+        	var right = window.innerWidth < smallWidth ? 0 : 220;
+            //var right = window.innerWidth < 640 ? 0 : 15;
             
             function close_popup(id)
             {
@@ -22,8 +27,8 @@
         
             function display_popups()
             {
-                var right = 220;
-                
+                console.log("right " + right);
+                console.log("popupWidth " + popupWidth);
                 var iii = 0;
                 for(iii; iii < total_popups; iii++)
                 {
@@ -31,8 +36,9 @@
                     {
                         var element = document.getElementById(popups[iii]);
                         element.style.right = right + "px";
-                        right = right + 320;
+                        right = right + popupWidth;
                         element.style.display = "block";
+                        console.log('show');
                     }
                 }
                 
@@ -40,6 +46,7 @@
                 {
                     var element = document.getElementById(popups[jjj]);
                     element.style.display = "none";
+                    console.log('hide');
                 }
             }
             
@@ -188,17 +195,20 @@
 
             function calculate_popups()
             {
+            	//popupWidth =  window.innerWidth < 640 ? 200 : 320;
+            	right = window.innerWidth < smallWidth ? 0 : 220;
+                // var right = window.innerWidth < 640 ? 0 : 15;
                 var width = window.innerWidth;
-                if(width < 540)
+                if(width < smallWidth)
                 {
                     total_popups = 1;
                 }
                 else
                 {
                     width = width - 200;
-                    total_popups = parseInt(width/320);
+                    total_popups = parseInt(width/popupWidth);
                 }
-                
+                console.log("total " + total_popups);
                 display_popups();
                 
             }

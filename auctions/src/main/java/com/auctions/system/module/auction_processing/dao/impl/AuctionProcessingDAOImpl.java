@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.auctions.system.module.auction_processing.DateFormatter;
 import com.auctions.system.module.auction_processing.dao.AuctionProcessingDAO;
 import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.portlet.category.model.AuctionDetails;
@@ -21,7 +22,7 @@ import com.auctions.system.portlet.category.model.UserDetails;
 
 @Repository("auctionProcessingDAO")
 public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
-
+	
 	private JdbcTemplate daoPortal;
 	private JdbcTemplate dao;
 	
@@ -41,17 +42,15 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public AuctionDetails getAuctionDetails(long auctionId){
-		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
-		
-		return dao.queryForObject("SELECT id,serial_number,name,image_name,description,create_date,end_date,"
+		return dao.queryForObject("SELECT id,userid,serial_number,name,image_name,description,create_date,end_date,"
 				+ "subject_price,available,videoid,type_name,minimal_price FROM auction_details WHERE id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
 					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionDetails(res.getInt("id"),res.getString("serial_number"),
-								res.getString("name"),res.getString("description"),
-								sdf.format(res.getTimestamp("create_date")),sdf.format(res.getTimestamp("end_date")),res.getString("image_name"),
-								res.getString("type_name"),res.getLong("videoid"),res.getInt("available"),res.getLong("subject_price"),res.getLong("minimal_price"));
+						return new AuctionDetails(res.getLong("id"),res.getLong("userid"),res.getString("serial_number"),
+							res.getString("name"),res.getString("description"),DateFormatter.format(res.getTimestamp("create_date")),
+							DateFormatter.format(res.getTimestamp("end_date")),res.getString("image_name"),res.getString("type_name"),
+							res.getLong("videoid"),res.getInt("available"),res.getLong("subject_price"),res.getLong("minimal_price"));
 				}
 			});
 	}
@@ -106,12 +105,12 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public List<AuctionOffer> getAllOffers(long auctionId){
-		return dao.query("SELECT userid,price,quantity FROM auction_process WHERE auctionid=?", 
+		return dao.query("SELECT userid,price,quantity,create_date FROM auction_process WHERE auctionid=?", 
 				new Object[]{auctionId},new RowMapper<AuctionOffer>(){
 					@Override
 					public AuctionOffer mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionOffer(res.getLong("userid"),res.getLong("price"),
-							res.getInt("quantity"));
+							res.getInt("quantity"),DateFormatter.format(res.getTimestamp("create_date")));
 				}
 		});
 	}

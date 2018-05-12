@@ -107,7 +107,6 @@
 		jQuery('.selectpicker').selectpicker();
 		sendRequest(jQuery("#getSubCategoriesUrl").val(),
 				function(data){subCategories = data;});
-		console.log(JSON.stringify(jQuery("#create-new-auction-form").serializeObject()));
 	});
 	
 	jQuery("#categoryIdSelect").change(function(){
@@ -167,7 +166,6 @@
 	
 	function submitAuction(){
 		var url = jQuery("#submitAuctionUrl").val();
-		console.log(JSON.stringify(jQuery("#create-new-auction-form").serializeObject()));
 		var params = [{'name':'newAuction','value':JSON.stringify(jQuery("#create-new-auction-form").serializeObject())}];  
 		sendRequestParams(url,params,function(data){alert("Udało się");});
 	}

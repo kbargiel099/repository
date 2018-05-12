@@ -16,6 +16,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
 import com.auctions.system.module.profile.controller.ProfileController;
+import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -79,6 +80,10 @@ public class AuctionProcessing extends ProfileController{
 		
 		response.setContentType("application/json");
 		response.getWriter().write(obj.toString());
+	}
+	
+	public AuctionDetails getDetails(long id){
+		return service.getAuctionDetails(id);
 	}
 	
 }

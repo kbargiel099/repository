@@ -2,7 +2,6 @@ package com.auctions.system.portlet.users_management.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +13,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.auctions.system.module.auction_processing.DateFormatter;
+import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.portlet.users_management.dao.UsersManagementDAO;
 import com.auctions.system.portlet.users_management.model.AuctionDatatable;
 import com.auctions.system.portlet.users_management.model.User;
@@ -93,31 +94,27 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 	}
 	
 	@Override
-	public boolean createUser(User user,boolean isAdmin){
-		Timestamp stamp = new Timestamp(0);
-		
-		int numberOfUpdatedRows =  daoPortal.update("INSERT INTO users(login,password,email,firstname,lastname,isActive,isAdmin,createDate,editDate) VALUES(?,?,?,?,?,?,?,?,?)",
-				new Object[]{user.getLogin(),user.getPassword(),user.getEmail(),user.getFirstname(),user.getLastname(),true,isAdmin,stamp,stamp});
-		
-		return numberOfUpdatedRows > 0 ? true : false;
+	public List<AuctionOffer> getPurchases(long auctionId){
+		return dao.query("SELECT userid,price,quantity,create_date FROM auction_purchase WHERE auctionid=?", 
+				new Object[]{auctionId},new RowMapper<AuctionOffer>(){
+					@Override
+					public AuctionOffer mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionOffer(res.getLong("userid"),res.getLong("price"),
+							res.getInt("quantity"),DateFormatter.format(res.getTimestamp("create_date")));
+				}
+		});
 	}
 	
 	@Override
-	public boolean updateUser(User user){
-		Timestamp stamp = new Timestamp(0);
-		int numberOfUpdatedRows =  daoPortal.update("UPDATE users SET login=?,password=?,firstname=?,lastname=?,email=?,editDate=? WHERE id = ?",
-				new Object[]{user.getLogin(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),stamp,user.getId()});
-		
-		return numberOfUpdatedRows > 0 ? true : false;
-	}
-
-	@Override
-	public boolean deleteUser(int userId) {
-		int numberOfDeletedRows =  daoPortal.update("DELETE FROM users WHERE id = ?",
-				new Object[]{userId});
-		
-		return numberOfDeletedRows > 0 ? true : false;
-		
+	public List<AuctionOffer> getWonOffers(long auctionId){
+		return dao.query("SELECT userid,price,quantity,current_date AS create_date FROM auction_winner WHERE auctionid=?", 
+				new Object[]{auctionId},new RowMapper<AuctionOffer>(){
+					@Override
+					public AuctionOffer mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionOffer(res.getLong("userid"),res.getLong("price"),
+							res.getInt("quantity"),DateFormatter.format(res.getTimestamp("create_date")));
+				}
+		});
 	}
 	
 	

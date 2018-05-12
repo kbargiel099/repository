@@ -46,25 +46,29 @@
 		<table id="users" class="display">
 		     <thead>
 		            <tr>
-		                <th>Login</th>
-						<th>Imię</th>
-						<th>Nazwisko</th>
-		                <th>Email</th>
-		                <th>Opcje</th>
+		                <th><liferay-ui:message key="adm.login.label" /></th>
+						<th><liferay-ui:message key="adm.firstname.label" /></th>
+						<th><liferay-ui:message key="adm.lastname.label" /></th>
+		                <th><liferay-ui:message key="adm.email.address.label" /></th>
+		                <th><liferay-ui:message key="options" /></th>
 		            </tr>
 		        </thead>
 		        <tfoot>
 		            <tr>
-		                <th>Login</th>
-						<th>Imię</th>
-						<th>Nazwisko</th>
-		                <th>Email</th>
-		                <th>Opcje</th>
+		                <th><liferay-ui:message key="adm.login.label" /></th>
+						<th><liferay-ui:message key="adm.firstname.label" /></th>
+						<th><liferay-ui:message key="adm.lastname.label" /></th>
+		                <th><liferay-ui:message key="adm.email.address.label" /></th>
+		                <th><liferay-ui:message key="options" /></th>
 		            </tr>
 		        </tfoot>
 		</table>
 	</div>
 </div>
+
+<input type="hidden" id="locked-msg" value="<liferay-ui:message key="user.lock.success"/>"/>
+<input type="hidden" id="unlocked-msg" value="<liferay-ui:message key="user.unlock.success"/>"/>
+<input type="hidden" id="error-msg" value="<liferay-ui:message key="error.msg"/>"/>
 
 <script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
 <script type="text/javascript" >

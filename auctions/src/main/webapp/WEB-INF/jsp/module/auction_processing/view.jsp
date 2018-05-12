@@ -98,8 +98,8 @@
 			</div>
 			<c:if test="${auction.typeName != 'quick_purchase'}">
 				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div id="auction-notify" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow: scroll;height: 200px;width: 100%;">
-						<h4 class="text-center"><strong><liferay-ui:message key="auction.actual.offers" /></strong></h4>
+<!-- 				<div id="auction-notify" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow-y: scroll;height: 200px;width: 100%;"> -->						<h4 class="text-center"><strong><liferay-ui:message key="auction.actual.offers" /></strong></h4>
+					<div id="auction-notify" class="mygrid-wrapper-div" style="overflow-y: scroll;height: 200px;width: 100%;">
 						<table>
 							<thead>
 							  <tr>

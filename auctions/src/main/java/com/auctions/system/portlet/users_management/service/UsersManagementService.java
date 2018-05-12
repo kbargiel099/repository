@@ -2,6 +2,7 @@ package com.auctions.system.portlet.users_management.service;
 
 import java.util.List;
 
+import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.portlet.users_management.model.AuctionDatatable;
 import com.auctions.system.portlet.users_management.model.User;
 
@@ -11,8 +12,6 @@ public interface UsersManagementService {
 	
 	public User getUserById(int userId);
 	
-	public boolean createUser(User user,boolean isAdmin);
-	
 	public List<AuctionDatatable> getAuctions();
 	
 	public boolean activateAuction(long auctionId);
@@ -21,7 +20,8 @@ public interface UsersManagementService {
 	
 	public boolean deleteAuction(long auctionId);
 	
-	public boolean updateUser(User user);
+	public List<AuctionOffer> getPurchases(long auctionId);
 	
-	public boolean deleteUser(int userId);
+	public List<AuctionOffer> getWonOffers(long auctionId);
+	
 }

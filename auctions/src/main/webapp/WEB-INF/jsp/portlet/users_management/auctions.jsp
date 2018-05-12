@@ -15,6 +15,11 @@
 	<portlet:param name="page" value="add"/>
 </portlet:renderURL>
 
+<portlet:renderURL var="stats">
+	<portlet:param name="page" value="stats"/>
+</portlet:renderURL>
+<input type="hidden" id="statsUrl" value="${stats}"/>
+
 <portlet:renderURL var="details">
 	<portlet:param name="page" value="auctionDetails"/>
 </portlet:renderURL>
@@ -52,25 +57,30 @@
 		<table id="auctions" class="display">
 		     <thead>
 		            <tr>
-		                <th>Id</th>
-						<th>Nazwa</th>
-						<th>Data utworzenia</th>
+		                <th><liferay-ui:message key="adm.id.label" /></th>
+						<th><liferay-ui:message key="adm.auction.name.label" /></th>
+						<th><liferay-ui:message key="adm.create.date.label" /></th>
 		                <th></th>
-		                <th>Opcje</th>
+		                <th><liferay-ui:message key="options" /></th>
 		            </tr>
 		        </thead>
 		        <tfoot>
 		            <tr>
-		                <th>Id</th>
-						<th>Nazwa</th>
-						<th>Data utworzenia</th>
+		                <th><liferay-ui:message key="adm.id.label" /></th>
+						<th><liferay-ui:message key="adm.auction.name.label" /></th>
+						<th><liferay-ui:message key="adm.create.date.label" /></th>
 		                <th></th>
-		                <th>Opcje</th>
+		                <th><liferay-ui:message key="options" /></th>
 		            </tr>
 		        </tfoot>
 		</table>
 	</div>
 </div>
+
+<input type="hidden" id="locked-msg" value="<liferay-ui:message key="auction.lock.success"/>"/>
+<input type="hidden" id="unlocked-msg" value="<liferay-ui:message key="auction.unlock.success"/>"/>
+<input type="hidden" id="deleted-msg" value="<liferay-ui:message key="auction.delete.success"/>"/>
+<input type="hidden" id="error-msg" value="<liferay-ui:message key="error.msg"/>"/>
 
 <script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
 <script type="text/javascript" >

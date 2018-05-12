@@ -58,11 +58,9 @@
 </div>
 
 <script>
-
  	function showDetails(obj){
  		var url = jQuery('#managementUrl').val();
  		var id = jQuery(obj).parent().find('input').val();
  		location.href = buildUrl(url,'auctionId',id);
  	}
-	
 </script>

@@ -1,6 +1,7 @@
 package com.auctions.system.portlet.users_management.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -15,7 +16,10 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
+import com.auctions.system.module.auction_processing.model.AuctionOffer;
+import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -31,8 +35,7 @@ public class UserController extends AuctionProcessing{
 	private final String addEditUserView = "add_edit_user"; 
 	private final String userDetailsView = "details_user";
 	private final String auctionsView = "auctions";
-	private final String addEditAuctionView = "add_edit_auction"; 
-	private final String auctionDetailsView = "details_auction"; 
+	private final String auctionStatsView = "auction_stats";
 		
 	@Autowired
 	private UsersManagementService service;
@@ -55,68 +58,36 @@ public class UserController extends AuctionProcessing{
 		return model;
 	}
 	
-/*	@RenderMapping(params = "page=addAuction")
-	public ModelAndView addUserView(RenderRequest request, RenderResponse response){
-
-		ModelAndView model = new ModelAndView(addEditAuctionView);
-		model.addObject("action", "add");
-		model.addObject("user", new User());
-		
+	@RenderMapping(params = "page=stats")
+	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
+			@RequestParam("auctionId") int id){
+		AuctionDetails auction = getDetails(id);
+		List<AuctionOffer> transactions = auction.getTypeName().equals("quick_purchase") ?
+				service.getPurchases(id) : service.getWonOffers(id);
+				
+		ModelAndView model = new ModelAndView(auctionStatsView);
+		model.addObject("transactions", transactions);
+		model.addObject("username", UserUtil.getScreenName(auction.getUserId()));
+		model.addObject("auction", auction);
 		return model;
-	}*/
-	
-/*	@ActionMapping(params = "action=add")
-	public void addUserAction(ActionRequest request, ActionResponse response,
-		@ModelAttribute("user") @Valid User user, BindingResult result) throws IOException{
-
-		if (result.hasErrors()){
-			response.setRenderParameter("page", "add");
-			return;
-		}
-	
-		//TODO dodac mozliwosc ustawienia user jako admin
-		boolean isAdded = service.createUser(user,false);
 	}
-	*/
+	
 	@RenderMapping(params = "page=edit")
 	public ModelAndView editUserView(RenderRequest request, RenderResponse response,
 			@RequestParam("userId") int userId){
 		ModelAndView model = new ModelAndView(addEditUserView);
 		model.addObject("action", "edit");
 		model.addObject("user", service.getUserById(userId));
-		
 		return model;
 	}
-	
-/*	@ActionMapping(params = "action=edit")
-	public void editUserAction(ActionRequest request, ActionResponse response,
-		@ModelAttribute("user") @Valid User user, BindingResult result) throws IOException{
-
-		if (result.hasErrors()){
-			response.setRenderParameter("page", "edit");
-			return;
-		}
-	
-		boolean isUpdated = service.updateUser(user);
-		//response.setRenderParameter("page","default");
-	}*/
 	
 	@RenderMapping(params = "page=details")
 	public ModelAndView UserDetailsView(RenderRequest request, RenderResponse response,
 			@RequestParam("userId") int userId){
 		ModelAndView model = new ModelAndView(userDetailsView);
 		model.addObject("user", service.getUserById(userId));
-		
 		return model;
 	}
-	
-/*	@ActionMapping(params = "action=delete")
-	public void deleteUserAction(ActionRequest request, ActionResponse response,
-		@RequestParam("userId") int userId) throws IOException{
-
-		boolean isdeleted = service.deleteUser(userId);
-		response.setRenderParameter("page","default");
-	}*/
 	
 	@ResourceMapping(value="getUsers")
 	public void getUsers(ResourceRequest request, ResourceResponse response) throws Exception {
