@@ -7,14 +7,16 @@ public class TransactionSummary {
 	private long sellerId;
 	private long price;
 	private int quantity;
+	private String endDate;
 	
-	public TransactionSummary(long auctionId, String auctionName, long sellerId, long price, int quantity) {
+	public TransactionSummary(long auctionId, String auctionName, long sellerId, long price, int quantity, String endDate) {
 		super();
 		this.auctionId = auctionId;
 		this.auctionName = auctionName;
 		this.sellerId = sellerId;
 		this.price = price;
 		this.quantity = quantity;
+		this.endDate = endDate;
 	}
 
 	public long getAuctionId() {
@@ -55,6 +57,14 @@ public class TransactionSummary {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 }

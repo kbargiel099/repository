@@ -238,5 +238,15 @@ public class UserProfileController extends AuctionProcessing{
 		response.setContentType("application/json");
 		response.getWriter().write(obj.toString());
 	}
+	
+	@ResourceMapping(value = "getTechnicalData")
+	public void getTechnicalData(ResourceRequest request, ResourceResponse response) throws IOException{
+		JsonObject result = new JsonObject();
+		result.add("data", new Gson().toJsonTree(service.getTechnicalData()));
+		result.addProperty("success", true);
+		
+		response.setContentType("application/json");
+		response.getWriter().write(result.toString());
+	}
 
 }

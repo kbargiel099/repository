@@ -209,6 +209,7 @@
 <input type="hidden" id="endDate" value="${auction.endDate}"/>
 <input type="hidden" id="quantity" value="${auction.subjectQuantity}"/>
 <input type="hidden" id="isObserved" value="${isObserved}"/>
+<input type="hidden" id="auctionName" value="${auction.name}"/>
 
 <input type="hidden" id="successMsg" value="<liferay-ui:message key="raise.stake.success.msg" />"/>
 <input type="hidden" id="userIsNotSignedInMsg" value="<liferay-ui:message key="user.is.not.signed.in.msg" />"/>

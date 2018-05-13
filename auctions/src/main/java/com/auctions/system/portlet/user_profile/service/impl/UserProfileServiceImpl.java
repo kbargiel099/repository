@@ -13,6 +13,7 @@ import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
+import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 
 @Service("userProfileService")
@@ -64,6 +65,11 @@ public class UserProfileServiceImpl implements UserProfileService{
 	@Override
 	public List<AuctionType> getAuctionTypes(){
 		return dataSource.getAuctionTypes();
+	}
+	
+	@Override
+	public List<TechnicalData> getTechnicalData(){
+		return dataSource.getTechnicalData();
 	}
 
 }

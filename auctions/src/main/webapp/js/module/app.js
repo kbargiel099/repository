@@ -139,14 +139,21 @@ function sendForm2() {
 	}
 }
 
-function sendFormQuickPurchase() {
-	if(!isWait){
-	    isWait = true;
-	    senderClient = true;
-	    stompClient.send("/app/purchase/" + auctionId, {}, JSON.stringify({'userId': userId,'username': username,
-	    	'price': newPrice,'endDate': endDate,'quantity': quantity }));
-	    jQuery('#validation-info').hide();	
+function goToConfirmationView() {
+	var params = [{'name':'auctionId',  'value':auctionId},
+				  {'name':'sellerId',   'value':jQuery('#seller-id').val()},
+				  {'name':'auctionName','value':jQuery('#auctionName').val()},
+				  {'name':'price',      'value':newPrice},
+				  {'name':'endDate',    'value':endDate},
+				  {'name':'quantity',   'value':quantity}];
+	window.location.href = buildWithParams(jQuery('#confirmPurchaseUrl').val(),params);
+}
+
+function buildWithParams(url,params){
+	for(var i=0;i<params.length;i++){
+		url = buildUrl(url,params[i].name,params[i].value);
 	}
+	return url;
 }
 
 jQuery('#price-input').change(function(){
@@ -178,7 +185,8 @@ function updatePriceValidation(){
 	jQuery("#quickPurchaseBtn" ).click(function() { 
 		if(Liferay.ThemeDisplay.isSignedIn()){
 			if(validate()){
-				sendFormQuickPurchase();
+				//sendFormQuickPurchase();
+				goToConfirmationView();
 			}else{
 			    jQuery('#validation-info').show();
 			}

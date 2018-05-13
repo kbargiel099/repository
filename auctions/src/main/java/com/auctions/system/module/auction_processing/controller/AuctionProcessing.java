@@ -10,10 +10,12 @@ import javax.portlet.ResourceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.auction_processing.model.TransactionSummary;
 import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
 import com.auctions.system.module.profile.controller.ProfileController;
@@ -43,13 +45,16 @@ public class AuctionProcessing extends ProfileController{
 	
 	@RequestMapping(params = "page=confirmPurchase")
 	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response,
-			@RequestParam("summary") String form) throws Exception {
-		TransactionSummary t = new Gson().fromJson(form, TransactionSummary.class);
+			@RequestParam("auctionId") long id,@RequestParam("sellerId") long sellerId,
+			@RequestParam("auctionName") String name,@RequestParam("price") long price,
+			@RequestParam("quantity") int quantity,@RequestParam("endDate") String endDate) throws Exception {
+		TransactionSummary transactionInfo = new TransactionSummary(id,name,sellerId,price,quantity,endDate);
 		
 		ModelAndView model = new ModelAndView(confirmPurchaseView);
-		model.addObject("seller", service.getSellerDetails(t.getSellerId()));
+		model.addObject("seller", service.getSellerDetails(transactionInfo.getSellerId()));
+		model.addObject("username", UserUtil.getScreenName(PortalUtil.getUserId(request)));
 		model.addObject("paymentMethods",service.getPaymentMethods());
-		model.addObject("summary", t);
+		model.addObject("info", transactionInfo);
 		return model;
 	}	
 	

@@ -9,6 +9,7 @@ import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
+import com.auctions.system.portlet.user_profile.model.TechnicalData;
 
 public interface UserProfileService {
 	
@@ -29,5 +30,7 @@ public interface UserProfileService {
 	public boolean addAuctionGrade(long userId, AuctionGrade a);
 	
 	public List<AuctionType> getAuctionTypes();
+	
+	public List<TechnicalData> getTechnicalData();
 
 }

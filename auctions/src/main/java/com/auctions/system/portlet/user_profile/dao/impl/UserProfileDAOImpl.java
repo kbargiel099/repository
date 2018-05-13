@@ -23,6 +23,7 @@ import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
+import com.auctions.system.portlet.user_profile.model.TechnicalData;
 
 @Repository("userProfileDAO")
 public class UserProfileDAOImpl implements UserProfileDAO{
@@ -111,6 +112,18 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	}
 	
 	@Override
+	public List<TechnicalData> getTechnicalData(){
+		return dao.query("SELECT id,name,type,value FROM technical_data",
+				new RowMapper<TechnicalData>(){
+					@Override
+					public TechnicalData mapRow(ResultSet res, int row) throws SQLException {
+						return new TechnicalData(res.getInt("id"),res.getString("name"),
+								 res.getString("type"),res.getArray("value"));
+				}
+			});
+	}
+	
+	@Override
 	public boolean addAuctionGrade(long userId, AuctionGrade a){
 		//Timestamp stamp = new Timestamp(0);
 		
@@ -153,7 +166,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
         
         try {
             PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction(userid,name,description,create_date,edit_date,end_date,minimal_price,"
-					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,videoid) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,technical_data,videoid) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
 	        pst.setLong(1, userId);
 	        pst.setString(2,a.getName());
 	        pst.setString(3, a.getDescription());
@@ -168,7 +181,8 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	        pst.setInt(12, a.getSubjectQuantity());
 	        pst.setInt(13, a.getSubjectQuantity());
 	        pst.setInt(14, a.getSubCategoryId());
-	        pst.setLong(15, -1);
+	        pst.setString(15, a.getTechnicalData());
+	        pst.setLong(16, -1);
 	        pst.executeUpdate();
 	        
 	        ResultSet keys = pst.getGeneratedKeys();

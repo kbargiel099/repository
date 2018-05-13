@@ -15,6 +15,7 @@ public class Auction {
 	private String description;
 	private int subjectQuantity;
 	private long subjectPrice;
+	private String technicalData;
 	
 	public Auction(){
 		
@@ -23,7 +24,7 @@ public class Auction {
 	public Auction(int id, String name, long serialNumber,
 			String endDate, int auctionTypeId, int categoryId, int subCategoryId,
 			String imageName, String imageData, String description,
-			int subjectQuantity, long subjectPrice) {
+			int subjectQuantity, long subjectPrice, String technicalData) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -37,6 +38,7 @@ public class Auction {
 		this.description = description;
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
+		this.technicalData = technicalData;
 	}
 
 	public int getId() {
@@ -134,7 +136,13 @@ public class Auction {
 	public void setSubCategoryId(int subCategoryId) {
 		this.subCategoryId = subCategoryId;
 	}
-	
-	//private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-	
+
+	public String getTechnicalData() {
+		return technicalData;
+	}
+
+	public void setTechnicalData(String technicalData) {
+		this.technicalData = technicalData;
+	}
+		
 }

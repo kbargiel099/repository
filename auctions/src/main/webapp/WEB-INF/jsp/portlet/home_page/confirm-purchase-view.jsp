@@ -1,0 +1,1 @@
+<%@include file="/WEB-INF/jsp/module/auction_processing/confirm-purchase.jsp" %>
