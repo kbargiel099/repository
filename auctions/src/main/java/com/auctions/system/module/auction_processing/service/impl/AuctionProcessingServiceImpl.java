@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.auctions.system.module.auction_processing.dao.AuctionProcessingDAO;
 import com.auctions.system.module.auction_processing.model.AuctionOffer;
+import com.auctions.system.module.auction_processing.model.PaymentMethod;
 import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.UserDetails;
@@ -43,5 +44,9 @@ public class AuctionProcessingServiceImpl implements AuctionProcessingService {
 
 	public List<AuctionOffer> getAllOffers(long auctionId){
 		return dataSource.getAllOffers(auctionId);
+	}
+	
+	public List<PaymentMethod> getPaymentMethods(){
+		return dataSource.getPaymentMethods();
 	}
 }

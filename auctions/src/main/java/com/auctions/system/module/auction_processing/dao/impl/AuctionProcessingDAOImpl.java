@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.auctions.system.module.auction_processing.DateFormatter;
 import com.auctions.system.module.auction_processing.dao.AuctionProcessingDAO;
 import com.auctions.system.module.auction_processing.model.AuctionOffer;
+import com.auctions.system.module.auction_processing.model.PaymentMethod;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.UserDetails;
 
@@ -111,6 +112,18 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 					public AuctionOffer mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionOffer(res.getLong("userid"),res.getLong("price"),
 							res.getInt("quantity"),DateFormatter.format(res.getTimestamp("create_date")));
+				}
+		});
+	}
+	
+	@Override
+	public List<PaymentMethod> getPaymentMethods(){
+		return dao.query("SELECT id,name,validity_in_days FROM payment_method", 
+				new RowMapper<PaymentMethod>(){
+					@Override
+					public PaymentMethod mapRow(ResultSet res, int row) throws SQLException {
+						return new PaymentMethod(res.getInt("id"),res.getString("name"),
+							res.getInt("validity_in_days"));
 				}
 		});
 	}

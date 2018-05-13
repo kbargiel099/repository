@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/image.css" />" >
 
  <div class="container-fluid">
-	<div class="row">
+<%-- 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
 			<div class="container">
 				<div class="jumbotron">
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> --%>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
 			<div class="container">

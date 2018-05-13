@@ -16,6 +16,11 @@
 	<portlet:param name="id" value="${seller.id}"/>
 </portlet:renderURL>
 
+<portlet:renderURL var="confirmPurchase">
+	<portlet:param name="page" value="confirmPurchase"/>
+</portlet:renderURL>
+<input type="hidden" id="confirmPurchaseUrl" value="${confirmPurchase}"></input>
+
 <portlet:resourceURL id="getVideoName" var="getVideoName">
 	<portlet:param name="auctionId" value="${auction.id}" />
 </portlet:resourceURL>

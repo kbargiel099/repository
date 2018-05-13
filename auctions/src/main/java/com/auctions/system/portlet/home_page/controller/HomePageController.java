@@ -25,7 +25,7 @@ public class HomePageController extends AuctionProcessing {
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
 
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("electronicAuctions",service.getBestAuctionsByCategory("electronics"));
+		//model.addObject("electronicAuctions",service.getBestAuctionsByCategory("electronics"));
 		model.addObject("newestAuctions", service.getNewestAuction());
 		return model;
 	}

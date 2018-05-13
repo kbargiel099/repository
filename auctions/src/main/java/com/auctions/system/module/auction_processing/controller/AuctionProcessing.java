@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.auction_processing.model.TransactionSummary;
 import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
 import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.category.model.AuctionDetails;
@@ -25,17 +26,30 @@ import com.liferay.portal.kernel.util.PortalUtil;
 public class AuctionProcessing extends ProfileController{
 	
 	private final String detailsView = "auction-details-view";
+	private final String confirmPurchaseView = "confirm-purchase-view";
 	
 	@Autowired
 	AuctionProcessingService service;
 	
 	@RequestMapping(params = "page=auctionDetails")
-	public ModelAndView defaulView(RenderRequest request, RenderResponse response,
+	public ModelAndView detailsView(RenderRequest request, RenderResponse response,
 			@RequestParam("id") long id) throws Exception {
 		ModelAndView model = new ModelAndView(detailsView);
 		model.addObject("auction",service.getAuctionDetails(id));
 		model.addObject("seller", service.getSellerDetails(20155));
 		model.addObject("isObserved",service.isObserved(PortalUtil.getUserId(request), id));
+		return model;
+	}	
+	
+	@RequestMapping(params = "page=confirmPurchase")
+	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response,
+			@RequestParam("summary") String form) throws Exception {
+		TransactionSummary t = new Gson().fromJson(form, TransactionSummary.class);
+		
+		ModelAndView model = new ModelAndView(confirmPurchaseView);
+		model.addObject("seller", service.getSellerDetails(t.getSellerId()));
+		model.addObject("paymentMethods",service.getPaymentMethods());
+		model.addObject("summary", t);
 		return model;
 	}	
 	

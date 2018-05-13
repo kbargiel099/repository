@@ -7,7 +7,7 @@
             var total_popups = 0;
             var smallWidth = 640;
             var popups = [];
-            
+            var currentPopupId;
             var popupWidth =  window.innerWidth > smallWidth ? 320 : window.outerWidth;
             //var popupWidth = window.innerWidth > 640 ? 25 : 100;
         	var right = window.innerWidth < smallWidth ? 0 : 220;
@@ -76,7 +76,7 @@
                 	addMessageAsSender(id,message);
                 	jQuery('#send-message-input').val("");
                 });
-                
+                currentPopupId = id;
                 sendRequest(url,loadMessagesCallback);
             }
             
@@ -86,9 +86,9 @@
     				
     				for(var i=0;i<messages.length;i++){
     					console.log(messages[i]);
-    					addMessageAsReceiver(id,messages[i].message);
+    					addMessageAsReceiver(currentPopupId,messages[i].message);
     				}
-					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),id);
+					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),currentPopupId);
     			}
     			else
     				alert("Wystapil blad");

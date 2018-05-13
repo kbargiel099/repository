@@ -23,7 +23,7 @@
 	
 	<div class="container">	
 
-		<div class="col-xs-12 col-sm-8 col-md-8">
+		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="col-xs-12 col-sm-12 col-md-6">
 				<div class="form-group">
 		           <label class="label-control"><liferay-ui:message key="auction.name.label" /></label>
@@ -52,20 +52,26 @@
 		           <p>${auction.endDate}</p>
 				</div>
 	  		</div>
-	  		<div class="col-xs-12 col-sm-12 col-md-12">
-	  			<div class="row">
-		  			<div class="form-group">
-			           <label class="label-control" for="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></label>
-					   <p>${auction.subjectPrice/100}</p>
-					</div>
-					<c:if test="${auction.typeName == 'with_minimal_price'}">
-						<div class="form-group">
-						    <label class="label-control"><liferay-ui:message key="auction.minimal.price.label" /></label>
-							<p>${auction.minimalPrice}</p>
-						</div>
-					</c:if>
+	  		<div class="col-xs-12 col-sm-12 col-md-6">
+	  			<div class="form-group">
+		           <label class="label-control" for="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></label>
+				   <p>${auction.subjectPrice/100}</p>
 				</div>
-	  		</div>
+			</div>
+	  		<div class="col-xs-12 col-sm-12 col-md-6">
+				<div class="form-group">
+					<label class="label-control"><liferay-ui:message key="auction.minimal.price.label" /></label>
+					<c:choose>
+					<c:when test="${auction.typeName == 'with_minimal_price'}">
+
+						<p>${auction.minimalPrice}</p>
+					</c:when>
+					<c:otherwise>
+						<p><liferay-ui:message key="not.defined" /></p>
+					</c:otherwise>
+					</c:choose>
+				</div>
+  			</div>
 	  		<div class="col-xs-12 col-sm-12 col-md-12">
 	  			<div class="form-group">
 			        <label class="label-control"><liferay-ui:message key="auction.description.label" /></label>
@@ -74,34 +80,31 @@
 			</div>
 	  		<div class="col-xs-12 col-sm-12 col-md-12">
 				<div id="elements">
-					<div class="row">
-						
-						<div id="transactions" class="mygrid-wrapper-div" style="overflow-y: scroll;height: 200px;width: 100%;">
-							<label style="text-align: center;"><strong><liferay-ui:message key="auction.transactions.label" /></strong></label>
-							<table>
-								<thead>
-								  <tr>
-								    <th><liferay-ui:message key="auction.username.theader" /></th>
-								    <th><liferay-ui:message key="auction.quantity.theader" /></th>
-								    <th><liferay-ui:message key="auction.price.theader" /></th>
-								    <th><liferay-ui:message key="auction.createDate.theader" /></th>
-								    <th></th>
-								  </tr>
-								</thead>
-								<tbody>
-									<c:forEach items="${transactions}" var="item">
-										
-										<tr>
-											<td>${item.username}</td>
-											<td>${item.quantity}</td>
-											<td>${item.price/100}</td>
-											<td>${item.createDate}</td>
-											<td></td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
+					<div id="transactions" class="mygrid-wrapper-div" style="overflow-y: scroll;height: 200px;width: 100%;">
+						<label style="text-align: center;"><strong><liferay-ui:message key="auction.transactions.label" /></strong></label>
+						<table>
+							<thead>
+							  <tr>
+							    <th><liferay-ui:message key="auction.username.theader" /></th>
+							    <th><liferay-ui:message key="auction.quantity.theader" /></th>
+							    <th><liferay-ui:message key="auction.price.theader" /></th>
+							    <th><liferay-ui:message key="auction.createDate.theader" /></th>
+							    <th></th>
+							  </tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${transactions}" var="item">
+									
+									<tr>
+										<td>${item.username}</td>
+										<td>${item.quantity}</td>
+										<td>${item.price/100}</td>
+										<td>${item.createDate}</td>
+										<td></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
 					</div>
 				</div>          
 		    </div>

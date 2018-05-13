@@ -27,12 +27,7 @@ import com.auctions.system.portlet.user_profile.model.AuctionType;
 @Repository("userProfileDAO")
 public class UserProfileDAOImpl implements UserProfileDAO{
 
-	private JdbcTemplate daoPortal;
 	private JdbcTemplate dao;
-	
-	@Autowired
-	@Qualifier("dataSource-lportal")
-	private DataSource dataSourcePortal;
 	
 	@Autowired
 	@Qualifier("dataSource")
@@ -40,7 +35,6 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@PostConstruct
 	public void init() {
-		daoPortal = new JdbcTemplate(dataSourcePortal);
 		dao = new JdbcTemplate(dataSource);
 	}
 	
