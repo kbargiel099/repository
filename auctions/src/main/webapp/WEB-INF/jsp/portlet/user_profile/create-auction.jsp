@@ -119,16 +119,17 @@
 		sendRequest(jQuery("#getSubCategoriesUrl").val(),
 				function(data){subCategories = data;});
 		getTechnicalData();
-		setTimeout(function(){
-			jQuery('.selectpicker').selectpicker();
-		},3000);
+		//setTimeout(function(){
+		jQuery('.selectpicker').selectpicker();
+		//},3000);
 	});
 	
 	jQuery("#categoryIdSelect").change(function(){
 		var id = jQuery("#categoryIdSelect option:selected").val();
 		jQuery("#categoryId").val(id);
 		jQuery("#subCategoryIdSelect").html('');
-
+		getTechnicalData(id);
+		
 		for(var i=0;i<subCategories.length;i++){
 			var item = subCategories[i];
 			if(item.categoryId == id){
@@ -186,22 +187,24 @@
 		sendRequestParams(url,params,function(data){alert("Udało się");});
 	}
 	
-	function getTechnicalData(){
-		var url = jQuery("#getTechnicalDataUrl").val();  
+	function getTechnicalData(id){
+		var url = buildUrl(jQuery("#getTechnicalDataUrl").val(),'id',id);  
 		sendRequest(url,getTechnicalDataCallback);
 	}
 	
 	var getTechnicalDataCallback = function(data){
 		if(data.success == true){
+			jQuery('#technicalDataList').html('');
 			var res = data.data;
 			console.log(res);
 			for(var i=0;i<res.length;i++){
 				var group = jQuery('<div class="form-group"></div');
-				var col1 = jQuery('<label class="label-control">'+ res[i].name +'</label>');
+				var col1 = jQuery('<label class="label-control"><liferay-ui:message key="'+ res[i].name +'"/></label>');
 				var col2 = jQuery(createElement(res[i].type,res[i].name,res[i].value));
 				//group.append(col1,col2);
 				group.append(col1,col2).appendTo('#technicalDataList');
 			}
+			jQuery('#technicalDataList .selectpicker').selectpicker();
 		}
 	};
 	
@@ -226,7 +229,7 @@
 		for(var i=0;i<div.length;i++){
 			json.push({'name':div[i].id,'value':div[i].value});
 		}
-		jQuery('#technicalData').val(JSON.stringify(json));
+		jQuery('#technicalData').val('\''+ JSON.stringify(json) +'\'');
 		console.log(JSON.stringify(json));
 	}
 </script>

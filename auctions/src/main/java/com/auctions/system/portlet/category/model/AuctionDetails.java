@@ -15,9 +15,10 @@ public class AuctionDetails {
 	private int subjectQuantity;
 	private long subjectPrice;
 	private long minimalPrice;
+	private String technicalParameters;
 	
 	public AuctionDetails(long id, long userId, String serialNumber, String name, String description, String createDate, String endDate, 
-			String imageName, String typeName, long videoId, int subjectQuantity, long subjectPrice, long minimalPrice) {
+			String imageName, String typeName, long videoId, int subjectQuantity, long subjectPrice, long minimalPrice, String technicalParameters) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -32,6 +33,7 @@ public class AuctionDetails {
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
 		this.minimalPrice = minimalPrice;
+		this.technicalParameters = technicalParameters;
 	}
 	
 	public long getId() {
@@ -131,6 +133,14 @@ public class AuctionDetails {
 
 	public void setMinimalPrice(long minimalPrice) {
 		this.minimalPrice = minimalPrice;
+	}
+
+	public String getTechnicalParameters() {
+		return technicalParameters;
+	}
+
+	public void setTechnicalParameters(String technicalParameters) {
+		this.technicalParameters = technicalParameters;
 	}
 	
 }

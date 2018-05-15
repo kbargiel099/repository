@@ -68,8 +68,8 @@ public class UserProfileServiceImpl implements UserProfileService{
 	}
 	
 	@Override
-	public List<TechnicalData> getTechnicalData(){
-		return dataSource.getTechnicalData();
+	public List<TechnicalData> getTechnicalData(int id){
+		return dataSource.getTechnicalData(id);
 	}
 
 }

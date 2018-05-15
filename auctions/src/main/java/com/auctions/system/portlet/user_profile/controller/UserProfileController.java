@@ -240,9 +240,10 @@ public class UserProfileController extends AuctionProcessing{
 	}
 	
 	@ResourceMapping(value = "getTechnicalData")
-	public void getTechnicalData(ResourceRequest request, ResourceResponse response) throws IOException{
+	public void getTechnicalData(ResourceRequest request, ResourceResponse response,
+			@RequestParam("id") int id) throws IOException{
 		JsonObject result = new JsonObject();
-		result.add("data", new Gson().toJsonTree(service.getTechnicalData()));
+		result.add("data", new Gson().toJsonTree(service.getTechnicalData(id)));
 		result.addProperty("success", true);
 		
 		response.setContentType("application/json");

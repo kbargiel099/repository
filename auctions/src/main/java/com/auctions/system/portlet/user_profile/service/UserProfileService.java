@@ -31,6 +31,6 @@ public interface UserProfileService {
 	
 	public List<AuctionType> getAuctionTypes();
 	
-	public List<TechnicalData> getTechnicalData();
+	public List<TechnicalData> getTechnicalData(int id);
 
 }

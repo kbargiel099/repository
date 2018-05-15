@@ -1,5 +1,6 @@
 package com.auctions.system.portlet.user_profile.dao.impl;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +25,7 @@ import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
+import com.google.gson.Gson;
 
 @Repository("userProfileDAO")
 public class UserProfileDAOImpl implements UserProfileDAO{
@@ -112,15 +114,16 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	}
 	
 	@Override
-	public List<TechnicalData> getTechnicalData(){
-		return dao.query("SELECT id,name,type,value FROM technical_data",
-				new RowMapper<TechnicalData>(){
-					@Override
-					public TechnicalData mapRow(ResultSet res, int row) throws SQLException {
-						return new TechnicalData(res.getInt("id"),res.getString("name"),
-								 res.getString("type"),res.getArray("value"));
-				}
-			});
+	public List<TechnicalData> getTechnicalData(int id){
+		return dao.query("SELECT t.id,t.name,t.type,t.value FROM technical_data t JOIN category_technical_data "
+				+ "c ON c.technical_data_id=t.id WHERE c.categoryid=?",
+			new Object[]{id},new RowMapper<TechnicalData>(){
+				@Override
+				public TechnicalData mapRow(ResultSet res, int row) throws SQLException {
+					return new TechnicalData(res.getInt("id"),res.getString("name"),
+							 res.getString("type"),res.getArray("value"));
+			}
+		});
 	}
 	
 	@Override
@@ -163,7 +166,6 @@ public class UserProfileDAOImpl implements UserProfileDAO{
         Long createdAuctionId = (long) -1;
 		Timestamp createDate = new Timestamp(System.currentTimeMillis());
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
-        
         try {
             PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction(userid,name,description,create_date,edit_date,end_date,minimal_price,"
 					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,technical_data,videoid) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
@@ -184,7 +186,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	        pst.setString(15, a.getTechnicalData());
 	        pst.setLong(16, -1);
 	        pst.executeUpdate();
-	        
+
 	        ResultSet keys = pst.getGeneratedKeys();
             if(keys.next())
             	createdAuctionId = keys.getLong(1);

@@ -195,12 +195,13 @@
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-7 col-md-7">
-		<div>
+		<div id="technicalDataList">
 			<h5><strong><liferay-ui:message key="technical.data" /></strong></h5>
 		</div>
 	</div>
 </div>
 
+<%-- <input type="hidden" id="technicalData" value="${auction.technicalParameters}"/> --%>
 <input type="hidden" id="seller-id" value="${seller.id}"/>
 <input type="hidden" id="seller-username" value="${seller.username}"/>
 <input type="hidden" id="type" value="${auction.typeName}"/>
@@ -218,7 +219,11 @@
 <input type="hidden" id="currency" value="<liferay-ui:message key="currency" />"/>
 
 <script src="<c:url value="/js/module/app.js" />"></script>
-<script>
+<script type="text/javascript">
+var data = ${auction.technicalParameters};
+data = JSON.parse(data);
+console.log(data);
+
 var canPlayMPEG4;
 	jQuery(document).ready(function(){
 			var testEl = document.createElement( "video" );
@@ -271,7 +276,11 @@ var canPlayMPEG4;
 	});
 	
 	jQuery(document).ready(function(){
-
+		for(var i=0;i<data.length;i++){
+			var name = jQuery('<div class="col-xs-6"><liferay-ui:message key="'+ data[i].name +'" /></div>');
+			var value = jQuery('<div class="col-xs-6"><liferay-ui:message key="'+ data[i].value +'" /></div>');
+			jQuery('#technicalDataList').append(name,value);
+		}
 		if(Liferay.ThemeDisplay.getUserId() != parseInt(jQuery('#seller-id').val())){
 			jQuery('#createChatInAuction').append(createChatLink(jQuery('#seller-id').val(),
 					jQuery('#seller-username').val(),'Napisz do'));
