@@ -129,7 +129,7 @@
 		for(var i=0;i<subCategories.length;i++){
 			var item = subCategories[i];
 			if(item.categoryId == id){
-				var option = '<option value="'+item.id+'">'+item.name+'</option>';
+				var option = '<option value="'+item.id+'">'+ Liferay.Language.get(item.name) +'</option>';
 				jQuery("#subCategoryIdSelect").append(option);
 			}
 		}
@@ -181,9 +181,10 @@
 		prepareTechnicalData();
 		var url = jQuery("#submitAuctionUrl").val();
 		var params = [{'name':'newAuction','value':JSON.stringify(jQuery("#create-new-auction-form").serializeObject())}];
-		console.log(url);
 		console.log(params);
-		sendRequestParams(url,params,function(data){alert("Udało się");});
+		setTimeout(function(){
+			sendRequestParams(url,params,function(data){alert("Udało się");});
+		},2000);
 	}
 	
 	function getTechnicalData(id){
@@ -195,25 +196,24 @@
 		if(data.success == true){
 			jQuery('#technicalDataList').html('');
 			var res = data.data;
-			console.log(res);
 			for(var i=0;i<res.length;i++){
 				var group = jQuery('<div class="form-group"></div');
-				var col1 = jQuery('<label class="label-control">'+ res[i].lang +'</label>');
-				var col2 = jQuery(createElement(res[i].type,res[i].name,res[i].value,res[i].valueLang));
+				var col1 = jQuery('<label class="label-control">'+ Liferay.Language.get(res[i].name) +'</label>');
+				var col2 = jQuery(createElement(res[i].type,res[i].name,res[i].value));
 				group.append(col1,col2).appendTo('#technicalDataList');
 			}
 			jQuery('#technicalDataList .selectpicker').selectpicker();
 		}
 	};
 	
-	function createElement(type,name,value,lang){
+	function createElement(type,name,value){
 		switch(type){
 			case 'input':
 				return '<input type="text" class="form-control" id="'+ name +'" value=""></input>';
 			case 'checkbox':
 				var res =  '<select class="selectpicker form-control" id="'+ name +'" title="Wybierz">'
 				for(var i=0;i<value.length;i++){
-					res += '<option value="'+ value[i] +'">'+ lang[i] +'</option>';
+					res += '<option value="'+ value[i] +'">'+ Liferay.Language.get(value[i]) +'</option>';
 				}
 				res += '</select>';
 				return res;
@@ -223,11 +223,9 @@
 	function prepareTechnicalData(){
 		var json = [];
 		var div = jQuery('#technicalDataList input, #technicalDataList select');
-		console.log(div);
 		for(var i=0;i<div.length;i++){
 			json.push({'name':div[i].id,'value':div[i].value});
 		}
 		jQuery('#technicalData').val('\''+ JSON.stringify(json) +'\'');
-		console.log(JSON.stringify(json));
 	}
 </script>

@@ -1,5 +1,13 @@
 package com.auctions.system.portlet.category.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.auctions.system.module.auction_processing.model.TechnicalParameter;
+import com.auctions.system.module.auction_processing.model.Wrapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 public class AuctionDetails {
 
 	private long id;
@@ -33,6 +41,9 @@ public class AuctionDetails {
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
 		this.minimalPrice = minimalPrice;
+/*		this.technicalParameters = new Gson().fromJson(technicalParameters,
+				new TypeToken<List<TechnicalParameter>>(){}.getType());*/
+		//this.technicalParameters = new Gson().fromJson(technicalParameters, Wrapper.class).getData();
 		this.technicalParameters = technicalParameters;
 	}
 	

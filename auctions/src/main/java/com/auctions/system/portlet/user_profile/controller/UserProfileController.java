@@ -59,9 +59,6 @@ public class UserProfileController extends AuctionProcessing{
 	@Autowired
 	private UserProfileService service;
 	
-	@Autowired
-	ReloadableResourceBundleMessageSource messageSrc;
-	
 	Worker worker = new Worker();
 	
 	@InitBinder("auctionGrade")
@@ -161,18 +158,9 @@ public class UserProfileController extends AuctionProcessing{
 	@ResourceMapping(value = "getSubCategories")
 	public void getSubCategories(ResourceRequest request, ResourceResponse response) throws IOException{
 		Gson gson = new Gson();
-		Locale locale = PortalUtil.getLocale(request);
-		String result = gson.toJson(createSubCategories(locale));
+		String result = gson.toJson(service.getSubCategories());
 		response.setContentType("application/json");
 		response.getWriter().write(result);
-	}
-	
-	private List<SubCategory> createSubCategories(Locale locale){
-		List<SubCategory> subCategories = service.getSubCategories();
-		for(SubCategory sub : subCategories){
-			sub.setName(messageSrc.getMessage(sub.getName() , null, locale));
-		}
-		return subCategories;
 	}
 	
 	@ResourceMapping("submitAuction")
@@ -242,23 +230,8 @@ public class UserProfileController extends AuctionProcessing{
 	@ResourceMapping(value = "getTechnicalData")
 	public void getTechnicalData(ResourceRequest request, ResourceResponse response,
 			@RequestParam("id") int id) throws IOException{
-		List<TechnicalData> data = service.getTechnicalData(id);
-		Locale locale = PortalUtil.getLocale(request);
-		
-		for(TechnicalData i : data){
-			String[] values = i.getValue();
-			String[] valuesLang = new String[values.length];
-			i.setLang(messageSrc.getMessage(i.getName(), null, locale));
-			
-			for(int j=0;j<values.length;j++){
-				if(i.getType().equals("checkbox")) valuesLang[j] = messageSrc.getMessage(values[j], null, locale);
-			}
-			
-			i.setValueLang(valuesLang);
-		}
-		
 		JsonObject result = new JsonObject();
-		result.add("data", new Gson().toJsonTree(data));
+		result.add("data", new Gson().toJsonTree(service.getTechnicalData(id)));
 		result.addProperty("success", true);
 		
 		response.setContentType("application/json");

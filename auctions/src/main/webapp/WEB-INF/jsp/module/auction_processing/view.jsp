@@ -8,7 +8,6 @@
 <portlet:defineObjects />
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
-<%-- <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/custom-table.css" />" > --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/notify-modal.css" />" >
 
 <portlet:renderURL var="getUserProfile">
@@ -203,7 +202,6 @@
 	</div>
 </div>
 
-<%-- <input type="hidden" id="technicalData" value="${auction.technicalParameters}"/> --%>
 <input type="hidden" id="seller-id" value="${seller.id}"/>
 <input type="hidden" id="seller-username" value="${seller.username}"/>
 <input type="hidden" id="type" value="${auction.typeName}"/>
@@ -224,6 +222,7 @@
 <script type="text/javascript">
 var data = ${auction.technicalParameters};
 data = JSON.parse(data);
+console.log(data);
 
 var canPlayMPEG4;
 	jQuery(document).ready(function(){
@@ -274,8 +273,8 @@ var canPlayMPEG4;
 	
 	jQuery(document).ready(function(){
 		for(var i=0;i<data.length;i++){
-			var name = jQuery('<div class="col-xs-6"><liferay-ui:message key="'+ data[i].name +'" /></div>');
-			var value = jQuery('<div class="col-xs-6"><liferay-ui:message key="'+ data[i].value +'" /></div>');
+			var name = jQuery('<div class="col-xs-6">'+ Liferay.Language.get(data[i].name) +'</div>');
+			var value = jQuery('<div class="col-xs-6">'+ Liferay.Language.get(data[i].value) +'</div>');
 			jQuery('#technicalDataList').append(name,value);
 		}
 		if(Liferay.ThemeDisplay.getUserId() != parseInt(jQuery('#seller-id').val())){
