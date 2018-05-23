@@ -1,6 +1,5 @@
 package com.auctions.system.portlet.user_profile.dao.impl;
 
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +24,6 @@ import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
-import com.google.gson.Gson;
 
 @Repository("userProfileDAO")
 public class UserProfileDAOImpl implements UserProfileDAO{
@@ -115,8 +113,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<TechnicalData> getTechnicalData(int id){
-		return dao.query("SELECT t.id,t.name,t.type,t.value FROM technical_data t JOIN category_technical_data "
-				+ "c ON c.technical_data_id=t.id WHERE c.categoryid=?",
+		return dao.query("SELECT t.id,t.name,t.value,t.type FROM technical_data t JOIN subcategory s ON t.id=ANY(technical_data_array) WHERE s.id=?",
 			new Object[]{id},new RowMapper<TechnicalData>(){
 				@Override
 				public TechnicalData mapRow(ResultSet res, int row) throws SQLException {

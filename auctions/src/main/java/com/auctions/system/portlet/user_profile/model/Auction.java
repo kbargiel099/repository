@@ -17,9 +17,7 @@ public class Auction {
 	private long subjectPrice;
 	private String technicalData;
 	
-	public Auction(){
-		
-	}
+	public Auction(){}
 	
 	public Auction(int id, String name, long serialNumber,
 			String endDate, int auctionTypeId, int categoryId, int subCategoryId,

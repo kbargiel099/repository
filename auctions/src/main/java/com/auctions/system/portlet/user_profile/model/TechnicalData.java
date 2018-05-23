@@ -7,8 +7,10 @@ public class TechnicalData {
 
 	private int id;
 	private String name;
+	private String lang;
 	private String type;
 	private String[] value;
+	private String[] valueLang;
 	
 	public TechnicalData(int id, String name, String type, String[] value) {
 		super();
@@ -59,6 +61,22 @@ public class TechnicalData {
 	
 	public void setValue(String[] value) {
 		this.value = value;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+
+	public String[] getValueLang() {
+		return valueLang;
+	}
+
+	public void setValueLang(String[] valueLang) {
+		this.valueLang = valueLang;
 	}
 	
 }

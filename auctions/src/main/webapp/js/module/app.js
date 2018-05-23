@@ -22,8 +22,13 @@ function getAllOffers(){
 	    	"success": function(data){
 	    		if(data.success){
 		    		var res = JSON.parse(data.offers);
-		    		for(var i=0;i<res.length;i++){
-		    			addOfferToList(res[i]);
+		    		if(res.length == 0){
+		    			jQuery('#auction-notify').hide();
+		    			jQuery('#empty-list-msg').html('Jeszcze nikt nie dodał oferty');
+		    		}else{
+			    		for(var i=0;i<res.length;i++){
+			    			addOfferToList(res[i]);
+			    		}
 		    		}
 	    		}else{
 	    			alert("Wystąpił błąd");
@@ -122,6 +127,8 @@ function connect2() {
 }
 
 function addOfferToList(res) {
+	jQuery('#empty-list-msg').hide();
+	jQuery('#auction-notify').show();
 	row = jQuery("<tr></tr>");
 	col1 = jQuery("<td>"+ res.username +"</td>");
 	col2 = jQuery("<td>"+ res.quantity +"</td>");
@@ -185,7 +192,6 @@ function updatePriceValidation(){
 	jQuery("#quickPurchaseBtn" ).click(function() { 
 		if(Liferay.ThemeDisplay.isSignedIn()){
 			if(validate()){
-				//sendFormQuickPurchase();
 				goToConfirmationView();
 			}else{
 			    jQuery('#validation-info').show();

@@ -8,7 +8,6 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/portlet/navigation_menu/nav-main.css" />" /> 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/chat/_message_popup.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/module/custom-table.css" />" /> 
 
 <portlet:resourceURL id="getMessagesFromUser" var="getMessagesFromUser">
 </portlet:resourceURL>

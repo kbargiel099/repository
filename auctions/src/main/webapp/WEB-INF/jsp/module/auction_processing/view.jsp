@@ -103,7 +103,8 @@
 			</div>
 			<c:if test="${auction.typeName != 'quick_purchase'}">
 				<div class="col-xs-12 col-sm-12 col-md-12">
-<!-- 				<div id="auction-notify" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow-y: scroll;height: 200px;width: 100%;"> -->						<h4 class="text-center"><strong><liferay-ui:message key="auction.actual.offers" /></strong></h4>
+<!-- 				<div id="auction-notify" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow-y: scroll;height: 200px;width: 100%;"> -->						
+					<h4 class="text-center"><strong><liferay-ui:message key="auction.actual.offers" /></strong></h4>
 					<div id="auction-notify" class="mygrid-wrapper-div" style="overflow-y: scroll;height: 200px;width: 100%;">
 						<table>
 							<thead>
@@ -118,6 +119,7 @@
 							</tbody>
 						</table>
 					</div>
+					<p id="empty-list-msg"></p>
 				</div>
 			</c:if>
 		</div>
@@ -222,23 +224,18 @@
 <script type="text/javascript">
 var data = ${auction.technicalParameters};
 data = JSON.parse(data);
-console.log(data);
 
 var canPlayMPEG4;
 	jQuery(document).ready(function(){
 			var testEl = document.createElement( "video" );
-/* 		    mpeg4, h264, ogg, webm; */
 			if ( testEl.canPlayType ) {
 			    // Check for MPEG-4 support
 			    canPlayMPEG4 = "" !== testEl.canPlayType( 'video/mp4; codecs="mp4v.20.8"' );
-		
 			    // Check for h264 support
 /* 			    h264 = "" !== ( testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E"' )
 			        && testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' ) );  */
-		
 /* 			    // Check for Ogg support
 			    ogg = "" !== testEl.canPlayType( 'video/ogg; codecs="theora"' ); */
-		
 /* 			    // Check for Webm support
 			    webm = "" !== testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' ); */
 			}

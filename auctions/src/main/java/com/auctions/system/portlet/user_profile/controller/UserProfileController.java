@@ -34,6 +34,7 @@ import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
+import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.google.gson.Gson;
@@ -169,8 +170,7 @@ public class UserProfileController extends AuctionProcessing{
 	private List<SubCategory> createSubCategories(Locale locale){
 		List<SubCategory> subCategories = service.getSubCategories();
 		for(SubCategory sub : subCategories){
-			String nameBundle = messageSrc.getMessage(sub.getName() , null, locale);
-			sub.setName(nameBundle);
+			sub.setName(messageSrc.getMessage(sub.getName() , null, locale));
 		}
 		return subCategories;
 	}
@@ -242,8 +242,23 @@ public class UserProfileController extends AuctionProcessing{
 	@ResourceMapping(value = "getTechnicalData")
 	public void getTechnicalData(ResourceRequest request, ResourceResponse response,
 			@RequestParam("id") int id) throws IOException{
+		List<TechnicalData> data = service.getTechnicalData(id);
+		Locale locale = PortalUtil.getLocale(request);
+		
+		for(TechnicalData i : data){
+			String[] values = i.getValue();
+			String[] valuesLang = new String[values.length];
+			i.setLang(messageSrc.getMessage(i.getName(), null, locale));
+			
+			for(int j=0;j<values.length;j++){
+				if(i.getType().equals("checkbox")) valuesLang[j] = messageSrc.getMessage(values[j], null, locale);
+			}
+			
+			i.setValueLang(valuesLang);
+		}
+		
 		JsonObject result = new JsonObject();
-		result.add("data", new Gson().toJsonTree(service.getTechnicalData(id)));
+		result.add("data", new Gson().toJsonTree(data));
 		result.addProperty("success", true);
 		
 		response.setContentType("application/json");

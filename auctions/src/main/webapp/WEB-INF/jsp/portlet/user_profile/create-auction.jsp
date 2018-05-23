@@ -118,17 +118,13 @@
 	jQuery(document).ready(function(){
 		sendRequest(jQuery("#getSubCategoriesUrl").val(),
 				function(data){subCategories = data;});
-		getTechnicalData();
-		//setTimeout(function(){
 		jQuery('.selectpicker').selectpicker();
-		//},3000);
 	});
 	
 	jQuery("#categoryIdSelect").change(function(){
 		var id = jQuery("#categoryIdSelect option:selected").val();
 		jQuery("#categoryId").val(id);
 		jQuery("#subCategoryIdSelect").html('');
-		getTechnicalData(id);
 		
 		for(var i=0;i<subCategories.length;i++){
 			var item = subCategories[i];
@@ -143,6 +139,7 @@
 	jQuery("#subCategoryIdSelect").change(function(){
 		var id = jQuery("#subCategoryIdSelect option:selected").val();
 		jQuery("#subCategoryId").val(id);
+		getTechnicalData(id);
 	});
 	
 	jQuery("#auctionTypeIdSelect").change(function(){
@@ -183,7 +180,9 @@
 	function submitAuction(){
 		prepareTechnicalData();
 		var url = jQuery("#submitAuctionUrl").val();
-		var params = [{'name':'newAuction','value':JSON.stringify(jQuery("#create-new-auction-form").serializeObject())}];  
+		var params = [{'name':'newAuction','value':JSON.stringify(jQuery("#create-new-auction-form").serializeObject())}];
+		console.log(url);
+		console.log(params);
 		sendRequestParams(url,params,function(data){alert("Udało się");});
 	}
 	
@@ -199,23 +198,22 @@
 			console.log(res);
 			for(var i=0;i<res.length;i++){
 				var group = jQuery('<div class="form-group"></div');
-				var col1 = jQuery('<label class="label-control"><liferay-ui:message key="'+ res[i].name +'"/></label>');
-				var col2 = jQuery(createElement(res[i].type,res[i].name,res[i].value));
-				//group.append(col1,col2);
+				var col1 = jQuery('<label class="label-control">'+ res[i].lang +'</label>');
+				var col2 = jQuery(createElement(res[i].type,res[i].name,res[i].value,res[i].valueLang));
 				group.append(col1,col2).appendTo('#technicalDataList');
 			}
 			jQuery('#technicalDataList .selectpicker').selectpicker();
 		}
 	};
 	
-	function createElement(type,name,value){
+	function createElement(type,name,value,lang){
 		switch(type){
 			case 'input':
 				return '<input type="text" class="form-control" id="'+ name +'" value=""></input>';
 			case 'checkbox':
 				var res =  '<select class="selectpicker form-control" id="'+ name +'" title="Wybierz">'
 				for(var i=0;i<value.length;i++){
-					res += '<option value="'+ value[i] +'">'+ value[i] +'</option>';
+					res += '<option value="'+ value[i] +'">'+ lang[i] +'</option>';
 				}
 				res += '</select>';
 				return res;
