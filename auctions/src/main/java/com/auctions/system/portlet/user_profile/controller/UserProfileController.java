@@ -27,6 +27,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.Properties;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
@@ -167,7 +168,7 @@ public class UserProfileController extends AuctionProcessing{
 	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("newAuction") String form) throws ParseException{
 		Auction auction = new Gson().fromJson(form, Auction.class);
-		worker.createImages(auction);
+		//worker.createImages(auction);
 
 		long userId = PortalUtil.getUserId(request);
 		boolean isCreated = service.createUserAuction(userId, auction);
@@ -204,7 +205,20 @@ public class UserProfileController extends AuctionProcessing{
 		String data =  originalRequest.getParameter("data");
 		String name =  originalRequest.getParameter("name");
         
-		FileUtil.createVideo(data, name);
+		FileUtil.create(data,Properties.getVideosPath() + name);
+		JsonObject result = new JsonObject();
+		result.addProperty("success", true);
+		response.setContentType("application/json");
+		response.getWriter().write(result.toString());
+	}
+	
+	@ResourceMapping(value = "saveImage")
+	public void saveImage(ResourceRequest request, ResourceResponse response) throws IOException{
+		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
+		String data =  originalRequest.getParameter("data");
+		String name =  originalRequest.getParameter("name");
+        
+		FileUtil.create(data,Properties.getImagesPath() + name);
 		JsonObject result = new JsonObject();
 		result.addProperty("success", true);
 		response.setContentType("application/json");

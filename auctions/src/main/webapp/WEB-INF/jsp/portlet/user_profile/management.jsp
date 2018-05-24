@@ -58,3 +58,9 @@
 <input type="hidden" id="auctionId" value="${auctionId}" ></input>
 
 <script src="<c:url value="/js/module/file-upload.js" />"></script>
+<script>
+	jQuery(document).ready(function(){
+		url = jQuery('#submitDataUrl').val();
+		checkConversionStatus(1);
+	});
+</script>

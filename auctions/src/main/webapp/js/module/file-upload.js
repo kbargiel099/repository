@@ -1,44 +1,40 @@
 var available = 0;
 var isSent = false;
 var size = 1024*1024;
-var videoData;
+var fileData;
 var bytesSent = 0;
-var url = jQuery('#submitDataUrl').val();
+var url;
 var file;
-
-jQuery(document).ready(function(){
-	checkConversionStatus(1);
-});
 
 function callback(){
 	isSent = false;
-	available = videoData.length - bytesSent;
+	available = fileData.length - bytesSent;
 }
 
 var reader = new FileReader();
 var loadFileVideo = function(event) {
     reader.onload = function(){
         file = document.getElementById("video").files[0];      
-		videoData = getBase64(reader.result);
-		available = videoData.length;
-		sentPackage(createDataPackage());
+		fileData = getBase64(reader.result);
+		available = fileData.length;
+		sentPackage(createDataPackage(),afterSuccessSending);
     };
     reader.readAsDataURL(event.target.files[0]);
 };
 
-function sentPackage(data){
+function sentPackage(data,callback){
 	isSent = true;
 	params = [{'name':'data','value':data},
 		      {'name':'name','value':file.name}];
-	sendRequestParams(url,params,afterSuccessSending);
+	sendRequestParams(url,params,callback);
 }
 
 var afterSuccessSending = function(res){
 	bytesSent += size;
 	callback();
-	jQuery('#status').html(parseFloat((bytesSent/videoData.length)*100).toFixed(0) + "%");
+	jQuery('#status').html(parseFloat((bytesSent/fileData.length)*100).toFixed(0) + "%");
 	if(available > 0){
-		sentPackage(createDataPackage());
+		sentPackage(createDataPackage(),afterSuccessSending);
 	}else{
 		jQuery('#status').html("100%");
 		convertVideo();
@@ -92,7 +88,7 @@ function createDataPackage(){
 	var temp = "";
 	var limit = available >= size ? size : available;
 	for(var j=bytesSent;j<bytesSent+limit;j++){
-		temp += videoData[j];
+		temp += fileData[j];
 	}
 	return temp;
 }

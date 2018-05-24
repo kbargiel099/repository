@@ -5,22 +5,11 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.auctions.system.portlet.user_profile.model.Auction;
-
 public class Worker {
 
 	private int conversionComplete = 1000;
 	private Map<Long,FileInfo> filesConvertingProgress = new HashMap<Long,FileInfo>();
 	ExecutorService executor = Executors.newFixedThreadPool(10);
-	
-	public void createImages(final Auction auction){
-		executor.execute(new Runnable(){
-			@Override
-			public void run() {
-				FileUtil.createImage(auction.getImageData(),auction.getImageName());
-			}
-		}); 
-	}
 	
 	public void convertVideoToWebm(final long userId, final String videoName){
 		final Worker w = this;

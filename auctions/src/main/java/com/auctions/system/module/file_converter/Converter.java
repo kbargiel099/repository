@@ -93,10 +93,6 @@ public class Converter {
 			attrs.setVideoAttributes(video);
 			
 			Encoder encoder = new Encoder();
-			//for(String s : encoder.getAudioEncoders()){
-			//	System.out.println(s);
-			//}
-			//System.out.println("ENCODERS");
 			encoder.encode(source, target, attrs, listener);
 			byte[] bFile = Files.readAllBytes(target.toPath());
 

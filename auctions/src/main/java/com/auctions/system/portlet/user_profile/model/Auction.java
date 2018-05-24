@@ -11,7 +11,6 @@ public class Auction {
 	private int categoryId;
 	private int subCategoryId;
 	private String imageName;
-	private String imageData;
 	private String description;
 	private int subjectQuantity;
 	private long subjectPrice;
@@ -19,10 +18,9 @@ public class Auction {
 	
 	public Auction(){}
 	
-	public Auction(int id, String name, long serialNumber,
-			String endDate, int auctionTypeId, int categoryId, int subCategoryId,
-			String imageName, String imageData, String description,
-			int subjectQuantity, long subjectPrice, String technicalData) {
+	public Auction(int id, String name, long serialNumber, String endDate,
+			int auctionTypeId, int categoryId, int subCategoryId, String imageName,
+			String description, int subjectQuantity, long subjectPrice, String technicalData) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -32,7 +30,6 @@ public class Auction {
 		this.categoryId = categoryId;
 		this.subCategoryId = subCategoryId;
 		this.imageName = imageName;
-		this.imageData = imageData;
 		this.description = description;
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
@@ -85,14 +82,6 @@ public class Auction {
 
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
-	}
-
-	public String getImageData() {
-		return imageData;
-	}
-
-	public void setImageData(String imageData) {
-		this.imageData = imageData;
 	}
 
 	public String getDescription() {

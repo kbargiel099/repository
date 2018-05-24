@@ -124,9 +124,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	}
 	
 	@Override
-	public boolean addAuctionGrade(long userId, AuctionGrade a){
-		//Timestamp stamp = new Timestamp(0);
-		
+	public boolean addAuctionGrade(long userId, AuctionGrade a){		
 		int numberOfUpdatedRows =  dao.update("INSERT INTO auction_grade_comment(userid,auctionid,grade,comment) VALUES(?,?,?,?)",
 				new Object[]{userId,a.getAuctionId(),a.getGrade(),a.getComment()});
 		

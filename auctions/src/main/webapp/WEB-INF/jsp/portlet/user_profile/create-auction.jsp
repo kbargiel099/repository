@@ -15,6 +15,10 @@
 </portlet:resourceURL>
 <input type="hidden" id="submitAuctionUrl" value="${submitAuction}"></input>
 
+<portlet:resourceURL id="saveImage" var="saveImage">
+</portlet:resourceURL>
+<input type="hidden" id="saveImageUrl" value="${saveImage}"></input>
+
 <portlet:resourceURL id="getTechnicalData" var="getTechnicalData">
 </portlet:resourceURL>
 <input type="hidden" id="getTechnicalDataUrl" value="${getTechnicalData}"></input>
@@ -34,8 +38,7 @@
 		  	
 	      	<form id="create-new-auction-form">
 				<input type="hidden" name="id" value="0"></input>
-				<input type="hidden" id="imageName" name="imageName"></input>
-				<input type="hidden" id="imageData" name="imageData"></input>
+				<input type="hidden" id="imageName" name="imageName" value=""/>
 				<input type="hidden" id="categoryId" name="categoryId" value=""/>
 				<input type="hidden" id="auctionTypeId" name="auctionTypeId" value=""/>
 			    <input type="hidden" id="endDate" name="endDate"></input>
@@ -43,75 +46,75 @@
 				<input type="hidden" id="subCategoryId" name="subCategoryId" value=""/>
 				<input type="hidden" id="technicalData" name="technicalData" value=""/>
 				<div class="col-xs-12 col-sm-12 col-md-8">
-				<div class="col-xs-12 col-sm-12 col-md-6">
-					<div class="form-group">
-			           <label class="label-control" name="name"><liferay-ui:message key="auction.name.label" /></label>
-			           <input type="text" class="form-control" id="name" name="name"></input>
-					</div>
-					<div class="form-group">
-			           <label class="label-control" name="auctionTypeId"><liferay-ui:message key="auction.type.label" /></label>
-						<select class="selectpicker form-control" id="auctionTypeIdSelect" title="${selectTitle}"> 		
-							<c:forEach items="${auctionTypes}" var="item">
-								<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
-							</c:forEach>
-			           </select>
-					</div>
-					<div class="form-group">
-			           <label class="label-control" name="subjectQuantity"><liferay-ui:message key="auction.subjectQuantity.label" /></label>
-			           <input type="text" class="form-control" id="subjectQuantity" name="subjectQuantity"></input>
-					</div>
-					<div class="form-group">
-						<label class="label-control" name="attachImage" ><liferay-ui:message key="auction.attachImage.label" /></label>
-					</div>
-					<div>
-						<input type="file" name="imageFilechooser" id="imageFilechooser" onchange="loadFile(event)"/>
+					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
-							<img id="output" height="100%" width="100%"/>
+				           <label class="label-control" name="name"><liferay-ui:message key="auction.name.label" /></label>
+				           <input type="text" class="form-control" id="name" name="name"></input>
+						</div>
+						<div class="form-group">
+				           <label class="label-control" name="auctionTypeId"><liferay-ui:message key="auction.type.label" /></label>
+							<select class="selectpicker form-control" id="auctionTypeIdSelect" title="${selectTitle}"> 		
+								<c:forEach items="${auctionTypes}" var="item">
+									<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
+								</c:forEach>
+				           </select>
+						</div>
+						<div class="form-group">
+				           <label class="label-control" name="subjectQuantity"><liferay-ui:message key="auction.subjectQuantity.label" /></label>
+				           <input type="text" class="form-control" id="subjectQuantity" name="subjectQuantity"></input>
+						</div>
+						<div class="form-group">
+							<label class="label-control" name="attachImage" ><liferay-ui:message key="auction.attachImage.label" /></label>
+						</div>
+						<div>
+							<input type="file" name="imageFilechooser" id="imageFilechooser" onchange="loadFile(event)"/>
+							<div class="form-group">
+								<img id="output" height="100%" width="100%"/>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6">
-					<div class="form-group">
-			           <label class="label-control" name="endDate"><liferay-ui:message key="auction.endDate.label" /></label>
-			           <input type="date" class="form-control"></input>
+					<div class="col-xs-12 col-sm-12 col-md-6">
+						<div class="form-group">
+				           <label class="label-control" name="endDate"><liferay-ui:message key="auction.endDate.label" /></label>
+				           <input type="date" class="form-control"></input>
+						</div>
+						<div class="form-group">
+				           <label class="label-control" for="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></label>
+				           <input type="text" class="form-control" id="price" value="0"></input>
+						</div>
+						<div class="form-group">
+						    <label class="label-control" for="categoryId"><liferay-ui:message key="auction.category.label" /></label>
+							<select class="selectpicker form-control" id="categoryIdSelect" title="${selectTitle}">
+								<c:forEach items="${categories}" var="item">
+									<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="form-group">
+						    <label class="label-control" for="subCategoryId"><liferay-ui:message key="auction.subcategory.label" /></label>
+							<select class="selectpicker form-control" id="subCategoryIdSelect" title="${selectTitle}">
+							</select>
+						</div>
 					</div>
-					<div class="form-group">
-			           <label class="label-control" for="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></label>
-			           <input type="text" class="form-control" id="price" value="0"></input>
+					<div class="col-xs-12 col-sm-12 col-md-12">
+				  		<div class="form-group">
+					        <label class="label-control" for="description"><liferay-ui:message key="auction.description.label" /></label>
+					        <textarea rows="5" class="form-control" id="description" name="description"></textarea>
+						</div>
+						<div class="col-md-6 form-group">
+							<label class="label-control" for="technicalDataList"><liferay-ui:message key="auction.technical.data.label" /></label>
+							<div id="technicalDataList"></div>
+						</div>
+						<div class="col-xs-12 form-group">
+					  		<a class="btn btn-primary pull-right" type="submit" id="create-auction-submit"><liferay-ui:message key="submit"/></a>
+					  	</div>
 					</div>
-					<div class="form-group">
-					    <label class="label-control" for="categoryId"><liferay-ui:message key="auction.category.label" /></label>
-						<select class="selectpicker form-control" id="categoryIdSelect" title="${selectTitle}">
-							<c:forEach items="${categories}" var="item">
-								<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
-							</c:forEach>
-						</select>
-					</div>
-					<div class="form-group">
-					    <label class="label-control" for="subCategoryId"><liferay-ui:message key="auction.subcategory.label" /></label>
-						<select class="selectpicker form-control" id="subCategoryIdSelect" title="${selectTitle}">
-						</select>
-					</div>
-				</div>
-				<div class="col-xs-12 col-sm-12 col-md-12">
-			  		<div class="form-group">
-				        <label class="label-control" for="description"><liferay-ui:message key="auction.description.label" /></label>
-				        <textarea rows="5" class="form-control" id="description" name="description"></textarea>
-					</div>
-					<div class="col-md-6 form-group">
-						<label class="label-control" for="technicalDataList"><liferay-ui:message key="auction.technical.data.label" /></label>
-						<div id="technicalDataList"></div>
-					</div>
-					<div class="col-xs-12 form-group">
-				  		<a class="btn btn-primary pull-right" type="submit" id="create-auction-submit"><liferay-ui:message key="submit"/></a>
-				  	</div>
-				</div>
-		  	 </div>     
+		  	 	</div>     
 	     </form>
 	</div>
 </div>
-	 
-<script  type="text/javascript">
+<script src="<c:url value="/js/module/file-upload.js" />"></script>	 
+<script type="text/javascript">
 
 	var reader = new FileReader();
 	var subCategories;
@@ -161,12 +164,25 @@
 	var loadFile = function(event) {
 	    reader.onload = function(){
 	        var output = document.getElementById('output');
-	        var file = document.getElementById("imageFilechooser").files[0];   
-	        output.src = reader.result;   
-			jQuery("#imageName").val(file.name);
-			jQuery("#imageData").val(getBase64(reader.result));
+	        url = jQuery('#saveImageUrl').val();
+	        output.src = reader.result;
+	        file = document.getElementById("imageFilechooser").files[0];      
+			fileData = getBase64(reader.result);
+			available = fileData.length;
+			sentPackage(createDataPackage(),afterSuccessSendingPackage);
 	    };
 	    reader.readAsDataURL(event.target.files[0]);
+	};
+	
+	var afterSuccessSendingPackage = function(res){
+		bytesSent += size;
+		callback();
+		if(available > 0){
+			sentPackage(createDataPackage(),afterSuccessSendingPackage);
+		}else{
+			jQuery('#imageName').val(file.name);
+			alert("Plik dodany poprawnie");
+		}
 	};
 	
  	jQuery("#create-auction-submit").click(function(){
@@ -181,10 +197,7 @@
 		prepareTechnicalData();
 		var url = jQuery("#submitAuctionUrl").val();
 		var params = [{'name':'newAuction','value':JSON.stringify(jQuery("#create-new-auction-form").serializeObject())}];
-		console.log(params);
-		setTimeout(function(){
-			sendRequestParams(url,params,function(data){alert("Udało się");});
-		},2000);
+		sendRequestParams(url,params,function(data){alert("Udało się");});
 	}
 	
 	function getTechnicalData(id){
