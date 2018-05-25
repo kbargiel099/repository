@@ -68,8 +68,8 @@
 						</div>
 						<div>
 							<input type="file" name="imageFilechooser" id="imageFilechooser" onchange="loadFile(event)"/>
-							<div class="form-group">
-								<img id="output" height="100%" width="100%"/>
+							<div id="images" class="form-group">
+<!-- 								<img id="output" height="100%" width="100%"/> -->
 							</div>
 						</div>
 					</div>
@@ -114,9 +114,9 @@
 	</div>
 </div>
 <script src="<c:url value="/js/module/file-upload.js" />"></script>	 
+<script src="<c:url value="/js/module/create-auction.js" />"></script>	 
 <script type="text/javascript">
 
-	var reader = new FileReader();
 	var subCategories;
 	jQuery(document).ready(function(){
 		sendRequest(jQuery("#getSubCategoriesUrl").val(),
@@ -143,6 +143,7 @@
 		var id = jQuery("#subCategoryIdSelect option:selected").val();
 		jQuery("#subCategoryId").val(id);
 		getTechnicalData(id);
+		//files.splice(1,1);
 	});
 	
 	jQuery("#auctionTypeIdSelect").change(function(){
@@ -160,85 +161,4 @@
 		var value = jQuery("#price").val();
 		jQuery('#subjectPrice').val(value * 100);
 	});
-	
-	var loadFile = function(event) {
-	    reader.onload = function(){
-	        var output = document.getElementById('output');
-	        url = jQuery('#saveImageUrl').val();
-	        output.src = reader.result;
-	        file = document.getElementById("imageFilechooser").files[0];      
-			fileData = getBase64(reader.result);
-			available = fileData.length;
-			sentPackage(createDataPackage(),afterSuccessSendingPackage);
-	    };
-	    reader.readAsDataURL(event.target.files[0]);
-	};
-	
-	var afterSuccessSendingPackage = function(res){
-		bytesSent += size;
-		callback();
-		if(available > 0){
-			sentPackage(createDataPackage(),afterSuccessSendingPackage);
-		}else{
-			jQuery('#imageName').val(file.name);
-			alert("Plik dodany poprawnie");
-		}
-	};
-	
- 	jQuery("#create-auction-submit").click(function(){
-	     //var isValid = jQuery("#login-form").valid();
-	     //if(isValid){
-		      //jQuery("#login-validation-info").hide();
-	    		submitAuction();
-	    // }
-	});
-	
-	function submitAuction(){
-		prepareTechnicalData();
-		var url = jQuery("#submitAuctionUrl").val();
-		var params = [{'name':'newAuction','value':JSON.stringify(jQuery("#create-new-auction-form").serializeObject())}];
-		sendRequestParams(url,params,function(data){alert("Udało się");});
-	}
-	
-	function getTechnicalData(id){
-		var url = buildUrl(jQuery("#getTechnicalDataUrl").val(),'id',id);  
-		sendRequest(url,getTechnicalDataCallback);
-	}
-	
-	var getTechnicalDataCallback = function(data){
-		if(data.success == true){
-			jQuery('#technicalDataList').html('');
-			var res = data.data;
-			for(var i=0;i<res.length;i++){
-				var group = jQuery('<div class="form-group"></div');
-				var col1 = jQuery('<label class="label-control">'+ Liferay.Language.get(res[i].name) +'</label>');
-				var col2 = jQuery(createElement(res[i].type,res[i].name,res[i].value));
-				group.append(col1,col2).appendTo('#technicalDataList');
-			}
-			jQuery('#technicalDataList .selectpicker').selectpicker();
-		}
-	};
-	
-	function createElement(type,name,value){
-		switch(type){
-			case 'input':
-				return '<input type="text" class="form-control" id="'+ name +'" value=""></input>';
-			case 'checkbox':
-				var res =  '<select class="selectpicker form-control" id="'+ name +'" title="Wybierz">'
-				for(var i=0;i<value.length;i++){
-					res += '<option value="'+ value[i] +'">'+ Liferay.Language.get(value[i]) +'</option>';
-				}
-				res += '</select>';
-				return res;
-		}						
-	}
-	
-	function prepareTechnicalData(){
-		var json = [];
-		var div = jQuery('#technicalDataList input, #technicalDataList select');
-		for(var i=0;i<div.length;i++){
-			json.push({'name':div[i].id,'value':div[i].value});
-		}
-		jQuery('#technicalData').val('\''+ JSON.stringify(json) +'\'');
-	}
 </script>

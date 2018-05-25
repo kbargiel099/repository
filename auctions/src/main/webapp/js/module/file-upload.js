@@ -4,7 +4,7 @@ var size = 1024*1024;
 var fileData;
 var bytesSent = 0;
 var url;
-var file;
+var fileName;
 
 function callback(){
 	isSent = false;
@@ -14,7 +14,8 @@ function callback(){
 var reader = new FileReader();
 var loadFileVideo = function(event) {
     reader.onload = function(){
-        file = document.getElementById("video").files[0];      
+        file = document.getElementById("video").files[0];
+        fileName = file.name;
 		fileData = getBase64(reader.result);
 		available = fileData.length;
 		sentPackage(createDataPackage(),afterSuccessSending);
@@ -25,7 +26,7 @@ var loadFileVideo = function(event) {
 function sentPackage(data,callback){
 	isSent = true;
 	params = [{'name':'data','value':data},
-		      {'name':'name','value':file.name}];
+		      {'name':'name','value':fileName}];
 	sendRequestParams(url,params,callback);
 }
 
@@ -43,7 +44,7 @@ var afterSuccessSending = function(res){
 
 function convertVideo(){
 	var url = jQuery('#convertVideoUrl').val();
-	params = [{'name':'videoName','value':file.name}];
+	params = [{'name':'videoName','value':fileName}];
 	sendRequestParams(url,params,checkConversionStatus);
 }
 

@@ -7,7 +7,7 @@ import java.util.Base64;
 
 public class FileUtil {
 	
-	public static boolean createVideo(final String data,final String name){
+	public static boolean create(final String data,final String name){
 		boolean success = false;
 		byte[] buffer = Base64.getDecoder().decode(data);
 		FileOutputStream stream;
