@@ -1,6 +1,7 @@
 package com.auctions.system.portlet.nav_menu.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -15,10 +16,11 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.HttpUtil;
+import com.auctions.system.module.ResponseParam;
 import com.auctions.system.module.UserUtil;
 import com.auctions.system.portlet.nav_menu.service.NavService;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
@@ -43,26 +45,18 @@ public class NavMenuController {
 	@ResourceMapping("getMessagesFromUser")
 	public void getMessagesFromUser(ResourceRequest request, ResourceResponse response,
 			@RequestParam("userId") long id) throws IOException{
-		Gson gson = new Gson();
 		
-		JsonObject obj = new JsonObject();
-		obj.addProperty("messages",gson.toJson(service
-				.getUnreadMessagesFromUser(id,PortalUtil.getUserId(request))));
-		obj.addProperty("success", true);
-		
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
+		HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("messages",new Gson().toJson(service.getUnreadMessagesFromUser(id,PortalUtil.getUserId(request)))),
+			new ResponseParam("success",true)));
 	}
 
 	@ResourceMapping("markMessagesAsRead")
 	public void markMessagesAsRead(ResourceRequest request, ResourceResponse response,
 			@RequestParam("userId") long id) throws IOException{
 		
-		JsonObject obj = new JsonObject();
-		obj.addProperty("success",service.markMessagesAsRead(id,PortalUtil.getUserId(request)));
-		
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
+		HttpUtil.createResponse(response, Arrays.asList(
+				new ResponseParam("success",service.markMessagesAsRead(id,PortalUtil.getUserId(request)))));
 	}
 }
 

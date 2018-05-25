@@ -1,6 +1,7 @@
 package com.auctions.system.portlet.category.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
@@ -16,6 +17,8 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.HttpUtil;
+import com.auctions.system.module.ResponseParam;
 import com.auctions.system.module.SearchingFormValidator;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.portlet.category.model.SearchingForm;
@@ -36,7 +39,7 @@ public class CategoryController extends AuctionProcessing{
 	
 	@RenderMapping()
 	public ModelAndView getSearch(RenderRequest request){
-		HttpServletRequest originalRequest = getOriginal(request);
+		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
 		currentCategory = originalRequest.getParameter("name");
 		
 		ModelAndView model = new ModelAndView(defaultView);
@@ -49,15 +52,10 @@ public class CategoryController extends AuctionProcessing{
 	@ResourceMapping("getBySubcategory")
 	public void searchForMatching(ResourceRequest request, ResourceResponse response,
 			@RequestParam("id") int id) throws IOException{		
-		Gson gson = new Gson();
-		JsonObject res = new JsonObject();
 		
-		res.addProperty("auctions", gson.toJson(
-				service.getAuctionsBySubcategory(id)).toString());
-
-		res.addProperty("success", true);
-		response.setContentType("application/json");
-		response.getWriter().write(res.toString());
+		HttpUtil.createResponse(response, Arrays.asList(
+				new ResponseParam("auctions",new Gson().toJson(service.getAuctionsBySubcategory(id))),
+				new ResponseParam("success",true)));
 	}
 	
 	@ResourceMapping("searchText")
@@ -65,18 +63,11 @@ public class CategoryController extends AuctionProcessing{
 			@RequestParam("searchingForm") String searchingForm) throws IOException{
 		Gson gson = new Gson();
 		SearchingForm form = gson.fromJson(searchingForm, SearchingForm.class);
-		JsonObject res = new JsonObject();
 		SearchingFormValidator.prepare(form);
 		
-		res.addProperty("auctions", gson.toJson(
-				service.getSearchingAuctions(form)).toString());
-		res.addProperty("success", true);
-		response.setContentType("application/json");
-		response.getWriter().write(res.toString());
+		HttpUtil.createResponse(response, Arrays.asList(
+				new ResponseParam("auctions",gson.toJson(service.getSearchingAuctions(form))),
+				new ResponseParam("success",true)));
 	}
 
-	private HttpServletRequest getOriginal(PortletRequest request){
-		return PortalUtil.getOriginalServletRequest(
-				PortalUtil.getHttpServletRequest(request));
-	}
 }

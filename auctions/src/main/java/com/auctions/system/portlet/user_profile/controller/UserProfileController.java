@@ -2,8 +2,8 @@ package com.auctions.system.portlet.user_profile.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -27,15 +26,15 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Properties;
+import com.auctions.system.module.ResponseParam;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
-import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
-import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.google.gson.Gson;
@@ -158,18 +157,15 @@ public class UserProfileController extends AuctionProcessing{
 	
 	@ResourceMapping(value = "getSubCategories")
 	public void getSubCategories(ResourceRequest request, ResourceResponse response) throws IOException{
-		Gson gson = new Gson();
-		String result = gson.toJson(service.getSubCategories());
-		response.setContentType("application/json");
-		response.getWriter().write(result);
+		
+		HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("result",new Gson().toJson(service.getSubCategories()))));
 	}
 	
 	@ResourceMapping("submitAuction")
 	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("newAuction") String form) throws ParseException{
 		Auction auction = new Gson().fromJson(form, Auction.class);
-		//worker.createImages(auction);
-
 		long userId = PortalUtil.getUserId(request);
 		boolean isCreated = service.createUserAuction(userId, auction);
 /*		if(isCreated){
@@ -189,40 +185,34 @@ public class UserProfileController extends AuctionProcessing{
 	
 	@ResourceMapping(value = "createAuctionVideo")
 	public void createAuctionVideo(ResourceRequest request, ResourceResponse response) throws IOException{
-		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
+		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
 		long id =  Long.parseLong(originalRequest.getParameter("id"));
 		String name =  originalRequest.getParameter("name");
 		
-		JsonObject result = new JsonObject();
-		result.addProperty("success", service.createAuctionVideo(id, name));
-		response.setContentType("application/json");
-		response.getWriter().write(result.toString());
+		HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("success",service.createAuctionVideo(id, name))));
 	}
 
 	@ResourceMapping(value = "submitData")
 	public void submitData(ResourceRequest request, ResourceResponse response) throws IOException{
-		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
+		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
 		String data =  originalRequest.getParameter("data");
 		String name =  originalRequest.getParameter("name");
         
 		FileUtil.create(data,Properties.getVideosPath() + name);
-		JsonObject result = new JsonObject();
-		result.addProperty("success", true);
-		response.setContentType("application/json");
-		response.getWriter().write(result.toString());
+		HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("success",true)));
 	}
 	
 	@ResourceMapping(value = "saveImage")
 	public void saveImage(ResourceRequest request, ResourceResponse response) throws IOException{
-		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request));
+		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
 		String data =  originalRequest.getParameter("data");
 		String name =  originalRequest.getParameter("name");
         
 		FileUtil.create(data,Properties.getImagesPath() + name);
-		JsonObject result = new JsonObject();
-		result.addProperty("success", true);
-		response.setContentType("application/json");
-		response.getWriter().write(result.toString());
+		HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("success",true)));
 	}
 	
 	@ResourceMapping("convertVideo")
@@ -233,23 +223,18 @@ public class UserProfileController extends AuctionProcessing{
 	
 	@ResourceMapping("checkConversionStatus")
 	public void checkConversionStatus(ResourceRequest request, ResourceResponse response) throws IOException{	
-		JsonObject obj = new JsonObject();
-		obj.addProperty("progress", new Gson().toJson(
-				worker.checkProgress(PortalUtil.getUserId(request))));
-		
-		response.setContentType("application/json");
-		response.getWriter().write(obj.toString());
+		long id = PortalUtil.getUserId(request);		
+		HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("progress",new Gson().toJson(worker.checkProgress(id)))));
 	}
 	
 	@ResourceMapping(value = "getTechnicalData")
 	public void getTechnicalData(ResourceRequest request, ResourceResponse response,
 			@RequestParam("id") int id) throws IOException{
-		JsonObject result = new JsonObject();
-		result.add("data", new Gson().toJsonTree(service.getTechnicalData(id)));
-		result.addProperty("success", true);
 		
-		response.setContentType("application/json");
-		response.getWriter().write(result.toString());
+		HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("data",new Gson().toJsonTree(service.getTechnicalData(id))),
+			new ResponseParam("success",true)));
 	}
 
 }

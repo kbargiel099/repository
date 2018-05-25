@@ -1,6 +1,7 @@
 package com.auctions.system.portlet.users_management.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
@@ -16,15 +17,14 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.HttpUtil;
+import com.auctions.system.module.ResponseParam;
 import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 
 @Controller
 @RequestMapping("VIEW")
@@ -91,88 +91,56 @@ public class UserController extends AuctionProcessing{
 	
 	@ResourceMapping(value="getUsers")
 	public void getUsers(ResourceRequest request, ResourceResponse response) throws Exception {
-		JsonObject json = new JsonObject();
-		json.add("data",new Gson().toJsonTree(service.getUsers()));
-		
-	    response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
-	    response.getWriter().write(json.toString());
+	    
+	    HttpUtil.createResponse(response, Arrays.asList(
+	    	new ResponseParam("data",new Gson().toJsonTree(service.getUsers()))));
 	}
 	
 	@ResourceMapping(value="getAuctions")
 	public void getAuctions(ResourceRequest request, ResourceResponse response) throws Exception {
-		JsonObject json = new JsonObject();
-		json.add("data",new Gson().toJsonTree(service.getAuctions()));
-		
-	    response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
-	    response.getWriter().write(json.toString());
+	    
+	    HttpUtil.createResponse(response, Arrays.asList(
+		    new ResponseParam("data",new Gson().toJsonTree(service.getAuctions()))));
 	}
 	
 	@ResourceMapping(value="activate")
 	public void activateAuction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") long id) throws Exception {
-		JsonObject json = new JsonObject();
-		json.addProperty("success",service.activateAuction(id));
-		
-	    response.setContentType("application/json");
-	    response.getWriter().write(json.toString());
+	    
+	    HttpUtil.createResponse(response, Arrays.asList(
+		    new ResponseParam("success",service.activateAuction(id))));
 	}
 	
 	@ResourceMapping(value="suspend")
 	public void suspendAuction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") long id) throws Exception {
-		JsonObject json = new JsonObject();
-		json.addProperty("success",service.suspendAuction(id));
-		
-	    response.setContentType("application/json");
-	    response.getWriter().write(json.toString());
+	    
+	    HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("success",service.suspendAuction(id))));
 	}
 	
 	@ResourceMapping(value="delete")
 	public void deleteAuction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") long id) throws Exception {
-		JsonObject json = new JsonObject();
-		json.addProperty("success",service.deleteAuction(id));
-		
-	    response.setContentType("application/json");
-	    response.getWriter().write(json.toString());
+	    
+	    HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("success",service.deleteAuction(id))));
 	}
 	
 	@ResourceMapping(value="lock")
 	public void lockUser(ResourceRequest request, ResourceResponse response,
 			@RequestParam("userId") long id) throws IOException {
-		JsonObject json = new JsonObject();
-		
-		try{
-			UserLocalServiceUtil.updateLockoutById(id, true);
-			json.addProperty("success", true);
-			
-		}catch(PortalException e){
-			e.printStackTrace();
-			json.addProperty("success", false);
-		}
-		
-	    response.setContentType("application/json");
-	    response.getWriter().write(json.toString());
+	    
+	    HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("success",UserUtil.proceedUpdateLockoutUser(id,true))));
 	}
 	
 	@ResourceMapping(value="unlock")
 	public void unlockUser(ResourceRequest request, ResourceResponse response,
 			@RequestParam("userId") long id) throws IOException {
-		JsonObject json = new JsonObject();
-		
-		try{
-			UserLocalServiceUtil.updateLockoutById(id, false);
-			json.addProperty("success", true);
-			
-		}catch(PortalException e){
-			e.printStackTrace();
-			json.addProperty("success", false);
-		}
-		
-	    response.setContentType("application/json");
-	    response.getWriter().write(json.toString());
+	    
+	    HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("success",UserUtil.proceedUpdateLockoutUser(id,false))));
 	}
 
 }

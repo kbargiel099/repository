@@ -120,7 +120,7 @@
 	var subCategories;
 	jQuery(document).ready(function(){
 		sendRequest(jQuery("#getSubCategoriesUrl").val(),
-				function(data){subCategories = data;});
+				function(data){subCategories = data.result;});
 		jQuery('.selectpicker').selectpicker();
 	});
 	

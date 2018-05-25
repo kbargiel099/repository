@@ -24,7 +24,7 @@
 			saved = saved + 1;
 			
 			if(saved == files.length){
-				alert("Zapisane");
+				submitAuction();
 			}else{
 				saveImage();
 			}
@@ -53,12 +53,6 @@
 		fileData = getBase64(files[saved].data);
 		available = fileData.length;
 		sentPackage(createDataPackage(),afterSuccessSendingPackage);
-/* 	   
-        url = jQuery('#saveImageUrl').val();
-        file = document.getElementById("imageFilechooser").files[0];      
-		fileData = getBase64(reader.result);
-		available = fileData.length;
-		sentPackage(createDataPackage(),afterSuccessSendingPackage); */
 	}
 	
 	function getTechnicalData(id){

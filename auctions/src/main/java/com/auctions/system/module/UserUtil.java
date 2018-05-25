@@ -15,4 +15,16 @@ public class UserUtil {
 		}
 		return screenName;
 	}
+	
+	public static boolean proceedUpdateLockoutUser(long id,boolean value){
+		try{
+			UserLocalServiceUtil.updateLockoutById(id, value);
+			return true;
+			
+		}catch(PortalException e){
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 }
