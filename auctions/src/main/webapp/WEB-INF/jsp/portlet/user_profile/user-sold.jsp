@@ -1,6 +1,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
@@ -18,7 +19,7 @@
 
 	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
 	<div class="col-xs-12 col-sm-8 col-md-8">
-		<h4 class="user-profile-section-title"><liferay-ui:message key="user.observation.label" /></h4>
+		<h4 class="user-profile-section-title"><liferay-ui:message key="user.sold.label" /></h4>
 	</div>
 	<div class="col-xs-12 col-sm-8 col-md-8">
 		<div id="elements">
@@ -48,6 +49,9 @@
 				</div>
 			</div>
 			</c:forEach>
+			<c:if test="${fn:length(auctions) eq 0}">
+   				<p><liferay-ui:message key="empty.list.msg" /></p>
+			</c:if>
 		</div>
 	</div>
 </div>

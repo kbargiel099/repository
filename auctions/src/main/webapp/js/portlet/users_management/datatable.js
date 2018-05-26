@@ -11,10 +11,11 @@ function initUsers(resourceUrl){
 			{ "data": "firstname" },
 			{ "data": "lastname" },
 			{ "data": "email" },
+			{ "data": "lockout"},
             { "data": "options","width": "30%" }
         ],
 	    "columnDefs": [ {
-		    "targets": 4,
+		    "targets": 5,
 		    "render": function(data,type,full,row){
 			console.log(full);
 				var optionForLock = full.lockout ? {type:'unlock',url:buildUrl(jQuery('#unlockUrl').val(),'userId',full.id)}
@@ -25,7 +26,17 @@ function initUsers(resourceUrl){
 				var array = [optionDetails, optionEdit, optionForLock];
 				return createDropDownMenu(array);
 			}
-		  } ],
+		  },
+		  {
+			    "targets": 4,
+			    "render": function(data,type,full,row){
+					if(data == true){
+						return Liferay.Language.get('suspended');
+					}else{
+						return Liferay.Language.get('user.active');
+					}
+				}
+		}],
 		//"language": language
 		"language": {
 			"url": "pl"
@@ -44,11 +55,12 @@ function initAuctions(resourceUrl){
 				{ "data": "id" },
 	            { "data": "name" },
 				{ "data": "createDate" },
+				{ "data": "status"},
 				{ "data": "imageName" },
 	            { "data": "options","width": "30%" }
 	        ],
 		    "columnDefs": [ {
-			    "targets": 4,
+			    "targets": 5,
 			    "render": function(data,type,full,row){
 					var optionForSuspending = (full.status === 'suspended') ? {type:'unlock',url:buildUrl(jQuery('#activateUrl').val(),'auctionId',full.id)}
 							: {type:'lock',url:buildUrl(jQuery('#suspendUrl').val(),'auctionId',full.id)};
@@ -61,11 +73,17 @@ function initAuctions(resourceUrl){
 					return createDropDownMenu(array);
 				}
 			  },{
-				"targets": 3,
+				"targets": 4,
 				"render": function(data){
 					return '<img class="image image-120 img-center" style="display: block; margin: 0 auto;" src="/images/'+ data+ '" />';
 				}
-			} ],
+			},
+			{
+				"targets": 3,
+				"render": function(data){
+					return Liferay.Language.get('auction.' + data);
+				}
+			}],
 			//"language": language
 			"language": {
 				"url": "pl"

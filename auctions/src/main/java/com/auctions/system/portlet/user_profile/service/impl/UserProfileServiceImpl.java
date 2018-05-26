@@ -12,8 +12,10 @@ import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
+import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
+import com.auctions.system.portlet.user_profile.model.UserProfileData;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 
 @Service("userProfileService")
@@ -21,6 +23,11 @@ public class UserProfileServiceImpl implements UserProfileService{
 
 	@Autowired
 	UserProfileDAO dataSource;
+	
+	@Override
+	public UserProfileData getUserSimpleData(final long id){
+		return dataSource.getUserSimpleData(id);
+	}
 	
 	@Override
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId){
@@ -70,6 +77,21 @@ public class UserProfileServiceImpl implements UserProfileService{
 	@Override
 	public List<TechnicalData> getTechnicalData(int id){
 		return dataSource.getTechnicalData(id);
+	}
+	
+	@Override
+	public Auction getAuctionData(final long id){
+		return dataSource.getAuctionData(id);
+	}
+	
+	@Override
+	public boolean updateAuction(Auction a){
+		return dataSource.updateAuction(a);
+	}
+	
+	@Override
+	public AuctionImages getAuctionImages(final long id){
+		return dataSource.getAuctionImages(id);
 	}
 
 }

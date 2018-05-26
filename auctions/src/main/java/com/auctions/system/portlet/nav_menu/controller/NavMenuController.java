@@ -1,7 +1,6 @@
 package com.auctions.system.portlet.nav_menu.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -17,10 +16,8 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
-import com.auctions.system.module.ResponseParam;
 import com.auctions.system.module.UserUtil;
 import com.auctions.system.portlet.nav_menu.service.NavService;
-import com.google.gson.Gson;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
@@ -45,18 +42,22 @@ public class NavMenuController {
 	@ResourceMapping("getMessagesFromUser")
 	public void getMessagesFromUser(ResourceRequest request, ResourceResponse response,
 			@RequestParam("userId") long id) throws IOException{
+		long userId = PortalUtil.getUserId(request);
 		
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("messages",new Gson().toJson(service.getUnreadMessagesFromUser(id,PortalUtil.getUserId(request)))),
-			new ResponseParam("success",true)));
+		HttpUtil.createResponse(response).
+			set("messages", service.getUnreadMessagesFromUser(id, userId)).
+			set("success", true).
+			prepare();
 	}
 
 	@ResourceMapping("markMessagesAsRead")
 	public void markMessagesAsRead(ResourceRequest request, ResourceResponse response,
 			@RequestParam("userId") long id) throws IOException{
+		long userId = PortalUtil.getUserId(request);
 		
-		HttpUtil.createResponse(response, Arrays.asList(
-				new ResponseParam("success",service.markMessagesAsRead(id,PortalUtil.getUserId(request)))));
+		HttpUtil.createResponse(response).
+			set("success", service.markMessagesAsRead(id, userId)).
+			prepare();
 	}
 }
 

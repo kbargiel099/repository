@@ -11,7 +11,7 @@ public class Worker {
 	private Map<Long,FileInfo> filesConvertingProgress = new HashMap<Long,FileInfo>();
 	ExecutorService executor = Executors.newFixedThreadPool(10);
 	
-	public void convertVideoToWebm(final long userId, final String videoName){
+	public void convertVideo(final long userId, final String videoName){
 		final Worker w = this;
 		executor.execute(new Runnable(){
 			@Override

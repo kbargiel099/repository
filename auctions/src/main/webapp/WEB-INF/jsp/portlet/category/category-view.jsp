@@ -1,6 +1,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
@@ -87,6 +88,9 @@
 					</div>
 				</div>
 				</c:forEach>
+				<c:if test="${fn:length(auctions) eq 0}">
+	   				<p><liferay-ui:message key="empty.list.msg" /></p>
+				</c:if>
 			</div>
 		</div>
 </div>
@@ -149,9 +153,13 @@
 			"success" : function(data){
  				var elements = jQuery('#elements');
 				elements.html('');
-				jQuery(JSON.parse(data.auctions)).each(function(index,res){
-					elements.append(createElement(res));
-				});
+				if(data.auctions.length > 0){
+					jQuery(data.auctions).each(function(index,res){
+						elements.append(createElement(res));
+					});
+				}else{
+					elements.append('<p>'+ Liferay.Language.get('empty.list.msg') +'<p/>');
+				}
 			} 
 		});
  		
@@ -171,9 +179,13 @@
 			"success" : function(data){
 				var elements = jQuery('#elements');
 				elements.html('');
-				jQuery(JSON.parse(data.auctions)).each(function(index,res){
-					elements.append(createElement(res));
-				});
+				if(data.auctions.length > 0){
+					jQuery(data.auctions).each(function(index,res){
+						elements.append(createElement(res));
+					});
+				}else{
+					elements.append('<p>'+ Liferay.Language.get('empty.list.msg') +'<p/>');
+				}
 			}
 		});
 	}	

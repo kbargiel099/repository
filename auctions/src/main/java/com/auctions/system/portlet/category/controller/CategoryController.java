@@ -1,9 +1,7 @@
 package com.auctions.system.portlet.category.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
 
-import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -18,14 +16,11 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
-import com.auctions.system.module.ResponseParam;
 import com.auctions.system.module.SearchingFormValidator;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.portlet.category.model.SearchingForm;
 import com.auctions.system.portlet.category.service.CategoryService;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping(value = "VIEW")
@@ -53,9 +48,10 @@ public class CategoryController extends AuctionProcessing{
 	public void searchForMatching(ResourceRequest request, ResourceResponse response,
 			@RequestParam("id") int id) throws IOException{		
 		
-		HttpUtil.createResponse(response, Arrays.asList(
-				new ResponseParam("auctions",new Gson().toJson(service.getAuctionsBySubcategory(id))),
-				new ResponseParam("success",true)));
+		HttpUtil.createResponse(response).
+			set("auctions", service.getAuctionsBySubcategory(id)).
+			set("success", true).
+			prepare();
 	}
 	
 	@ResourceMapping("searchText")
@@ -65,9 +61,10 @@ public class CategoryController extends AuctionProcessing{
 		SearchingForm form = gson.fromJson(searchingForm, SearchingForm.class);
 		SearchingFormValidator.prepare(form);
 		
-		HttpUtil.createResponse(response, Arrays.asList(
-				new ResponseParam("auctions",gson.toJson(service.getSearchingAuctions(form))),
-				new ResponseParam("success",true)));
+		HttpUtil.createResponse(response).
+			set("auctions", service.getSearchingAuctions(form)).
+			set("success", true).
+			prepare();
 	}
 
 }

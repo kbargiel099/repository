@@ -10,4 +10,8 @@ public class DateFormatter {
 	public static String format(Timestamp e){
 		return sdf.format(e);
 	}
+	
+	public static String formatForView(Timestamp e){
+		return new SimpleDateFormat("yyyy-MM-dd").format(e);
+	}
 }

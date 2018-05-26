@@ -23,6 +23,9 @@
 </portlet:resourceURL>
 <input type="hidden" id="getTechnicalDataUrl" value="${getTechnicalData}"></input>
 
+<portlet:renderURL var="returnUrl">
+</portlet:renderURL>
+<input type="hidden" id="return" value="${returnUrl}"></input>
 
 <div class="container-fluid">
 
@@ -37,19 +40,19 @@
 		  	</c:set>
 		  	
 	      	<form id="create-new-auction-form">
-				<input type="hidden" name="id" value="0"></input>
+				<input type="hidden" name="id" value="${auction.id}"></input>
 				<input type="hidden" id="imageName" name="imageName" value=""/>
-				<input type="hidden" id="categoryId" name="categoryId" value=""/>
-				<input type="hidden" id="auctionTypeId" name="auctionTypeId" value=""/>
-			    <input type="hidden" id="endDate" name="endDate"></input>
-			    <input type="hidden" id="subjectPrice" name="subjectPrice"></input>
-				<input type="hidden" id="subCategoryId" name="subCategoryId" value=""/>
+				<input type="hidden" id="categoryId" name="categoryId" value="${auction.categoryId}"/>
+				<input type="hidden" id="auctionTypeId" name="auctionTypeId" value="${auction.auctionTypeId}"/>
+			    <input type="hidden" id="endDate" name="endDate" value="${auction.endDate}"></input>
+			    <input type="hidden" id="subjectPrice" name="subjectPrice" value="${auction.subjectPrice}"></input>
+				<input type="hidden" id="subCategoryId" name="subCategoryId" value="${auction.subCategoryId}"/>
 				<input type="hidden" id="technicalData" name="technicalData" value=""/>
 				<div class="col-xs-12 col-sm-12 col-md-8">
 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
 				           <label class="label-control" name="name"><liferay-ui:message key="auction.name.label" /></label>
-				           <input type="text" class="form-control" id="name" name="name"></input>
+				           <input type="text" class="form-control" id="name" name="name" value="${auction.name}"></input>
 						</div>
 						<div class="form-group">
 				           <label class="label-control" name="auctionTypeId"><liferay-ui:message key="auction.type.label" /></label>
@@ -61,26 +64,26 @@
 						</div>
 						<div class="form-group">
 				           <label class="label-control" name="subjectQuantity"><liferay-ui:message key="auction.subjectQuantity.label" /></label>
-				           <input type="text" class="form-control" id="subjectQuantity" name="subjectQuantity"></input>
+				           <input type="text" class="form-control" id="subjectQuantity" name="subjectQuantity" value="${auction.subjectQuantity}"></input>
 						</div>
-						<div class="form-group">
-							<label class="label-control" name="attachImage" ><liferay-ui:message key="auction.attachImage.label" /></label>
-						</div>
-						<div>
-							<input type="file" name="imageFilechooser" id="imageFilechooser" onchange="loadFile(event)"/>
-							<div id="images" class="form-group">
-<!-- 								<img id="output" height="100%" width="100%"/> -->
+						<c:if test="${type == 'add'}">
+							<div class="form-group">
+								<label class="label-control" name="attachImage" ><liferay-ui:message key="auction.attachImage.label" /></label>
 							</div>
-						</div>
+							<div>
+								<input type="file" name="imageFilechooser" id="imageFilechooser" onchange="loadFile(event)"/>
+								<div id="images" class="form-group"></div>
+							</div>
+						</c:if>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
 				           <label class="label-control" name="endDate"><liferay-ui:message key="auction.endDate.label" /></label>
-				           <input type="date" class="form-control"></input>
+				           <input type="date" class="form-control" value="${auction.endDate}"></input>
 						</div>
 						<div class="form-group">
 				           <label class="label-control" for="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></label>
-				           <input type="text" class="form-control" id="price" value="0"></input>
+				           <input type="text" class="form-control" id="price" value="${auction.subjectPrice}"></input>
 						</div>
 						<div class="form-group">
 						    <label class="label-control" for="categoryId"><liferay-ui:message key="auction.category.label" /></label>
@@ -99,7 +102,7 @@
 					<div class="col-xs-12 col-sm-12 col-md-12">
 				  		<div class="form-group">
 					        <label class="label-control" for="description"><liferay-ui:message key="auction.description.label" /></label>
-					        <textarea rows="5" class="form-control" id="description" name="description"></textarea>
+					        <textarea rows="5" class="form-control" id="description" name="description">${auction.description}</textarea>
 						</div>
 						<div class="col-md-6 form-group">
 							<label class="label-control" for="technicalDataList"><liferay-ui:message key="auction.technical.data.label" /></label>
@@ -113,54 +116,10 @@
 	     </form>
 	</div>
 </div>
+
+<input type="hidden" id="type" value="${type}">
+<script>
+	var technicalDataJson = ${auction.technicalData};
+</script>
 <script src="<c:url value="/js/module/file-upload.js" />"></script>	 
 <script src="<c:url value="/js/module/create-auction.js" />"></script>	 
-<script type="text/javascript">
-
-	var subCategories;
-	jQuery(document).ready(function(){
-		sendRequest(jQuery("#getSubCategoriesUrl").val(),
-				function(data){
-			console.log(data);
-			subCategories = JSON.parse(data.result);});
-		jQuery('.selectpicker').selectpicker();
-	});
-	
-	jQuery("#categoryIdSelect").change(function(){
-		var id = jQuery("#categoryIdSelect option:selected").val();
-		jQuery("#categoryId").val(id);
-		jQuery("#subCategoryIdSelect").html('');
-		
-		for(var i=0;i<subCategories.length;i++){
-			var item = subCategories[i];
-			if(item.categoryId == id){
-				var option = '<option value="'+item.id+'">'+ Liferay.Language.get(item.name) +'</option>';
-				jQuery("#subCategoryIdSelect").append(option);
-			}
-		}
-		jQuery("#subCategoryIdSelect").selectpicker('refresh');
-	});
-	
-	jQuery("#subCategoryIdSelect").change(function(){
-		var id = jQuery("#subCategoryIdSelect option:selected").val();
-		jQuery("#subCategoryId").val(id);
-		getTechnicalData(id);
-		//files.splice(1,1);
-	});
-	
-	jQuery("#auctionTypeIdSelect").change(function(){
-		var id = jQuery("#auctionTypeIdSelect option:selected").val();
-		jQuery("#auctionTypeId").val(id);
-	});
-	
-	jQuery("input[type='date']").change(function(){
-		var date = new Date(this.value);
-		var timestamp = date.getTime();
-		jQuery("#endDate").val(timestamp);
-	});
-	
-	jQuery("input[id='price']").change(function(){
-		var value = jQuery("#price").val();
-		jQuery('#subjectPrice').val(value * 100);
-	});
-</script>

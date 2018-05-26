@@ -1,7 +1,6 @@
 package com.auctions.system.portlet.users_management.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
@@ -18,13 +17,11 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
-import com.auctions.system.module.ResponseParam;
 import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
-import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("VIEW")
@@ -42,7 +39,7 @@ public class UserController extends AuctionProcessing{
 	
 	@RenderMapping
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
-		ModelAndView model = new ModelAndView(defaultView);
+		ModelAndView model = new ModelAndView(auctionsView);
 		return model;
 	}
 	
@@ -92,55 +89,62 @@ public class UserController extends AuctionProcessing{
 	@ResourceMapping(value="getUsers")
 	public void getUsers(ResourceRequest request, ResourceResponse response) throws Exception {
 	    
-	    HttpUtil.createResponse(response, Arrays.asList(
-	    	new ResponseParam("data",new Gson().toJsonTree(service.getUsers()))));
+		HttpUtil.createResponse(response).
+			set("data", service.getUsers()).
+			prepare();
 	}
 	
 	@ResourceMapping(value="getAuctions")
 	public void getAuctions(ResourceRequest request, ResourceResponse response) throws Exception {
 	    
-	    HttpUtil.createResponse(response, Arrays.asList(
-		    new ResponseParam("data",new Gson().toJsonTree(service.getAuctions()))));
+		HttpUtil.createResponse(response).
+			set("data", service.getAuctions()).
+			prepare();
 	}
 	
 	@ResourceMapping(value="activate")
 	public void activateAuction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") long id) throws Exception {
 	    
-	    HttpUtil.createResponse(response, Arrays.asList(
-		    new ResponseParam("success",service.activateAuction(id))));
+		HttpUtil.createResponse(response).
+			set("success", service.activateAuction(id)).
+			prepare();
 	}
 	
 	@ResourceMapping(value="suspend")
 	public void suspendAuction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") long id) throws Exception {
 	    
-	    HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",service.suspendAuction(id))));
+		HttpUtil.createResponse(response).
+			set("success", service.suspendAuction(id)).
+			prepare();
 	}
 	
 	@ResourceMapping(value="delete")
 	public void deleteAuction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") long id) throws Exception {
 	    
-	    HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",service.deleteAuction(id))));
+		HttpUtil.createResponse(response).
+			set("success", service.deleteAuction(id)).
+			prepare();
 	}
 	
 	@ResourceMapping(value="lock")
 	public void lockUser(ResourceRequest request, ResourceResponse response,
 			@RequestParam("userId") long id) throws IOException {
 	    
-	    HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",UserUtil.updateLockoutUser(id,true))));
+		HttpUtil.createResponse(response).
+			set("success", UserUtil.updateLockoutUser(id,true)).
+			prepare();
 	}
 	
 	@ResourceMapping(value="unlock")
 	public void unlockUser(ResourceRequest request, ResourceResponse response,
 			@RequestParam("userId") long id) throws IOException {
 	    
-	    HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",UserUtil.updateLockoutUser(id,false))));
+		HttpUtil.createResponse(response).
+			set("success", UserUtil.updateLockoutUser(id,false)).
+			prepare();
 	}
 
 }

@@ -50,16 +50,17 @@
 		<h4 class="user-profile-section-title"><liferay-ui:message key="adm.auctions.label" /></h4>
 	</div>
 	
-	<div class="col-xs-12 col-sm-8 col-md-9">
-		<a class="btn btn-primary btn-sm" href="${add}">
+	<div class="col-xs-12 col-sm-8 col-md-12">
+<%-- 		<a class="btn btn-primary btn-sm" href="${add}">
 			<liferay-ui:message key="add" />
-		</a>
+		</a> --%>
 		<table id="auctions" class="display">
 		     <thead>
 		            <tr>
 		                <th><liferay-ui:message key="adm.id.label" /></th>
 						<th><liferay-ui:message key="adm.auction.name.label" /></th>
 						<th><liferay-ui:message key="adm.create.date.label" /></th>
+						<th><liferay-ui:message key="status" /></th>
 		                <th></th>
 		                <th><liferay-ui:message key="options" /></th>
 		            </tr>
@@ -69,6 +70,7 @@
 		                <th><liferay-ui:message key="adm.id.label" /></th>
 						<th><liferay-ui:message key="adm.auction.name.label" /></th>
 						<th><liferay-ui:message key="adm.create.date.label" /></th>
+						<th><liferay-ui:message key="status" /></th>
 		                <th></th>
 		                <th><liferay-ui:message key="options" /></th>
 		            </tr>

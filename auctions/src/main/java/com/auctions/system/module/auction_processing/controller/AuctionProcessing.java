@@ -1,7 +1,6 @@
 package com.auctions.system.module.auction_processing.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -16,13 +15,11 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
-import com.auctions.system.module.ResponseParam;
 import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.auction_processing.model.TransactionSummary;
 import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
 import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.category.model.AuctionDetails;
-import com.google.gson.Gson;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Component
@@ -62,34 +59,39 @@ public class AuctionProcessing extends ProfileController{
 	@ResourceMapping("getAllOffers")
 	public void getAllOffers(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{	
-		
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("offers",new Gson().toJson(service.getAllOffers(id))),
-			new ResponseParam("success",true)));
+		HttpUtil.createResponse(response).
+			set("offers", service.getAllOffers(id)).
+			set("success", true).
+			prepare();
 	}
 	
 	@ResourceMapping("getVideoName")
 	public void getVideoName(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{		
 		
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("name",service.getVideoName(id).split("\\.")[0])));
+		HttpUtil.createResponse(response).
+			set("name", service.getVideoName(id).split("\\.")[0]).
+			prepare();
 	}
 	
 	@ResourceMapping("createObservation")
 	public void createObservation(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{	
+		long userId = PortalUtil.getUserId(request);
 		
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",service.createObservation(PortalUtil.getUserId(request), id))));
+		HttpUtil.createResponse(response).
+			set("success", service.createObservation(userId, id)).
+			prepare();
 	}
 	
 	@ResourceMapping("removeObservation")
 	public void removeObservation(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{
+		long userId = PortalUtil.getUserId(request);
 		
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",service.removeObservation(PortalUtil.getUserId(request), id))));
+		HttpUtil.createResponse(response).
+			set("success", service.removeObservation(userId, id)).
+			prepare();
 	}
 	
 	public AuctionDetails getDetails(long id){

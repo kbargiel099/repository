@@ -32,9 +32,10 @@
 	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
 
 	<div class="col-xs-12 col-sm-8 col-md-8">
-		<h4 class="user-profile-section-title"><liferay-ui:message key="auction.edition.label" /></h4>
-<!-- 		<div class="form-group"> -->
-			<label class="label-control" for="video"><liferay-ui:message key="auction.attachVideo.label" /></label>
+		<h4 class="user-profile-section-title"><liferay-ui:message key="auction.add.video.label" /></h4>
+ 			<div class="form-group">
+				<label class="label-control" for="video"><liferay-ui:message key="auction.attachVideo.label" /></label>
+			</div>
 		    <input type="file" id="video" name="video" onchange="loadFileVideo(event)"></input>
 		    <div id="file-info">
 		    	<div id="filename-div" style="display:none;">
@@ -43,7 +44,6 @@
 			    <strong><liferay-ui:message key="upload.state" /> </strong><p id="status"></p>
 			    <strong><liferay-ui:message key="conversion.state" /> </strong><p id="conversion"></p>
 		    </div>
-<!-- 	    </div> -->
 	 
 	   	<form id="video-form">
 	   		<input type="hidden" id="vidName" name="vidName"></input>

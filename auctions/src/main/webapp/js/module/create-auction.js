@@ -2,12 +2,14 @@
 	var files = [];
 	var fileNames = [];
 	var saved = 0;
+	var type = jQuery('#type').val();
+	var message = Liferay.Language.get('auction.message.success');
 	var loadFile = function(event) {
 	    reader.onload = function(){
 	    	fileNames.push(temp.name);
 			files.push({'name':temp.name,'data':reader.result});
 			var div = jQuery('<div class="col-xs-4"></div>');
-			var img = jQuery('<img src="'+ reader.result +'" heigth="100%" width="100%"/>');
+			var img = jQuery('<img src="'+ reader.result +'" height="100%" width="100%"/>');
 			div.append(img);
 			jQuery('#images').append(div);
 			console.log(files);
@@ -16,6 +18,42 @@
 	    reader.readAsDataURL(temp);
  	};
 	
+ 	function setForEdit(selectId,inputId){
+ 		var options = jQuery(selectId + ' option');
+ 		var categoryId = jQuery(inputId).val();
+ 		for(var i=0;i<options.length;i++){
+ 			if(options[i].value == categoryId){
+ 				jQuery(selectId).val((options[i].value));
+ 				jQuery(selectId).selectpicker('refresh');
+ 			}
+ 		}
+ 
+ 	}
+ 	
+ 	function setSubcategoryForEdit(){
+ 		var id = jQuery('#categoryId').val();
+		for(var i=0;i<subCategories.length;i++){
+			var item = subCategories[i];
+			if(item.categoryId == id){
+				var option = '<option value="'+item.id+'">'+ Liferay.Language.get(item.name) +'</option>';
+				jQuery("#subCategoryIdSelect").append(option);
+			}
+		}
+		jQuery("#subCategoryIdSelect").selectpicker('refresh');
+		setForEdit('#subCategoryIdSelect','#subCategoryId');
+		getTechnicalData(jQuery('#subCategoryId').val());
+ 	}
+ 	
+ 	function setTechnicalDataForEdit(){
+		var res = JSON.parse(technicalDataJson);
+		for(var i=0;i<res.length;i++){
+			var temp = jQuery('#' + res[i].name);
+				temp.val(res[i].value);
+				console.log(temp);
+		}
+		jQuery('#technicalDataList .selectpicker').selectpicker('refresh');
+ 	}
+ 	
 	var afterSuccessSendingPackage = function(res){
 		bytesSent += size;
 		callback();
@@ -27,7 +65,7 @@
 			
 			if(saved == files.length){
 				jQuery('#imageName').val(JSON.parse(JSON.stringify(fileNames)));
-				submitAuction();
+				submitAuction(type);
 			}else{
 				saveImage();
 			}
@@ -38,16 +76,25 @@
 	     //var isValid = jQuery("#login-form").valid();
 	     //if(isValid){
 		      //jQuery("#login-validation-info").hide();
+ 			if(type == 'add'){
  				saveImage();
+ 			}else{
+ 				message = Liferay.Language.get('changes.successfully.saved');
+ 				submitAuction(type);
+ 			}
+ 				
 	    		//submitAuction();
 	    // }
 	});
 	
-	function submitAuction(){
+	function submitAuction(actionType){
 		prepareTechnicalData();
 		var url = jQuery("#submitAuctionUrl").val();
-		var params = [{'name':'newAuction','value':JSON.stringify(jQuery("#create-new-auction-form").serializeObject())}];
-		sendRequestParams(url,params,function(data){alert("Udało się");});
+		var params = [{'name':'newAuction','value':JSON.stringify(jQuery("#create-new-auction-form").serializeObject())},
+					  {'name':'type','value': actionType}];
+		sendRequestParams(url,params,function(data){
+			window.location.href = buildUrl(jQuery('#return').val(),'message',message);
+		});
 	}
 	
 	function saveImage(){
@@ -66,7 +113,7 @@
 	var getTechnicalDataCallback = function(data){
 		if(JSON.parse(data.success) == true){
 			jQuery('#technicalDataList').html('');
-			var res = JSON.parse(data.data);
+			var res = data.data;
 			console.log(res);
 			for(var i=0;i<res.length;i++){
 				var group = jQuery('<div class="form-group"></div');
@@ -82,7 +129,7 @@
 		switch(type){
 			case 'input':
 				return '<input type="text" class="form-control" id="'+ name +'" value=""></input>';
-			case 'checkbox':
+			case 'select':
 				var res =  '<select class="selectpicker form-control" id="'+ name +'" title="Wybierz">'
 				for(var i=0;i<value.length;i++){
 					res += '<option value="'+ value[i] +'">'+ Liferay.Language.get(value[i]) +'</option>';
@@ -100,3 +147,64 @@
 		}
 		jQuery('#technicalData').val('\''+ JSON.stringify(json) +'\'');
 	}
+	
+	var subCategories;
+	jQuery(document).ready(function(){
+		sendRequest(jQuery("#getSubCategoriesUrl").val(),
+				function(data){subCategories = data.result;});
+		jQuery('.selectpicker').selectpicker();
+		
+		if(type == 'edit'){
+	 		setTimeout(function(){
+				setForEdit('#categoryIdSelect','#categoryId');
+				setForEdit('#auctionTypeIdSelect','#auctionTypeId');
+				setSubcategoryForEdit();
+				
+				var tempDate = jQuery('#endDate').val();
+				jQuery('input[type="date"]').val(tempDate);
+				jQuery('#endDate').val(new Date(tempDate).getTime());
+			},200); 
+	 		
+	 		setTimeout(function(){
+	 			setTechnicalDataForEdit();
+	 		},2000);
+		}
+	});
+	
+	jQuery("#categoryIdSelect").change(function(){
+		var id = jQuery("#categoryIdSelect option:selected").val();
+		jQuery("#categoryId").val(id);
+		jQuery("#subCategoryIdSelect").html('');
+		
+		for(var i=0;i<subCategories.length;i++){
+			var item = subCategories[i];
+			if(item.categoryId == id){
+				var option = '<option value="'+item.id+'">'+ Liferay.Language.get(item.name) +'</option>';
+				jQuery("#subCategoryIdSelect").append(option);
+			}
+		}
+		jQuery("#subCategoryIdSelect").selectpicker('refresh');
+	});
+	
+	jQuery("#subCategoryIdSelect").change(function(){
+		var id = jQuery("#subCategoryIdSelect option:selected").val();
+		jQuery("#subCategoryId").val(id);
+		getTechnicalData(id);
+		//files.splice(1,1);
+	});
+	
+	jQuery("#auctionTypeIdSelect").change(function(){
+		var id = jQuery("#auctionTypeIdSelect option:selected").val();
+		jQuery("#auctionTypeId").val(id);
+	});
+	
+	jQuery("input[type='date']").change(function(){
+		var date = new Date(this.value);
+		var timestamp = date.getTime();
+		jQuery("#endDate").val(timestamp);
+	});
+	
+	jQuery("input[id='price']").change(function(){
+		var value = jQuery("#price").val();
+		jQuery('#subjectPrice').val(value * 100);
+	});

@@ -2,13 +2,14 @@
 
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
 
 <portlet:defineObjects />
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/custom-btn.css" />" >
-<%-- <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/custom_slider.css" />" > --%>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/custom_slider.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/image.css" />" >
 
  <div class="container-fluid">
@@ -72,7 +73,7 @@
 										</a>
 										<h4>
 											<liferay-ui:message key="price" /> - 
-											${item.subjectPrice/100} 
+											<fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${item.subjectPrice/100}" type="number"/> 
 											<liferay-ui:message key="currency" />
 										</h4> 
 										<strong><h4>${item.name}</h4></strong>

@@ -65,15 +65,15 @@
 						<c:when test="${auction.videoId != -1}">
 							<div id="show-video-div">
 								<h5>
-									<strong>Zobacz wideo 
-										<a id="showVideo" href="javascript:void(0);">link</a>
+									<strong>
+										<a id="showVideo" href="javascript:void(0);"><liferay-ui:message key="see.video" /></a>
 									</strong>
 								</h5>
 							</div>
 							<div id="show-gallery-div" style="display: none;">
 								<h5>
-									<strong>Wróć do galerii 
-										<a id="showGallery" href="javascript:void(0);">link</a>
+									<strong>
+										<a id="showGallery" href="javascript:void(0);"><liferay-ui:message key="see.gallery" /></a>
 									</strong>
 								</h5>
 							</div>
@@ -81,7 +81,7 @@
 						 <c:otherwise>
 							<div>
 								<h5>
-									<strong>Sprzedawca nie dodał materiału wideo</strong>
+									<strong><liferay-ui:message key="seller.does.not.add.video" /></strong>
 								</h5>
 							</div>
 				         </c:otherwise>
@@ -159,7 +159,7 @@
 		</div>
 		<div class="details-section row">
 			<div class="col-xs-12 col-sm-5 col-md-5">
-				<h5><strong><liferay-ui:message key="available.quantity" /></strong> - ${auction.subjectQuantity} sztuk</h5>
+				<h5><strong><liferay-ui:message key="available.quantity" /></strong> - ${auction.subjectQuantity} <liferay-ui:message key="items" /></h5>
 			</div>
 			<div class="col-xs-12 col-sm-5 col-md-5">
 					<c:choose>
@@ -250,13 +250,12 @@ var canPlayMPEG4;
 	    	"url": jQuery('#getVideoNameUrl').val(),
 	    	"type": "POST",
 	    	"success": function(data){
-	    		
 	    		var ext = canPlayMPEG4 ? 'mp4' : 'ogg';
 	    		var media = canPlayMPEG4 ? 'mp4' : 'ogg';
  	    		var videoElement = '<video width="100%" controls>'
 /*  	    				+ '<source src="/videos/'+ data.name +'.mp4" type="video/mp4">' */
 /*	    				+ '<source src="/videos/'+ data.name +'.webm" type="video/webm">' */
-	    				+ '<source src="/videos/'+ data.name +'.'+ ext +'" type="video/'+ media +'">'
+	    				+ '<source src="/videos/'+ JSON.parse(data.name) +'.'+ ext +'" type="video/'+ media +'">'
 /* 	    				+ '<source src="/videos/'+ data.name +'" type="video/ogg">'
  	    				+ "<source src="+"/videos/"+ data.name +" type='video/webm;codecs="+"vp8, vorbis"'>"  */
 	    				+ '</video>';  	 

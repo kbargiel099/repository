@@ -3,7 +3,7 @@ package com.auctions.system.portlet.user_profile.model;
 
 public class Auction {
 
-	private int id;
+	private long id;
 	private String name;
 	private long serialNumber;
 	private String endDate;
@@ -18,7 +18,7 @@ public class Auction {
 	
 	public Auction(){}
 	
-	public Auction(int id, String name, long serialNumber, String endDate,
+	public Auction(long id, String name, long serialNumber, String endDate,
 			int auctionTypeId, int categoryId, int subCategoryId, String imageName,
 			String description, int subjectQuantity, long subjectPrice, String technicalData) {
 		super();
@@ -36,11 +36,11 @@ public class Auction {
 		this.technicalData = technicalData;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

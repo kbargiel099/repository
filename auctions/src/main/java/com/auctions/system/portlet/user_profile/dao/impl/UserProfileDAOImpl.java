@@ -16,27 +16,49 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.auctions.system.module.auction_processing.DateFormatter;
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
+import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
+import com.auctions.system.portlet.user_profile.model.UserProfileData;
 
 @Repository("userProfileDAO")
 public class UserProfileDAOImpl implements UserProfileDAO{
 
 	private JdbcTemplate dao;
+	private JdbcTemplate daoPortal;
 	
 	@Autowired
 	@Qualifier("dataSource")
 	private DataSource dataSource;
 	
+	@Autowired
+	@Qualifier("dataSource-lportal")
+	private DataSource dataSourcePortal;
+	
 	@PostConstruct
 	public void init() {
 		dao = new JdbcTemplate(dataSource);
+		daoPortal = new JdbcTemplate(dataSourcePortal);
+	}
+	
+	@Override
+	public UserProfileData getUserSimpleData(final long id){		
+		return daoPortal.queryForObject("SELECT createdate,modifieddate,emailaddress,screenname,firstname,lastname,lastlogindate,lockout FROM user_ WHERE userid=?",
+			new Object[]{id},new RowMapper<UserProfileData>(){
+					@Override
+					public UserProfileData mapRow(ResultSet res, int row) throws SQLException {
+						return new UserProfileData(id,res.getString("firstname"),res.getString("lastname"),res.getString("screenname"),
+								DateFormatter.format(res.getTimestamp("createdate")),DateFormatter.format(res.getTimestamp("modifieddate")),
+								res.getString("emailaddress"),DateFormatter.format(res.getTimestamp("lastlogindate")),res.getBoolean("lockout"));
+				}
+			});
 	}
 	
 	@Override
@@ -127,6 +149,41 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	public boolean addAuctionGrade(long userId, AuctionGrade a){		
 		return dao.update("INSERT INTO auction_grade_comment(userid,auctionid,grade,comment) VALUES(?,?,?,?)",
 			new Object[]{userId,a.getAuctionId(),a.getGrade(),a.getComment()}) > 0 ? true : false;
+	}
+	
+	@Override
+	public Auction getAuctionData(final long id){		
+		return dao.queryForObject("SELECT a.name,serial_number,end_date,typeid,s.category_id,subcategory_id,images,description,available,subject_price,technical_data FROM auction a"
+				+ " JOIN subcategory s ON a.subcategory_id=s.id WHERE a.id=?",
+			new Object[]{id},new RowMapper<Auction>(){
+					@Override
+					public Auction mapRow(ResultSet res, int row) throws SQLException {
+						return new Auction(id,res.getString("name"),res.getLong("serial_number"),DateFormatter.formatForView(res.getTimestamp("end_date")),
+							res.getInt("typeid"),res.getInt("category_id"),res.getInt("subcategory_id"),res.getString("images"),res.getString("description"),
+							res.getInt("available"),res.getLong("subject_price"),res.getString("technical_data"));
+				}
+			});
+	}
+	
+	@Override
+	public AuctionImages getAuctionImages(final long id){		
+		return dao.queryForObject("SELECT images FROM auction WHERE id=?",
+			new Object[]{id},new RowMapper<AuctionImages>(){
+					@Override
+					public AuctionImages mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionImages(id,res.getArray("images"));
+				}
+			});
+	}
+	
+	@Override
+	public boolean updateAuction(Auction a){		
+		Timestamp editDate = new Timestamp(System.currentTimeMillis());
+		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
+		return dao.update("UPDATE auction SET name=?,description=?,edit_date=?,end_date=?,typeid=?,subject_price=?,available=?,"
+				+ "subcategory_id=?,technical_data=? WHERE id=?",
+			new Object[]{a.getName(),a.getDescription(),editDate,endDate,a.getAuctionTypeId(),a.getSubjectPrice(),
+					a.getSubjectQuantity(),a.getSubCategoryId(),a.getTechnicalData(),a.getId()}) > 0 ? true : false;
 	}
 	
 	@Override

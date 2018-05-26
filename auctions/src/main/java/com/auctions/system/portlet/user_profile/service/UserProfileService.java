@@ -8,10 +8,14 @@ import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
+import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
+import com.auctions.system.portlet.user_profile.model.UserProfileData;
 
 public interface UserProfileService {
+	
+	public UserProfileData getUserSimpleData(final long id);
 	
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId);
 	
@@ -32,5 +36,11 @@ public interface UserProfileService {
 	public List<AuctionType> getAuctionTypes();
 	
 	public List<TechnicalData> getTechnicalData(int id);
+	
+	public Auction getAuctionData(final long id);
+	
+	public boolean updateAuction(Auction a);
+	
+	public AuctionImages getAuctionImages(final long id);
 
 }

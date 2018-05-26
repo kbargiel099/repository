@@ -21,17 +21,17 @@ function getAllOffers(){
 	    	"type": "POST",
 	    	"success": function(data){
 	    		if(data.success){
-		    		var res = JSON.parse(data.offers);
+		    		var res = data.offers;
 		    		if(res.length == 0){
 		    			jQuery('#auction-notify').hide();
-		    			jQuery('#empty-list-msg').html('Jeszcze nikt nie dodał oferty');
+		    			jQuery('#empty-list-msg').html(Liferay.Language.get('nobody.has.added.an.offer.yet'));
 		    		}else{
 			    		for(var i=0;i<res.length;i++){
 			    			addOfferToList(res[i]);
 			    		}
 		    		}
 	    		}else{
-	    			alert("Wystąpił błąd");
+	    			responsiveNotify(Liferay.Language.get('error.msg'));
 	    		}
 	    	}
 	    });
@@ -39,7 +39,8 @@ function getAllOffers(){
 }
 
 function showObservation(){
-	if(Liferay.ThemeDisplay.isSignedIn()){
+	var isCreator = Liferay.ThemeDisplay.getUserId() != parseInt(jQuery('#seller-id').val()) ? true : false;
+	if(Liferay.ThemeDisplay.isSignedIn() && isCreator){
 		if(jQuery('#isObserved').val() == 'true'){
 			jQuery('#removeObservation').show();
 		}else{
@@ -63,11 +64,11 @@ jQuery('#create-observe').click(function(){
 	    	"type": "POST",
 	    	"success": function(data){
 	    		if(data.success){
-		 			alert("Subskrybcja udana");
+	    			responsiveNotify(Liferay.Language.get('subscription.created'));
 		 			jQuery('#createObservation').hide();
 		 			jQuery('#removeObservation').show();
 	    		}else{
-	    			alert("Wystąpił błąd");
+	    			responsiveNotify(Liferay.Language.get('error.msg'));
 	    		}
 	    	}
 	    });
@@ -81,11 +82,11 @@ jQuery('#remove-observe').click(function(){
 	    	"type": "POST",
 	    	"success": function(data){
 	    		if(data.success){
-		 			alert("Subskrybcja usunięta");
+	    			responsiveNotify(Liferay.Language.get('subscription.removed'));
 		 			jQuery('#removeObservation').hide();
 		 			jQuery('#createObservation').show();
 	    		}else{
-	    			alert("Wystąpił błąd");
+	    			responsiveNotify(Liferay.Language.get('error.msg'));
 	    		}
 	    	}
 	    });

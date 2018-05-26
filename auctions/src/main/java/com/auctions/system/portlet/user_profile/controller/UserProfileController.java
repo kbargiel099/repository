@@ -2,7 +2,6 @@ package com.auctions.system.portlet.user_profile.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -28,7 +27,6 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Properties;
-import com.auctions.system.module.ResponseParam;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
@@ -46,14 +44,15 @@ import com.liferay.portal.kernel.util.PortalUtil;
 public class UserProfileController extends AuctionProcessing{
 
 	private final String defaultView = "view";
-	private final String createAuctionView = "create-auction"; 
+	private final String createEditAuctionView = "create-auction"; 
 	private final String addGradeView = "add-grade";
 	private final String settingsView = "settings";
 	private final String userBoughtView = "user-bought";
 	private final String userSoldView = "user-sold";
 	private final String userAuctionsView = "user-auctions";
 	private final String userObservationView = "user-observation";
-	private final String managementView = "management";
+	private final String addVideoView = "add-video";
+	private final String addImagesView = "add-images";
 	
 	@Autowired
 	private UserProfileService service;
@@ -66,10 +65,12 @@ public class UserProfileController extends AuctionProcessing{
 	}
 	
 	@RenderMapping
-	public ModelAndView defaulView(RenderRequest request, RenderResponse response,
+	public ModelAndView defaultView(RenderRequest request, RenderResponse response,
 			@RequestParam(value ="message", defaultValue = "") String message) throws Exception{
+		long id = PortalUtil.getUserId(request);
 		
 		ModelAndView model = new ModelAndView(defaultView);
+		model.addObject("user", service.getUserSimpleData(id));
 		model.addObject("message", message);
 		return model;
 	}
@@ -129,19 +130,41 @@ public class UserProfileController extends AuctionProcessing{
 		return model;
 	}
 	
-	@RequestMapping(params = "page=management")
-	public ModelAndView createManagementView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") long id){
-		ModelAndView model = new ModelAndView(managementView);
+	@RequestMapping(params = "page=addVideo")
+	public ModelAndView addVideoView(RenderRequest request, RenderResponse response,
+			@RequestParam("id") long id){
+		ModelAndView model = new ModelAndView(addVideoView);
 		model.addObject("auctionId", id);
+		return model;
+	}
+	
+	@RequestMapping(params = "page=addImages")
+	public ModelAndView addImagesView(RenderRequest request, RenderResponse response,
+			@RequestParam("id") long id){
+		ModelAndView model = new ModelAndView(addImagesView);
+		model.addObject("model", service.getAuctionImages(id));
 		return model;
 	}
 	
 	@RenderMapping(params = "page=createNewAuction")
 	public ModelAndView createNewAuctionRender(RenderRequest request, RenderResponse response){
 		
-		ModelAndView model = new ModelAndView(createAuctionView);
-		model.addObject("newAuction", new Auction());
+		ModelAndView model = new ModelAndView(createEditAuctionView);
+		model.addObject("auction", new Auction());
+		model.addObject("type", "add");
+		model.addObject("categories", service.getCategories());
+		model.addObject("auctionTypes", service.getAuctionTypes());
+		return model;
+	}
+	
+	@RenderMapping(params = "page=editAuction")
+	public ModelAndView editAuctionRender(RenderRequest request, RenderResponse response,
+			@RequestParam("id") long id){
+		Auction a = service.getAuctionData(id);
+		
+		ModelAndView model = new ModelAndView(createEditAuctionView);
+		model.addObject("auction",a);
+		model.addObject("type", "edit");
 		model.addObject("categories", service.getCategories());
 		model.addObject("auctionTypes", service.getAuctionTypes());
 		return model;
@@ -157,19 +180,21 @@ public class UserProfileController extends AuctionProcessing{
 	@ResourceMapping(value = "getSubCategories")
 	public void getSubCategories(ResourceRequest request, ResourceResponse response) throws IOException{
 		
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("result",new Gson().toJson(service.getSubCategories()))));
+		HttpUtil.createResponse(response).
+			set("result", service.getSubCategories()).
+			prepare();
 	}
 	
 	@ResourceMapping("submitAuction")
 	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("newAuction") String form) throws ParseException{
+			@RequestParam("newAuction") String form, @RequestParam("type") String type) throws ParseException, IOException{
 		Auction auction = new Gson().fromJson(form, Auction.class);
 		long userId = PortalUtil.getUserId(request);
-		boolean isCreated = service.createUserAuction(userId, auction);
-/*		if(isCreated){
-			response.setRenderParameter("message", "Pomyślnie utworzono aukcję");
-		}*/
+		
+		HttpUtil.createResponse(response).
+			set("success", type.equals("add") ? service.createUserAuction(userId, auction)
+				: service.updateAuction(auction)).
+				prepare();
 	}
 	
 	@ActionMapping(params = "action=addGrade")
@@ -185,11 +210,12 @@ public class UserProfileController extends AuctionProcessing{
 	@ResourceMapping(value = "createAuctionVideo")
 	public void createAuctionVideo(ResourceRequest request, ResourceResponse response) throws IOException{
 		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
-		long id =  Long.parseLong(originalRequest.getParameter("id"));
-		String name =  originalRequest.getParameter("name");
+		long id = Long.parseLong(originalRequest.getParameter("id"));
+		String name = originalRequest.getParameter("name");
 		
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",service.createAuctionVideo(id, name))));
+		HttpUtil.createResponse(response).
+			set("success", service.createVideoReference(id, name)).
+			prepare();
 	}
 
 	@ResourceMapping(value = "submitData")
@@ -199,8 +225,10 @@ public class UserProfileController extends AuctionProcessing{
 		String name =  originalRequest.getParameter("name");
         
 		FileUtil.create(data,Properties.getVideosPath() + name);
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",true)));
+		
+		HttpUtil.createResponse(response).
+			set("success", true).
+			prepare();
 	}
 	
 	@ResourceMapping(value = "saveImage")
@@ -210,30 +238,35 @@ public class UserProfileController extends AuctionProcessing{
 		String name =  originalRequest.getParameter("name");
         
 		FileUtil.create(data,Properties.getImagesPath() + name);
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",true)));
+		
+		HttpUtil.createResponse(response).
+			set("success", true).
+			prepare();
 	}
 	
 	@ResourceMapping("convertVideo")
 	public void convertVideo(ResourceRequest request, ResourceResponse response,
 			@RequestParam("videoName") String name) throws IOException{	
-		worker.convertVideoToWebm(PortalUtil.getUserId(request),name);
+		worker.convertVideo(PortalUtil.getUserId(request),name);
 	}
 	
 	@ResourceMapping("checkConversionStatus")
 	public void checkConversionStatus(ResourceRequest request, ResourceResponse response) throws IOException{	
 		long id = PortalUtil.getUserId(request);		
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("progress",new Gson().toJson(worker.checkProgress(id)))));
+		
+		HttpUtil.createResponse(response).
+			set("progress", worker.checkProgress(id)).
+			prepare();
 	}
 	
 	@ResourceMapping(value = "getTechnicalData")
 	public void getTechnicalData(ResourceRequest request, ResourceResponse response,
 			@RequestParam("id") int id) throws IOException{
 		
-		HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("data",new Gson().toJsonTree(service.getTechnicalData(id))),
-			new ResponseParam("success",true)));
+		HttpUtil.createResponse(response).
+			set("data", service.getTechnicalData(id)).
+			set("success",true).
+			prepare();
 	}
 
 }

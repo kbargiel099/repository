@@ -56,7 +56,7 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 				new RowMapper<AuctionDatatable>(){
 			@Override
 			public AuctionDatatable mapRow(ResultSet res, int row) throws SQLException {
-				return new AuctionDatatable(res.getLong("id"),res.getString("name"),res.getString("create_date"),
+				return new AuctionDatatable(res.getLong("id"),res.getString("name"),DateFormatter.format(res.getTimestamp("create_date")),
 						res.getString("image_name"),res.getString("status"));
 			}	
 		});
@@ -64,9 +64,8 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 	
 	@Override
 	public boolean deleteAuction(long auctionId) {
-		int numberOfDeletedRows =  dao.update("DELETE FROM auction WHERE id=?",
-				new Object[]{auctionId});
-		return numberOfDeletedRows > 0 ? true : false;	
+		return dao.update("DELETE FROM auction WHERE id=?",
+				new Object[]{auctionId}) > 0 ? true : false;
 	}
 	
 	@Override

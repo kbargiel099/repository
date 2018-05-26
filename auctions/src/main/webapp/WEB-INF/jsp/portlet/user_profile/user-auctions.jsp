@@ -1,6 +1,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
@@ -14,10 +15,20 @@
 </portlet:renderURL>
 <input type="hidden" id="detailsUrl" value="${details}"/>
 
-<portlet:renderURL var="management">
-	<portlet:param name="page" value="management"/>
+<portlet:renderURL var="addVideo">
+	<portlet:param name="page" value="addVideo"/>
 </portlet:renderURL>
-<input type="hidden" id="managementUrl" value="${management}"/>
+<input type="hidden" id="addVideoUrl" value="${addVideo}"/>
+
+<portlet:renderURL var="addImages">
+	<portlet:param name="page" value="addImages"/>
+</portlet:renderURL>
+<input type="hidden" id="addImagesUrl" value="${addImages}"/>
+
+<portlet:renderURL var="edit">
+	<portlet:param name="page" value="editAuction"/>
+</portlet:renderURL>
+<input type="hidden" id="editUrl" value="${edit}"/>
 
 <div class="container-fluid">
 
@@ -46,21 +57,20 @@
 					</h4> 
 				</div>
 				<div class="col-xs-12 col-sm-4 col-md-4">
-					<input type="hidden" name="id" value="${item.id}" />
-					<button class="btn btn-info" onclick="showDetails(this)" >
-						<strong><liferay-ui:message key="manage" /></strong>
-					</button>	
+					<div class="dropdown-class">
+						<input type="hidden" name="id" value="${item.id}" />
+<%-- 						<button class="btn btn-info" onclick="showDetails(this)" >
+							<strong><liferay-ui:message key="manage" /></strong>
+						</button> --%>
+					</div>	
 				</div>
 			</div>
 			</c:forEach>
+			<c:if test="${fn:length(auctions) eq 0}">
+   				<p><liferay-ui:message key="empty.list.msg" /></p>
+			</c:if>
 		</div>
 	</div>
 </div>
 
-<script>
- 	function showDetails(obj){
- 		var url = jQuery('#managementUrl').val();
- 		var id = jQuery(obj).parent().find('input').val();
- 		location.href = buildUrl(url,'auctionId',id);
- 	}
-</script>
+<script src="<c:url value="/js/portlet/users_management/user-auctions.js" />"></script>
