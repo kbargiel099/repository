@@ -64,32 +64,32 @@ public class AuctionProcessing extends ProfileController{
 			@RequestParam("auctionId") int id) throws IOException{	
 		
 		HttpUtil.createResponse(response, Arrays.asList(
-				new ResponseParam("offers",new Gson().toJson(service.getAllOffers(id))),
-				new ResponseParam("success",true)));
+			new ResponseParam("offers",new Gson().toJson(service.getAllOffers(id))),
+			new ResponseParam("success",true)));
 	}
 	
 	@ResourceMapping("getVideoName")
 	public void getVideoName(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{		
 		
-		HttpUtil.createResponse(response, Arrays.asList(new ResponseParam(
-				"name",service.getVideoName(id).split("\\.")[0])));
+		HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("name",service.getVideoName(id).split("\\.")[0])));
 	}
 	
 	@ResourceMapping("createObservation")
 	public void createObservation(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{	
 		
-		HttpUtil.createResponse(response, Arrays.asList(new ResponseParam(
-				"success",service.createObservation(PortalUtil.getUserId(request), id))));
+		HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("success",service.createObservation(PortalUtil.getUserId(request), id))));
 	}
 	
 	@ResourceMapping("removeObservation")
 	public void removeObservation(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") int id) throws IOException{
 		
-		HttpUtil.createResponse(response, Arrays.asList(new ResponseParam(
-				"success",service.removeObservation(PortalUtil.getUserId(request), id))));
+		HttpUtil.createResponse(response, Arrays.asList(
+			new ResponseParam("success",service.removeObservation(PortalUtil.getUserId(request), id))));
 	}
 	
 	public AuctionDetails getDetails(long id){

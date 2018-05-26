@@ -18,6 +18,7 @@ public class HttpUtil {
 			obj.addProperty(param.getName(), param.getValue());
 		}
 		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(obj.toString());
 	}
 	

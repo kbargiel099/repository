@@ -16,7 +16,7 @@ public class UserUtil {
 		return screenName;
 	}
 	
-	public static boolean proceedUpdateLockoutUser(long id,boolean value){
+	public static boolean updateLockoutUser(long id,boolean value){
 		try{
 			UserLocalServiceUtil.updateLockoutById(id, value);
 			return true;

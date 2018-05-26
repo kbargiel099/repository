@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/custom-btn.css" />" >
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/custom_slider.css" />" >
+<%-- <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/custom_slider.css" />" > --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/image.css" />" >
 
  <div class="container-fluid">

@@ -132,7 +132,7 @@ public class UserController extends AuctionProcessing{
 			@RequestParam("userId") long id) throws IOException {
 	    
 	    HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",UserUtil.proceedUpdateLockoutUser(id,true))));
+			new ResponseParam("success",UserUtil.updateLockoutUser(id,true))));
 	}
 	
 	@ResourceMapping(value="unlock")
@@ -140,7 +140,7 @@ public class UserController extends AuctionProcessing{
 			@RequestParam("userId") long id) throws IOException {
 	    
 	    HttpUtil.createResponse(response, Arrays.asList(
-			new ResponseParam("success",UserUtil.proceedUpdateLockoutUser(id,false))));
+			new ResponseParam("success",UserUtil.updateLockoutUser(id,false))));
 	}
 
 }

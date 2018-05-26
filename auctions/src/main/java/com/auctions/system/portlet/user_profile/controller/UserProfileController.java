@@ -38,7 +38,6 @@ import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 

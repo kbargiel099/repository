@@ -38,8 +38,8 @@ public class UserProfileServiceImpl implements UserProfileService{
 	}
 	
 	@Override
-	public boolean createAuctionVideo(long auctionId, String videoName){
-		return dataSource.createAuctionVideo(auctionId, videoName);
+	public boolean createVideoReference(long auctionId, String videoName){
+		return dataSource.createVideoReference(auctionId, videoName);
 	}
 	
 	@Override

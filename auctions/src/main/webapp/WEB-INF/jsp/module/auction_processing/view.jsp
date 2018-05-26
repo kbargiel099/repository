@@ -9,6 +9,7 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/notify-modal.css" />" >
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/custom_slider.css" />" >
 
 <portlet:renderURL var="getUserProfile">
 	<portlet:param name="page" value="userProfile"/>
@@ -49,10 +50,14 @@
   		<div class="col-xs-12 col-sm-5 col-md-5">
 			<div class="details-section row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div id="gallery">
-						<a class="text-center" href="#">
-							<img src="/images/${auction.imageName}" style="height:auto; width:100%;" />
-						</a>
+					<div id="gallery" style="display:none;">
+						<c:forEach items="${auction.images}" var="item" varStatus="i">
+							<div class="slider-element">
+								<a class="text-center" href="#">
+									<img src="/images/${item}" style="height:auto; width:100%;" />
+								</a>
+							</div>
+						</c:forEach>
 					</div>
 					<div id="video" style="display: none;">
 					</div>
@@ -218,11 +223,11 @@
 <input type="hidden" id="errorCode2" value="<liferay-ui:message key="auction.has.ended.msg" />"/>
 <input type="hidden" id="currency" value="<liferay-ui:message key="currency" />"/>
 
+<script src="<c:url value="/js/common/custom_slider.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>
 <script type="text/javascript">
 var data = ${auction.technicalParameters};
 data = JSON.parse(data);
-console.log(data);
 
 var canPlayMPEG4;
 	jQuery(document).ready(function(){
@@ -282,5 +287,6 @@ var canPlayMPEG4;
 					jQuery('#seller-username').val(),'Napisz do'));
 			jQuery('#createChatInAuction').show();
 		}
+		jQuery('#gallery').show();
 	});
 </script>

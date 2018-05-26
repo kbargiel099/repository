@@ -2,7 +2,6 @@ package com.auctions.system.module.auction_processing.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -43,14 +42,14 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public AuctionDetails getAuctionDetails(long auctionId){
-		return dao.queryForObject("SELECT id,userid,serial_number,name,image_name,description,create_date,end_date,"
+		return dao.queryForObject("SELECT id,userid,serial_number,name,images,description,create_date,end_date,"
 				+ "subject_price,available,videoid,type_name,minimal_price,technical_data FROM auction_details WHERE id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
 					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionDetails(res.getLong("id"),res.getLong("userid"),res.getString("serial_number"),res.getString("name"),
 							res.getString("description"),DateFormatter.format(res.getTimestamp("create_date")),DateFormatter.format(res.getTimestamp("end_date"))
-							,res.getString("image_name"),res.getString("type_name"),res.getLong("videoid"),res.getInt("available")
+							,res.getArray("images"),res.getString("type_name"),res.getLong("videoid"),res.getInt("available")
 							,res.getLong("subject_price"),res.getLong("minimal_price"),res.getString("technical_data"));
 				}
 			});

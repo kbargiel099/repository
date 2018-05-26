@@ -1,8 +1,10 @@
 	var reader = new FileReader();	
 	var files = [];
+	var fileNames = [];
 	var saved = 0;
 	var loadFile = function(event) {
 	    reader.onload = function(){
+	    	fileNames.push(temp.name);
 			files.push({'name':temp.name,'data':reader.result});
 			var div = jQuery('<div class="col-xs-4"></div>');
 			var img = jQuery('<img src="'+ reader.result +'" heigth="100%" width="100%"/>');
@@ -24,6 +26,7 @@
 			saved = saved + 1;
 			
 			if(saved == files.length){
+				jQuery('#imageName').val(JSON.parse(JSON.stringify(fileNames)));
 				submitAuction();
 			}else{
 				saveImage();
@@ -61,9 +64,10 @@
 	}
 	
 	var getTechnicalDataCallback = function(data){
-		if(data.success == true){
+		if(JSON.parse(data.success) == true){
 			jQuery('#technicalDataList').html('');
-			var res = data.data;
+			var res = JSON.parse(data.data);
+			console.log(res);
 			for(var i=0;i<res.length;i++){
 				var group = jQuery('<div class="form-group"></div');
 				var col1 = jQuery('<label class="label-control">'+ Liferay.Language.get(res[i].name) +'</label>');

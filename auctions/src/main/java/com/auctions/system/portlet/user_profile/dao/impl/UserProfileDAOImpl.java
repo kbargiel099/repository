@@ -125,45 +125,31 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public boolean addAuctionGrade(long userId, AuctionGrade a){		
-		int numberOfUpdatedRows =  dao.update("INSERT INTO auction_grade_comment(userid,auctionid,grade,comment) VALUES(?,?,?,?)",
-				new Object[]{userId,a.getAuctionId(),a.getGrade(),a.getComment()});
-		
-		return numberOfUpdatedRows > 0 ? true : false;
+		return dao.update("INSERT INTO auction_grade_comment(userid,auctionid,grade,comment) VALUES(?,?,?,?)",
+			new Object[]{userId,a.getAuctionId(),a.getGrade(),a.getComment()}) > 0 ? true : false;
 	}
 	
 	@Override
-	public boolean createAuctionVideo(long auctionId, String videoName){
-		createVideoReference(auctionId,videoName);
-		return true;
-	}
-	
-	@Override//Przejrzec sql bo brakuje ważnych pól i definicje aukcji ogolnie oraz przerobic na procedure
 	public boolean createUserAuction(long userId, Auction a) throws ParseException{
-		
-		Timestamp createDate = new Timestamp(System.currentTimeMillis());
-		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
-		
-		boolean success = true;
 	
 		try {
-			long auctionId = createAuction(userId, a);
-			long imageId = createImageReference(auctionId, a.getImageName());
-			
+			createAuction(userId, a);
+			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
-			success = false;
 		}
 		
-		return success;
+		return false;
 	}
 	
 	private long createAuction(long userId, Auction a){
         Long createdAuctionId = (long) -1;
 		Timestamp createDate = new Timestamp(System.currentTimeMillis());
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
+		String[] images = a.getImageName().split(",");
         try {
             PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction(userid,name,description,create_date,edit_date,end_date,minimal_price,"
-					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,technical_data,videoid) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,technical_data,videoid,images) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
 	        pst.setLong(1, userId);
 	        pst.setString(2,a.getName());
 	        pst.setString(3, a.getDescription());
@@ -180,8 +166,9 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	        pst.setInt(14, a.getSubCategoryId());
 	        pst.setString(15, a.getTechnicalData());
 	        pst.setLong(16, -1);
+	        pst.setArray(17, pst.getConnection().createArrayOf("varchar",images));
 	        pst.executeUpdate();
-
+	        
 	        ResultSet keys = pst.getGeneratedKeys();
             if(keys.next())
             	createdAuctionId = keys.getLong(1);
@@ -194,30 +181,8 @@ public class UserProfileDAOImpl implements UserProfileDAO{
         return createdAuctionId;
 	}
 	
-	
-	private long createImageReference(long auctionId, String imageName){
-        Long createdImageId = (long) -1;
-        
-        try {
-    		PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction_image(auctionid,image_name) VALUES(?,?)",
-    				PreparedStatement.RETURN_GENERATED_KEYS);
-	        pst.setLong(1, auctionId);
-	        pst.setString(2, imageName);
-	        pst.executeUpdate();
-	        ResultSet keys = pst.getGeneratedKeys();
-            if(keys.next())
-            	createdImageId = keys.getLong(1);
-            
-            pst.close();
-            
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-        return createdImageId;
-	}
-	
-	private long createVideoReference(long auctionId, String videoName){
-        Long createdVideoId = (long) -1;
+	@Override
+	public boolean createVideoReference(long auctionId, String videoName){
         
         try {
     		PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction_video(auctionid,name) VALUES(?,?)",
@@ -225,16 +190,13 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	        pst.setLong(1, auctionId);
 	        pst.setString(2, videoName);
 	        pst.executeUpdate();
-	        ResultSet keys = pst.getGeneratedKeys();
-            if(keys.next())
-            	createdVideoId = keys.getLong(1);
-            
             pst.close();
             
+            return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-        return createdVideoId;
+        return false;
 	}
 
 }

@@ -1,12 +1,7 @@
 package com.auctions.system.portlet.category.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.auctions.system.module.auction_processing.model.TechnicalParameter;
-import com.auctions.system.module.auction_processing.model.Wrapper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import java.sql.Array;
+import java.sql.SQLException;
 
 public class AuctionDetails {
 
@@ -17,7 +12,7 @@ public class AuctionDetails {
 	private String description;
 	private String createDate;
 	private String endDate;	
-	private String imageName;
+	private String[] images;
 	private String typeName;
 	private long videoId;
 	private int subjectQuantity;
@@ -26,7 +21,7 @@ public class AuctionDetails {
 	private String technicalParameters;
 	
 	public AuctionDetails(long id, long userId, String serialNumber, String name, String description, String createDate, String endDate, 
-			String imageName, String typeName, long videoId, int subjectQuantity, long subjectPrice, long minimalPrice, String technicalParameters) {
+			Array images, String typeName, long videoId, int subjectQuantity, long subjectPrice, long minimalPrice, String technicalParameters) throws SQLException {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -35,15 +30,12 @@ public class AuctionDetails {
 		this.description = description;
 		this.createDate = createDate;
 		this.endDate = endDate;
-		this.imageName = imageName;
+		this.images = (String[]) images.getArray();
 		this.typeName = typeName;
 		this.videoId = videoId;
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
 		this.minimalPrice = minimalPrice;
-/*		this.technicalParameters = new Gson().fromJson(technicalParameters,
-				new TypeToken<List<TechnicalParameter>>(){}.getType());*/
-		//this.technicalParameters = new Gson().fromJson(technicalParameters, Wrapper.class).getData();
 		this.technicalParameters = technicalParameters;
 	}
 	
@@ -71,11 +63,11 @@ public class AuctionDetails {
 	public void setSubjectPrice(long subjectPrice) {
 		this.subjectPrice = subjectPrice;
 	}
-	public String getImageName() {
-		return imageName;
+	public String[] getImages() {
+		return images;
 	}
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
+	public void setImages(String[] images) {
+		this.images = images;
 	}
 
 	public String getDescription() {

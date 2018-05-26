@@ -19,7 +19,7 @@ public interface UserProfileDAO {
 	
 	public List<AuctionPresenter> getUserObservation(long userId);
 	
-	public boolean createAuctionVideo(long auctionId, String videoName);
+	public boolean createVideoReference(long auctionId, String videoName);
 	
 	public List<Category> getCategories();
 	
