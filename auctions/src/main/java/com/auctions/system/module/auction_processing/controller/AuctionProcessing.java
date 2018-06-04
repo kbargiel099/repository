@@ -34,9 +34,11 @@ public class AuctionProcessing extends ProfileController{
 	@RequestMapping(params = "page=auctionDetails")
 	public ModelAndView detailsView(RenderRequest request, RenderResponse response,
 			@RequestParam("id") long id) throws Exception {
+		AuctionDetails details = service.getAuctionDetails(id);
+		
 		ModelAndView model = new ModelAndView(detailsView);
-		model.addObject("auction",service.getAuctionDetails(id));
-		model.addObject("seller", service.getSellerDetails(20155));
+		model.addObject("auction",details);
+		model.addObject("seller", service.getSellerDetails(details.getUserId()));
 		model.addObject("isObserved",service.isObserved(PortalUtil.getUserId(request), id));
 		return model;
 	}	

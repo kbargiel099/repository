@@ -34,7 +34,7 @@
 	<div class="col-xs-12 col-sm-8 col-md-8">
 		<h4 class="user-profile-section-title"><liferay-ui:message key="auction.add.video.label" /></h4>
  			<div class="form-group">
-				<label class="label-control" for="video"><liferay-ui:message key="auction.attachVideo.label" /></label>
+				<label id="attach-video-label" class="label-control" for="video"><liferay-ui:message key="auction.attachVideo.label" /></label>
 			</div>
 		    <input type="file" id="video" name="video" onchange="loadFileVideo(event)"></input>
 		    <div id="file-info">

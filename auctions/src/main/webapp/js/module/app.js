@@ -12,6 +12,14 @@ jQuery(document).ready(function(){
 	provideValidation();
 	showObservation();
 	getAllOffers();
+	
+	if(Liferay.ThemeDisplay.getUserId() == parseInt(jQuery('#seller-id').val())){
+		if(isQuickPurchase == true){
+			jQuery("#quickPurchaseBtn").prop("disabled",true);
+		}else{
+			jQuery("#raiseStakeBtn").prop("disabled",true);
+		}
+	}
 });
 
 function getAllOffers(){
@@ -179,7 +187,7 @@ function updatePriceValidation(){
     });
 }
 
-	jQuery( "#raiseStakeBtn" ).click(function() { 
+	jQuery("#raiseStakeBtn" ).click(function() { 
 		if(Liferay.ThemeDisplay.isSignedIn()){
 			if(validate()){
 				sendForm2();
