@@ -38,6 +38,7 @@ var afterSuccessSending = function(res){
 		sentPackage(createDataPackage(),afterSuccessSending);
 	}else{
 		jQuery('#status').html("100%");
+		jQuery('#attach-video-label').hide();
 		convertVideo();
 	}
 };
@@ -62,7 +63,7 @@ var checkConversionStatusCallback = function(data){
 		if(info.progress <= 1000){
 			console.log(info.progress);
 			jQuery('#video').hide();
-			jQuery('#attach-video-label').hide();
+			//jQuery('#attach-video-label').hide();
 			jQuery('#filename').html(info.name);
 			jQuery('#filename-div').show();
 			jQuery('#status').html("100%");

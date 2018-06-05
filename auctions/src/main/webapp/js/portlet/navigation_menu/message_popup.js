@@ -81,17 +81,18 @@
             }
             
             var loadMessagesCallback = function(data){
-    			if(data.success == true){
-    				var messages = JSON.parse(data.messages);
+    			if(JSON.parse(data.success) == true){
+    				var messages = data.messages;
     				
     				for(var i=0;i<messages.length;i++){
     					console.log(messages[i]);
     					addMessageAsReceiver(currentPopupId,messages[i].message);
     				}
-					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),currentPopupId);
+    				if(messages.length > 0)
+    					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),currentPopupId);
     			}
     			else
-    				alert("Wystapil blad");
+    				alert("Wystapil blad loadMessagesCallback");
             };
             
             function markMessagesAsRead(url,userId){
@@ -100,7 +101,7 @@
             		"type":"GET",
             		"success": function(data){
             			console.log(data);
-            			if(data.success == true){
+            			if(JSON.parse(data.success) == true){
             				
             				var list = document.getElementById('notification-list');
             				var pp = document.getElementById(notificationListIdPrefix + userId);
@@ -114,7 +115,7 @@
 
             			}
             			else
-            				alert("Wystapil blad");
+            				alert("Wystapil blad markMessagesAsRead");
             		}
             	});
             }

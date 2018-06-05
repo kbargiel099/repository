@@ -32,7 +32,12 @@
 	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
 	
 		<div class="col-xs-12 col-sm-8 col-md-8">
-			<h4 class="user-profile-section-title"><liferay-ui:message key="auction.form.label" /></h4>
+			<c:if test="${type == 'add'}">
+				<h4 class="user-profile-section-title"><liferay-ui:message key="auction.form.label" /></h4>
+			</c:if>
+			<c:if test="${type == 'edit'}">
+				<h4 class="user-profile-section-title"><liferay-ui:message key="auction.edition.label" /></h4>
+			</c:if>
 		</div>
 		  <div class="container">	
 		  	<c:set var="selectTitle">
