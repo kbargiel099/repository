@@ -22,10 +22,10 @@ public class ConverterDAOImpl implements ConverterDAO {
 	public boolean createVideoReference(long auctionId, String videoName){
         
         try {
-    		PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction_video(auctionid,name) VALUES(?,?)",
+    		PreparedStatement pst = dataSource.getConnection().prepareStatement("UPDATE auction SET video=? WHERE id=?",
     				PreparedStatement.RETURN_GENERATED_KEYS);
-	        pst.setLong(1, auctionId);
-	        pst.setString(2, videoName);
+	        pst.setString(1, videoName);
+    		pst.setLong(2, auctionId);
 	        pst.executeUpdate();
             pst.close();
             

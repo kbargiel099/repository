@@ -62,7 +62,7 @@
 					<div id="video" style="display: none;">
 					</div>
 					<c:choose>
-						<c:when test="${auction.videoId != -1}">
+						<c:when test="${auction.video != ''}">
 							<div id="show-video-div">
 								<h5>
 									<strong>

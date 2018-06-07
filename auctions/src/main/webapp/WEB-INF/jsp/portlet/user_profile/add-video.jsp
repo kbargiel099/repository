@@ -25,6 +25,11 @@
 </portlet:resourceURL>
 <input type="hidden" id="checkConversionStatusUrl" value="${checkConversionStatus}"></input>
 
+<portlet:resourceURL id="getVideoName" var="getVideoName">
+	<portlet:param name="auctionId" value="${auctionId}"/>
+</portlet:resourceURL>
+<input type="hidden" id="getVideoNameUrl" value="${getVideoName}"></input>
+
 <div class="container-fluid">
 
 	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
@@ -57,6 +62,10 @@
 <script>
 	jQuery(document).ready(function(){
 		url = jQuery('#submitDataUrl').val();
-		checkConversionStatus(1);
+		sendRequest(jQuery('#getVideoNameUrl').val(),function(data){
+			var name = JSON.parse(data.name);
+			console.log(name);
+		});
+		//checkConversionStatus(1);
 	});
 </script>

@@ -71,7 +71,7 @@ public class AuctionProcessing extends ProfileController{
 	
 	@ResourceMapping("getVideoName")
 	public void getVideoName(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException{		
+			@RequestParam("auctionId") long id) throws IOException{		
 		
 		HttpUtil.createResponse(response).
 			set("name", service.getVideoName(id).split("\\.")[0]).
@@ -101,6 +101,11 @@ public class AuctionProcessing extends ProfileController{
 	public AuctionDetails getDetails(long id){
 		return service.getAuctionDetails(id);
 	}
+	
+/*	private String getVideoName(long id){
+		String name = service.getVideoName(id);
+		return name.isEmpty() ? "-1" : name.split("\\.")[0];
+	}*/
 	
 }
 

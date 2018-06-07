@@ -245,6 +245,16 @@ public class UserProfileController extends AuctionProcessing{
 			prepare();
 	}
 	
+	@ResourceMapping("updateImages")
+	public void updateImages(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") long id,
+			@RequestParam("images") String images) throws IOException{		
+		
+		HttpUtil.createResponse(response).
+			set("success", service.updateAuctionImages(images, id)).
+			prepare();
+	}
+	
 	@ResourceMapping("convertVideo")
 	public void convertVideo(ResourceRequest request, ResourceResponse response,
 			@RequestParam("videoName") String name,

@@ -82,8 +82,6 @@
  				message = Liferay.Language.get('changes.successfully.saved');
  				submitAuction(type);
  			}
- 				
-	    		//submitAuction();
 	    // }
 	});
 	
@@ -190,7 +188,6 @@
 		var id = jQuery("#subCategoryIdSelect option:selected").val();
 		jQuery("#subCategoryId").val(id);
 		getTechnicalData(id);
-		//files.splice(1,1);
 	});
 	
 	jQuery("#auctionTypeIdSelect").change(function(){

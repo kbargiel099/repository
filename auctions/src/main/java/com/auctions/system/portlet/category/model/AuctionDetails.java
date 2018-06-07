@@ -14,14 +14,14 @@ public class AuctionDetails {
 	private String endDate;	
 	private String[] images;
 	private String typeName;
-	private long videoId;
+	private String video;
 	private int subjectQuantity;
 	private long subjectPrice;
 	private long minimalPrice;
 	private String technicalParameters;
 	
 	public AuctionDetails(long id, long userId, String serialNumber, String name, String description, String createDate, String endDate, 
-			Array images, String typeName, long videoId, int subjectQuantity, long subjectPrice, long minimalPrice, String technicalParameters) throws SQLException {
+			Array images, String typeName, String video, int subjectQuantity, long subjectPrice, long minimalPrice, String technicalParameters) throws SQLException {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -32,7 +32,7 @@ public class AuctionDetails {
 		this.endDate = endDate;
 		this.images = (String[]) images.getArray();
 		this.typeName = typeName;
-		this.videoId = videoId;
+		this.video = video;
 		this.subjectQuantity = subjectQuantity;
 		this.subjectPrice = subjectPrice;
 		this.minimalPrice = minimalPrice;
@@ -110,12 +110,8 @@ public class AuctionDetails {
 		this.serialNumber = serialNumber;
 	}
 
-	public long getVideoId() {
-		return videoId;
-	}
-
-	public void setHasVideo(long videoId) {
-		this.videoId = videoId;
+	public String getVideo() {
+		return video;
 	}
 
 	public String getTypeName() {
@@ -126,8 +122,8 @@ public class AuctionDetails {
 		this.typeName = typeName;
 	}
 
-	public void setVideoId(long videoId) {
-		this.videoId = videoId;
+	public void setVideo(String video) {
+		this.video = video;
 	}
 
 	public long getMinimalPrice() {

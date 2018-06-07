@@ -88,5 +88,10 @@ public class UserProfileServiceImpl implements UserProfileService{
 	public AuctionImages getAuctionImages(final long id){
 		return dataSource.getAuctionImages(id);
 	}
+	
+	@Override
+	public boolean updateAuctionImages(String images, long id){
+		return dataSource.updateAuctionImages(images, id);
+	}
 
 }

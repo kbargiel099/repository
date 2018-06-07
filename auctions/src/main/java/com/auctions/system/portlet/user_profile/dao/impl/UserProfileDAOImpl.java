@@ -187,26 +187,30 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	}
 	
 	@Override
-	public boolean createUserAuction(long userId, Auction a) throws ParseException{
-	
-		try {
-			createAuction(userId, a);
-			return true;
-		} catch(Exception e) {
+	public boolean updateAuctionImages(String images, long id){
+		String[] array = images.split(",");
+        try {
+            PreparedStatement pst = dataSource.getConnection().prepareStatement("UPDATE auction SET images=? WHERE id=?");
+	        pst.setArray(1, pst.getConnection().createArrayOf("varchar",array));
+	        pst.setLong(2, id);
+	        pst.executeUpdate();
+            
+            pst.close();
+            return true;
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return false;
+        return false;
 	}
 	
-	private long createAuction(long userId, Auction a){
-        Long createdAuctionId = (long) -1;
+	@Override
+	public boolean createUserAuction(long userId, Auction a) throws ParseException{
 		Timestamp createDate = new Timestamp(System.currentTimeMillis());
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
 		String[] images = a.getImageName().split(",");
         try {
             PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction(userid,name,description,create_date,edit_date,end_date,minimal_price,"
-					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,technical_data,videoid,images) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,technical_data,video,images) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 	        pst.setLong(1, userId);
 	        pst.setString(2,a.getName());
 	        pst.setString(3, a.getDescription());
@@ -222,20 +226,17 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	        pst.setInt(13, a.getSubjectQuantity());
 	        pst.setInt(14, a.getSubCategoryId());
 	        pst.setString(15, a.getTechnicalData());
-	        pst.setLong(16, -1);
+	        pst.setString(16, "");
 	        pst.setArray(17, pst.getConnection().createArrayOf("varchar",images));
 	        pst.executeUpdate();
-	        
-	        ResultSet keys = pst.getGeneratedKeys();
-            if(keys.next())
-            	createdAuctionId = keys.getLong(1);
-            
+	   
             pst.close();
+            return true;
             
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-        return createdAuctionId;
+        return false;
 	}
 
 }

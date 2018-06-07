@@ -40,5 +40,7 @@ public interface UserProfileService {
 	public boolean updateAuction(Auction a);
 	
 	public AuctionImages getAuctionImages(final long id);
+	
+	public boolean updateAuctionImages(String images, long id);
 
 }

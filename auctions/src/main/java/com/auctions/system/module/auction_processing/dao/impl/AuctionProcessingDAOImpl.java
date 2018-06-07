@@ -43,13 +43,13 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	@Override
 	public AuctionDetails getAuctionDetails(long auctionId){
 		return dao.queryForObject("SELECT id,userid,serial_number,name,images,description,create_date,end_date,"
-				+ "subject_price,available,videoid,type_name,minimal_price,technical_data FROM auction_details WHERE id=?", 
+				+ "subject_price,available,video,type_name,minimal_price,technical_data FROM auction_details WHERE id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
 					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionDetails(res.getLong("id"),res.getLong("userid"),res.getString("serial_number"),res.getString("name"),
 							res.getString("description"),DateFormatter.format(res.getTimestamp("create_date")),DateFormatter.format(res.getTimestamp("end_date"))
-							,res.getArray("images"),res.getString("type_name"),res.getLong("videoid"),res.getInt("available")
+							,res.getArray("images"),res.getString("type_name"),res.getString("video"),res.getInt("available")
 							,res.getLong("subject_price"),res.getLong("minimal_price"),res.getString("technical_data"));
 				}
 			});
@@ -69,11 +69,11 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public String getVideoName(long id){
-		return dao.queryForObject("SELECT v.name FROM auction_video v JOIN auction a on videoid=v.id WHERE a.id=?", 
+		return dao.queryForObject("SELECT video FROM auction WHERE id=?", 
 				new Object[]{id},new RowMapper<String>(){
 					@Override
 					public String mapRow(ResultSet res, int row) throws SQLException {
-						return res.getString("name");
+						return res.getString("video");
 				}
 		});
 	}
