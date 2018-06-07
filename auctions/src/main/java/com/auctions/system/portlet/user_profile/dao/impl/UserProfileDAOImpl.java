@@ -237,23 +237,5 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		}
         return createdAuctionId;
 	}
-	
-	@Override
-	public boolean createVideoReference(long auctionId, String videoName){
-        
-        try {
-    		PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction_video(auctionid,name) VALUES(?,?)",
-    				PreparedStatement.RETURN_GENERATED_KEYS);
-	        pst.setLong(1, auctionId);
-	        pst.setString(2, videoName);
-	        pst.executeUpdate();
-            pst.close();
-            
-            return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-        return false;
-	}
 
 }

@@ -15,15 +15,13 @@
 </portlet:resourceURL>
 <input type="hidden" id="submitDataUrl" value="${submitData}"></input>
 
-<portlet:resourceURL id="createAuctionVideo" var="createAuctionVideo">
-</portlet:resourceURL>
-<input type="hidden" id="createAuctionVideoUrl" value="${createAuctionVideo}"></input>
-
 <portlet:resourceURL id="convertVideo" var="convertVideo">
+	<portlet:param name="auctionId" value="${auctionId}"/>
 </portlet:resourceURL>
 <input type="hidden" id="convertVideoUrl" value="${convertVideo}"></input>
 
 <portlet:resourceURL id="checkConversionStatus" var="checkConversionStatus">
+	<portlet:param name="auctionId" value="${auctionId}"/>
 </portlet:resourceURL>
 <input type="hidden" id="checkConversionStatusUrl" value="${checkConversionStatus}"></input>
 
@@ -54,8 +52,6 @@
 		</a>	
 	</div>
 </div>
-
-<input type="hidden" id="auctionId" value="${auctionId}" ></input>
 
 <script src="<c:url value="/js/module/file-upload.js" />"></script>
 <script>

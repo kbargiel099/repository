@@ -32,5 +32,4 @@ public class FileInfo {
 		this.name = name;
 	}
 	
-	
 }

@@ -45,11 +45,6 @@ public class UserProfileServiceImpl implements UserProfileService{
 	}
 	
 	@Override
-	public boolean createVideoReference(long auctionId, String videoName){
-		return dataSource.createVideoReference(auctionId, videoName);
-	}
-	
-	@Override
 	public List<Category> getCategories(){
 		return dataSource.getCategories();
 	}

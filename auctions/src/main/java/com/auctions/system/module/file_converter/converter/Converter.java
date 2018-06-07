@@ -1,4 +1,4 @@
-package com.auctions.system.module.file_converter;
+package com.auctions.system.module.file_converter.converter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import com.auctions.system.module.Properties;
+import com.auctions.system.module.file_converter.listener.ProgressListener;
 
 import it.sauronsoftware.jave.AudioAttributes;
 import it.sauronsoftware.jave.Encoder;
@@ -75,7 +76,6 @@ public class Converter {
 			
 			AudioAttributes audio = new AudioAttributes();
 			audio.setCodec("vorbis");
-			//audio.setCodec("libvorbis");
 			audio.setBitRate(new Integer(128000));
 			audio.setChannels(new Integer(2));
 			audio.setSamplingRate(new Integer(44100));

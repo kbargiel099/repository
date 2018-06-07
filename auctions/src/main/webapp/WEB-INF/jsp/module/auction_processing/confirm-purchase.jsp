@@ -97,19 +97,17 @@ function connect() {
         	var res = JSON.parse(data.body);
         	console.log(res);
         	if(res.success == true){
-        		window.location.href = jQuery('#returnUrl').val();
+        		window.location.href = buildUrl(jQuery('#returnUrl').val(),'message',Liferay.Language.get('subject.successfully.purchased'));
         	}else{
-        		responsiveNotify('Wystąpił błąd, spróbuj ponownie');
+        		responsiveNotify(Liferay.Language.get('error.msg'));
         	}
         });
     });
 }
 
 function sendFormQuickPurchase() {
-	//stompClient.send("/app/purchase/" + jQuery('#id').val(), {}, 
-	//    JSON.stringify(jQuery('#purchase-form').serializeObject()));   
- 	    stompClient.send("/app/purchase/" + jQuery('#id').val(), {}, JSON.stringify({'userId': Liferay.ThemeDisplay.getUserId(),'username': jQuery('#username').val(),
-	    	'price': jQuery('#price').val(),'endDate': jQuery('#endDate').val(),'quantity': jQuery('#quantity').val() }));    
+ 	stompClient.send("/app/purchase/" + jQuery('#id').val(), {}, JSON.stringify({'userId': Liferay.ThemeDisplay.getUserId(),'username': jQuery('#username').val(),
+	    'price': jQuery('#price').val(),'endDate': jQuery('#endDate').val(),'quantity': jQuery('#quantity').val() }));    
 
 }
 </script>

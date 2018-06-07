@@ -57,7 +57,8 @@ public class UserProfileController extends AuctionProcessing{
 	@Autowired
 	private UserProfileService service;
 	
-	Worker worker = new Worker();
+	@Autowired
+	Worker worker;
 	
 	@InitBinder("auctionGrade")
 	private void initBinderGrade(WebDataBinder binder) {
@@ -206,17 +207,6 @@ public class UserProfileController extends AuctionProcessing{
 			response.setRenderParameter("message", "Pomyślnie dodano ocenę");
 		}
 	}
-	
-	@ResourceMapping(value = "createAuctionVideo")
-	public void createAuctionVideo(ResourceRequest request, ResourceResponse response) throws IOException{
-		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
-		long id = Long.parseLong(originalRequest.getParameter("id"));
-		String name = originalRequest.getParameter("name");
-		
-		HttpUtil.createResponse(response).
-			set("success", service.createVideoReference(id, name)).
-			prepare();
-	}
 
 	@ResourceMapping(value = "submitData")
 	public void submitData(ResourceRequest request, ResourceResponse response) throws IOException{
@@ -246,13 +236,14 @@ public class UserProfileController extends AuctionProcessing{
 	
 	@ResourceMapping("convertVideo")
 	public void convertVideo(ResourceRequest request, ResourceResponse response,
-			@RequestParam("videoName") String name) throws IOException{	
-		worker.convertVideo(PortalUtil.getUserId(request),name);
+			@RequestParam("videoName") String name,
+			@RequestParam("auctionId") long id) throws IOException{	
+		worker.convertVideo(id,name);
 	}
 	
 	@ResourceMapping("checkConversionStatus")
-	public void checkConversionStatus(ResourceRequest request, ResourceResponse response) throws IOException{	
-		long id = PortalUtil.getUserId(request);		
+	public void checkConversionStatus(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") long id) throws IOException{		
 		
 		HttpUtil.createResponse(response).
 			set("progress", worker.checkProgress(id)).

@@ -1,4 +1,6 @@
-package com.auctions.system.module.file_converter;
+package com.auctions.system.module.file_converter.listener;
+
+import com.auctions.system.module.file_converter.Worker;
 
 import it.sauronsoftware.jave.EncoderProgressListener;
 import it.sauronsoftware.jave.MultimediaInfo;
@@ -6,17 +8,17 @@ import it.sauronsoftware.jave.MultimediaInfo;
 public class ProgressListener implements EncoderProgressListener{
 
 	Worker worker;
-	long userId;
+	long auctionId;
 	
-	public ProgressListener(long userId,Worker worker){
-		this.userId = userId;
+	public ProgressListener(long auctionId,Worker worker){
+		this.auctionId = auctionId;
 		this.worker = worker;
 	}
 	
 	@Override
 	public void progress(int permil) {
 		//System.out.println("Progress " + permil);
-		worker.updateValue(userId, permil);
+		worker.updateValue(auctionId, permil);
 	}
 
 	@Override

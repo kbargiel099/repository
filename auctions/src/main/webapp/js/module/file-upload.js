@@ -63,7 +63,6 @@ var checkConversionStatusCallback = function(data){
 		if(info.progress <= 1000){
 			console.log(info.progress);
 			jQuery('#video').hide();
-			//jQuery('#attach-video-label').hide();
 			jQuery('#filename').html(info.name);
 			jQuery('#filename-div').show();
 			jQuery('#status').html("100%");
@@ -73,19 +72,12 @@ var checkConversionStatusCallback = function(data){
     			checkConversionStatus(1);}, 2000);
     		
     		if(info.progress == 1000){
-    			console.log("create reference");
-    			createReference(info.name);
+    			jQuery('#conversion').html("100%");
+    			responsiveNotify(Liferay.Language.get('file.successfully.added'));
     		}
 		}
 	}
 };
-
-function createReference(name){
-	var url = jQuery('#createAuctionVideoUrl').val();
-	params = [{'name':'id','value':jQuery('#auctionId').val()},
-		      {'name':'name','value':name}];
-	sendRequestParams(url,params,function(data){alert("Plik dodany poprawnie");});
-}
 
 function createDataPackage(){
 	var temp = "";

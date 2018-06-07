@@ -66,7 +66,7 @@
 jQuery(document).ready(function(){
 	var msg = jQuery('#message').val();
 	if(msg != ""){
-		showNotifyAlert(msg);
+		responsiveNotify(msg);
 	}
 });
 

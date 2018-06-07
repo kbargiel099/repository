@@ -222,6 +222,7 @@
 <input type="hidden" id="errorCode1" value="<liferay-ui:message key="add.to.database.error.msg" />"/>
 <input type="hidden" id="errorCode2" value="<liferay-ui:message key="auction.has.ended.msg" />"/>
 <input type="hidden" id="currency" value="<liferay-ui:message key="currency" />"/>
+<input type="hidden" id="message" value="${message}"/>
 
 <script src="<c:url value="/js/common/custom_slider.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>
@@ -287,5 +288,9 @@ var canPlayMPEG4;
 			jQuery('#createChatInAuction').show();
 		}
 		jQuery('#gallery').show();
+		var msg = jQuery('#message').val();
+		if(msg != ""){
+			responsiveNotify(msg);
+		}
 	});
 </script>
