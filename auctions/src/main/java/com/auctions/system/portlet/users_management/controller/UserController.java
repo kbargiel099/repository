@@ -1,7 +1,6 @@
 package com.auctions.system.portlet.users_management.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -19,23 +18,25 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
-import com.auctions.system.module.auction_processing.model.AuctionOffer;
-import com.auctions.system.portlet.category.model.AuctionDetails;
+import com.auctions.system.module.statistics.controller.Statistics;
+import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
 
 @Controller
 @RequestMapping("VIEW")
 public class UserController extends AuctionProcessing{
 
-	private final String defaultView = "view";
+	//private final String defaultView = "view";
 	private final String usersView = "users";
 	private final String addEditUserView = "add_edit_user"; 
 	private final String userDetailsView = "details_user";
 	private final String auctionsView = "auctions";
-	private final String auctionStatsView = "auction_stats";
 		
 	@Autowired
 	private UsersManagementService service;
+	
+	@Autowired
+	private Statistics stats;
 	
 	@RenderMapping
 	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
@@ -55,20 +56,6 @@ public class UserController extends AuctionProcessing{
 		return model;
 	}
 	
-	@RenderMapping(params = "page=stats")
-	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") int id){
-		AuctionDetails auction = getDetails(id);
-		List<AuctionOffer> transactions = auction.getTypeName().equals("quick_purchase") ?
-				service.getPurchases(id) : service.getWonOffers(id);
-				
-		ModelAndView model = new ModelAndView(auctionStatsView);
-		model.addObject("transactions", transactions);
-		model.addObject("username", UserUtil.getScreenName(auction.getUserId()));
-		model.addObject("auction", auction);
-		return model;
-	}
-	
 	@RenderMapping(params = "page=edit")
 	public ModelAndView editUserView(RenderRequest request, RenderResponse response,
 			@RequestParam("userId") int userId){
@@ -84,6 +71,12 @@ public class UserController extends AuctionProcessing{
 		ModelAndView model = new ModelAndView(userDetailsView);
 		model.addObject("user", service.getUserById(userId));
 		return model;
+	}
+	
+	@RenderMapping(params = "page=stats")
+	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
+			@RequestParam("auctionId") int id){
+		return stats.getAuctionStatsView(getDetails(id),ViewType.Administration);
 	}
 	
 	@ResourceMapping(value="getUsers")

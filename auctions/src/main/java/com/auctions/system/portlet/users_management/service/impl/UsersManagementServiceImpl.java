@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.portlet.users_management.dao.UsersManagementDAO;
 import com.auctions.system.portlet.users_management.model.AuctionDatatable;
 import com.auctions.system.portlet.users_management.model.User;
@@ -40,14 +39,6 @@ public class UsersManagementServiceImpl implements UsersManagementService{
 	@Override
 	public boolean deleteAuction(long auctionId){
 		return dataSource.deleteAuction(auctionId);
-	}
-	@Override
-	public List<AuctionOffer> getPurchases(long auctionId){
-		return dataSource.getPurchases(auctionId);
-	}
-	@Override
-	public List<AuctionOffer> getWonOffers(long auctionId){
-		return dataSource.getWonOffers(auctionId);
 	}
 
 }

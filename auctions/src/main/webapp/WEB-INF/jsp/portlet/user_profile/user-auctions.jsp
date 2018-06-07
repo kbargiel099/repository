@@ -15,6 +15,11 @@
 </portlet:renderURL>
 <input type="hidden" id="detailsUrl" value="${details}"/>
 
+<portlet:renderURL var="stats">
+	<portlet:param name="page" value="stats"/>
+</portlet:renderURL>
+<input type="hidden" id="statsUrl" value="${stats}"/>
+
 <portlet:renderURL var="addVideo">
 	<portlet:param name="page" value="addVideo"/>
 </portlet:renderURL>

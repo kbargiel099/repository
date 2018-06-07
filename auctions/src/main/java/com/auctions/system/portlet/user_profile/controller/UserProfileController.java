@@ -30,6 +30,8 @@ import com.auctions.system.module.Properties;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
+import com.auctions.system.module.statistics.controller.Statistics;
+import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
@@ -58,6 +60,9 @@ public class UserProfileController extends AuctionProcessing{
 	private UserProfileService service;
 	
 	@Autowired
+	private Statistics stats;
+	
+	@Autowired
 	Worker worker;
 	
 	@InitBinder("auctionGrade")
@@ -74,6 +79,12 @@ public class UserProfileController extends AuctionProcessing{
 		model.addObject("user", service.getUserSimpleData(id));
 		model.addObject("message", message);
 		return model;
+	}
+	
+	@RenderMapping(params = "page=stats")
+	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
+			@RequestParam("auctionId") int id){
+		return stats.getAuctionStatsView(getDetails(id),ViewType.Profile);
 	}
 	
 	@RequestMapping(params = "page=getBought")

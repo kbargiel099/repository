@@ -95,9 +95,9 @@ function connect() {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/message/notify/'+jQuery('#id').val(), function(data){
         	var res = JSON.parse(data.body);
-        	console.log(res);
         	if(res.success == true){
-        		window.location.href = buildUrl(jQuery('#returnUrl').val(),'message',Liferay.Language.get('subject.successfully.purchased'));
+        		window.location.href = buildUrl(jQuery('#returnUrl').val(),'message',
+        				Liferay.Language.get('subject.successfully.purchased'));
         	}else{
         		responsiveNotify(Liferay.Language.get('error.msg'));
         	}
@@ -108,6 +108,5 @@ function connect() {
 function sendFormQuickPurchase() {
  	stompClient.send("/app/purchase/" + jQuery('#id').val(), {}, JSON.stringify({'userId': Liferay.ThemeDisplay.getUserId(),'username': jQuery('#username').val(),
 	    'price': jQuery('#price').val(),'endDate': jQuery('#endDate').val(),'quantity': jQuery('#quantity').val() }));    
-
 }
 </script>
