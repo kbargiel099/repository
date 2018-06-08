@@ -42,5 +42,7 @@ public interface UserProfileService {
 	public AuctionImages getAuctionImages(final long id);
 	
 	public boolean updateAuctionImages(String images, long id);
+	
+	public boolean deleteVideo(long id);
 
 }

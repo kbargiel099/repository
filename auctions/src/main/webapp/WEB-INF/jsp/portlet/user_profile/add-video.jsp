@@ -30,6 +30,11 @@
 </portlet:resourceURL>
 <input type="hidden" id="getVideoNameUrl" value="${getVideoName}"></input>
 
+<portlet:resourceURL id="deleteVideo" var="deleteVideo">
+	<portlet:param name="auctionId" value="${auctionId}"/>
+</portlet:resourceURL>
+<input type="hidden" id="deleteVideoUrl" value="${deleteVideo}"></input>
+
 <div class="container-fluid">
 
 	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
@@ -44,15 +49,20 @@
 		    	<div id="filename-div" style="display:none;">
 			   		<strong><liferay-ui:message key="upload.filename" /> </strong><p id="filename"></p>
 			    </div>
-			    <strong><liferay-ui:message key="upload.state" /> </strong><p id="status"></p>
-			    <strong><liferay-ui:message key="conversion.state" /> </strong><p id="conversion"></p>
+			    <div id="conversion-div" style="display:none;">
+			    	<strong><liferay-ui:message key="upload.state" /> </strong><p id="status"></p>
+			    	<strong><liferay-ui:message key="conversion.state" /> </strong><p id="conversion"></p>
+			    </div>
 		    </div>
 	 
 	   	<form id="video-form">
 	   		<input type="hidden" id="vidName" name="vidName"></input>
 	   		<input type="hidden" id="vid" name="vid"></input>
 	    </form>
-	    <a class="btn btn-info" href="${details}" >
+	    <button id="delete-btn" class="btn btn-info" style="display: none;">
+			<strong><liferay-ui:message key="delete" /></strong>
+		</button>	
+	    <a class="btn btn-primary" href="${details}" >
 			<strong><liferay-ui:message key="show.current" /></strong>
 		</a>	
 	</div>
@@ -64,8 +74,16 @@
 		url = jQuery('#submitDataUrl').val();
 		sendRequest(jQuery('#getVideoNameUrl').val(),function(data){
 			var name = JSON.parse(data.name);
-			console.log(name);
+			if(name != ''){
+				jQuery('#attach-video-label').hide();
+				jQuery('#video').hide();
+				jQuery('#delete-btn').show();
+				jQuery('#filename').html(name);
+				jQuery('#filename-div').show();
+				hasFile = true;
+			}else{
+				checkConversionStatus(1);
+			}
 		});
-		//checkConversionStatus(1);
 	});
 </script>

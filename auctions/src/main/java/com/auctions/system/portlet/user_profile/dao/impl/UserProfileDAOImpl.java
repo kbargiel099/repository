@@ -238,5 +238,11 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		}
         return false;
 	}
+	
+	@Override
+	public boolean deleteVideo(long id){		
+		return dao.update("UPDATE auction SET video=? WHERE id=?",
+			new Object[]{"",id}) > 0 ? true : false;
+	}
 
 }

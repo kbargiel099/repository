@@ -93,5 +93,10 @@ public class UserProfileServiceImpl implements UserProfileService{
 	public boolean updateAuctionImages(String images, long id){
 		return dataSource.updateAuctionImages(images, id);
 	}
+	
+	@Override
+	public boolean deleteVideo(long id){
+		return dataSource.deleteVideo(id);
+	}
 
 }

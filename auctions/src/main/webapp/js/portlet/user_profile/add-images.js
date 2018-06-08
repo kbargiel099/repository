@@ -26,7 +26,9 @@
 	function updateImages(){
 		jQuery('#imageName').val(JSON.parse(JSON.stringify(fileNames)));
 		var url = jQuery("#updateImagesUrl").val();
-		var params = [{'name':'images','value': jQuery('#imageName').val()}];
+		var params = new Params().
+			push('images',jQuery('#imageName').val()).
+			getArray();
 		sendRequestParams(url,params,function(data){
 			if(JSON.parse(data.success) == true){
 				responsiveNotify("Aktualizacja poprawna");
@@ -69,7 +71,7 @@
  			}
  		}
 	});
- 	
+	
 	jQuery(document).ready(function(){
 		var imagesNames = document.getElementsByClassName('image_name');
 		for(var i=0;i<imagesNames.length;i++){
@@ -91,13 +93,11 @@
 		for(var i=0;i<fileNames.length;i++){
 			if(fileNames[i] == value){
 				fileNames.splice(i,1);
-				console.log(fileNames);
 			}
 		}
 		for(var i=0;i<files.length;i++){
 			if(files[i].name == value){
 				files.splice(i,1);
-				console.log(files);
 			}
 		}
 	}

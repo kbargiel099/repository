@@ -280,5 +280,14 @@ public class UserProfileController extends AuctionProcessing{
 			set("success",true).
 			prepare();
 	}
+	
+	@ResourceMapping("deleteVideo")
+	public void deleteVideo(ResourceRequest request, ResourceResponse response,
+			@RequestParam("auctionId") long id) throws IOException{		
+		
+		HttpUtil.createResponse(response).
+			set("success", service.deleteVideo(id)).
+			prepare();
+	}
 
 }
