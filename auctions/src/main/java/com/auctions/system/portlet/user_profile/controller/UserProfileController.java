@@ -290,4 +290,10 @@ public class UserProfileController extends AuctionProcessing{
 			prepare();
 	}
 
+	@RenderMapping("getPurchaseInfo")
+	public ModelAndView getPurchaseInfo(RenderRequest request, RenderResponse response,
+			@RequestParam("auctionId") long id) throws Exception{		
+		return getConfirmPurchaseView(id,request,response);
+	}
+	
 }

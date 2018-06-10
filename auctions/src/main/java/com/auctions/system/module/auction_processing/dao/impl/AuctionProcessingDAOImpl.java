@@ -17,6 +17,7 @@ import com.auctions.system.module.auction_processing.DateFormatter;
 import com.auctions.system.module.auction_processing.dao.AuctionProcessingDAO;
 import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.module.auction_processing.model.PaymentMethod;
+import com.auctions.system.module.auction_processing.model.PurchaseInfo;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.UserDetails;
 
@@ -111,6 +112,18 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 					public AuctionOffer mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionOffer(res.getLong("userid"),res.getLong("price"),
 							res.getInt("quantity"),DateFormatter.format(res.getTimestamp("create_date")));
+				}
+		});
+	}
+	
+	@Override
+	public PurchaseInfo getPurchaseInfo(long auctionId){
+		return dao.queryForObject("SELECT userid,sellerid,name,price,quantity,end_date FROM user_purchase_view WHERE auctionid=?", 
+				new Object[]{auctionId},new RowMapper<PurchaseInfo>(){
+					@Override
+					public PurchaseInfo mapRow(ResultSet res, int row) throws SQLException {
+						return new PurchaseInfo(res.getLong("userid"),res.getLong("sellerid"),res.getLong("price"),
+							res.getInt("quantity"),res.getString("name"),DateFormatter.format(res.getTimestamp("end_date")));
 				}
 		});
 	}

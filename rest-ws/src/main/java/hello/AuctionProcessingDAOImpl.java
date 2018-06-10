@@ -36,7 +36,7 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	public boolean proceedPurchase(long userId, long auctionId, long price, int quantity) {
 		int numberOfInsertedRows;
 		try{
-			numberOfInsertedRows = dao.update("INSERT INTO auction_purchase(userid,auctionid,price,quantity,create_date) VALUES(?,?,?,?,current_timestamp)",
+			numberOfInsertedRows = dao.update("INSERT INTO transactions(userid,auctionid,price,quantity,create_date,payment_status_id) VALUES(?,?,?,?,current_timestamp,default)",
 					new Object[]{userId,auctionId,price,quantity});
 		} catch(UncategorizedSQLException e){
 			e.printStackTrace();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.auctions.system.module.auction_processing.model.AuctionOffer;
 import com.auctions.system.module.auction_processing.model.PaymentMethod;
+import com.auctions.system.module.auction_processing.model.PurchaseInfo;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.UserDetails;
 
@@ -24,5 +25,7 @@ public interface AuctionProcessingService {
 	public List<AuctionOffer> getAllOffers(long auctionId);
 	
 	public List<PaymentMethod> getPaymentMethods();
+	
+	public PurchaseInfo getPurchaseInfo(long auctionId);
 
 }

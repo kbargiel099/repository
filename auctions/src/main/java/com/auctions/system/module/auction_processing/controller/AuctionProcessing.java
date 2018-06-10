@@ -16,6 +16,8 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.UserUtil;
+import com.auctions.system.module.auction_processing.model.AuctionOffer;
+import com.auctions.system.module.auction_processing.model.PurchaseInfo;
 import com.auctions.system.module.auction_processing.model.TransactionSummary;
 import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
 import com.auctions.system.module.profile.controller.ProfileController;
@@ -58,7 +60,13 @@ public class AuctionProcessing extends ProfileController{
 		model.addObject("paymentMethods",service.getPaymentMethods());
 		model.addObject("info", transactionInfo);
 		return model;
-	}	
+	}
+	
+	public ModelAndView getConfirmPurchaseView(long id, RenderRequest request, RenderResponse response) throws Exception{
+		PurchaseInfo a = service.getPurchaseInfo(id);
+		return confirmPurchaseView(request,response,id,a.getSellerId(),a.getName(),
+				a.getPrice(),a.getQuantity(),a.getEndDate());
+	}
 	
 	@ResourceMapping("getAllOffers")
 	public void getAllOffers(ResourceRequest request, ResourceResponse response,

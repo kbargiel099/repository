@@ -1,7 +1,5 @@
 package com.auctions.system.module.auction_processing.model;
 
-import java.util.Date;
-
 import com.auctions.system.module.UserUtil;
 
 public class AuctionOffer{
