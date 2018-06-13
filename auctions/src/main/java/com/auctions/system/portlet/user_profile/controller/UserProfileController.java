@@ -36,6 +36,7 @@ import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
+import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.google.gson.Gson;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -55,6 +56,7 @@ public class UserProfileController extends AuctionProcessing{
 	private final String userObservationView = "user-observation";
 	private final String addVideoView = "add-video";
 	private final String addImagesView = "add-images";
+	private final String conversationsView = "conversations";
 	
 	@Autowired
 	private UserProfileService service;
@@ -88,13 +90,15 @@ public class UserProfileController extends AuctionProcessing{
 	}
 	
 	@RequestMapping(params = "page=getBought")
-	public ModelAndView getBoughtAction(RenderRequest request, RenderResponse response){
+	public ModelAndView getBoughtAction(RenderRequest request, RenderResponse response,
+			@RequestParam(value ="message", defaultValue = "") String message){
 		ModelAndView model = new ModelAndView(userBoughtView);
 		
 		List<AuctionPresenter> userBoughtSubjects = service.getUserBoughtSubjects(
 				PortalUtil.getUserId(request));
 				
 		model.addObject("auctions", userBoughtSubjects);
+		model.addObject("message", message);
 		return model;
 	}
 	
@@ -131,6 +135,14 @@ public class UserProfileController extends AuctionProcessing{
 		ModelAndView model = new ModelAndView(userAuctionsView);
 		model.addObject("auctions", service.getUserAuctions(
 				PortalUtil.getUserId(request)));
+		return model;
+	}
+	
+	@RequestMapping(params = "page=conversations")
+	public ModelAndView conversations(RenderRequest request, RenderResponse response){
+		ModelAndView model = new ModelAndView(conversationsView);
+		List<UsernameAndId> users = service.getUsersIdsForLastConversations(PortalUtil.getUserId(request));
+		model.addObject("users", users);
 		return model;
 	}
 	
@@ -290,10 +302,13 @@ public class UserProfileController extends AuctionProcessing{
 			prepare();
 	}
 
-	@RenderMapping("getPurchaseInfo")
-	public ModelAndView getPurchaseInfo(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") long id) throws Exception{		
-		return getConfirmPurchaseView(id,request,response);
+	@ResourceMapping(value = "makePaid")
+	public void getSubCategories(ResourceRequest request, ResourceResponse response,
+			@RequestParam("purchaseId") long id, @RequestParam("paymentMethodId") int methodId) throws IOException{
+		
+		HttpUtil.createResponse(response).
+			set("success", service.makePaid(id, methodId)).
+			prepare();
 	}
 	
 }

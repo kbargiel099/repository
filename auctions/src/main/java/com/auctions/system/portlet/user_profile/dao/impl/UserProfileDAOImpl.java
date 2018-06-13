@@ -25,8 +25,10 @@ import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
+import com.auctions.system.portlet.user_profile.model.BoughtPresenter;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
+import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 
 @Repository("userProfileDAO")
 public class UserProfileDAOImpl implements UserProfileDAO{
@@ -63,12 +65,12 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId){
-		return dao.query("SELECT auctionid,name,quantity,image_name,create_date,price FROM user_purchase_view WHERE userid=?", 
+		return dao.query("SELECT id,auctionid,name,image_name,create_date,price,payment_status_name FROM user_purchase_view WHERE userid=?", 
 				new Object[]{userId},new RowMapper<AuctionPresenter>(){
 					@Override
-					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getInt("auctionid"),res.getString("name"),res.getString("image_name"),
-								res.getLong("price"));
+					public BoughtPresenter mapRow(ResultSet res, int row) throws SQLException {
+						return new BoughtPresenter(res.getLong("id"),res.getLong("auctionid"),res.getString("name"),res.getString("image_name"),
+							res.getLong("price"),DateFormatter.format(res.getTimestamp("create_date")),res.getString("payment_status_name"));
 					}
 				
 			});
@@ -244,5 +246,21 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		return dao.update("UPDATE auction SET video=? WHERE id=?",
 			new Object[]{"",id}) > 0 ? true : false;
 	}
+	
+	@Override
+	public boolean makePaid(long id, int paymentMethodId){		
+		return dao.update("UPDATE transactions SET payment_method_id=?,payment_status_id=(SELECT id FROM payment_status WHERE name='payed') WHERE id=?",
+			new Object[]{paymentMethodId,id}) > 0 ? true : false;
+	}
 
+	@Override
+	public List<UsernameAndId> getUsersIdsForLastConversations(final long id){		
+		return dao.query("SELECT DISTINCT senderid FROM chat_messages WHERE receiverid=?",
+			new Object[]{id},new RowMapper<UsernameAndId>(){
+					@Override
+					public UsernameAndId mapRow(ResultSet res, int row) throws SQLException {
+						return new UsernameAndId(res.getLong("senderid"));
+				}
+			});
+	}
 }

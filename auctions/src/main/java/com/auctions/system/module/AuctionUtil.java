@@ -5,7 +5,7 @@ public class AuctionUtil {
 	private final static String initialStatusOfCreatedAuction = "active";
 	
 	public static String createSerialNumber(){
-		return "1234567890";
+		return String.valueOf(System.currentTimeMillis());
 	}
 	
 	public static String getInitialStatusOfCreatedAuction(){

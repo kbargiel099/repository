@@ -16,6 +16,7 @@ import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
+import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 
 @Service("userProfileService")
@@ -97,6 +98,16 @@ public class UserProfileServiceImpl implements UserProfileService{
 	@Override
 	public boolean deleteVideo(long id){
 		return dataSource.deleteVideo(id);
+	}
+	
+	@Override
+	public boolean makePaid(long id, int paymentMethodId){
+		return dataSource.makePaid(id, paymentMethodId);
+	}
+	
+	@Override
+	public List<UsernameAndId> getUsersIdsForLastConversations(final long id){
+		return dataSource.getUsersIdsForLastConversations(id);
 	}
 
 }

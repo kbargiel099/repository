@@ -55,8 +55,8 @@ public class UpdaterController {
     	boolean isInserted = false;
     	
     	if(isCurrentTimeBefore(form.getEndDate())){
-    		isInserted = service.proceedPurchase(Long.parseLong(form.getUserId()),Long.parseLong(id),
-    				Long.parseLong(form.getPrice()),Integer.parseInt(form.getQuantity()));
+    		isInserted = service.proceedPurchase(Long.parseLong(form.getUserId()),Long.parseLong(id),Long.parseLong(form.getPrice()),
+    			Integer.parseInt(form.getQuantity()));
     	}else{
     		return new ResponseError(1);
     	}

@@ -8,12 +8,12 @@ public class AuctionPresenter implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private long id;
 	private String name;
 	private String imageName;
 	private long subjectPrice;
 	
-	public AuctionPresenter(int id, String name,
+	public AuctionPresenter(long id, String name,
 			String imageName,long subjectPrice) {
 		super();
 		this.id = id;
@@ -22,10 +22,10 @@ public class AuctionPresenter implements Serializable{
 		this.imageName = imageName;
 	}
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getName() {

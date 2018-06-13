@@ -14,9 +14,18 @@
 	<portlet:param name="id" value="${seller.id}"/>
 </portlet:renderURL>
 
+<portlet:resourceURL id="makePaid" var="makePaid">
+</portlet:resourceURL>
+<input type="hidden" id="makePaidUrl" value="${makePaid}"/>
+
+<portlet:renderURL var="getBought">
+	<portlet:param name="page" value="getBought"/>
+</portlet:renderURL>
+<input type="hidden" id="getBoughtUrl" value="${getBought}"/>
+
 <portlet:renderURL var="returnToDetails">
-<portlet:param name="page" value="auctionDetails"/>
-<portlet:param name="id" value="${info.auctionId}"/>
+	<portlet:param name="page" value="auctionDetails"/>
+	<portlet:param name="id" value="${info.auctionId}"/>
 </portlet:renderURL>
 <input type="hidden" id="returnUrl" value="${returnToDetails}"/>
 
@@ -58,16 +67,18 @@
 				<p>${info.quantity}</p>
 			</div>
 		</div>
-		<div class="col-xs-12 col-sm-5 col-md-5">
-			<div class="form-group">
-				<label class="label-control"><liferay-ui:message key="choose.payment.method" /></label>
-				<select class="selectpicker form-control" title="<liferay-ui:message key="choose" />"> 		
-					<c:forEach items="${paymentMethods}" var="item">
-						<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
-					</c:forEach>
-	           </select>
+		<c:if test="${type == 'pay'}">
+			<div class="col-xs-12 col-sm-5 col-md-5">
+				<div class="form-group">
+					<label class="label-control"><liferay-ui:message key="choose.payment.method" /></label>
+					<select class="selectpicker form-control" title="<liferay-ui:message key="choose" />"> 		
+						<c:forEach items="${paymentMethods}" var="item">
+							<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
+						</c:forEach>
+		           </select>
+				</div>
 			</div>
-		</div>
+		</c:if>
 	</div>
 	<div class="col-xs-12 col-sm-5 col-md-5">
 		<button class="btn btn-primary pull-right" onclick="sendFormQuickPurchase()"><liferay-ui:message key="send" /></button>
@@ -80,33 +91,6 @@
 <input type="hidden" id="price" value="${info.price}"/>
 <input type="hidden" id="endDate" value="${info.endDate}"/>
 <input type="hidden" id="quantity" value="${info.quantity}"/>
+<input type="hidden" id="type" value="${type}"/>
 
-<script>
-var stompClient = null;
-
-jQuery(document).ready(function(){
-	connect();
-});
-
-function connect() {
-    var socket = new SockJS('http://192.168.0.15:8143/notification');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/message/notify/'+jQuery('#id').val(), function(data){
-        	var res = JSON.parse(data.body);
-        	if(res.success == true){
-        		window.location.href = buildUrl(jQuery('#returnUrl').val(),'message',
-        				Liferay.Language.get('subject.successfully.purchased'));
-        	}else{
-        		responsiveNotify(Liferay.Language.get('error.msg'));
-        	}
-        });
-    });
-}
-
-function sendFormQuickPurchase() {
- 	stompClient.send("/app/purchase/" + jQuery('#id').val(), {}, JSON.stringify({'userId': Liferay.ThemeDisplay.getUserId(),'username': jQuery('#username').val(),
-	    'price': jQuery('#price').val(),'endDate': jQuery('#endDate').val(),'quantity': jQuery('#quantity').val() }));    
-}
-</script>
+<script src="<c:url value="/js/module/confirm-purchase.js" />"></script>

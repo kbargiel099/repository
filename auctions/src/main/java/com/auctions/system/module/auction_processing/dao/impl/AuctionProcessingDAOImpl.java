@@ -117,9 +117,9 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	}
 	
 	@Override
-	public PurchaseInfo getPurchaseInfo(long auctionId){
-		return dao.queryForObject("SELECT userid,sellerid,name,price,quantity,end_date FROM user_purchase_view WHERE auctionid=?", 
-				new Object[]{auctionId},new RowMapper<PurchaseInfo>(){
+	public PurchaseInfo getPurchaseInfo(long purchaseId){
+		return dao.queryForObject("SELECT userid,sellerid,name,price,quantity,end_date FROM user_purchase_view WHERE id=?", 
+				new Object[]{purchaseId},new RowMapper<PurchaseInfo>(){
 					@Override
 					public PurchaseInfo mapRow(ResultSet res, int row) throws SQLException {
 						return new PurchaseInfo(res.getLong("userid"),res.getLong("sellerid"),res.getLong("price"),
