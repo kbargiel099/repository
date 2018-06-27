@@ -20,6 +20,7 @@ import com.auctions.system.module.auction_processing.DateFormatter;
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
+import com.auctions.system.portlet.nav_menu.model.MessageAndDate;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
@@ -27,6 +28,7 @@ import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.BoughtPresenter;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
+import com.auctions.system.portlet.user_profile.model.UserMessage;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 
@@ -262,5 +264,16 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 						return new UsernameAndId(res.getLong("senderid"));
 				}
 			});
+	}
+	
+	@Override
+	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId){	
+		return dao.query("SELECT senderid,message,create_date FROM chat_messages WHERE (senderid=? AND receiverid=?) OR (receiverid=? AND senderid=?) LIMIT 30", 
+			new Object[]{userId,interlocutorId,userId,interlocutorId},new RowMapper<UserMessage>(){
+			@Override
+			public UserMessage mapRow(ResultSet res, int row) throws SQLException {
+				return new UserMessage(res.getLong("senderid"),res.getString("message"),res.getDate("create_date"));
+			}
+		});
 	}
 }

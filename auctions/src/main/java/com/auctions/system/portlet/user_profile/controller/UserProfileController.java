@@ -301,6 +301,16 @@ public class UserProfileController extends AuctionProcessing{
 			set("success", service.deleteVideo(id)).
 			prepare();
 	}
+	
+	@ResourceMapping("getAllMessagesFromUser")
+	public void getAllMessagesFromUser(ResourceRequest request, ResourceResponse response,
+			@RequestParam("userId") long interlocutorId) throws IOException{		
+		long id = PortalUtil.getUserId(request);
+		
+		HttpUtil.createResponse(response).
+			set("messages", service.getAllMessagesFromUser(id, interlocutorId)).
+			prepare();
+	}
 
 	@ResourceMapping(value = "makePaid")
 	public void getSubCategories(ResourceRequest request, ResourceResponse response,

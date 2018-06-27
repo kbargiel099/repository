@@ -11,6 +11,7 @@ import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
+import com.auctions.system.portlet.user_profile.model.UserMessage;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 
@@ -49,5 +50,7 @@ public interface UserProfileService {
 	public boolean makePaid(long id, int paymentMethodId);
 	
 	public List<UsernameAndId> getUsersIdsForLastConversations(final long id);
+	
+	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId);
 
 }
