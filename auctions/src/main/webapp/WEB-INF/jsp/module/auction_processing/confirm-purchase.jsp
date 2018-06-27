@@ -80,9 +80,16 @@
 			</div>
 		</c:if>
 	</div>
-	<div class="col-xs-12 col-sm-5 col-md-5">
-		<button class="btn btn-primary pull-right" onclick="sendFormQuickPurchase()"><liferay-ui:message key="send" /></button>
-		<a class="pull-left" href="${returnToDetails}"><liferay-ui:message key="return" /></a>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<c:if test="${type != 'pay'}">
+			<div style="text-align: center;">
+				<label class="label-control"><liferay-ui:message key="confirm.purchase" /></label>
+			</div>
+		</c:if>
+		<div style="text-align: center;">
+			<a class="btn btn-info" href="${returnToDetails}"><liferay-ui:message key="return" /></a>
+			<button class="btn btn-primary" onclick="sendFormQuickPurchase()"><liferay-ui:message key="send" /></button>
+		</div>
 	</div>
 </div>
 
