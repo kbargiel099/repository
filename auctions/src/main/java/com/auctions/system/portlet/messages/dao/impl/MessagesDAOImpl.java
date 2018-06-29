@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import com.auctions.system.portlet.category.model.SearchingForm;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
-import com.auctions.system.portlet.message_category.dao.MessageCategoryDAO;
 import com.auctions.system.portlet.messages.dao.MessagesDAO;
 
 @Repository("messagesDAO")

@@ -18,19 +18,27 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.SearchingFormValidator;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
+import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
+import com.auctions.system.module.profile.service.ProfileService;
 import com.auctions.system.portlet.category.model.SearchingForm;
 import com.auctions.system.portlet.category.service.CategoryService;
 import com.google.gson.Gson;
 
 @Controller
 @RequestMapping(value = "VIEW")
-public class CategoryController extends AuctionProcessing{
+public class CategoryController implements AuctionProcessing{
 
 	private final String defaultView = "category-view";
 	private String currentCategory;
 	
 	@Autowired
 	private CategoryService service;
+	
+	@Autowired
+	private AuctionProcessingService processService;
+	
+	@Autowired
+	private ProfileService profileService;
 	
 	@RenderMapping()
 	public ModelAndView getSearch(RenderRequest request){
@@ -65,6 +73,16 @@ public class CategoryController extends AuctionProcessing{
 			set("auctions", service.getSearchingAuctions(form)).
 			set("success", true).
 			prepare();
+	}
+
+	@Override
+	public ProfileService getProfileService() {
+		return profileService;
+	}
+
+	@Override
+	public AuctionProcessingService getService() {
+		return processService;
 	}
 
 }

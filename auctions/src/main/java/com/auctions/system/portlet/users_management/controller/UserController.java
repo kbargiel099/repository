@@ -18,13 +18,17 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
+import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
+import com.auctions.system.module.message_category.controller.MessageCategoryController;
+import com.auctions.system.module.message_category.service.MessageCategoryService;
+import com.auctions.system.module.profile.service.ProfileService;
 import com.auctions.system.module.statistics.controller.Statistics;
 import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
 
 @Controller
 @RequestMapping("VIEW")
-public class UserController extends AuctionProcessing{
+public class UserController implements AuctionProcessing, MessageCategoryController{
 
 	//private final String defaultView = "view";
 	private final String usersView = "users";
@@ -34,6 +38,15 @@ public class UserController extends AuctionProcessing{
 		
 	@Autowired
 	private UsersManagementService service;
+	
+	@Autowired
+	private AuctionProcessingService processService;
+	
+	@Autowired
+	private MessageCategoryService messageCategoryService;
+	
+	@Autowired
+	private ProfileService profileService;
 	
 	@Autowired
 	private Statistics stats;
@@ -138,6 +151,21 @@ public class UserController extends AuctionProcessing{
 		HttpUtil.createResponse(response).
 			set("success", UserUtil.updateLockoutUser(id,false)).
 			prepare();
+	}
+
+	@Override
+	public ProfileService getProfileService() {
+		return profileService;
+	}
+
+	@Override
+	public AuctionProcessingService getService() {
+		return processService;
+	}
+	
+	@Override
+	public MessageCategoryService getMessCatService() {
+		return messageCategoryService;
 	}
 
 }

@@ -14,12 +14,22 @@
 <portlet:renderURL var="getAuctionsRender">
 	<portlet:param name="page" value="getAuctions"/>
 </portlet:renderURL>
-    
+
+<portlet:renderURL var="getMessageCategoriesRender">
+	<portlet:param name="page" value="getMessageCategories"/>
+</portlet:renderURL>
+
+<portlet:renderURL var="getMessagesRender">
+	<portlet:param name="page" value="getMessages"/>
+</portlet:renderURL>
+
 <div style="max-height: 300px;">
 	<div id="user-profile-menu" class="col-xs-12 col-sm-8 col-md-3">	
 		<ul class="horizontal-menu">
 		  <li class="horizontal-menu-item"><a href="${getUsersRender}"><liferay-ui:message key="adm.show.users.label" /></a></li>
 		  <li class="horizontal-menu-item"><a href="${getAuctionsRender}"><liferay-ui:message key="adm.show.auctions.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="${getMessageCategoriesRender}"><liferay-ui:message key="adm.show.message.categories.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="${getMessagesRender}"><liferay-ui:message key="adm.show.messages.label" /></a></li>
 		</ul>
 	</div>
 </div>

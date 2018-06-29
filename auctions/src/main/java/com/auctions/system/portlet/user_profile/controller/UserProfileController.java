@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -28,8 +30,10 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Properties;
 import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
+import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
+import com.auctions.system.module.profile.service.ProfileService;
 import com.auctions.system.module.statistics.controller.Statistics;
 import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
@@ -44,7 +48,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
-public class UserProfileController extends AuctionProcessing{
+public class UserProfileController implements AuctionProcessing{
 
 	private final String defaultView = "view";
 	private final String createEditAuctionView = "create-auction"; 
@@ -62,6 +66,12 @@ public class UserProfileController extends AuctionProcessing{
 	private UserProfileService service;
 	
 	@Autowired
+	private AuctionProcessingService processService;
+	
+	@Autowired
+	private ProfileService profileService;
+	
+	@Autowired
 	private Statistics stats;
 	
 	@Autowired
@@ -70,6 +80,11 @@ public class UserProfileController extends AuctionProcessing{
 	@InitBinder("auctionGrade")
 	private void initBinderGrade(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
+	}
+	
+	@PostConstruct
+	public void init() {
+		
 	}
 	
 	@RenderMapping
@@ -319,6 +334,16 @@ public class UserProfileController extends AuctionProcessing{
 		HttpUtil.createResponse(response).
 			set("success", service.makePaid(id, methodId)).
 			prepare();
+	}
+	
+	@Override
+	public ProfileService getProfileService() {
+		return profileService;
+	}
+
+	@Override
+	public AuctionProcessingService getService() {
+		return processService;
 	}
 	
 }
