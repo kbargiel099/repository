@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -29,11 +28,9 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Properties;
-import com.auctions.system.module.auction_processing.controller.AuctionProcessing;
-import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
+import com.auctions.system.module.auction_processing.controller.Processing;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
-import com.auctions.system.module.profile.service.ProfileService;
 import com.auctions.system.module.statistics.controller.Statistics;
 import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
@@ -48,7 +45,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
-public class UserProfileController implements AuctionProcessing{
+public class UserProfileController{
 
 	private final String defaultView = "view";
 	private final String createEditAuctionView = "create-auction"; 
@@ -66,13 +63,10 @@ public class UserProfileController implements AuctionProcessing{
 	private UserProfileService service;
 	
 	@Autowired
-	private AuctionProcessingService processService;
-	
-	@Autowired
-	private ProfileService profileService;
-	
-	@Autowired
 	private Statistics stats;
+	
+	@Autowired
+	Processing processing;
 	
 	@Autowired
 	Worker worker;
@@ -101,7 +95,7 @@ public class UserProfileController implements AuctionProcessing{
 	@RenderMapping(params = "page=stats")
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
 			@RequestParam("auctionId") int id){
-		return stats.getAuctionStatsView(getDetails(id),ViewType.Profile);
+		return stats.getAuctionStatsView(processing.getDetails(id),ViewType.Profile);
 	}
 	
 	@RequestMapping(params = "page=getBought")
@@ -334,16 +328,6 @@ public class UserProfileController implements AuctionProcessing{
 		HttpUtil.createResponse(response).
 			set("success", service.makePaid(id, methodId)).
 			prepare();
-	}
-	
-	@Override
-	public ProfileService getProfileService() {
-		return profileService;
-	}
-
-	@Override
-	public AuctionProcessingService getService() {
-		return processService;
 	}
 	
 }
