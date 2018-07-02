@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -33,6 +32,7 @@ import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
 import com.auctions.system.module.statistics.controller.Statistics;
 import com.auctions.system.module.statistics.model.ViewType;
+import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
@@ -45,7 +45,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
-public class UserProfileController{
+public class UserProfileController implements Processing{
 
 	private final String defaultView = "view";
 	private final String createEditAuctionView = "create-auction"; 
@@ -74,11 +74,6 @@ public class UserProfileController{
 	@InitBinder("auctionGrade")
 	private void initBinderGrade(WebDataBinder binder) {
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
-	}
-	
-	@PostConstruct
-	public void init() {
-		
 	}
 	
 	@RenderMapping
@@ -233,8 +228,8 @@ public class UserProfileController{
 	@ActionMapping(params = "action=addGrade")
 	public void addGradeAction(ActionRequest request, ActionResponse response,
 			@ModelAttribute("auctionGrade") AuctionGrade form) throws ParseException{
-		long userId = PortalUtil.getUserId(request);
-		boolean isCreated = service.addAuctionGrade(userId, form);
+
+		boolean isCreated = service.addAuctionGrade(PortalUtil.getUserId(request), form);
 		if(isCreated){
 			response.setRenderParameter("message", "Pomyślnie dodano ocenę");
 		}
@@ -242,24 +237,20 @@ public class UserProfileController{
 
 	@ResourceMapping(value = "submitData")
 	public void submitData(ResourceRequest request, ResourceResponse response) throws IOException{
-		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
-		String data =  originalRequest.getParameter("data");
-		String name =  originalRequest.getParameter("name");
-        
-		FileUtil.create(data,Properties.getVideosPath() + name);
-		
-		HttpUtil.createResponse(response).
-			set("success", true).
-			prepare();
+		saveFile(request, response, Properties.getVideosPath());
 	}
 	
 	@ResourceMapping(value = "saveImage")
 	public void saveImage(ResourceRequest request, ResourceResponse response) throws IOException{
+		saveFile(request, response, Properties.getImagesPath());
+	}
+	
+	private void saveFile(ResourceRequest request, ResourceResponse response, String path) throws IOException{
 		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
 		String data =  originalRequest.getParameter("data");
 		String name =  originalRequest.getParameter("name");
         
-		FileUtil.create(data,Properties.getImagesPath() + name);
+		FileUtil.create(data, path + name);
 		
 		HttpUtil.createResponse(response).
 			set("success", true).
@@ -328,6 +319,49 @@ public class UserProfileController{
 		HttpUtil.createResponse(response).
 			set("success", service.makePaid(id, methodId)).
 			prepare();
+	}
+
+	@Override
+	public ModelAndView detailsView(RenderRequest request, RenderResponse response, String message, long id)
+			throws Exception {
+		return processing.detailsView(request, response, message, id);
+	}
+
+	@Override
+	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response, long id, long sellerId,
+			String name, long price, int quantity, String endDate) throws Exception {
+		return processing.confirmPurchaseView(request, response, id, sellerId, name, price, quantity, endDate);
+	}
+
+	@Override
+	public ModelAndView getConfirmPurchaseView(RenderRequest request, RenderResponse response, long id, String type)
+			throws Exception {
+		return processing.getConfirmPurchaseView(request, response, id, type);
+	}
+
+	@Override
+	public void getAllOffers(ResourceRequest request, ResourceResponse response, int id) throws IOException {
+		processing.getAllOffers(request, response, id);
+	}
+
+	@Override
+	public void getVideoName(ResourceRequest request, ResourceResponse response, long id) throws IOException {
+		processing.getVideoName(request, response, id);
+	}
+
+	@Override
+	public void createObservation(ResourceRequest request, ResourceResponse response, int id) throws IOException {
+		processing.createObservation(request, response, id);
+	}
+
+	@Override
+	public void removeObservation(ResourceRequest request, ResourceResponse response, int id) throws IOException {
+		processing.removeObservation(request, response, id);
+	}
+
+	@Override
+	public AuctionDetails getDetails(long id) {
+		return processing.getDetails(id);
 	}
 	
 }

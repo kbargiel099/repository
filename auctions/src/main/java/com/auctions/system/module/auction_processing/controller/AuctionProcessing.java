@@ -35,7 +35,7 @@ public class AuctionProcessing implements Processing{
 	private AuctionProcessingService service;
 	
 	@Autowired 
-	private Profile profile;
+	Profile profile;
 	
 	@RequestMapping(params = "page=auctionDetails")
 	public ModelAndView detailsView(RenderRequest request, RenderResponse response,

@@ -21,11 +21,12 @@ import com.auctions.system.module.auction_processing.controller.Processing;
 import com.auctions.system.module.message_category.controller.MessageCategoryController;
 import com.auctions.system.module.statistics.controller.Statistics;
 import com.auctions.system.module.statistics.model.ViewType;
+import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
 
 @Controller
 @RequestMapping("VIEW")
-public class UserController implements UserManagement{
+public class UserController implements UserManagement, Processing, MessageCategoryController{
 
 	//private final String defaultView = "view";
 	private final String usersView = "users";
@@ -34,10 +35,10 @@ public class UserController implements UserManagement{
 	private final String auctionsView = "auctions";
 		
 	@Autowired
-	MessageCategoryController controller;
+	Processing processing;
 	
 	@Autowired
-	Processing processing;
+	MessageCategoryController messageCategory;
 	
 	@Autowired
 	private UsersManagementService service;
@@ -46,7 +47,7 @@ public class UserController implements UserManagement{
 	private Statistics stats;
 	
 	@RenderMapping
-	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
+	public ModelAndView defaultView(RenderRequest request, RenderResponse response) throws Exception{
 		ModelAndView model = new ModelAndView(auctionsView);
 		return model;
 	}
@@ -145,6 +146,60 @@ public class UserController implements UserManagement{
 		HttpUtil.createResponse(response).
 			set("success", UserUtil.updateLockoutUser(id,false)).
 			prepare();
+	}
+	
+	@Override
+	public ModelAndView detailsView(RenderRequest request, RenderResponse response, String message, long id)
+			throws Exception {
+		return processing.detailsView(request, response, message, id);
+	}
+
+	@Override
+	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response, long id, long sellerId,
+			String name, long price, int quantity, String endDate) throws Exception {
+		return processing.confirmPurchaseView(request, response, id, sellerId, name, price, quantity, endDate);
+	}
+
+	@Override
+	public ModelAndView getConfirmPurchaseView(RenderRequest request, RenderResponse response, long id, String type)
+			throws Exception {
+		return processing.getConfirmPurchaseView(request, response, id, type);
+	}
+
+	@Override
+	public void getAllOffers(ResourceRequest request, ResourceResponse response, int id) throws IOException {
+		processing.getAllOffers(request, response, id);
+	}
+
+	@Override
+	public void getVideoName(ResourceRequest request, ResourceResponse response, long id) throws IOException {
+		processing.getVideoName(request, response, id);
+	}
+
+	@Override
+	public void createObservation(ResourceRequest request, ResourceResponse response, int id) throws IOException {
+		processing.createObservation(request, response, id);
+	}
+
+	@Override
+	public void removeObservation(ResourceRequest request, ResourceResponse response, int id) throws IOException {
+		processing.removeObservation(request, response, id);
+	}
+
+	@Override
+	public AuctionDetails getDetails(long id) {
+		return processing.getDetails(id);
+	}
+
+	@Override
+	public ModelAndView getMessageCategoriesView(RenderRequest request, RenderResponse response) {
+		return messageCategory.getMessageCategoriesView(request, response);
+	}
+
+	@Override
+	public void insertAction(ResourceRequest request, ResourceResponse response, String form, String type)
+			throws IOException {
+		messageCategory.insertAction(request, response, form, type);
 	}
 
 }
