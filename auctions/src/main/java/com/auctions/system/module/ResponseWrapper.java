@@ -5,12 +5,10 @@ import java.util.List;
 
 import javax.portlet.ResourceResponse;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class ResponseWrapper {
 
-	private Gson gson = new Gson();
 	private JsonObject obj = new JsonObject();
 	private ResourceResponse response;
 	
@@ -19,13 +17,12 @@ public class ResponseWrapper {
 	}
 	
 	public <T> ResponseWrapper set(String name, T value){
-		obj.addProperty(name, gson.toJson(value));
-		//obj.addProperty(name, String.valueOf(value));
+		obj.addProperty(name, Serializer.toJson(value));
 		return this;
 	}
 	
 	public <T> ResponseWrapper set(String name, List<T> value){
-		obj.add(name, gson.toJsonTree(value));
+		obj.add(name, Serializer.toJsonTree(value));
 		return this;
 	}
 	

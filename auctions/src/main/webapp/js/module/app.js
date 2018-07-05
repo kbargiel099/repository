@@ -156,13 +156,9 @@ function sendForm2() {
 }
 
 function goToConfirmationView() {
-	var params = [{'name':'auctionId',  'value':auctionId},
-				  {'name':'sellerId',   'value':jQuery('#seller-id').val()},
-				  {'name':'auctionName','value':jQuery('#auctionName').val()},
-				  {'name':'price',      'value':newPrice},
-				  {'name':'endDate',    'value':endDate},
-				  {'name':'quantity',   'value':quantity}];
-	window.location.href = buildWithParams(jQuery('#confirmPurchaseUrl').val(),params);
+	var form = JSON.stringify({'auctionId': auctionId,'auctionName': jQuery('#auctionName').val(),
+    	'sellerId': jQuery('#seller-id').val(),'price': newPrice,'quantity': quantity,'endDate': endDate});
+	window.location.href = buildUrl(jQuery('#confirmPurchaseUrl').val(),'form',form);
 }
 
 function buildWithParams(url,params){

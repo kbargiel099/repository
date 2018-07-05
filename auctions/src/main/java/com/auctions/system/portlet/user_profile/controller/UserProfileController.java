@@ -27,6 +27,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Properties;
+import com.auctions.system.module.Serializer;
 import com.auctions.system.module.auction_processing.controller.Processing;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
@@ -39,7 +40,6 @@ import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
-import com.google.gson.Gson;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
@@ -216,7 +216,7 @@ public class UserProfileController implements Processing{
 	@ResourceMapping("submitAuction")
 	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("newAuction") String form, @RequestParam("type") String type) throws ParseException, IOException{
-		Auction auction = new Gson().fromJson(form, Auction.class);
+		Auction auction = Serializer.fromJson(form, Auction.class);
 		long userId = PortalUtil.getUserId(request);
 		
 		HttpUtil.createResponse(response).
@@ -328,9 +328,8 @@ public class UserProfileController implements Processing{
 	}
 
 	@Override
-	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response, long id, long sellerId,
-			String name, long price, int quantity, String endDate) throws Exception {
-		return processing.confirmPurchaseView(request, response, id, sellerId, name, price, quantity, endDate);
+	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response, String form) throws Exception {
+		return processing.confirmPurchaseView(request, response, form);
 	}
 
 	@Override

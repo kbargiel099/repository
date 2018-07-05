@@ -7,16 +7,12 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.auctions.system.module.profile.controller.Profile;
-
 public interface MessageCategoryController {
-
 	
 	@RenderMapping(params = "page=getMessageCategories")
 	public ModelAndView getMessageCategoriesView(RenderRequest request, RenderResponse response);

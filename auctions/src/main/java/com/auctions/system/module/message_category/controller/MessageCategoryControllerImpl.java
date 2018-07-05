@@ -16,9 +16,9 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
+import com.auctions.system.module.Serializer;
 import com.auctions.system.module.message_category.model.MessageCategory;
 import com.auctions.system.module.message_category.service.MessageCategoryService;
-import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("VIEW")
@@ -38,7 +38,7 @@ public class MessageCategoryControllerImpl implements MessageCategoryController{
 	@ResourceMapping("insert")
 	public void insertAction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("messageCategory") String form, @RequestParam("type") String type) throws IOException{		
-		MessageCategory messageCategory = new Gson().fromJson(form, MessageCategory.class);
+		MessageCategory messageCategory = Serializer.fromJson(form, MessageCategory.class);
 		
 		HttpUtil.createResponse(response).
 			set("success", service.insert(messageCategory)).

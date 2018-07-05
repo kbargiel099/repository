@@ -32,9 +32,10 @@ function sendFormQuickPurchase() {
 			push('purchaseId',jQuery('#id').val()).
 			push('paymentMethodId',jQuery('select').val()).
 			getArray();
+		console.log(params);
 		sendRequestParams(jQuery('#makePaidUrl').val(),params,function(data){
 			console.log(data);
-			if(JSON.parse(data.success) == true){
+			if(data.success == true){
         		window.location.href = buildUrl(jQuery('#getBoughtUrl').val(),'message',
         			Liferay.Language.get('paid.successfully'));
 			}else{

@@ -155,9 +155,8 @@ public class UserController implements UserManagement, Processing, MessageCatego
 	}
 
 	@Override
-	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response, long id, long sellerId,
-			String name, long price, int quantity, String endDate) throws Exception {
-		return processing.confirmPurchaseView(request, response, id, sellerId, name, price, quantity, endDate);
+	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response, String form) throws Exception {
+		return processing.confirmPurchaseView(request, response, form);
 	}
 
 	@Override

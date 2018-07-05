@@ -87,6 +87,7 @@
  	function showConfirmPurchase(obj){
  		var url = jQuery('#getPurchaseInfoUrl').val();
  		var id = jQuery(obj).parent().find('input[name="purchaseId"]').val();
- 		window.location.href = buildUrl(url,'auctionId',id);
+ 		//console.log(buildUrl(url,'auctionId',id));
+ 		window.location.href = buildUrl(url,'id',id);
  	}
 </script>

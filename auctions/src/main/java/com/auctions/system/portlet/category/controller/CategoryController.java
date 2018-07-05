@@ -18,18 +18,17 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.SearchingFormValidator;
+import com.auctions.system.module.Serializer;
 import com.auctions.system.module.auction_processing.controller.Processing;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.SearchingForm;
 import com.auctions.system.portlet.category.service.CategoryService;
-import com.google.gson.Gson;
 
 @Controller
 @RequestMapping(value = "VIEW")
 public class CategoryController implements Processing{
 
 	private final String defaultView = "category-view";
-	private String currentCategory;
 	
 	@Autowired
 	private CategoryService service;
@@ -40,12 +39,12 @@ public class CategoryController implements Processing{
 	@RenderMapping()
 	public ModelAndView getSearch(RenderRequest request){
 		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
-		currentCategory = originalRequest.getParameter("name");
+		String category = originalRequest.getParameter("name");
 		
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("currentCategory",currentCategory);
-		model.addObject("auctions",service.getBestAuctionsByCategory(currentCategory));
-		model.addObject("subCategories", service.getSubCategories(currentCategory));
+		model.addObject("currentCategory",category);
+		model.addObject("auctions",service.getBestAuctionsByCategory(category));
+		model.addObject("subCategories", service.getSubCategories(category));
 		return model;
 	}
 	
@@ -62,8 +61,7 @@ public class CategoryController implements Processing{
 	@ResourceMapping("searchText")
 	public void searchForMatching(ResourceRequest request, ResourceResponse response,
 			@RequestParam("searchingForm") String searchingForm) throws IOException{
-		Gson gson = new Gson();
-		SearchingForm form = gson.fromJson(searchingForm, SearchingForm.class);
+		SearchingForm form = Serializer.fromJson(searchingForm, SearchingForm.class);
 		SearchingFormValidator.prepare(form);
 		
 		HttpUtil.createResponse(response).
@@ -79,9 +77,8 @@ public class CategoryController implements Processing{
 	}
 
 	@Override
-	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response, long id, long sellerId,
-			String name, long price, int quantity, String endDate) throws Exception {
-		return processing.confirmPurchaseView(request, response, id, sellerId, name, price, quantity, endDate);
+	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response, String form) throws Exception {
+		return processing.confirmPurchaseView(request, response, form);
 	}
 
 	@Override

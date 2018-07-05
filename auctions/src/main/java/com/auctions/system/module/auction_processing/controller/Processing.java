@@ -24,13 +24,11 @@ public interface Processing {
 	
 	@RenderMapping(params = "page=confirmPurchase")
 	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") long id,@RequestParam("sellerId") long sellerId,
-			@RequestParam("auctionName") String name,@RequestParam("price") long price,
-			@RequestParam("quantity") int quantity,@RequestParam("endDate") String endDate) throws Exception;
+			@RequestParam("form") String form) throws Exception;
 	
 	@RenderMapping(params = "page=getPurchaseInfo")
 	public ModelAndView getConfirmPurchaseView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") long id,@RequestParam("type") String type) throws Exception;
+			@RequestParam("id") long id,@RequestParam("type") String type) throws Exception;
 	
 	@ResourceMapping("getAllOffers")
 	public void getAllOffers(ResourceRequest request, ResourceResponse response,

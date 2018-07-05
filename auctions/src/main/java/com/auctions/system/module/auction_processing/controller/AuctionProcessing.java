@@ -16,6 +16,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
+import com.auctions.system.module.Serializer;
 import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.auction_processing.model.PurchaseInfo;
 import com.auctions.system.module.auction_processing.model.TransactionSummary;
@@ -53,10 +54,8 @@ public class AuctionProcessing implements Processing{
 	
 	@RenderMapping(params = "page=confirmPurchase")
 	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") long id,@RequestParam("sellerId") long sellerId,
-			@RequestParam("auctionName") String name,@RequestParam("price") long price,
-			@RequestParam("quantity") int quantity,@RequestParam("endDate") String endDate) throws Exception {
-		TransactionSummary transactionInfo = new TransactionSummary(id,name,sellerId,price,quantity,endDate);
+			@RequestParam("form") String form) throws Exception {
+		TransactionSummary transactionInfo = Serializer.fromJson(form, TransactionSummary.class);
 		
 		ModelAndView model = new ModelAndView(confirmPurchaseView);
 		model.addObject("seller", service.getSellerDetails(transactionInfo.getSellerId()));
@@ -69,10 +68,9 @@ public class AuctionProcessing implements Processing{
 	
 	@RenderMapping(params = "page=getPurchaseInfo")
 	public ModelAndView getConfirmPurchaseView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") long id,@RequestParam("type") String type) throws Exception{
+			@RequestParam("id") long id,@RequestParam("type") String type) throws Exception{
 		PurchaseInfo a = service.getPurchaseInfo(id);
-		ModelAndView model = confirmPurchaseView(request,response,id,a.getSellerId(),a.getName(),
-				a.getPrice(),a.getQuantity(),a.getEndDate());
+		ModelAndView model = confirmPurchaseView(request,response,Serializer.toJson(a));
 		model.addObject("type", type);
 		return model;
 	}
