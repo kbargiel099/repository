@@ -11,14 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
-import com.auctions.system.module.SearchingFormValidator;
 import com.auctions.system.module.Serializer;
+import com.auctions.system.module.Validator;
 import com.auctions.system.module.auction_processing.controller.Processing;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.SearchingForm;
@@ -26,17 +23,17 @@ import com.auctions.system.portlet.category.service.CategoryService;
 
 @Controller
 @RequestMapping(value = "VIEW")
-public class CategoryController implements Processing{
+public class CategoryController implements Category{
 
 	private final String defaultView = "category-view";
 	
 	@Autowired
-	private CategoryService service;
+	CategoryService service;
 	
 	@Autowired
 	Processing processing;
 	
-	@RenderMapping()
+	@Override
 	public ModelAndView getSearch(RenderRequest request){
 		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
 		String category = originalRequest.getParameter("name");
@@ -48,9 +45,8 @@ public class CategoryController implements Processing{
 		return model;
 	}
 	
-	@ResourceMapping("getBySubcategory")
-	public void searchForMatching(ResourceRequest request, ResourceResponse response,
-			@RequestParam("id") int id) throws IOException{		
+	@Override
+	public void searchForMatching(ResourceRequest request, ResourceResponse response, int id){		
 		
 		HttpUtil.createResponse(response).
 			set("auctions", service.getAuctionsBySubcategory(id)).
@@ -58,14 +54,12 @@ public class CategoryController implements Processing{
 			prepare();
 	}
 	
-	@ResourceMapping("searchText")
-	public void searchForMatching(ResourceRequest request, ResourceResponse response,
-			@RequestParam("searchingForm") String searchingForm) throws IOException{
+	@Override
+	public void searchForMatching(ResourceRequest request, ResourceResponse response, String searchingForm){
 		SearchingForm form = Serializer.fromJson(searchingForm, SearchingForm.class);
-		SearchingFormValidator.prepare(form);
 		
 		HttpUtil.createResponse(response).
-			set("auctions", service.getSearchingAuctions(form)).
+			set("auctions", service.getSearchingAuctions(Validator.prepare(form))).
 			set("success", true).
 			prepare();
 	}

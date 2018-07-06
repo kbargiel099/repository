@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.UserUtil;
@@ -26,9 +24,8 @@ import com.auctions.system.portlet.users_management.service.UsersManagementServi
 
 @Controller
 @RequestMapping("VIEW")
-public class UserController implements UserManagement, Processing, MessageCategoryController{
+public class UserController implements UserManagement{
 
-	//private final String defaultView = "view";
 	private final String usersView = "users";
 	private final String addEditUserView = "add_edit_user"; 
 	private final String userDetailsView = "details_user";
@@ -41,53 +38,51 @@ public class UserController implements UserManagement, Processing, MessageCatego
 	MessageCategoryController messageCategory;
 	
 	@Autowired
-	private UsersManagementService service;
+	UsersManagementService service;
 	
 	@Autowired
-	private Statistics stats;
+	Statistics stats;
 	
-	@RenderMapping
+	
+	@Override
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response) throws Exception{
 		ModelAndView model = new ModelAndView(auctionsView);
 		return model;
 	}
 	
-	@RenderMapping(params = "page=getUsers")
+	@Override
 	public ModelAndView getUsersView(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(usersView);
 		return model;
 	}
 	
-	@RenderMapping(params = "page=getAuctions")
+	@Override
 	public ModelAndView getAuctionsView(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(auctionsView);
 		return model;
 	}
 	
-	@RenderMapping(params = "page=edit")
-	public ModelAndView editUserView(RenderRequest request, RenderResponse response,
-			@RequestParam("userId") int userId){
+	@Override
+	public ModelAndView editUserView(RenderRequest request, RenderResponse response, int userId){
 		ModelAndView model = new ModelAndView(addEditUserView);
 		model.addObject("action", "edit");
 		model.addObject("user", service.getUserById(userId));
 		return model;
 	}
 	
-	@RenderMapping(params = "page=details")
-	public ModelAndView UserDetailsView(RenderRequest request, RenderResponse response,
-			@RequestParam("userId") int userId){
+	@Override
+	public ModelAndView UserDetailsView(RenderRequest request, RenderResponse response, int userId){
 		ModelAndView model = new ModelAndView(userDetailsView);
 		model.addObject("user", service.getUserById(userId));
 		return model;
 	}
 	
-	@RenderMapping(params = "page=stats")
-	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") int id){
+	@Override
+	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, int id){
 		return stats.getAuctionStatsView(processing.getDetails(id),ViewType.Administration);
 	}
 	
-	@ResourceMapping(value="getUsers")
+	@Override
 	public void getUsers(ResourceRequest request, ResourceResponse response) throws Exception {
 	    
 		HttpUtil.createResponse(response).
@@ -95,7 +90,7 @@ public class UserController implements UserManagement, Processing, MessageCatego
 			prepare();
 	}
 	
-	@ResourceMapping(value="getAuctions")
+	@Override
 	public void getAuctions(ResourceRequest request, ResourceResponse response) throws Exception {
 	    
 		HttpUtil.createResponse(response).
@@ -103,7 +98,7 @@ public class UserController implements UserManagement, Processing, MessageCatego
 			prepare();
 	}
 	
-	@ResourceMapping(value="activate")
+	@Override
 	public void activateAuction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") long id) throws Exception {
 	    
@@ -112,36 +107,32 @@ public class UserController implements UserManagement, Processing, MessageCatego
 			prepare();
 	}
 	
-	@ResourceMapping(value="suspend")
-	public void suspendAuction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long id) throws Exception {
+	@Override
+	public void suspendAuction(ResourceRequest request, ResourceResponse response, long id) throws Exception {
 	    
 		HttpUtil.createResponse(response).
 			set("success", service.suspendAuction(id)).
 			prepare();
 	}
 	
-	@ResourceMapping(value="delete")
-	public void deleteAuction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long id) throws Exception {
+	@Override
+	public void deleteAuction(ResourceRequest request, ResourceResponse response, long id) throws Exception {
 	    
 		HttpUtil.createResponse(response).
 			set("success", service.deleteAuction(id)).
 			prepare();
 	}
 	
-	@ResourceMapping(value="lock")
-	public void lockUser(ResourceRequest request, ResourceResponse response,
-			@RequestParam("userId") long id) throws IOException {
+	@Override
+	public void lockUser(ResourceRequest request, ResourceResponse response, long id) throws IOException {
 	    
 		HttpUtil.createResponse(response).
 			set("success", UserUtil.updateLockoutUser(id,true)).
 			prepare();
 	}
 	
-	@ResourceMapping(value="unlock")
-	public void unlockUser(ResourceRequest request, ResourceResponse response,
-			@RequestParam("userId") long id) throws IOException {
+	@Override
+	public void unlockUser(ResourceRequest request, ResourceResponse response, long id) throws IOException {
 	    
 		HttpUtil.createResponse(response).
 			set("success", UserUtil.updateLockoutUser(id,false)).

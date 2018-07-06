@@ -17,13 +17,8 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.ActionMapping;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Properties;
@@ -34,7 +29,6 @@ import com.auctions.system.module.file_converter.Worker;
 import com.auctions.system.module.statistics.controller.Statistics;
 import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.category.model.AuctionDetails;
-import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
@@ -45,7 +39,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
-public class UserProfileController implements Processing{
+public class UserProfileController implements UserProfile{
 
 	private final String defaultView = "view";
 	private final String createEditAuctionView = "create-auction"; 
@@ -76,9 +70,8 @@ public class UserProfileController implements Processing{
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 	}
 	
-	@RenderMapping
-	public ModelAndView defaultView(RenderRequest request, RenderResponse response,
-			@RequestParam(value ="message", defaultValue = "") String message) throws Exception{
+	@Override
+	public ModelAndView defaultView(RenderRequest request, RenderResponse response, String message) throws Exception{
 		long id = PortalUtil.getUserId(request);
 		
 		ModelAndView model = new ModelAndView(defaultView);
@@ -87,41 +80,34 @@ public class UserProfileController implements Processing{
 		return model;
 	}
 	
-	@RenderMapping(params = "page=stats")
-	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") int id){
+	@Override
+	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, int id){
 		return stats.getAuctionStatsView(processing.getDetails(id),ViewType.Profile);
 	}
 	
-	@RequestMapping(params = "page=getBought")
-	public ModelAndView getBoughtAction(RenderRequest request, RenderResponse response,
-			@RequestParam(value ="message", defaultValue = "") String message){
+	@Override
+	public ModelAndView getBoughtAction(RenderRequest request, RenderResponse response, String message){
 		ModelAndView model = new ModelAndView(userBoughtView);
-		
-		List<AuctionPresenter> userBoughtSubjects = service.getUserBoughtSubjects(
-				PortalUtil.getUserId(request));
-				
-		model.addObject("auctions", userBoughtSubjects);
+		model.addObject("auctions", service.getUserBoughtSubjects(PortalUtil.getUserId(request)));
 		model.addObject("message", message);
 		return model;
 	}
 	
-	@RequestMapping(params = "page=getSold")
+	@Override
 	public ModelAndView getSoldAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(userSoldView);
 		return model;
 	}
 	
-	@RequestMapping(params = "page=mySettings")
+	@Override
 	public ModelAndView mySettingsAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(settingsView);
 		model.addObject("userPassword", new UserPassword());
 		return model;
 	}
 	
-	@ActionMapping(params = "action=changePassword")
-	public void changePasswordAction(ActionRequest request, ActionResponse response,
-			@ModelAttribute("userPassword") UserPassword p) throws ParseException{
+	@Override
+	public void changePasswordAction(ActionRequest request, ActionResponse response, UserPassword p) throws ParseException{
 		try{
 			 long userId = PortalUtil.getUserId(request);
 			 UserLocalServiceUtil.updatePassword(userId, p.getPassword(), p.getRepeatedPassword(), false); 
@@ -134,15 +120,14 @@ public class UserProfileController implements Processing{
 		}
 	}
 	
-	@RequestMapping(params = "page=myAuctions")
+	@Override
 	public ModelAndView userAuctionsAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(userAuctionsView);
-		model.addObject("auctions", service.getUserAuctions(
-				PortalUtil.getUserId(request)));
+		model.addObject("auctions", service.getUserAuctions(PortalUtil.getUserId(request)));
 		return model;
 	}
 	
-	@RequestMapping(params = "page=conversations")
+	@Override
 	public ModelAndView conversations(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(conversationsView);
 		List<UsernameAndId> users = service.getUsersIdsForLastConversations(PortalUtil.getUserId(request));
@@ -150,31 +135,28 @@ public class UserProfileController implements Processing{
 		return model;
 	}
 	
-	@RequestMapping(params = "page=observations")
+	@Override
 	public ModelAndView userObservationAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(userObservationView);
-		model.addObject("auctions", service.getUserObservation(
-				PortalUtil.getUserId(request)));
+		model.addObject("auctions", service.getUserObservation(PortalUtil.getUserId(request)));
 		return model;
 	}
 	
-	@RequestMapping(params = "page=addVideo")
-	public ModelAndView addVideoView(RenderRequest request, RenderResponse response,
-			@RequestParam("id") long id){
+	@Override
+	public ModelAndView addVideoView(RenderRequest request, RenderResponse response, long id){
 		ModelAndView model = new ModelAndView(addVideoView);
 		model.addObject("auctionId", id);
 		return model;
 	}
 	
-	@RequestMapping(params = "page=addImages")
-	public ModelAndView addImagesView(RenderRequest request, RenderResponse response,
-			@RequestParam("id") long id){
+	@Override
+	public ModelAndView addImagesView(RenderRequest request, RenderResponse response, long id){
 		ModelAndView model = new ModelAndView(addImagesView);
 		model.addObject("model", service.getAuctionImages(id));
 		return model;
 	}
 	
-	@RenderMapping(params = "page=createNewAuction")
+	@Override
 	public ModelAndView createNewAuctionRender(RenderRequest request, RenderResponse response){
 		
 		ModelAndView model = new ModelAndView(createEditAuctionView);
@@ -185,37 +167,33 @@ public class UserProfileController implements Processing{
 		return model;
 	}
 	
-	@RenderMapping(params = "page=editAuction")
-	public ModelAndView editAuctionRender(RenderRequest request, RenderResponse response,
-			@RequestParam("id") long id){
-		Auction a = service.getAuctionData(id);
-		
+	@Override
+	public ModelAndView editAuctionRender(RenderRequest request, RenderResponse response, long id){		
 		ModelAndView model = new ModelAndView(createEditAuctionView);
-		model.addObject("auction",a);
+		model.addObject("auction",service.getAuctionData(id));
 		model.addObject("type", "edit");
 		model.addObject("categories", service.getCategories());
 		model.addObject("auctionTypes", service.getAuctionTypes());
 		return model;
 	}
 	
-	@RequestMapping(params = "page=addGrade")
+	@Override
 	public ModelAndView addGradeAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(addGradeView);
 		model.addObject("auctionGrade", new AuctionGrade());
 		return model;
 	}
 	
-	@ResourceMapping(value = "getSubCategories")
-	public void getSubCategories(ResourceRequest request, ResourceResponse response) throws IOException{
+	@Override
+	public void getSubCategories(ResourceRequest request, ResourceResponse response){
 		
 		HttpUtil.createResponse(response).
 			set("result", service.getSubCategories()).
 			prepare();
 	}
 	
-	@ResourceMapping("submitAuction")
-	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("newAuction") String form, @RequestParam("type") String type) throws ParseException, IOException{
+	@Override
+	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response, String form, String type) throws ParseException{
 		Auction auction = Serializer.fromJson(form, Auction.class);
 		long userId = PortalUtil.getUserId(request);
 		
@@ -225,9 +203,8 @@ public class UserProfileController implements Processing{
 				prepare();
 	}
 	
-	@ActionMapping(params = "action=addGrade")
-	public void addGradeAction(ActionRequest request, ActionResponse response,
-			@ModelAttribute("auctionGrade") AuctionGrade form) throws ParseException{
+	@Override
+	public void addGradeAction(ActionRequest request, ActionResponse response, AuctionGrade form) throws ParseException{
 
 		boolean isCreated = service.addAuctionGrade(PortalUtil.getUserId(request), form);
 		if(isCreated){
@@ -235,17 +212,17 @@ public class UserProfileController implements Processing{
 		}
 	}
 
-	@ResourceMapping(value = "submitData")
-	public void submitData(ResourceRequest request, ResourceResponse response) throws IOException{
+	@Override
+	public void submitData(ResourceRequest request, ResourceResponse response){
 		saveFile(request, response, Properties.getVideosPath());
 	}
 	
-	@ResourceMapping(value = "saveImage")
-	public void saveImage(ResourceRequest request, ResourceResponse response) throws IOException{
+	@Override
+	public void saveImage(ResourceRequest request, ResourceResponse response){
 		saveFile(request, response, Properties.getImagesPath());
 	}
 	
-	private void saveFile(ResourceRequest request, ResourceResponse response, String path) throws IOException{
+	private void saveFile(ResourceRequest request, ResourceResponse response, String path){
 		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
 		String data =  originalRequest.getParameter("data");
 		String name =  originalRequest.getParameter("name");
@@ -257,35 +234,29 @@ public class UserProfileController implements Processing{
 			prepare();
 	}
 	
-	@ResourceMapping("updateImages")
-	public void updateImages(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long id,
-			@RequestParam("images") String images) throws IOException{		
+	@Override
+	public void updateImages(ResourceRequest request, ResourceResponse response, long id, String images){		
 		
 		HttpUtil.createResponse(response).
 			set("success", service.updateAuctionImages(images, id)).
 			prepare();
 	}
 	
-	@ResourceMapping("convertVideo")
-	public void convertVideo(ResourceRequest request, ResourceResponse response,
-			@RequestParam("videoName") String name,
-			@RequestParam("auctionId") long id) throws IOException{	
+	@Override
+	public void convertVideo(ResourceRequest request, ResourceResponse response, String name, long id){	
 		worker.convertVideo(id,name);
 	}
 	
-	@ResourceMapping("checkConversionStatus")
-	public void checkConversionStatus(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long id) throws IOException{		
+	@Override
+	public void checkConversionStatus(ResourceRequest request, ResourceResponse response, long id){		
 		
 		HttpUtil.createResponse(response).
 			set("progress", worker.checkProgress(id)).
 			prepare();
 	}
 	
-	@ResourceMapping(value = "getTechnicalData")
-	public void getTechnicalData(ResourceRequest request, ResourceResponse response,
-			@RequestParam("id") int id) throws IOException{
+	@Override
+	public void getTechnicalData(ResourceRequest request, ResourceResponse response, int id){
 		
 		HttpUtil.createResponse(response).
 			set("data", service.getTechnicalData(id)).
@@ -293,28 +264,25 @@ public class UserProfileController implements Processing{
 			prepare();
 	}
 	
-	@ResourceMapping("deleteVideo")
-	public void deleteVideo(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long id) throws IOException{		
+	@Override
+	public void deleteVideo(ResourceRequest request, ResourceResponse response, long id){		
 		
 		HttpUtil.createResponse(response).
 			set("success", service.deleteVideo(id)).
 			prepare();
 	}
 	
-	@ResourceMapping("getAllMessagesFromUser")
-	public void getAllMessagesFromUser(ResourceRequest request, ResourceResponse response,
-			@RequestParam("userId") long interlocutorId) throws IOException{		
+	@Override
+	public void getAllMessagesFromUser(ResourceRequest request, ResourceResponse response, long userId){		
 		long id = PortalUtil.getUserId(request);
 		
 		HttpUtil.createResponse(response).
-			set("messages", service.getAllMessagesFromUser(id, interlocutorId)).
+			set("messages", service.getAllMessagesFromUser(id, userId)).
 			prepare();
 	}
 
-	@ResourceMapping(value = "makePaid")
-	public void getSubCategories(ResourceRequest request, ResourceResponse response,
-			@RequestParam("purchaseId") long id, @RequestParam("paymentMethodId") int methodId) throws IOException{
+	@Override
+	public void getSubCategories(ResourceRequest request, ResourceResponse response, long id, int methodId){
 		
 		HttpUtil.createResponse(response).
 			set("success", service.makePaid(id, methodId)).

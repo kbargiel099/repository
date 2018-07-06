@@ -10,7 +10,6 @@ import javax.portlet.ResourceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
@@ -22,7 +21,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
-public class NavMenuController {
+public class NavigationMenuController implements NavigationMenu{
 	
 	@Autowired
 	private NavService service;
@@ -30,7 +29,7 @@ public class NavMenuController {
 	private final String defaultView = "view";
 	
 	@RenderMapping
-	public ModelAndView defaulView(RenderRequest request, RenderResponse response){
+	public ModelAndView defaultView(RenderRequest request, RenderResponse response){
 		long id = PortalUtil.getUserId(request);
 		
 		ModelAndView model = new ModelAndView(defaultView);	
@@ -40,8 +39,7 @@ public class NavMenuController {
 	}
 	
 	@ResourceMapping("getMessagesFromUser")
-	public void getMessagesFromUser(ResourceRequest request, ResourceResponse response,
-			@RequestParam("userId") long id) throws IOException{
+	public void getMessagesFromUser(ResourceRequest request, ResourceResponse response, long id) throws IOException{
 		long userId = PortalUtil.getUserId(request);
 		
 		HttpUtil.createResponse(response).
@@ -50,9 +48,7 @@ public class NavMenuController {
 			prepare();
 	}
 
-	@ResourceMapping("markMessagesAsRead")
-	public void markMessagesAsRead(ResourceRequest request, ResourceResponse response,
-			@RequestParam("userId") long id) throws IOException{
+	public void markMessagesAsRead(ResourceRequest request, ResourceResponse response, long id) throws IOException{
 		long userId = PortalUtil.getUserId(request);
 		
 		HttpUtil.createResponse(response).

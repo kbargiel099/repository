@@ -26,9 +26,14 @@ public class ResponseWrapper {
 		return this;
 	}
 	
-	public void prepare() throws IOException{
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(obj.toString());
+	public void prepare(){
+		try{
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(obj.toString());
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 }
