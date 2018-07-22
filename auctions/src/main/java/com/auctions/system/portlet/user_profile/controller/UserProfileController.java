@@ -2,10 +2,8 @@ package com.auctions.system.portlet.user_profile.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
+import java.util.Locale;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -13,10 +11,9 @@ import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 
@@ -26,15 +23,16 @@ import com.auctions.system.module.Serializer;
 import com.auctions.system.module.auction_processing.controller.Processing;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
+import com.auctions.system.module.mail_manager.MailManager;
+import com.auctions.system.module.mail_manager.impl.SimpleMailManager;
 import com.auctions.system.module.statistics.controller.Statistics;
 import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
-import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
@@ -60,19 +58,32 @@ public class UserProfileController implements UserProfile{
 	private Statistics stats;
 	
 	@Autowired
-	Processing processing;
+	private Processing processing;
 	
 	@Autowired
-	Worker worker;
+	private Worker worker;
 	
-	@InitBinder("auctionGrade")
-	private void initBinderGrade(WebDataBinder binder) {
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
-	}
+	@Autowired
+	MailManager mailManager;
 	
 	@Override
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response, String message) throws Exception{
 		long id = PortalUtil.getUserId(request);
+		
+		String from = "abstergo887@gmail.com";
+		 
+		String to = "abstergo887@gmail.com";
+		 
+		String subject="This is email title";
+		 
+		String body="Hello World, this is my first email";
+	
+/*		SimpleMailManager manager = new SimpleMailManager();
+		SimpleMailMessage message2 = new SimpleMailMessage();
+		manager.setMailSender(mailSender);
+		manager.setTemplateMessage(message2);*/
+		
+		mailManager.sendMail("bardzi18@interia.pl", "Jurek", Locale.getDefault());
 		
 		ModelAndView model = new ModelAndView(defaultView);
 		model.addObject("user", service.getUserSimpleData(id));
@@ -107,17 +118,12 @@ public class UserProfileController implements UserProfile{
 	}
 	
 	@Override
-	public void changePasswordAction(ActionRequest request, ActionResponse response, UserPassword p) throws ParseException{
-		try{
-			 long userId = PortalUtil.getUserId(request);
-			 UserLocalServiceUtil.updatePassword(userId, p.getPassword(), p.getRepeatedPassword(), false); 
+	public void changePasswordAction(ResourceRequest request, ResourceResponse response, String form) throws ParseException{
 		
-			 response.setRenderParameter("message", "Hasło zostało zmienione");
-			
-		}catch(Exception e){
-			 e.printStackTrace();
-			 response.setRenderParameter("page", "mySettings");
-		}
+		HttpUtil.createResponse(response).
+			set("success", service.changePassword(request, Serializer.fromJson(form, UserPassword.class))).
+			prepare();
+		
 	}
 	
 	@Override
@@ -130,8 +136,7 @@ public class UserProfileController implements UserProfile{
 	@Override
 	public ModelAndView conversations(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(conversationsView);
-		List<UsernameAndId> users = service.getUsersIdsForLastConversations(PortalUtil.getUserId(request));
-		model.addObject("users", users);
+		model.addObject("users", service.getUsersIdsForLastConversations(PortalUtil.getUserId(request)));
 		return model;
 	}
 	
@@ -204,12 +209,12 @@ public class UserProfileController implements UserProfile{
 	}
 	
 	@Override
-	public void addGradeAction(ActionRequest request, ActionResponse response, AuctionGrade form) throws ParseException{
-
-		boolean isCreated = service.addAuctionGrade(PortalUtil.getUserId(request), form);
-		if(isCreated){
-			response.setRenderParameter("message", "Pomyślnie dodano ocenę");
-		}
+	public void addGradeAction(ResourceRequest request, ResourceResponse response, String grade){
+		AuctionGrade form = Serializer.fromJson(grade, AuctionGrade.class);
+		
+		HttpUtil.createResponse(response).
+			set("success", service.addAuctionGrade(PortalUtil.getUserId(request), form)).
+			prepare();
 	}
 
 	@Override

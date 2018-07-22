@@ -3,6 +3,8 @@ package com.auctions.system.portlet.user_profile.service;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.portlet.ResourceRequest;
+
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
@@ -12,6 +14,7 @@ import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserMessage;
+import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 
@@ -52,5 +55,7 @@ public interface UserProfileService {
 	public List<UsernameAndId> getUsersIdsForLastConversations(final long id);
 	
 	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId);
+	
+	public boolean changePassword(ResourceRequest request, UserPassword p);
 
 }

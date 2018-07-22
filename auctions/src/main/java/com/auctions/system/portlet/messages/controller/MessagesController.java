@@ -15,9 +15,8 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
-import com.auctions.system.module.SearchingFormValidator;
+import com.auctions.system.module.Validator;
 import com.auctions.system.portlet.category.model.SearchingForm;
-import com.auctions.system.portlet.category.service.CategoryService;
 import com.auctions.system.portlet.messages.service.MessagesService;
 import com.google.gson.Gson;
 
@@ -56,7 +55,7 @@ public class MessagesController{
 			@RequestParam("searchingForm") String searchingForm) throws IOException{
 		Gson gson = new Gson();
 		SearchingForm form = gson.fromJson(searchingForm, SearchingForm.class);
-		SearchingFormValidator.prepare(form);
+		Validator.prepare(form);
 		
 		HttpUtil.createResponse(response).
 			set("auctions", service.getSearchingAuctions(form)).

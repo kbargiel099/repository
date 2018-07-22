@@ -109,7 +109,6 @@ function connect2() {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/message/notify/'+jQuery('#id').val(), function (data) {
         	var res = JSON.parse(data.body);
-        	console.log(res);
         	if(res.success == true){
 
         		if(isQuickPurchase){

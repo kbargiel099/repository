@@ -3,6 +3,8 @@ package com.auctions.system.portlet.user_profile.service.impl;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.portlet.ResourceRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +18,12 @@ import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserMessage;
+import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 @Service("userProfileService")
 public class UserProfileServiceImpl implements UserProfileService{
@@ -114,6 +119,20 @@ public class UserProfileServiceImpl implements UserProfileService{
 	@Override
 	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId){
 		return dataSource.getAllMessagesFromUser(userId, interlocutorId);
+	}
+
+	@Override
+	public boolean changePassword(ResourceRequest request, UserPassword p) {
+		try{
+			 long userId = PortalUtil.getUserId(request);
+			 UserLocalServiceUtil.updatePassword(userId, p.getPassword(), p.getRepeatedPassword(), false); 
+		
+			 return true;
+			
+		}catch(Exception e){
+			 e.printStackTrace();
+			 return false;
+		}
 	}
 
 }

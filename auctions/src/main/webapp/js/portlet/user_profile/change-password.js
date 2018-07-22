@@ -1,9 +1,9 @@
-var submitUrl = jQuery("#addGradeUrl").val();
+var submitUrl = jQuery("#changePasswordUrl").val();
 var returnUrl = jQuery("#returnUrl").val();
 	
 jQuery("#submit").click(function(){
 	var params = new Params().
-		push('grade', JSON.stringify(jQuery("#add-grade-form").serializeObject())).
+		push('form', JSON.stringify(jQuery("#change-password-form").serializeObject())).
 		getArray();
 	
 	submit(params);
@@ -15,7 +15,7 @@ function submit(params_){
 
 var onResponse = function(res){
 	if(res.success == true){
-		window.location.href = buildUrl(returnUrl,'message',Liferay.Language.get('grade.has.been.added'));
+		window.location.href = buildUrl(returnUrl,'message',Liferay.Language.get('password.has.been.changed'));
 	}else{
 		responsiveNotify(Liferay.Language.get('error.msg'));
 	}

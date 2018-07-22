@@ -73,16 +73,12 @@
 	};
 	
  	jQuery("#create-auction-submit").click(function(){
-	     //var isValid = jQuery("#login-form").valid();
-	     //if(isValid){
-		      //jQuery("#login-validation-info").hide();
  			if(type == 'add'){
  				saveImage();
  			}else{
  				message = Liferay.Language.get('changes.successfully.saved');
  				submitAuction(type);
  			}
-	    // }
 	});
 	
 	function submitAuction(actionType){

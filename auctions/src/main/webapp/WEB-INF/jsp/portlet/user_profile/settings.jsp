@@ -6,9 +6,13 @@
 
 <portlet:defineObjects />
 
-<portlet:actionURL var="submit">
-		<portlet:param name="action" value="changePassword"/>
-</portlet:actionURL>
+<portlet:resourceURL id="changePassword" var="changePassword">
+</portlet:resourceURL>
+<input type="hidden" id="changePasswordUrl" value="${changePassword}"></input>
+
+<portlet:renderURL var="returnUrl">
+</portlet:renderURL>
+<input type="hidden" id="return" value="${returnUrl}"></input>
 
 <div class="container-fluid">
 
@@ -18,23 +22,24 @@
 		<h4 class="user-profile-section-title"><liferay-ui:message key="auction.my.settings.label" /></h4>
 	</div>
 	    
-	<form:form id="change-password-form" method="POST" action="${submit}" modelAttribute="userPassword">
+	<form id="change-password-form" method="POST">
 		<div class="col-xs-12 col-sm-8 col-md-4">
 			<div class="form-group">
-	           <form:label class="label-control" path="password" name="password"><liferay-ui:message key="user.password.label" /></form:label>
-	           <form:input type="password" class="form-control" path="password" id="password" name="password"></form:input>
+	           <label class="label-control" name="password"><liferay-ui:message key="user.password.label" /></label>
+	           <input type="password" class="form-control" id="password" name="password"></input>
 			</div>
 			<div class="form-group">
-	           <form:label class="label-control" path="repeatedPassword" name="repeatedPassword"><liferay-ui:message key="user.repeat.password.label" /></form:label>
-	           <form:input type="password" class="form-control" path="repeatedPassword" id="repeatedPassword" name="repeatedPassword"></form:input>
+	           <label class="label-control" name="repeatedPassword"><liferay-ui:message key="user.repeat.password.label" /></label>
+	           <input type="password" class="form-control" id="repeatedPassword" name="repeatedPassword"></input>
 			</div>
 			<div class="form-group">
-			   <input class="btn btn-primary pull-right" type="submit" value="<liferay-ui:message key="submit"/> ">
+			   <input class="btn btn-primary pull-right" id="submit" type="submit" value="<liferay-ui:message key="submit"/> ">
 			</div>
 		</div>
-	</form:form>
+	</form>
 </div>
 
+<script src="<c:url value="/js/portlet/user_profile/change-password.js" />"></script>	 
 <script>
 jQuery(function() {
 	  jQuery("#change-password-form").validate({

@@ -1,25 +1,19 @@
 package com.auctions.system.portlet.user_profile.controller;
 
-import java.io.IOException;
 import java.text.ParseException;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.auction_processing.controller.Processing;
-import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
 
 public interface UserProfile extends Processing{
@@ -42,9 +36,9 @@ public interface UserProfile extends Processing{
 	@RequestMapping(params = "page=mySettings")
 	public ModelAndView mySettingsAction(RenderRequest request, RenderResponse response);
 	
-	@ActionMapping(params = "action=changePassword")
-	public void changePasswordAction(ActionRequest request, ActionResponse response,
-			@ModelAttribute("userPassword") UserPassword p) throws ParseException;
+	@ResourceMapping("changePassword")
+	public void changePasswordAction(ResourceRequest request, ResourceResponse response,
+			@RequestParam("form") String form) throws ParseException;
 	
 	@RequestMapping(params = "page=myAuctions")
 	public ModelAndView userAuctionsAction(RenderRequest request, RenderResponse response);
@@ -80,9 +74,9 @@ public interface UserProfile extends Processing{
 	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("newAuction") String form, @RequestParam("type") String type) throws ParseException;
 	
-	@ActionMapping(params = "action=addGrade")
-	public void addGradeAction(ActionRequest request, ActionResponse response,
-			@ModelAttribute("auctionGrade") AuctionGrade form) throws ParseException;
+	@ResourceMapping("addGrade")
+	public void addGradeAction(ResourceRequest request, ResourceResponse response,
+			@RequestParam("grade") String grade) throws ParseException;
 
 	@ResourceMapping(value = "submitData")
 	public void submitData(ResourceRequest request, ResourceResponse response);

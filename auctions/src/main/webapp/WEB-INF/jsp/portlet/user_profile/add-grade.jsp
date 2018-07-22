@@ -7,9 +7,13 @@
 
 <portlet:defineObjects />
 
-<portlet:actionURL var="submit">
-		<portlet:param name="action" value="addGrade"/>
-</portlet:actionURL>
+<portlet:resourceURL id="addGrade" var="addGrade">
+</portlet:resourceURL>
+<input type="hidden" id="addGradeUrl" value="${addGrade}"></input>
+
+<portlet:renderURL var="returnUrl">
+</portlet:renderURL>
+<input type="hidden" id="return" value="${returnUrl}"></input>
 
 <div class="container-fluid">
 
@@ -18,24 +22,26 @@
 		<div class="col-xs-12 col-sm-8 col-md-8">
 			<h4 class="user-profile-section-title"><liferay-ui:message key="user.add.grade.label" /></h4>
 			<div class="container">
-				<form:form id="add-grade-form" method="POST" action="${submit}" modelAttribute="auctionGrade">
+				<form id="add-grade-form" method="POST">
 					<div class="row col-xs-12 col-sm-8 col-md-4">
-						<form:input type="hidden" class="form-control" path="auctionId" id="auctionId" name="auctionId"></form:input>
+						<input type="hidden" class="form-control" id="auctionId" name="auctionId"></input>
 						<div class="form-group">
-				           <form:label class="label-control" path="grade" name="grade"><liferay-ui:message key="auction.grade.label" /></form:label>
-				           <form:input type="text" class="form-control" path="grade" id="grade" name="grade"></form:input>
+				           <label class="label-control" name="grade"><liferay-ui:message key="auction.grade.label" /></label>
+				           <input type="text" class="form-control" id="grade" name="grade"></input>
 						</div>
 						<div class="form-group">
-				           <form:label class="label-control" path="comment" name="comment"><liferay-ui:message key="auction.comment.label" /></form:label>
-				           <form:input type="text" class="form-control" path="comment" id="comment" name="comment"></form:input>
+				           <label class="label-control" name="comment"><liferay-ui:message key="auction.comment.label" /></label>
+				           <input type="text" class="form-control" id="comment" name="comment"></input>
 						</div>
 					</div>
 					<div class="row col-xs-12 col-sm-8 col-md-4">
 						<div class="form-group">
-						  	<input class="btn btn-primary pull-right" type="submit" value="<liferay-ui:message key="submit"/> "></input>
+						  	<input class="btn btn-primary pull-right" id="submit" type="submit" value="<liferay-ui:message key="submit"/> "></input>
 						</div>		  		
 					</div>   
-		  		</form:form>   
+		  		</form>   
 			</div>      
 		</div>
 	</div>
+	
+<script src="<c:url value="/js/portlet/user_profile/add-grade.js" />"></script>	 
