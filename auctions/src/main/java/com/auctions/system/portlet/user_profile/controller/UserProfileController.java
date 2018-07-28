@@ -87,6 +87,11 @@ public class UserProfileController implements UserProfile{
             ActionRequest request, ActionResponse response, SessionStatus sessionStatus){
         System.out.println("SpringFileController -> fileUpload -> Started");
          
+        byte[] data = springFileVO.getFileData().getBytes();
+        String name = springFileVO.getFileData().getName();
+        
+        FileUtil.create(data, name);
+        
         System.out.println("File Name :"+springFileVO.getFileData().getOriginalFilename());
         System.out.println("File Type :"+springFileVO.getFileData().getContentType());
          
@@ -94,6 +99,7 @@ public class UserProfileController implements UserProfile{
         springFileVO.setMessage(springFileVO.getFileData().getOriginalFilename() +" is upload successfully");
          
         System.out.println("SpringFileController -> FileUpload -> Completed");
+        response.setRenderParameter("page", "addVideo");
         sessionStatus.setComplete();
     }
      
@@ -227,8 +233,8 @@ public class UserProfileController implements UserProfile{
 	}
 	
 	@Override
-	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response, String form, String type) throws ParseException{
-		Auction auction = Serializer.fromJson(form, Auction.class);
+	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response, String newAuction, String type) throws ParseException{
+		Auction auction = Serializer.fromJson(newAuction, Auction.class);
 		long userId = PortalUtil.getUserId(request);
 		
 		HttpUtil.createResponse(response).

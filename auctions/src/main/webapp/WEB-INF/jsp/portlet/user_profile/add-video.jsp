@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <portlet:defineObjects />
 
@@ -66,6 +68,35 @@
 			<strong><liferay-ui:message key="show.current" /></strong>
 		</a>	
 	</div>
+
+	 	<h1>Spring Portlet MVC : FileUpload/Download</h1>
+ 
+<!-- File Upload -->
+ 
+      <portlet:actionURL var="fileUploadURL">
+                <portlet:param name="formAction" value="fileUpload" />      
+      </portlet:actionURL>
+       
+      <form:form name="fileUploader" commandName="springFileVO" method="post"
+                action="${fileUploadURL}"  enctype="multipart/form-data">
+                 
+                <c:out value="${springFileVO.message}" />
+                 
+                <label> Select a File</label>
+                <form:input path="fileData" type="file"/>
+                 
+                <button type="submit">Submit</button>
+                 
+      </form:form>
+       
+<!-- File Download  --> 
+    <portlet:resourceURL var="fileDownloadURL" id="fileDownload">
+    </portlet:resourceURL>
+      
+     </br>
+     <a href="#" onClick="window.location ='${fileDownloadURL}';"> Download </a>
+</div>
+
 </div>
 
 <script src="<c:url value="/js/module/file-upload.js" />"></script>

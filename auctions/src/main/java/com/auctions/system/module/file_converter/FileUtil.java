@@ -18,7 +18,27 @@ public class FileUtil {
 		    stream.close();
 		    stream = null;
 
-		    //success = true;
+		    success = true;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return success;
+	}
+	
+	public static boolean create(final byte[] data,final String name){
+		boolean success = false;
+		FileOutputStream stream;
+		try {
+			
+			stream = new FileOutputStream(name,true);
+			stream.write(data);
+		    stream.close();
+		    stream = null;
+
+		    success = true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

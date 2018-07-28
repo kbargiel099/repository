@@ -72,7 +72,7 @@ public interface UserProfile extends Processing{
 	
 	@ResourceMapping("submitAuction")
 	public void createNewAuctionAction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("newAuction") String form, @RequestParam("type") String type) throws ParseException;
+			@RequestParam("newAuction") String newAuction, @RequestParam("type") String type) throws ParseException;
 	
 	@ResourceMapping("addGrade")
 	public void addGradeAction(ResourceRequest request, ResourceResponse response,
