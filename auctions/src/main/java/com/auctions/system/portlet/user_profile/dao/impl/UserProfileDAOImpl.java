@@ -20,7 +20,6 @@ import com.auctions.system.module.auction_processing.DateFormatter;
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
-import com.auctions.system.portlet.nav_menu.model.MessageAndDate;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;

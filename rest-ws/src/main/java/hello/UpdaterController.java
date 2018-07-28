@@ -87,14 +87,15 @@ public class UpdaterController {
     private boolean isCurrentTimeBefore(String end){
     	SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd hh.mm.ss");
     	
-    	Date endDate = null;
 		try {
-			endDate = format.parse(end);
+			Date endDate = format.parse(end);
+	        Date current = new Date(System.currentTimeMillis());
+	        return current.before(endDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-        Date current = new Date(System.currentTimeMillis());
-        return current.before(endDate);
+
+		return false;
     }
 	
 }

@@ -1,9 +1,11 @@
 package com.auctions.system.portlet.user_profile.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
-import java.util.Locale;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -11,11 +13,14 @@ import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Properties;
@@ -23,16 +28,14 @@ import com.auctions.system.module.Serializer;
 import com.auctions.system.module.auction_processing.controller.Processing;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
-import com.auctions.system.module.mail_manager.MailManager;
-import com.auctions.system.module.mail_manager.impl.SimpleMailManager;
 import com.auctions.system.module.statistics.controller.Statistics;
 import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
+import com.auctions.system.portlet.user_profile.model.SpringFileVO;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
-import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
@@ -63,33 +66,59 @@ public class UserProfileController implements UserProfile{
 	@Autowired
 	private Worker worker;
 	
-	@Autowired
-	MailManager mailManager;
+    @ModelAttribute("springFileVO")
+    public SpringFileVO getCommandObject() 
+    {
+        System.out.println("SpringFileController -> getCommandObject -> Building VO");
+        return new SpringFileVO();
+    }
 	
 	@Override
-	public ModelAndView defaultView(RenderRequest request, RenderResponse response, String message) throws Exception{
-		long id = PortalUtil.getUserId(request);
-		
-		String from = "abstergo887@gmail.com";
-		 
-		String to = "abstergo887@gmail.com";
-		 
-		String subject="This is email title";
-		 
-		String body="Hello World, this is my first email";
-	
-/*		SimpleMailManager manager = new SimpleMailManager();
-		SimpleMailMessage message2 = new SimpleMailMessage();
-		manager.setMailSender(mailSender);
-		manager.setTemplateMessage(message2);*/
-		
-		mailManager.sendMail("bardzi18@interia.pl", "Jurek", Locale.getDefault());
-		
+	public ModelAndView defaultView(RenderRequest request, RenderResponse response, String message) throws Exception{		
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("user", service.getUserSimpleData(id));
+		model.addObject("user", service.getUserSimpleData(PortalUtil.getUserId(request)));
 		model.addObject("message", message);
 		return model;
 	}
+	
+    // For file upload 
+    @ActionMapping(params="formAction=fileUpload")
+    public void fileUpload(@ModelAttribute SpringFileVO springFileVO, BindingResult bndingResult,
+            ActionRequest request, ActionResponse response, SessionStatus sessionStatus){
+        System.out.println("SpringFileController -> fileUpload -> Started");
+         
+        System.out.println("File Name :"+springFileVO.getFileData().getOriginalFilename());
+        System.out.println("File Type :"+springFileVO.getFileData().getContentType());
+         
+        //File data processing logic here 
+        springFileVO.setMessage(springFileVO.getFileData().getOriginalFilename() +" is upload successfully");
+         
+        System.out.println("SpringFileController -> FileUpload -> Completed");
+        sessionStatus.setComplete();
+    }
+     
+    // For file download
+    @ResourceMapping("fileDownload")
+    public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException{
+        System.out.println("SpringFileController -> serverResource -> Started");
+         
+        String fileName = "SampleSpringFile.txt";
+        // Convert String to bytes 
+        String sampleContent ="Spring MVC portlet : File upload and download example";
+        byte[] bytes = sampleContent.getBytes();
+         
+         
+        //Writing file to output
+        response.setContentType("application/xml");
+        response.addProperty("Content-disposition", "atachment; filename="+fileName);
+         
+        OutputStream out = response.getPortletOutputStream();
+        out.write(bytes);
+        out.flush();
+        out.close();
+         
+        System.out.println("SpringFileController -> serverResource -> Completed");
+    }
 	
 	@Override
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, int id){

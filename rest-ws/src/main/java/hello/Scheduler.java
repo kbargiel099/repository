@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 public class Scheduler {
 
     private final int hour = 60 * 600000;
-	//private final int hour = 60 * 100;
 	
     @Autowired
     AuctionProcessingService service;
