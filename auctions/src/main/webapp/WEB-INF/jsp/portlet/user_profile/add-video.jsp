@@ -78,9 +78,14 @@
       </portlet:actionURL>
        
       <form:form name="fileUploader" commandName="springFileVO" method="post"
-                action="${fileUploadURL}"  enctype="multipart/form-data">
-                 
+                 action="${fileUploadURL}"  enctype="multipart/form-data">
+                
+                <form:input type="hidden" path="auctionId" value="${auctionId}"/>
+                
                 <c:out value="${springFileVO.message}" />
+                <c:if test="${springFileVO.message} != ''">
+                	<input type="hidden" onload="invoke()"/>
+                </c:if>
                  
                 <label> Select a File</label>
                 <form:input path="fileData" type="file"/>
@@ -97,24 +102,28 @@
      <a href="#" onClick="window.location ='${fileDownloadURL}';"> Download </a>
 </div>
 
-</div>
-
 <script src="<c:url value="/js/module/file-upload.js" />"></script>
 <script>
 	jQuery(document).ready(function(){
 		url = jQuery('#submitDataUrl').val();
-		sendRequest(jQuery('#getVideoNameUrl').val(),function(data){
-			var name = JSON.parse(data.name);
-			if(name != ''){
-				jQuery('#attach-video-label').hide();
-				jQuery('#video').hide();
-				jQuery('#delete-btn').show();
-				jQuery('#filename').html(name);
-				jQuery('#filename-div').show();
-				hasFile = true;
-			}else{
-				checkConversionStatus(1);
-			}
-		});
+		
+//		if(jQuery('success').val() != ''){
+	//		invoke();
+		//}else{
+			sendRequest(jQuery('#getVideoNameUrl').val(),function(data){
+				var name = JSON.parse(data.name);
+				if(name != ''){
+					jQuery('#attach-video-label').hide();
+					jQuery('#video').hide();
+					jQuery('#delete-btn').show();
+					jQuery('#filename').html(name);
+					jQuery('#filename-div').show();
+					hasFile = true;
+				}else{
+					checkConversionStatus(1);
+				}
+			});
+		//}
+		
 	});
 </script>

@@ -83,23 +83,23 @@ public class UserProfileController implements UserProfile{
 	
     // For file upload 
     @ActionMapping(params="formAction=fileUpload")
-    public void fileUpload(@ModelAttribute SpringFileVO springFileVO, BindingResult bndingResult,
-            ActionRequest request, ActionResponse response, SessionStatus sessionStatus){
+    public void fileUpload(@ModelAttribute SpringFileVO file, BindingResult bndingResult,
+            ActionRequest request, ActionResponse response, SessionStatus sessionStatus) throws IOException{
         System.out.println("SpringFileController -> fileUpload -> Started");
-         
-        byte[] data = springFileVO.getFileData().getBytes();
-        String name = springFileVO.getFileData().getName();
         
-        FileUtil.create(data, name);
+        FileUtil.create(file.getFileData(), Properties.getVideosPath());
+        worker.convertVideo(file.getAuctionId(), file.getFileData().getOriginalFilename());
         
-        System.out.println("File Name :"+springFileVO.getFileData().getOriginalFilename());
-        System.out.println("File Type :"+springFileVO.getFileData().getContentType());
-         
-        //File data processing logic here 
-        springFileVO.setMessage(springFileVO.getFileData().getOriginalFilename() +" is upload successfully");
+        System.out.println("File Name :"+file.getFileData().getOriginalFilename());
+        System.out.println("File Type :"+file.getFileData().getContentType());
+        //do zrobienia springFileVO.getFileData().transferTo(arg0);
+
+        file.setMessage(file.getFileData().getOriginalFilename() +" is upload successfully");
          
         System.out.println("SpringFileController -> FileUpload -> Completed");
         response.setRenderParameter("page", "addVideo");
+        response.setRenderParameter("id", String.valueOf(file.getAuctionId()));
+        //response.sendRedirect(":/");
         sessionStatus.setComplete();
     }
      
@@ -287,6 +287,10 @@ public class UserProfileController implements UserProfile{
 		worker.convertVideo(id,name);
 	}
 	
+/*	public void convertVideo2(String name, long id){	
+		worker.convertVideo(id,name);
+	}
+	*/
 	@Override
 	public void checkConversionStatus(ResourceRequest request, ResourceResponse response, long id){		
 		

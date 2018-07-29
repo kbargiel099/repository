@@ -118,3 +118,11 @@ function createDataPackage(){
 	}
 	return temp;
 }
+
+function invoke(){
+	console.log('zmiana jest sukces');
+	jQuery('#conversion-div').show();
+	jQuery('#status').html("100%");
+	jQuery('#attach-video-label').hide();
+	convertVideo();
+}

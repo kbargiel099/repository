@@ -5,9 +5,18 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 public class SpringFileVO {
  
     private CommonsMultipartFile fileData;
+    private long auctionId;
     private String message;
  
-    public String getMessage() {
+    public long getAuctionId() {
+		return auctionId;
+	}
+
+	public void setAuctionId(long auctionId) {
+		this.auctionId = auctionId;
+	}
+
+	public String getMessage() {
         return message;
     }
  

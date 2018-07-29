@@ -5,10 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 public class FileUtil {
 	
 	public static boolean create(final String data,final String name){
-		boolean success = false;
 		byte[] buffer = Base64.getDecoder().decode(data);
 		FileOutputStream stream;
 		try {
@@ -18,34 +19,33 @@ public class FileUtil {
 		    stream.close();
 		    stream = null;
 
-		    success = true;
+		    return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		return success;
+		return false;
 	}
 	
-	public static boolean create(final byte[] data,final String name){
-		boolean success = false;
+	public static boolean create(CommonsMultipartFile file,final String path){
 		FileOutputStream stream;
 		try {
 			
-			stream = new FileOutputStream(name,true);
-			stream.write(data);
+			stream = new FileOutputStream(path + file.getOriginalFilename(), true);
+			stream.write(file.getBytes());
 		    stream.close();
 		    stream = null;
 
-		    success = true;
+		    return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		return success;
+		return false;
 	}
 	 
 }
