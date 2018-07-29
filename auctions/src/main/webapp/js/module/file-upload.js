@@ -1,17 +1,6 @@
-var available = 0;
-var isSent = false;
-var size = 1024*1024;
-var fileData;
-var bytesSent = 0;
 var url;
-var fileName;
-var conversionProgress = -1;
-var hasFile = false;
 
-function callback(){
-	isSent = false;
-	available = fileData.length - bytesSent;
-}
+var hasFile = false;
 
 function showSaveBtn(event) {
 	if(event.target.files.length > 0){
@@ -25,25 +14,11 @@ jQuery('#submit-btn').click(function(){
     jQuery('#submit-btn').hide();
 });
 
-function sentPackage(data,callback){
-	isSent = true;
+function sendPackage(name, data,callback){
 	params = [{'name':'data','value':data},
-		      {'name':'name','value':fileName}];
+		      {'name':'name','value':name}];
 	sendRequestParams(url,params,callback);
 }
-
-var afterSuccessSending = function(res){
-	bytesSent += size;
-	callback();
-	jQuery('#status').html(parseFloat((bytesSent/fileData.length)*100).toFixed(0) + "%");
-	if(available > 0){
-		sentPackage(createDataPackage(),afterSuccessSending);
-	}else{
-		jQuery('#status').html("100%");
-		jQuery('#attach-video-label').hide();
-		convertVideo();
-	}
-};
 
 var checkConversionStatus = function(data){
 	var url = jQuery('#checkConversionStatusUrl').val();
@@ -103,12 +78,3 @@ jQuery('#delete-btn').on("click",function(event){
 		}
 	});
 });
-
-function createDataPackage(){
-	var temp = "";
-	var limit = available >= size ? size : available;
-	for(var j=bytesSent;j<bytesSent+limit;j++){
-		temp += fileData[j];
-	}
-	return temp;
-}

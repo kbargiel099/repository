@@ -36,7 +36,7 @@ public interface UserManagement extends Processing, MessageCategoryController{
 	
 	@RenderMapping(params = "page=stats")
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") int id);
+			@RequestParam("auctionId") long auctionId);
 	
 	@ResourceMapping(value="getUsers")
 	public void getUsers(ResourceRequest request, ResourceResponse response) throws Exception;
@@ -46,21 +46,21 @@ public interface UserManagement extends Processing, MessageCategoryController{
 	
 	@ResourceMapping(value="activate")
 	public void activateAuction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long id) throws Exception;
+			@RequestParam("auctionId") long auctionId) throws Exception;
 	
 	@ResourceMapping(value="suspend")
 	public void suspendAuction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long id) throws Exception;
+			@RequestParam("auctionId") long auctionId) throws Exception;
 	
 	@ResourceMapping(value="delete")
 	public void deleteAuction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long id) throws Exception;
+			@RequestParam("auctionId") long auctionId) throws Exception;
 	
 	@ResourceMapping(value="lock")
 	public void lockUser(ResourceRequest request, ResourceResponse response,
-			@RequestParam("userId") long id) throws IOException;
+			@RequestParam("userId") long userId) throws IOException;
 	
 	@ResourceMapping(value="unlock")
 	public void unlockUser(ResourceRequest request, ResourceResponse response,
-			@RequestParam("userId") long id) throws IOException;
+			@RequestParam("userId") long userId) throws IOException;
 }

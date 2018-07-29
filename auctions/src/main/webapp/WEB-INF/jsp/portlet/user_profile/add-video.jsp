@@ -13,14 +13,14 @@
 	<portlet:param name="id" value="${auctionId}"/>
 </portlet:renderURL>
 
-<portlet:resourceURL id="submitData" var="submitData">
+<%-- <portlet:resourceURL id="submitData" var="submitData">
 </portlet:resourceURL>
-<input type="hidden" id="submitDataUrl" value="${submitData}"></input>
+<input type="hidden" id="submitDataUrl" value="${submitData}"></input> --%>
 
-<portlet:resourceURL id="convertVideo" var="convertVideo">
+<%-- <portlet:resourceURL id="convertVideo" var="convertVideo">
 	<portlet:param name="auctionId" value="${auctionId}"/>
 </portlet:resourceURL>
-<input type="hidden" id="convertVideoUrl" value="${convertVideo}"></input>
+<input type="hidden" id="convertVideoUrl" value="${convertVideo}"></input> --%>
 
 <portlet:resourceURL id="checkConversionStatus" var="checkConversionStatus">
 	<portlet:param name="auctionId" value="${auctionId}"/>
@@ -54,7 +54,7 @@
 			<form:form name="fileUploader" commandName="springFileVO" method="post"
                  action="${fileUploadURL}"  enctype="multipart/form-data">
                 <form:input type="hidden" path="auctionId" value="${auctionId}"/>
-                <form:input id="video" path="fileData" type="file" onchange="showSaveBtn()"/>
+                <form:input id="video" path="fileData" type="file" onchange="showSaveBtn(event)"/>
       		</form:form>
       		
 		    <div id="file-info">
@@ -90,10 +90,6 @@
 <script>
 	jQuery(document).ready(function(){
 		url = jQuery('#submitDataUrl').val();
-		
-//		if(jQuery('success').val() != ''){
-	//		invoke();
-		//}else{
 			sendRequest(jQuery('#getVideoNameUrl').val(),function(data){
 				var name = JSON.parse(data.name);
 				if(name != ''){
@@ -107,7 +103,6 @@
 					checkConversionStatus(1);
 				}
 			});
-		//}
 		
 	});
 </script>

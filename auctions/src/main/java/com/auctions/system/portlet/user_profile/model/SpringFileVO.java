@@ -1,10 +1,12 @@
 package com.auctions.system.portlet.user_profile.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
  
 public class SpringFileVO {
  
-    private CommonsMultipartFile fileData;
+    private List<CommonsMultipartFile> fileData;
     private long auctionId;
     private String message;
  
@@ -24,11 +26,11 @@ public class SpringFileVO {
         this.message = message;
     }
  
-    public CommonsMultipartFile getFileData() {
+    public List<CommonsMultipartFile> getFileData() {
         return fileData;
     }
  
-    public void setFileData(CommonsMultipartFile fileData) {
+    public void setFileData(List<CommonsMultipartFile> fileData) {
         this.fileData = fileData;
     }
      

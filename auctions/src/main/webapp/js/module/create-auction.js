@@ -1,7 +1,6 @@
 	var reader = new FileReader();	
 	var files = [];
 	var fileNames = [];
-	var saved = 0;
 	var type = jQuery('#type').val();
 	var message = Liferay.Language.get('auction.message.success');
 	var loadFile = function(event) {
@@ -54,27 +53,21 @@
 		jQuery('#technicalDataList .selectpicker').selectpicker('refresh');
  	}
  	
-	var afterSuccessSendingPackage = function(res){
-		bytesSent += size;
-		callback();
-		if(available > 0){
-			sentPackage(createDataPackage(),afterSuccessSendingPackage);
-		}else{
-			bytesSent = 0;
-			saved = saved + 1;
-			
-			if(saved == files.length){
-				jQuery('#imageName').val(JSON.parse(JSON.stringify(fileNames)));
-				submitAuction(type);
-			}else{
-				saveImage();
-			}
+	 function saveImages(){
+	    url = jQuery('#saveImageUrl').val();
+		for(var i=0;i<files.length;i++){
+			saveImage(i);
 		}
+		if(i == files.length){
+			jQuery('#imageName').val(JSON.parse(JSON.stringify(fileNames)));
+			submitAuction(type);
+		}
+		
 	};
 	
  	jQuery("#create-auction-submit").click(function(){
  			if(type == 'add'){
- 				saveImage();
+ 				saveImages();
  			}else{
  				message = Liferay.Language.get('changes.successfully.saved');
  				submitAuction(type);
@@ -91,12 +84,12 @@
 		});
 	}
 	
-	function saveImage(){
-		fileName = files[saved].name;
-        url = jQuery('#saveImageUrl').val();
-		fileData = getBase64(files[saved].data);
-		available = fileData.length;
-		sentPackage(createDataPackage(),afterSuccessSendingPackage);
+	function saveImage(index){
+		sendPackage(files[index].name, 
+			getBase64(files[index].data), 
+			function(data){
+			//powiadomienie gdy się nie uda.
+		});
 	}
 	
 	function getTechnicalData(id){

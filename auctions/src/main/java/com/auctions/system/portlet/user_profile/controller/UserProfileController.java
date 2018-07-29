@@ -89,14 +89,14 @@ public class UserProfileController implements UserProfile{
         response.setRenderParameter("id", String.valueOf(file.getAuctionId()));
     	
     	if(file != null){
-            FileUtil.create(file.getFileData(), Properties.getVideosPath());
-            worker.convertVideo(file.getAuctionId(), file.getFileData().getOriginalFilename());
+            FileUtil.create(file.getFileData().get(0), Properties.getVideosPath());
+            worker.convertVideo(file.getAuctionId(), file.getFileData().get(0).getOriginalFilename());
             
-            file.setMessage(file.getFileData().getOriginalFilename() +" is upload successfully");
+            file.setMessage(file.getFileData().get(0).getOriginalFilename() +" is upload successfully");
         
             //response.sendRedirect(":/");
             //do zrobienia springFileVO.getFileData().transferTo(arg0);
-            sessionStatus.setComplete();    		
+            sessionStatus.setComplete();  		
     	}
     }
      

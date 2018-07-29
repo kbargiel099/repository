@@ -78,8 +78,8 @@ public class UserController implements UserManagement{
 	}
 	
 	@Override
-	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, int id){
-		return stats.getAuctionStatsView(processing.getDetails(id),ViewType.Administration);
+	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, long auctionId){
+		return stats.getAuctionStatsView(processing.getDetails(auctionId),ViewType.Administration);
 	}
 	
 	@Override
@@ -99,43 +99,42 @@ public class UserController implements UserManagement{
 	}
 	
 	@Override
-	public void activateAuction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long id) throws Exception {
+	public void activateAuction(ResourceRequest request, ResourceResponse response, long auctionId) throws Exception {
 	    
 		HttpUtil.createResponse(response).
-			set("success", service.activateAuction(id)).
+			set("success", service.activateAuction(auctionId)).
 			prepare();
 	}
 	
 	@Override
-	public void suspendAuction(ResourceRequest request, ResourceResponse response, long id) throws Exception {
+	public void suspendAuction(ResourceRequest request, ResourceResponse response, long auctionId) throws Exception {
 	    
 		HttpUtil.createResponse(response).
-			set("success", service.suspendAuction(id)).
+			set("success", service.suspendAuction(auctionId)).
 			prepare();
 	}
 	
 	@Override
-	public void deleteAuction(ResourceRequest request, ResourceResponse response, long id) throws Exception {
+	public void deleteAuction(ResourceRequest request, ResourceResponse response, long auctionId) throws Exception {
 	    
 		HttpUtil.createResponse(response).
-			set("success", service.deleteAuction(id)).
+			set("success", service.deleteAuction(auctionId)).
 			prepare();
 	}
 	
 	@Override
-	public void lockUser(ResourceRequest request, ResourceResponse response, long id) throws IOException {
+	public void lockUser(ResourceRequest request, ResourceResponse response, long userId) throws IOException {
 	    
 		HttpUtil.createResponse(response).
-			set("success", UserUtil.updateLockoutUser(id,true)).
+			set("success", UserUtil.updateLockoutUser(userId,true)).
 			prepare();
 	}
 	
 	@Override
-	public void unlockUser(ResourceRequest request, ResourceResponse response, long id) throws IOException {
+	public void unlockUser(ResourceRequest request, ResourceResponse response, long userId) throws IOException {
 	    
 		HttpUtil.createResponse(response).
-			set("success", UserUtil.updateLockoutUser(id,false)).
+			set("success", UserUtil.updateLockoutUser(userId,false)).
 			prepare();
 	}
 	

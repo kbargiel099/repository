@@ -1,27 +1,21 @@
-	function saveImage(){
-		fileName = files[saved].name;
-        url = jQuery('#saveImageUrl').val();
-		fileData = getBase64(files[saved].data);
-		available = fileData.length;
-		sentPackage(createDataPackage(),afterSuccessSendingPackage);
+	function saveImage(index){
+		sendPackage(files[index].name, 
+			getBase64(files[index].data), 
+			function(data){
+			//powiadomienie gdy się nie uda.
+		});
 	}
 	
-	var afterSuccessSendingPackage = function(res){
-		bytesSent += size;
-		callback();
-		if(available > 0){
-			sentPackage(createDataPackage(),afterSuccessSendingPackage);
-		}else{
-			bytesSent = 0;
-			saved = saved + 1;
-			
-			if(saved == files.length){
-				updateImages();
-			}else{
-				saveImage();
+	 function saveImages(){
+		    url = jQuery('#saveImageUrl').val();
+			for(var i=0;i<files.length;i++){
+				saveImage(i);
 			}
-		}
-	};
+			if(i == files.length){
+				updateImages();
+			}
+			
+		};
 	
 	function updateImages(){
 		jQuery('#imageName').val(JSON.parse(JSON.stringify(fileNames)));
@@ -42,7 +36,6 @@
 	var reader = new FileReader();	
 	var files = [];
 	var fileNames = [];
-	var saved = 0;
 	var loadFile = function(event) {
 	    reader.onload = function(){
 	    	fileNames.push(temp.name);
@@ -62,7 +55,7 @@
  	// Zrobić żeby po usunięciu zdjęcia usuwać też z files[]
  	jQuery("#submit").click(function(){
  		if(files.length > 0){
- 			saveImage();
+ 			saveImages();
  		}else{
  			if(fileNames.length > 0){
  				updateImages();
