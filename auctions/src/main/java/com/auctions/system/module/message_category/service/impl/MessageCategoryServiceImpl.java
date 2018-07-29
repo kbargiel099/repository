@@ -1,5 +1,7 @@
 package com.auctions.system.module.message_category.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +16,13 @@ public class MessageCategoryServiceImpl implements MessageCategoryService{
 	MessageCategoryDAO dataSource;
 	
 	@Override
-	public boolean insert(MessageCategory c){
-		return dataSource.insert(c);
+	public List<MessageCategory> getMessageCategories() {
+		return dataSource.getMessageCategories();
+	}
+	
+	@Override
+	public boolean insert(String name, long userId){
+		return dataSource.insert(name, userId);
 	}
 
 }

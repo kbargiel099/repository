@@ -10,7 +10,6 @@ import javax.portlet.ResourceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
 
 import com.auctions.system.module.HttpUtil;
@@ -35,7 +34,7 @@ public class UserController implements UserManagement{
 	Processing processing;
 	
 	@Autowired
-	MessageCategoryController messageCategory;
+	MessageCategoryController messageCategoryCtrl;
 	
 	@Autowired
 	UsersManagementService service;
@@ -182,13 +181,22 @@ public class UserController implements UserManagement{
 
 	@Override
 	public ModelAndView getMessageCategoriesView(RenderRequest request, RenderResponse response) {
-		return messageCategory.getMessageCategoriesView(request, response);
+		return messageCategoryCtrl.getMessageCategoriesView(request, response);
 	}
 
 	@Override
-	public void insertAction(ResourceRequest request, ResourceResponse response, String form, String type)
-			throws IOException {
-		messageCategory.insertAction(request, response, form, type);
+	public ModelAndView getCreateMessageCategoryView(RenderRequest request, RenderResponse response) {
+		return messageCategoryCtrl.getCreateMessageCategoryView(request, response);
+	}
+	
+	@Override
+	public void insertAction(ResourceRequest request, ResourceResponse response, String messageCategory, String type){
+		messageCategoryCtrl.insertAction(request, response, messageCategory, type);
+	}
+
+	@Override
+	public void getMessageCategories(ResourceRequest request, ResourceResponse response) {
+		messageCategoryCtrl.getMessageCategories(request, response);
 	}
 
 }

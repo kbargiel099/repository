@@ -1,9 +1,10 @@
 	 function saveImages(){
-			sendRequestParams(
-				jQuery('#saveImageUrl').val(),
-				[{'name':'data','value':JSON.stringify(files)}],
-				function(data){
-					updateImages();
+			send({
+					url: jQuery('#saveImageUrl').val(),
+					params: [{'name':'data','value':JSON.stringify(files)}],
+					callback: function(data){
+							updateImages();
+						}
 			});
 		};
 	

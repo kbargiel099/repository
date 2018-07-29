@@ -36,7 +36,6 @@
 	      	<form id="message-category-form">
 				<input type="hidden" name="id" value="${category.id}"></input>
 			    <input type="hidden" id="name" name="name" value="${category.name}"></input>
-			    <input type="hidden" id="communicationChannel" name="communicationChannel" value="${category.communicationChannel}"></input>
 				<div class="col-xs-12 col-sm-12 col-md-8">
 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
@@ -44,7 +43,7 @@
 				           <input type="text" class="form-control" id="name" name="name" value="${category.name}"></input>
 						</div>
 					</div>
-					<div class="col-xs-12 col-sm-12 col-md-6">
+<%-- 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
 						    <label class="label-control" for="communinationChannel"><liferay-ui:message key="communication.channel.label" /></label>
 							<select class="selectpicker form-control" id="communinationChannelSelect" title="${selectTitle}">
@@ -52,7 +51,7 @@
 								<option value="internal-message-box"><liferay-ui:message key="internal.message.box" /></option>
 							</select>
 						</div>
-					</div>
+					</div> --%>
 					<div class="col-xs-12 col-sm-12 col-md-12">
 						<div class="col-xs-12 form-group">
 					  		<a class="btn btn-primary pull-right" type="submit" id="message-category-submit"><liferay-ui:message key="submit"/></a>
@@ -64,5 +63,3 @@
 </div>
 
 <input type="hidden" id="type" value="${type}">
-
-<script src="<c:url value="/js/module/file-upload.js" />"></script>	 

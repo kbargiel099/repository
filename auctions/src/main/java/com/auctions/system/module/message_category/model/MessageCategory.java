@@ -4,13 +4,17 @@ public class MessageCategory {
 	
 	private int id;
 	private String name;
-	private String communicationChannel;
+	private long userId;
+	private String createDate;
+	private boolean isActivated;
 	
-	public MessageCategory(int id, String name, String communicationChannel) {
+	public MessageCategory(int id, String name, String createDate, long userId, boolean isActivated) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.communicationChannel = communicationChannel;
+		this.createDate = createDate;
+		this.userId = userId;
+		this.isActivated = isActivated;
 	}
 	
 	public int getId() {
@@ -19,17 +23,31 @@ public class MessageCategory {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCommunicationChannel() {
-		return communicationChannel;
+	public String getCreateDate() {
+		return createDate;
 	}
-	public void setCommunicationChannel(String communicationChannel) {
-		this.communicationChannel = communicationChannel;
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public boolean isActivated() {
+		return isActivated;
+	}
+
+	public void setActivated(boolean isActivated) {
+		this.isActivated = isActivated;
 	}
 	
 }

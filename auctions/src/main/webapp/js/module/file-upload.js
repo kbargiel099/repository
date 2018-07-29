@@ -28,13 +28,14 @@ var checkConversionStatusCallback = function(data){
 	
 	if(info.progress >= 0){
 		jQuery('#conversion-div').show();
-		conversionProgress = info.progress;
+		//conversionProgress = info.progress;
 		jQuery('#video').show();
 		jQuery('#filename').html('');
 		jQuery('#filename-div').hide();
 	}
 	
-	if(conversionProgress <= 1000 && conversionProgress >= 0){
+	//if(conversionProgress <= 1000 && conversionProgress >= 0){
+	if(info.progress <= 1000 && info.progress >= 0){
 		console.log(info.progress);
 		jQuery('#video').hide();
 		jQuery('#filename').html(info.name);
@@ -45,10 +46,11 @@ var checkConversionStatusCallback = function(data){
 		setTimeout(function(){ 
 			checkConversionStatus(1);}, 1500);
 		
-		if(conversionProgress == 1000){
+		//if(conversionProgress == 1000){
+		if(info.progress == 1000){
 			jQuery('#conversion').html("100%");
 			responsiveNotify(Liferay.Language.get('file.successfully.added'));
-			conversionProgress = -1;
+			//conversionProgress = -1;
 			jQuery('#delete-btn').show();
 			hasFile = true;
 		}	

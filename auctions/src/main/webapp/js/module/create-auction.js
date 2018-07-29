@@ -54,14 +54,15 @@
  	}
  	
 	 function saveImages(){
-		    url = jQuery('#saveImageUrl').val();
-			params = [{'name':'data','value':JSON.stringify(files)}];
-			sendRequestParams(url,params,
-				function(data){
-					jQuery('#imageName').val(JSON.parse(JSON.stringify(fileNames)));
-					submitAuction(type);
+			send({
+				url: jQuery('#saveImageUrl').val(),
+				params: [{'name':'data','value':JSON.stringify(files)}],
+				callback: function(data){
+						jQuery('#imageName').val(JSON.parse(JSON.stringify(fileNames)));
+						submitAuction(type);
+					}
 			});
-		};
+	 }
 	
  	jQuery("#create-auction-submit").click(function(){
  			if(type == 'add'){

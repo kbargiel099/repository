@@ -84,8 +84,9 @@ public class UserProfileController implements UserProfile{
     public void fileUpload(@ModelAttribute SpringFileVO file, BindingResult bndingResult,
             ActionRequest request, ActionResponse response, SessionStatus sessionStatus) throws IOException{
         
-        response.setRenderParameter("page", "addVideo");
-        response.setRenderParameter("id", String.valueOf(file.getAuctionId()));
+        //response.setRenderParameter("page", "addVideo");
+        //response.setRenderParameter("id", String.valueOf(file.getAuctionId()));
+        response.sendRedirect("/");
     	
     	if(file != null){
             FileUtil.create(file.getFileData().get(0), Properties.getVideosPath());
@@ -93,7 +94,6 @@ public class UserProfileController implements UserProfile{
             
             file.setMessage(file.getFileData().get(0).getOriginalFilename() +" is upload successfully");
         
-            //response.sendRedirect(":/");
             //do zrobienia springFileVO.getFileData().transferTo(arg0);
             sessionStatus.setComplete();  		
     	}

@@ -1,7 +1,5 @@
 package com.auctions.system.module.message_category.controller;
 
-import java.io.IOException;
-
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -16,32 +14,54 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
-import com.auctions.system.module.Serializer;
-import com.auctions.system.module.message_category.model.MessageCategory;
 import com.auctions.system.module.message_category.service.MessageCategoryService;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
 public class MessageCategoryControllerImpl implements MessageCategoryController{
 
+	final String defaultView = "message-categories";
 	final String messageCategoryView = "message-category-view";
 	
 	@Autowired
 	private MessageCategoryService service;
 	
-	@RenderMapping(params = "page=getMessageCategories")
+	@Override
 	public ModelAndView getMessageCategoriesView(RenderRequest request, RenderResponse response){
-		ModelAndView model = new ModelAndView(messageCategoryView);
+		ModelAndView model = new ModelAndView(defaultView);
 		return model; 
+	}
+	
+	@RequestMapping(params = "page=add")
+	public ModelAndView getCreateMessageCategoryView(RenderRequest request, RenderResponse response){
+		ModelAndView model = new ModelAndView(messageCategoryView);
+		model.addObject("type", "add");
+		return model; 
+	}
+	
+	@RequestMapping(params = "page=edit")
+	public ModelAndView getEditMessageCategoryView(RenderRequest request, RenderResponse response){
+		ModelAndView model = new ModelAndView(messageCategoryView);
+		model.addObject("type", "edit");
+		return model; 
+	}
+	
+	@Override
+	public void getMessageCategories(ResourceRequest request, ResourceResponse response){		
+		
+		HttpUtil.createResponse(response).
+			set("data", service.getMessageCategories()).
+			prepare();
 	}
 	
 	@ResourceMapping("insert")
 	public void insertAction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("messageCategory") String form, @RequestParam("type") String type) throws IOException{		
-		MessageCategory messageCategory = Serializer.fromJson(form, MessageCategory.class);
+			@RequestParam("messageCategory") String messageCategory, @RequestParam("type") String type){		
+		//MessageCategory messageCategory = Serializer.fromJson(form, MessageCategory.class);
 		
 		HttpUtil.createResponse(response).
-			set("success", service.insert(messageCategory)).
+			set("success", service.insert(messageCategory, PortalUtil.getUserId(request))).
 			prepare();
 	}
 

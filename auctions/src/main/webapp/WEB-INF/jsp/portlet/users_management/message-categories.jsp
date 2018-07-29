@@ -8,8 +8,8 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/image.css" />" >
 
-<portlet:resourceURL id="getAuctions" var="getAuctions" />
-<input type="hidden" id="getAuctionsUrl" value="${getAuctions}"></input>
+<portlet:resourceURL id="getMessageCategories" var="getMessageCategories" />
+<input type="hidden" id="getMessageCategoriesUrl" value="${getMessageCategories}"></input>
 
 <portlet:renderURL var="add">
 	<portlet:param name="page" value="add"/>
@@ -47,14 +47,14 @@
 	<%@include file="/WEB-INF/jsp/portlet/users_management/menu.jsp" %>
 	
 	<div class="col-xs-12 col-sm-8 col-md-9">
-		<h4 class="user-profile-section-title"><liferay-ui:message key="adm.auctions.label" /></h4>
+		<h4 class="user-profile-section-title"><liferay-ui:message key="adm.message-categories.label" /></h4>
 	</div>
 	
 	<div class="col-xs-12 col-sm-8 col-md-12">
-<%--  		<a class="btn btn-primary btn-sm" href="${add}">
+ 		<a class="btn btn-primary btn-sm" href="${add}">
 			<liferay-ui:message key="add" />
-		</a> --%>
-		<table id="auctions" class="display">
+		</a>
+		<table id="message-categories" class="display">
 		     <thead>
 		            <tr>
 		                <th><liferay-ui:message key="adm.id.label" /></th>
@@ -79,14 +79,9 @@
 	</div>
 </div>
 
-<input type="hidden" id="locked-msg" value="<liferay-ui:message key="auction.lock.success"/>"/>
-<input type="hidden" id="unlocked-msg" value="<liferay-ui:message key="auction.unlock.success"/>"/>
-<input type="hidden" id="deleted-msg" value="<liferay-ui:message key="auction.delete.success"/>"/>
-<input type="hidden" id="error-msg" value="<liferay-ui:message key="error.msg"/>"/>
-
 <script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
 <script type="text/javascript" >
 	jQuery(document).ready(function(){
-		initAuctions(jQuery("#getAuctionsUrl").val());
+		initMessageCategories(jQuery("#getMessageCategoriesUrl").val());
 	});
 </script>
