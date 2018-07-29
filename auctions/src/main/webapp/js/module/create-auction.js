@@ -6,7 +6,7 @@
 	var loadFile = function(event) {
 	    reader.onload = function(){
 	    	fileNames.push(temp.name);
-			files.push({'name':temp.name,'data':reader.result});
+			files.push({'name':temp.name,'data':getBase64(reader.result)});
 			var div = jQuery('<div class="col-xs-4"></div>');
 			var img = jQuery('<img src="'+ reader.result +'" height="100%" width="100%"/>');
 			div.append(img);
@@ -54,16 +54,14 @@
  	}
  	
 	 function saveImages(){
-	    url = jQuery('#saveImageUrl').val();
-		for(var i=0;i<files.length;i++){
-			saveImage(i);
-		}
-		if(i == files.length){
-			jQuery('#imageName').val(JSON.parse(JSON.stringify(fileNames)));
-			submitAuction(type);
-		}
-		
-	};
+		    url = jQuery('#saveImageUrl').val();
+			params = [{'name':'data','value':JSON.stringify(files)}];
+			sendRequestParams(url,params,
+				function(data){
+					jQuery('#imageName').val(JSON.parse(JSON.stringify(fileNames)));
+					submitAuction(type);
+			});
+		};
 	
  	jQuery("#create-auction-submit").click(function(){
  			if(type == 'add'){
@@ -81,14 +79,6 @@
 					  {'name':'type','value': actionType}];
 		sendRequestParams(url,params,function(data){
 			window.location.href = buildUrl(jQuery('#return').val(),'message',message);
-		});
-	}
-	
-	function saveImage(index){
-		sendPackage(files[index].name, 
-			getBase64(files[index].data), 
-			function(data){
-			//powiadomienie gdy się nie uda.
 		});
 	}
 	

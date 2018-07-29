@@ -1,20 +1,10 @@
-	function saveImage(index){
-		sendPackage(files[index].name, 
-			getBase64(files[index].data), 
-			function(data){
-			//powiadomienie gdy się nie uda.
-		});
-	}
-	
 	 function saveImages(){
-		    url = jQuery('#saveImageUrl').val();
-			for(var i=0;i<files.length;i++){
-				saveImage(i);
-			}
-			if(i == files.length){
-				updateImages();
-			}
-			
+			sendRequestParams(
+				jQuery('#saveImageUrl').val(),
+				[{'name':'data','value':JSON.stringify(files)}],
+				function(data){
+					updateImages();
+			});
 		};
 	
 	function updateImages(){
@@ -29,7 +19,6 @@
 			}else{
 				responsiveNotify(Liferay.Language.get('error.msg'));
 			}
-			//window.location.href = buildUrl(jQuery('#return').val(),'message',message);
 		});
 	}
 	
@@ -39,7 +28,7 @@
 	var loadFile = function(event) {
 	    reader.onload = function(){
 	    	fileNames.push(temp.name);
-			files.push({'name':temp.name,'data':reader.result});
+			files.push({'name':temp.name,'data':getBase64(reader.result)});
 			var div = jQuery('<div class="col-xs-3"></div>');
 			var img = jQuery('<img src="'+ reader.result +'" heigth="100%" width="100%"/>');
     		var input = jQuery('<input type="hidden" id="'+ temp.name +'" class="image_name" value="'+ temp.name +'"/>');
@@ -47,12 +36,11 @@
 			div.append(img,input,span);
 			jQuery('#images').append(div);
 			setDeleteImageListener();
-			console.log(files);
 	    };
 	    var temp = event.target.files[0];
 	    reader.readAsDataURL(temp);
  	};
- 	// Zrobić żeby po usunięciu zdjęcia usuwać też z files[]
+
  	jQuery("#submit").click(function(){
  		if(files.length > 0){
  			saveImages();

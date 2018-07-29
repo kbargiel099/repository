@@ -1,8 +1,8 @@
 package com.auctions.system.portlet.user_profile.controller;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.ParseException;
+import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Properties;
@@ -33,6 +32,7 @@ import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
+import com.auctions.system.portlet.user_profile.model.Image;
 import com.auctions.system.portlet.user_profile.model.SpringFileVO;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
@@ -69,7 +69,6 @@ public class UserProfileController implements UserProfile{
     @ModelAttribute("springFileVO")
     public SpringFileVO getCommandObject() 
     {
-        System.out.println("SpringFileController -> getCommandObject -> Building VO");
         return new SpringFileVO();
     }
 	
@@ -151,7 +150,6 @@ public class UserProfileController implements UserProfile{
 		HttpUtil.createResponse(response).
 			set("success", service.changePassword(request, Serializer.fromJson(form, UserPassword.class))).
 			prepare();
-		
 	}
 	
 	@Override
@@ -244,27 +242,22 @@ public class UserProfileController implements UserProfile{
 			set("success", service.addAuctionGrade(PortalUtil.getUserId(request), form)).
 			prepare();
 	}
-
-	@Override
-	public void submitData(ResourceRequest request, ResourceResponse response){
-		saveFile(request, response, Properties.getVideosPath());
-	}
 	
 	@Override
-	public void saveImage(ResourceRequest request, ResourceResponse response){
-		saveFile(request, response, Properties.getImagesPath());
-	}
-	
-	private void saveFile(ResourceRequest request, ResourceResponse response, String path){
-		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
-		String data =  originalRequest.getParameter("data");
-		String name =  originalRequest.getParameter("name");
-        
-		FileUtil.create(data, path + name);
+	public void saveImages(ResourceRequest request, ResourceResponse response, String data){
+		createFiles(data, Properties.getImagesPath());
 		
 		HttpUtil.createResponse(response).
 			set("success", true).
 			prepare();
+	}
+	
+	private void createFiles(String data, String path){
+		Image[] images = Serializer.fromJson(data, Image[].class);
+        
+		for(Image image : images){
+			FileUtil.create(image.getData(), path + image.getName());
+		}
 	}
 	
 	@Override
@@ -273,11 +266,6 @@ public class UserProfileController implements UserProfile{
 		HttpUtil.createResponse(response).
 			set("success", service.updateAuctionImages(images, id)).
 			prepare();
-	}
-	
-	@Override
-	public void convertVideo(ResourceRequest request, ResourceResponse response, String name, long id){	
-		worker.convertVideo(id,name);
 	}
 	
 	@Override

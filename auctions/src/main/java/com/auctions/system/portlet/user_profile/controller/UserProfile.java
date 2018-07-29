@@ -14,7 +14,6 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.auction_processing.controller.Processing;
-import com.auctions.system.portlet.user_profile.model.UserPassword;
 
 public interface UserProfile extends Processing{
 	
@@ -77,22 +76,15 @@ public interface UserProfile extends Processing{
 	@ResourceMapping("addGrade")
 	public void addGradeAction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("grade") String grade) throws ParseException;
-
-	@ResourceMapping(value = "submitData")
-	public void submitData(ResourceRequest request, ResourceResponse response);
 	
 	@ResourceMapping(value = "saveImage")
-	public void saveImage(ResourceRequest request, ResourceResponse response);
+	public void saveImages(ResourceRequest request, ResourceResponse response,
+			@RequestParam("data") String data);
 		
 	@ResourceMapping("updateImages")
 	public void updateImages(ResourceRequest request, ResourceResponse response,
 			@RequestParam("auctionId") long id,
 			@RequestParam("images") String images);
-	
-	@ResourceMapping("convertVideo")
-	public void convertVideo(ResourceRequest request, ResourceResponse response,
-			@RequestParam("videoName") String name,
-			@RequestParam("auctionId") long id);
 	
 	@ResourceMapping("checkConversionStatus")
 	public void checkConversionStatus(ResourceRequest request, ResourceResponse response,

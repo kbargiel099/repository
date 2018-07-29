@@ -1,5 +1,4 @@
 var url;
-
 var hasFile = false;
 
 function showSaveBtn(event) {
@@ -13,12 +12,6 @@ jQuery('#submit-btn').click(function(){
 	jQuery('#attach-video-label').hide();
     jQuery('#submit-btn').hide();
 });
-
-function sendPackage(name, data,callback){
-	params = [{'name':'data','value':data},
-		      {'name':'name','value':name}];
-	sendRequestParams(url,params,callback);
-}
 
 var checkConversionStatus = function(data){
 	var url = jQuery('#checkConversionStatusUrl').val();
