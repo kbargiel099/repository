@@ -37,6 +37,10 @@
 </portlet:resourceURL>
 <input type="hidden" id="deleteVideoUrl" value="${deleteVideo}"></input>
 
+<portlet:actionURL var="fileUploadURL">
+    <portlet:param name="formAction" value="fileUpload" />      
+</portlet:actionURL>
+
 <div class="container-fluid">
 
 	<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
@@ -46,7 +50,13 @@
  			<div class="form-group">
 				<label id="attach-video-label" class="label-control" for="video"><liferay-ui:message key="auction.attachVideo.label" /></label>
 			</div>
-		    <input type="file" id="video" name="video" onchange="loadFileVideo(event)"></input>
+			
+			<form:form name="fileUploader" commandName="springFileVO" method="post"
+                 action="${fileUploadURL}"  enctype="multipart/form-data">
+                <form:input type="hidden" path="auctionId" value="${auctionId}"/>
+                <form:input id="video" path="fileData" type="file" onchange="showSaveBtn()"/>
+      		</form:form>
+      		
 		    <div id="file-info">
 		    	<div id="filename-div" style="display:none;">
 			   		<strong><liferay-ui:message key="upload.filename" /> </strong><p id="filename"></p>
@@ -56,51 +66,25 @@
 			    	<strong><liferay-ui:message key="conversion.state" /> </strong><p id="conversion"></p>
 			    </div>
 		    </div>
-	 
-	   	<form id="video-form">
-	   		<input type="hidden" id="vidName" name="vidName"></input>
-	   		<input type="hidden" id="vid" name="vid"></input>
-	    </form>
+	
 	    <button id="delete-btn" class="btn btn-info" style="display: none;">
 			<strong><liferay-ui:message key="delete" /></strong>
 		</button>	
 	    <a class="btn btn-primary" href="${details}" >
 			<strong><liferay-ui:message key="show.current" /></strong>
-		</a>	
+		</a>
+		<button id="submit-btn" class="btn btn-primary" type="submit" style="display: none;">
+			<strong><liferay-ui:message key="save" /></strong>
+		</button>	
 	</div>
-
-	 	<h1>Spring Portlet MVC : FileUpload/Download</h1>
- 
-<!-- File Upload -->
- 
-      <portlet:actionURL var="fileUploadURL">
-                <portlet:param name="formAction" value="fileUpload" />      
-      </portlet:actionURL>
        
-      <form:form name="fileUploader" commandName="springFileVO" method="post"
-                 action="${fileUploadURL}"  enctype="multipart/form-data">
-                
-                <form:input type="hidden" path="auctionId" value="${auctionId}"/>
-                
-                <c:out value="${springFileVO.message}" />
-                <c:if test="${springFileVO.message} != ''">
-                	<input type="hidden" onload="invoke()"/>
-                </c:if>
-                 
-                <label> Select a File</label>
-                <form:input path="fileData" type="file"/>
-                 
-                <button type="submit">Submit</button>
-                 
-      </form:form>
-       
-<!-- File Download  --> 
+<%-- <!-- File Download  --> 
     <portlet:resourceURL var="fileDownloadURL" id="fileDownload">
     </portlet:resourceURL>
       
      </br>
      <a href="#" onClick="window.location ='${fileDownloadURL}';"> Download </a>
-</div>
+</div> --%>
 
 <script src="<c:url value="/js/module/file-upload.js" />"></script>
 <script>

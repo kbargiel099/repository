@@ -13,18 +13,17 @@ function callback(){
 	available = fileData.length - bytesSent;
 }
 
-var reader = new FileReader();
-var loadFileVideo = function(event) {
-    reader.onload = function(){
-        file = document.getElementById("video").files[0];
-        fileName = file.name;
-		fileData = getBase64(reader.result);
-		available = fileData.length;
-		sentPackage(createDataPackage(),afterSuccessSending);
-		jQuery('#conversion-div').show();
-    };
-    reader.readAsDataURL(event.target.files[0]);
+function showSaveBtn(event) {
+	if(event.target.files.length > 0){
+		jQuery('#submit-btn').show();
+	}
 };
+
+jQuery('#submit-btn').click(function(){
+	jQuery('form[name="fileUploader"]').submit();
+	jQuery('#attach-video-label').hide();
+    jQuery('#submit-btn').hide();
+});
 
 function sentPackage(data,callback){
 	isSent = true;
@@ -46,12 +45,6 @@ var afterSuccessSending = function(res){
 	}
 };
 
-function convertVideo(){
-	var url = jQuery('#convertVideoUrl').val();
-	params = [{'name':'videoName','value':fileName}];
-	sendRequestParams(url,params,checkConversionStatus);
-}
-
 var checkConversionStatus = function(data){
 	var url = jQuery('#checkConversionStatusUrl').val();
 	sendRequest(url,checkConversionStatusCallback);
@@ -66,6 +59,7 @@ var checkConversionStatusCallback = function(data){
 	}
 	
 	if(info.progress >= 0){
+		jQuery('#conversion-div').show();
 		conversionProgress = info.progress;
 		jQuery('#video').show();
 		jQuery('#filename').html('');
@@ -117,12 +111,4 @@ function createDataPackage(){
 		temp += fileData[j];
 	}
 	return temp;
-}
-
-function invoke(){
-	console.log('zmiana jest sukces');
-	jQuery('#conversion-div').show();
-	jQuery('#status').html("100%");
-	jQuery('#attach-video-label').hide();
-	convertVideo();
 }
