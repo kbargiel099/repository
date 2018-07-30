@@ -190,6 +190,11 @@ public class UserController implements UserManagement{
 	}
 	
 	@Override
+	public ModelAndView getEditMessageCategoryView(RenderRequest request, RenderResponse response){
+		return messageCategoryCtrl.getEditMessageCategoryView(request, response);
+	}
+	
+	@Override
 	public void insertAction(ResourceRequest request, ResourceResponse response, String messageCategory, String type){
 		messageCategoryCtrl.insertAction(request, response, messageCategory, type);
 	}

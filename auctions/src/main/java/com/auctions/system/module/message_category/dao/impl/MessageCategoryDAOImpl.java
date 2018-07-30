@@ -2,7 +2,7 @@ package com.auctions.system.module.message_category.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -47,7 +47,7 @@ public class MessageCategoryDAOImpl implements MessageCategoryDAO{
 	@Override
 	public boolean insert(String name, long userId){
 		return dao.update("INSERT INTO message_category(name,create_date,activated,user_id) VALUES(?,?,?,?)",
-				new Object[]{name, new Date(), true, userId}) > 0 ? true : false;
+				new Object[]{name, new Timestamp(System.currentTimeMillis()), true, userId}) > 0 ? true : false;
 	}
 
 }

@@ -19,6 +19,9 @@ public interface MessageCategoryController {
 	@RequestMapping(params = "page=add")
 	public ModelAndView getCreateMessageCategoryView(RenderRequest request, RenderResponse response);
 	
+	@RequestMapping(params = "page=edit")
+	public ModelAndView getEditMessageCategoryView(RenderRequest request, RenderResponse response);
+	
 	@ResourceMapping("getMessageCategories")
 	public void getMessageCategories(ResourceRequest request, ResourceResponse response);
 	

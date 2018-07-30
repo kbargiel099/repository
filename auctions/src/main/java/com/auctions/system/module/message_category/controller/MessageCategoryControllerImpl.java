@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
@@ -55,9 +54,9 @@ public class MessageCategoryControllerImpl implements MessageCategoryController{
 			prepare();
 	}
 	
-	@ResourceMapping("insert")
+	@Override
 	public void insertAction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("messageCategory") String messageCategory, @RequestParam("type") String type){		
+			String messageCategory, String type){		
 		//MessageCategory messageCategory = Serializer.fromJson(form, MessageCategory.class);
 		
 		HttpUtil.createResponse(response).

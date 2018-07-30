@@ -7,10 +7,9 @@
 
 <portlet:defineObjects />
 
-
-<portlet:resourceURL id="submit" var="submit">
+<portlet:resourceURL id="insert" var="insert">
 </portlet:resourceURL>
-<input type="hidden" id="submitUrl" value="${submit}"></input>
+<input type="hidden" id="insertUrl" value="${insert}"></input>
 
 <portlet:renderURL var="returnUrl">
 </portlet:renderURL>
@@ -42,16 +41,7 @@
 				           <label class="label-control" name="name"><liferay-ui:message key="name" /></label>
 				           <input type="text" class="form-control" id="name" name="name" value="${category.name}"></input>
 						</div>
-					</div>
-<%-- 					<div class="col-xs-12 col-sm-12 col-md-6">
-						<div class="form-group">
-						    <label class="label-control" for="communinationChannel"><liferay-ui:message key="communication.channel.label" /></label>
-							<select class="selectpicker form-control" id="communinationChannelSelect" title="${selectTitle}">
-								<option value="address-email"><liferay-ui:message key="address.email" /></option>
-								<option value="internal-message-box"><liferay-ui:message key="internal.message.box" /></option>
-							</select>
-						</div>
-					</div> --%>
+					</div> 
 					<div class="col-xs-12 col-sm-12 col-md-12">
 						<div class="col-xs-12 form-group">
 					  		<a class="btn btn-primary pull-right" type="submit" id="message-category-submit"><liferay-ui:message key="submit"/></a>
@@ -63,3 +53,5 @@
 </div>
 
 <input type="hidden" id="type" value="${type}">
+
+<script src="<c:url value="/js/portlet/users_management/message-categories.js" />"></script>
