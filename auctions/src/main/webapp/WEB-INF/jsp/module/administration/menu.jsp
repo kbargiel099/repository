@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/selectpicker-custom.css" />" >
 
-<portlet:renderURL var="getUsersRender">
+<%-- <portlet:renderURL var="getUsersRender">
 	<portlet:param name="page" value="getUsers"/>
 </portlet:renderURL>
 <portlet:renderURL var="getAuctionsRender">
@@ -21,15 +21,15 @@
 
 <portlet:renderURL var="getMessagesRender">
 	<portlet:param name="page" value="getMessages"/>
-</portlet:renderURL>
+</portlet:renderURL> --%>
 
 <div style="max-height: 300px;">
 	<div id="user-profile-menu" class="col-xs-12 col-sm-8 col-md-3">	
 		<ul class="horizontal-menu">
-		  <li class="horizontal-menu-item"><a href="${getUsersRender}"><liferay-ui:message key="adm.show.users.label" /></a></li>
-		  <li class="horizontal-menu-item"><a href="${getAuctionsRender}"><liferay-ui:message key="adm.show.auctions.label" /></a></li>
-		  <li class="horizontal-menu-item"><a href="${getMessageCategoriesRender}"><liferay-ui:message key="adm.show.message.categories.label" /></a></li>
-		  <li class="horizontal-menu-item"><a href="${getMessagesRender}"><liferay-ui:message key="adm.show.messages.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="/użytkownicy"><liferay-ui:message key="adm.show.users.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="/aukcje"><liferay-ui:message key="adm.show.auctions.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="/kategorie_komunikatów"><liferay-ui:message key="adm.show.message.categories.label" /></a></li>
+		  <li class="horizontal-menu-item"><a href="/komunikaty"><liferay-ui:message key="adm.show.messages.label" /></a></li>
 		</ul>
 	</div>
 </div>

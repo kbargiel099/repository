@@ -17,7 +17,7 @@
 
 <div class="container">
 
-	<%@include file="/WEB-INF/jsp/portlet/users_management/menu.jsp" %>
+	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %>
 	
 	<div class="col-xs-12 col-sm-8 col-md-9">
 		<h4 class="user-profile-section-title"><liferay-ui:message key="user.add.grade.label" /></h4>

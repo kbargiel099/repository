@@ -1,8 +1,8 @@
-package com.auctions.system.module.message_category.dao;
+package com.auctions.system.portlet.message_category.dao;
 
 import java.util.List;
 
-import com.auctions.system.module.message_category.model.MessageCategory;
+import com.auctions.system.portlet.message_category.model.MessageCategory;
 
 public interface MessageCategoryDAO {
 	

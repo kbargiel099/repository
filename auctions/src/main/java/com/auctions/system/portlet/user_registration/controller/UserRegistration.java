@@ -144,7 +144,7 @@ public class UserRegistration{
 		
 		mailManager.sendMail(user.getEmail(),user.getFirstname(),themeDisplay.getLocale());
 		
-		//response.sendRedirect(home);
+		response.sendRedirect(home);
 		response.setRenderParameter("page", "createUserSuccess");
 		
 	}

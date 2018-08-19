@@ -33,6 +33,68 @@
 		</security-role-ref>
 	</portlet>
 	<portlet>
+		<portlet-name>message-category</portlet-name>
+		<display-name>Message category</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/spring-context/portlet/message-category-portlet.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<resource-bundle>content.Language</resource-bundle>
+		<portlet-info>
+			<title>message-category</title>
+			<short-title>message-category</short-title>
+			<keywords>message-category</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+	<portlet>
+		<portlet-name>auctions-management</portlet-name>
+		<display-name>Auctions management</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/spring-context/portlet/auctions-management-portlet.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<resource-bundle>content.Language</resource-bundle>
+		<portlet-info>
+			<title>auctions-management</title>
+			<short-title>auctions-management</short-title>
+			<keywords>auctions-management</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+<!-- 		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref> -->
+	</portlet>
+	<portlet>
 		<portlet-name>users-management</portlet-name>
 		<display-name>Users management</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
@@ -53,7 +115,7 @@
 		<security-role-ref>
 			<role-name>administrator</role-name>
 		</security-role-ref>
-		<security-role-ref>
+<!-- 		<security-role-ref>
 			<role-name>guest</role-name>
 		</security-role-ref>
 		<security-role-ref>
@@ -61,7 +123,7 @@
 		</security-role-ref>
 		<security-role-ref>
 			<role-name>user</role-name>
-		</security-role-ref>
+		</security-role-ref> -->
 	</portlet>
 	<portlet>
 		<portlet-name>user-registration</portlet-name>

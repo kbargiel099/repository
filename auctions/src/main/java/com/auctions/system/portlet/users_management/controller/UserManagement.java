@@ -12,19 +12,10 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.auctions.system.module.auction_processing.controller.Processing;
-import com.auctions.system.module.message_category.controller.MessageCategoryController;
-
-public interface UserManagement extends Processing, MessageCategoryController{
+public interface UserManagement{
 	
 	@RenderMapping
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response) throws Exception;
-	
-	@RenderMapping(params = "page=getUsers")
-	public ModelAndView getUsersView(RenderRequest request, RenderResponse response);
-	
-	@RenderMapping(params = "page=getAuctions")
-	public ModelAndView getAuctionsView(RenderRequest request, RenderResponse response);
 	
 	@RenderMapping(params = "page=edit")
 	public ModelAndView editUserView(RenderRequest request, RenderResponse response,
@@ -34,27 +25,8 @@ public interface UserManagement extends Processing, MessageCategoryController{
 	public ModelAndView UserDetailsView(RenderRequest request, RenderResponse response,
 			@RequestParam("userId") int userId);
 	
-	@RenderMapping(params = "page=stats")
-	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") long auctionId);
-	
 	@ResourceMapping(value="getUsers")
 	public void getUsers(ResourceRequest request, ResourceResponse response) throws Exception;
-	
-	@ResourceMapping(value="getAuctions")
-	public void getAuctions(ResourceRequest request, ResourceResponse response) throws Exception;
-	
-	@ResourceMapping(value="activate")
-	public void activateAuction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long auctionId) throws Exception;
-	
-	@ResourceMapping(value="suspend")
-	public void suspendAuction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long auctionId) throws Exception;
-	
-	@ResourceMapping(value="delete")
-	public void deleteAuction(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long auctionId) throws Exception;
 	
 	@ResourceMapping(value="lock")
 	public void lockUser(ResourceRequest request, ResourceResponse response,

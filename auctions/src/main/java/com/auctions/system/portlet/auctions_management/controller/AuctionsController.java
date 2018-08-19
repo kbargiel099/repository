@@ -1,6 +1,7 @@
-package com.auctions.system.portlet.home_page.controller;
+package com.auctions.system.portlet.auctions_management.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -12,35 +13,76 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 
+import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.auction_processing.controller.Processing;
-import com.auctions.system.module.mail_manager.impl.SimpleMailManager;
+import com.auctions.system.module.statistics.controller.Statistics;
+import com.auctions.system.module.statistics.model.ViewType;
+import com.auctions.system.portlet.auctions_management.model.AuctionDatatable;
+import com.auctions.system.portlet.auctions_management.service.AuctionsManagementService;
 import com.auctions.system.portlet.category.model.AuctionDetails;
-import com.auctions.system.portlet.home_page.service.HomePageService;
 
 @Controller
 @RequestMapping("VIEW")
-public class HomePageController implements HomePage{
+public class AuctionsController implements AuctionsManagement{
 
-	private final String defaultView = "view";
-	
-	@Autowired
-	private HomePageService service;
-	
+	private final String auctionsView = "auctions";
+		
 	@Autowired
 	Processing processing;
 	
 	@Autowired
-	SimpleMailManager mailManager;
+	AuctionsManagementService service;
+	
+	@Autowired
+	Statistics stats;
+	
 	
 	@Override
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response) throws Exception{
-		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("newestAuctions", service.getNewestAuction());
+		ModelAndView model = new ModelAndView(auctionsView);
 		return model;
 	}
 	
 	@Override
-	public ModelAndView detailsView(RenderRequest request, RenderResponse response, String message, long id) throws Exception {
+	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, long auctionId){
+		return stats.getAuctionStatsView(processing.getDetails(auctionId),ViewType.Administration);
+	}
+	
+	@Override
+	public void getAuctions(ResourceRequest request, ResourceResponse response) throws Exception {
+
+		HttpUtil.createResponse(response).
+			set("data", service.getAuctions()).
+			prepare();
+	}
+	
+	@Override
+	public void activateAuction(ResourceRequest request, ResourceResponse response, long auctionId) throws Exception {
+	    
+		HttpUtil.createResponse(response).
+			set("success", service.activateAuction(auctionId)).
+			prepare();
+	}
+	
+	@Override
+	public void suspendAuction(ResourceRequest request, ResourceResponse response, long auctionId) throws Exception {
+	    
+		HttpUtil.createResponse(response).
+			set("success", service.suspendAuction(auctionId)).
+			prepare();
+	}
+	
+	@Override
+	public void deleteAuction(ResourceRequest request, ResourceResponse response, long auctionId) throws Exception {
+	    
+		HttpUtil.createResponse(response).
+			set("success", service.deleteAuction(auctionId)).
+			prepare();
+	}
+	
+	@Override
+	public ModelAndView detailsView(RenderRequest request, RenderResponse response, String message, long id)
+			throws Exception {
 		return processing.detailsView(request, response, message, id);
 	}
 
@@ -79,6 +121,5 @@ public class HomePageController implements HomePage{
 	public AuctionDetails getDetails(long id) {
 		return processing.getDetails(id);
 	}
-	
+
 }
-	

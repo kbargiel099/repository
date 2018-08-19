@@ -8,6 +8,16 @@
 		<css-class-wrapper>authorization-portlet</css-class-wrapper>
 	</portlet>
 	<portlet>
+		<portlet-name>message-category</portlet-name>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<css-class-wrapper>message-category-portlet</css-class-wrapper>
+	</portlet>
+	<portlet>
+		<portlet-name>auctions-management</portlet-name>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<css-class-wrapper>auctions-management-portlet</css-class-wrapper>
+	</portlet>
+	<portlet>
 		<portlet-name>users-management</portlet-name>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<css-class-wrapper>users-management-portlet</css-class-wrapper>

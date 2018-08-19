@@ -1,4 +1,4 @@
-package com.auctions.system.module.message_category.controller;
+package com.auctions.system.portlet.message_category.controller;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -8,12 +8,10 @@ import javax.portlet.ResourceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
-import com.auctions.system.module.message_category.service.MessageCategoryService;
+import com.auctions.system.portlet.message_category.service.MessageCategoryService;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller

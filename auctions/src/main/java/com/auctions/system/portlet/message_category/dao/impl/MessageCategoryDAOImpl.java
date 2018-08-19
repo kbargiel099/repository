@@ -1,4 +1,4 @@
-package com.auctions.system.module.message_category.dao.impl;
+package com.auctions.system.portlet.message_category.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +15,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.auctions.system.module.auction_processing.DateFormatter;
-import com.auctions.system.module.message_category.dao.MessageCategoryDAO;
-import com.auctions.system.module.message_category.model.MessageCategory;
+import com.auctions.system.portlet.message_category.dao.MessageCategoryDAO;
+import com.auctions.system.portlet.message_category.model.MessageCategory;
 
 @Repository("messageCategoryDAO")
 public class MessageCategoryDAOImpl implements MessageCategoryDAO{

@@ -1,4 +1,4 @@
-package com.auctions.system.portlet.users_management.model;
+package com.auctions.system.portlet.auctions_management.model;
 
 public class AuctionDatatable {
 

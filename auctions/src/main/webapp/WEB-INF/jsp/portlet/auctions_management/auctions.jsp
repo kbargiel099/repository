@@ -44,7 +44,7 @@
 
 <div class="container">
 
-	<%@include file="/WEB-INF/jsp/portlet/users_management/menu.jsp" %>
+	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %>
 	
 	<div class="col-xs-12 col-sm-8 col-md-9">
 		<h4 class="user-profile-section-title"><liferay-ui:message key="adm.auctions.label" /></h4>
@@ -84,7 +84,8 @@
 <input type="hidden" id="deleted-msg" value="<liferay-ui:message key="auction.delete.success"/>"/>
 <input type="hidden" id="error-msg" value="<liferay-ui:message key="error.msg"/>"/>
 
-<script src="<c:url value="/js/portlet/users_management/datatable.js"/>" /></script>
+<script src="<c:url value="/js/module/administration.js"/>" /></script>
+<script src="<c:url value="/js/portlet/auctions_management/datatable.js"/>" /></script>
 <script type="text/javascript" >
 	jQuery(document).ready(function(){
 		initAuctions(jQuery("#getAuctionsUrl").val());

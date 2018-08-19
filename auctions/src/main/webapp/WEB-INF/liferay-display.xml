@@ -4,6 +4,8 @@
 <display>
 	<category name="category.sample">
 		<portlet id="authorization" />
+		<portlet id="message-category" />
+		<portlet id="auctions-management" />
 		<portlet id="users-management" />
 		<portlet id="user-registration"></portlet>
 		<portlet id="nav_menu"></portlet>

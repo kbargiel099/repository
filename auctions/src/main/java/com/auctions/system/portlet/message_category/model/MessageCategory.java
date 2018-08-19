@@ -1,4 +1,4 @@
-package com.auctions.system.module.message_category.model;
+package com.auctions.system.portlet.message_category.model;
 
 public class MessageCategory {
 	

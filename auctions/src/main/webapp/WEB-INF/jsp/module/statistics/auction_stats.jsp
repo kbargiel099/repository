@@ -21,7 +21,7 @@
 			<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
 		</c:when>
 		<c:otherwise>
-			<%@include file="/WEB-INF/jsp/portlet/users_management/menu.jsp" %>
+			<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %>
 		</c:otherwise>
 	</c:choose>
 	<div class="col-xs-12 col-sm-8 col-md-9">

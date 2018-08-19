@@ -17,7 +17,7 @@
 
 <div class="container-fluid">
 
-	<%@include file="/WEB-INF/jsp/portlet/users_management/menu.jsp" %>
+	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %>
 	
 		<div class="col-xs-12 col-sm-8 col-md-8">
 			<c:if test="${type == 'add'}">
@@ -34,7 +34,7 @@
 		  	
 	      	<form id="message-category-form">
 				<input type="hidden" name="id" value="${category.id}"></input>
-			    <input type="hidden" id="name" name="name" value="${category.name}"></input>
+<%-- 			    <input type="hidden" id="name" name="name" value="${category.name}"></input> --%>
 				<div class="col-xs-12 col-sm-12 col-md-8">
 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
@@ -54,4 +54,4 @@
 
 <input type="hidden" id="type" value="${type}">
 
-<script src="<c:url value="/js/portlet/users_management/message-categories.js" />"></script>
+<script src="<c:url value="/js/portlet/message_category/message-categories.js" />"></script>

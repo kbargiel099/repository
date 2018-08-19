@@ -1,4 +1,4 @@
-package com.auctions.system.module.message_category.controller;
+package com.auctions.system.portlet.message_category.controller;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -13,7 +13,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 public interface MessageCategoryController {
 	
-	@RenderMapping(params = "page=getMessageCategories")
+	@RenderMapping()
 	public ModelAndView getMessageCategoriesView(RenderRequest request, RenderResponse response);
 	
 	@RequestMapping(params = "page=add")
