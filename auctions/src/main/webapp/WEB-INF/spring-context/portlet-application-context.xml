@@ -15,6 +15,10 @@
 
 	<context:annotation-config />
 
+	<bean id="schema" class="java.lang.String">
+		<constructor-arg value="sys" />
+	</bean>
+	
 	<bean id="messageSrc"
 		  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		  <property name="basename" value="classpath:content/Language" />
@@ -23,17 +27,17 @@
 	
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/auctions"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="postgres"/>
-    </bean>
-    
-        <bean id="dataSource-lportal" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="jdbc:postgresql://localhost:5432/lportal"/>
         <property name="username" value="postgres"/>
         <property name="password" value="postgres"/>
     </bean>
+    
+<!--     <bean id="dataSource-lportal" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/lportal"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="postgres"/>
+    </bean> -->
 
     <tx:annotation-driven transaction-manager="txManager"/>
 

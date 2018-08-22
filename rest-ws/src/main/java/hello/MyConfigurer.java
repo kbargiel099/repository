@@ -21,6 +21,11 @@ import module.mail_manager.impl.SimpleMailManager;
 public class MyConfigurer{
 
    @Bean
+   public String schema() {
+	   return "sys";
+   }
+   
+   @Bean
    public FilterRegistrationBean corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();

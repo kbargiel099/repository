@@ -1,13 +1,6 @@
 package com.auctions.system.portlet.home_page.controller;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -20,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 
 import com.auctions.system.module.auction_processing.controller.Processing;
-import com.auctions.system.module.client.MailRestClient;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.home_page.service.HomePageService;
 
@@ -38,7 +30,7 @@ public class HomePageController implements HomePage{
 	
 	@Override
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response) throws Exception{
-		MailRestClient.sendMail("abstergo@interia.pl");
+		//MailRestClient.sendMail("abstergo@interia.pl");
 		ModelAndView model = new ModelAndView(defaultView);
 		model.addObject("newestAuctions", service.getNewestAuction());
 		return model;

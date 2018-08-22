@@ -4,7 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +15,6 @@ public class RegistrationDAOImpl implements RegistrationDAO {
 	private JdbcTemplate dao;
 	
 	@Autowired
-	@Qualifier("dataSource-lportal")
 	private DataSource dataSource;
 	
 	@PostConstruct

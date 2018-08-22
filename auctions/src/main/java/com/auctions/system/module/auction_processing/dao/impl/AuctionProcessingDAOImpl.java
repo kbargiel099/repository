@@ -24,27 +24,20 @@ import com.auctions.system.portlet.category.model.UserDetails;
 @Repository("auctionProcessingDAO")
 public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
-	private JdbcTemplate daoPortal;
 	private JdbcTemplate dao;
 	
 	@Autowired
-	@Qualifier("dataSource-lportal")
-	private DataSource dataSourcePortal;
-	
-	@Autowired
-	@Qualifier("dataSource")
 	private DataSource dataSource;
 	
 	@PostConstruct
 	public void init() {
-		daoPortal = new JdbcTemplate(dataSourcePortal);
 		dao = new JdbcTemplate(dataSource);
 	}
 	
 	@Override
 	public AuctionDetails getAuctionDetails(long auctionId){
 		return dao.queryForObject("SELECT id,userid,serial_number,name,images,description,create_date,end_date,"
-				+ "subject_price,available,video,type_name,minimal_price,technical_data FROM auction_details WHERE id=?", 
+				+ "subject_price,available,video,type_name,minimal_price,technical_data FROM sys.auction_details WHERE id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
 					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
@@ -58,7 +51,7 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public UserDetails getSellerDetails(long userId){
-		return daoPortal.queryForObject("SELECT userid,screenname,firstname,lastname,emailaddress FROM user_ WHERE userid=?", 
+		return dao.queryForObject("SELECT userid,screenname,firstname,lastname,emailaddress FROM user_ WHERE userid=?", 
 				new Object[]{userId},new RowMapper<UserDetails>(){
 					@Override
 					public UserDetails mapRow(ResultSet res, int row) throws SQLException {
@@ -70,7 +63,7 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public String getVideoName(long id){
-		return dao.queryForObject("SELECT video FROM auction WHERE id=?", 
+		return dao.queryForObject("SELECT video FROM sys.auction WHERE id=?", 
 				new Object[]{id},new RowMapper<String>(){
 					@Override
 					public String mapRow(ResultSet res, int row) throws SQLException {
@@ -81,21 +74,21 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public boolean createObservation(long userId,long auctionId){
-		int numberOfInsertedRows = dao.update("INSERT INTO auction_observation(userid,auctionid) VALUES(?,?)", 
+		int numberOfInsertedRows = dao.update("INSERT INTO sys.auction_observation(userid,auctionid) VALUES(?,?)", 
 				new Object[]{userId,auctionId});
 		return numberOfInsertedRows > 0 ? true : false;
 	}
 	
 	@Override
 	public boolean removeObservation(long userId,long auctionId){
-		int numberOfDeletedRows = dao.update("DELETE FROM auction_observation WHERE userid=? AND auctionid=?", 
+		int numberOfDeletedRows = dao.update("DELETE FROM sys.auction_observation WHERE userid=? AND auctionid=?", 
 				new Object[]{userId,auctionId});
 		return numberOfDeletedRows > 0 ? true : false;
 	}
 	
 	@Override
 	public boolean isObserved(long userId,long auctionId){
-		return dao.queryForObject("SELECT CASE WHEN EXISTS (SELECT 1 FROM auction_observation WHERE userid=? AND auctionid=?) THEN true ELSE false END", 
+		return dao.queryForObject("SELECT CASE WHEN EXISTS (SELECT 1 FROM sys.auction_observation WHERE userid=? AND auctionid=?) THEN true ELSE false END", 
 				new Object[]{userId,auctionId},new RowMapper<Boolean>(){
 					@Override
 					public Boolean mapRow(ResultSet res, int row) throws SQLException {
@@ -106,7 +99,7 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public List<AuctionOffer> getAllOffers(long auctionId){
-		return dao.query("SELECT userid,price,quantity,create_date FROM auction_process WHERE auctionid=?", 
+		return dao.query("SELECT userid,price,quantity,create_date FROM sys.auction_process WHERE auctionid=?", 
 				new Object[]{auctionId},new RowMapper<AuctionOffer>(){
 					@Override
 					public AuctionOffer mapRow(ResultSet res, int row) throws SQLException {
@@ -118,7 +111,7 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public PurchaseInfo getPurchaseInfo(long purchaseId){
-		return dao.queryForObject("SELECT userid,sellerid,name,price,quantity,end_date FROM user_purchase_view WHERE id=?", 
+		return dao.queryForObject("SELECT userid,sellerid,name,price,quantity,end_date FROM sys.user_purchase_view WHERE id=?", 
 				new Object[]{purchaseId},new RowMapper<PurchaseInfo>(){
 					@Override
 					public PurchaseInfo mapRow(ResultSet res, int row) throws SQLException {
@@ -130,7 +123,7 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	@Override
 	public List<PaymentMethod> getPaymentMethods(){
-		return dao.query("SELECT id,name,validity_in_days FROM payment_method", 
+		return dao.query("SELECT id,name,validity_in_days FROM sys.payment_method", 
 				new RowMapper<PaymentMethod>(){
 					@Override
 					public PaymentMethod mapRow(ResultSet res, int row) throws SQLException {

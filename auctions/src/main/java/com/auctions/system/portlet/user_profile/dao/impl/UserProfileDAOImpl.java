@@ -11,7 +11,6 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -35,25 +34,18 @@ import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 public class UserProfileDAOImpl implements UserProfileDAO{
 
 	private JdbcTemplate dao;
-	private JdbcTemplate daoPortal;
 	
 	@Autowired
-	@Qualifier("dataSource")
 	private DataSource dataSource;
-	
-	@Autowired
-	@Qualifier("dataSource-lportal")
-	private DataSource dataSourcePortal;
 	
 	@PostConstruct
 	public void init() {
 		dao = new JdbcTemplate(dataSource);
-		daoPortal = new JdbcTemplate(dataSourcePortal);
 	}
 	
 	@Override
 	public UserProfileData getUserSimpleData(final long id){		
-		return daoPortal.queryForObject("SELECT createdate,modifieddate,emailaddress,screenname,firstname,lastname,lastlogindate,lockout FROM user_ WHERE userid=?",
+		return dao.queryForObject("SELECT createdate,modifieddate,emailaddress,screenname,firstname,lastname,lastlogindate,lockout FROM user_ WHERE userid=?",
 			new Object[]{id},new RowMapper<UserProfileData>(){
 					@Override
 					public UserProfileData mapRow(ResultSet res, int row) throws SQLException {
@@ -66,7 +58,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId){
-		return dao.query("SELECT id,auctionid,name,image_name,create_date,price,payment_status_name FROM user_purchase_view WHERE userid=?", 
+		return dao.query("SELECT id,auctionid,name,image_name,create_date,price,payment_status_name FROM sys.user_purchase_view WHERE userid=?", 
 				new Object[]{userId},new RowMapper<AuctionPresenter>(){
 					@Override
 					public BoughtPresenter mapRow(ResultSet res, int row) throws SQLException {
@@ -79,7 +71,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<AuctionPresenter> getUserAuctions(long userId){
-		return dao.query("SELECT id,name,image_name,subject_price FROM auction_profile_view WHERE userid=?", 
+		return dao.query("SELECT id,name,image_name,subject_price FROM sys.auction_profile_view WHERE userid=?", 
 				new Object[]{userId},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
@@ -91,8 +83,8 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<AuctionPresenter> getUserObservation(long userId){
-		return dao.query("SELECT id,name,image_name,subject_price FROM auction_main"
-				+ " JOIN auction_observation ON id=auctionid WHERE userid=?", 
+		return dao.query("SELECT id,name,image_name,subject_price FROM sys.auction_main"
+				+ " JOIN sys.auction_observation ON id=auctionid WHERE userid=?", 
 				new Object[]{userId},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
@@ -104,7 +96,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<Category> getCategories(){
-		return dao.query("SELECT id,name FROM category",
+		return dao.query("SELECT id,name FROM sys.category",
 				new RowMapper<Category>(){
 					@Override
 					public Category mapRow(ResultSet res, int row) throws SQLException {
@@ -115,7 +107,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<AuctionType> getAuctionTypes(){
-		return dao.query("SELECT id,name FROM auction_type",
+		return dao.query("SELECT id,name FROM sys.auction_type",
 				new RowMapper<AuctionType>(){
 					@Override
 					public AuctionType mapRow(ResultSet res, int row) throws SQLException {
@@ -126,7 +118,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<SubCategory> getSubCategories(){
-		return dao.query("SELECT c.id,sub.id AS sub_id,sub.name AS sub_name FROM category c,subcategory sub where c.id=sub.category_id",
+		return dao.query("SELECT c.id,sub.id AS sub_id,sub.name AS sub_name FROM sys.category c,sys.subcategory sub where c.id=sub.category_id",
 				new RowMapper<SubCategory>(){
 					@Override
 					public SubCategory mapRow(ResultSet res, int row) throws SQLException {
@@ -138,7 +130,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<TechnicalData> getTechnicalData(int id){
-		return dao.query("SELECT t.id,t.name,t.value,t.type FROM technical_data t JOIN subcategory s ON t.id=ANY(technical_data_array) WHERE s.id=?",
+		return dao.query("SELECT t.id,t.name,t.value,t.type FROM sys.technical_data t JOIN sys.subcategory s ON t.id=ANY(technical_data_array) WHERE s.id=?",
 			new Object[]{id},new RowMapper<TechnicalData>(){
 				@Override
 				public TechnicalData mapRow(ResultSet res, int row) throws SQLException {
@@ -150,14 +142,14 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public boolean addAuctionGrade(long userId, AuctionGrade a){		
-		return dao.update("INSERT INTO auction_grade_comment(userid,auctionid,grade,comment) VALUES(?,?,?,?)",
+		return dao.update("INSERT INTO sys.auction_grade_comment(userid,auctionid,grade,comment) VALUES(?,?,?,?)",
 			new Object[]{userId,a.getAuctionId(),a.getGrade(),a.getComment()}) > 0 ? true : false;
 	}
 	
 	@Override
 	public Auction getAuctionData(final long id){		
-		return dao.queryForObject("SELECT a.name,serial_number,end_date,typeid,s.category_id,subcategory_id,images,description,available,subject_price,technical_data FROM auction a"
-				+ " JOIN subcategory s ON a.subcategory_id=s.id WHERE a.id=?",
+		return dao.queryForObject("SELECT a.name,serial_number,end_date,typeid,s.category_id,subcategory_id,images,description,available,subject_price,technical_data FROM sys.auction a"
+				+ " JOIN sys.subcategory s ON a.subcategory_id=s.id WHERE a.id=?",
 			new Object[]{id},new RowMapper<Auction>(){
 					@Override
 					public Auction mapRow(ResultSet res, int row) throws SQLException {
@@ -170,7 +162,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public AuctionImages getAuctionImages(final long id){		
-		return dao.queryForObject("SELECT images FROM auction WHERE id=?",
+		return dao.queryForObject("SELECT images FROM sys.auction WHERE id=?",
 			new Object[]{id},new RowMapper<AuctionImages>(){
 					@Override
 					public AuctionImages mapRow(ResultSet res, int row) throws SQLException {
@@ -183,7 +175,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	public boolean updateAuction(Auction a){		
 		Timestamp editDate = new Timestamp(System.currentTimeMillis());
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
-		return dao.update("UPDATE auction SET name=?,description=?,edit_date=?,end_date=?,typeid=?,subject_price=?,available=?,"
+		return dao.update("UPDATE sys.auction SET name=?,description=?,edit_date=?,end_date=?,typeid=?,subject_price=?,available=?,"
 				+ "subcategory_id=?,technical_data=? WHERE id=?",
 			new Object[]{a.getName(),a.getDescription(),editDate,endDate,a.getAuctionTypeId(),a.getSubjectPrice(),
 					a.getSubjectQuantity(),a.getSubCategoryId(),a.getTechnicalData(),a.getId()}) > 0 ? true : false;
@@ -193,7 +185,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	public boolean updateAuctionImages(String images, long id){
 		String[] array = images.split(",");
         try {
-            PreparedStatement pst = dataSource.getConnection().prepareStatement("UPDATE auction SET images=? WHERE id=?");
+            PreparedStatement pst = dataSource.getConnection().prepareStatement("UPDATE sys.auction SET images=? WHERE id=?");
 	        pst.setArray(1, pst.getConnection().createArrayOf("varchar",array));
 	        pst.setLong(2, id);
 	        pst.executeUpdate();
@@ -212,7 +204,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
 		String[] images = a.getImageName().split(",");
         try {
-            PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO auction(userid,name,description,create_date,edit_date,end_date,minimal_price,"
+            PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO sys.auction(userid,name,description,create_date,edit_date,end_date,minimal_price,"
 					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,technical_data,video,images) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 	        pst.setLong(1, userId);
 	        pst.setString(2,a.getName());
@@ -244,19 +236,19 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public boolean deleteVideo(long id){		
-		return dao.update("UPDATE auction SET video=? WHERE id=?",
+		return dao.update("UPDATE sys.auction SET video=? WHERE id=?",
 			new Object[]{"",id}) > 0 ? true : false;
 	}
 	
 	@Override
 	public boolean makePaid(long id, int paymentMethodId){		
-		return dao.update("UPDATE transactions SET payment_method_id=?,payment_status_id=(SELECT id FROM payment_status WHERE name='payed') WHERE id=?",
+		return dao.update("UPDATE sys.transactions SET payment_method_id=?,payment_status_id=(SELECT id FROM sys.payment_status WHERE name='payed') WHERE id=?",
 			new Object[]{paymentMethodId,id}) > 0 ? true : false;
 	}
 
 	@Override
 	public List<UsernameAndId> getUsersIdsForLastConversations(final long id){		
-		return dao.query("SELECT DISTINCT senderid FROM chat_messages WHERE receiverid=?",
+		return dao.query("SELECT DISTINCT senderid FROM sys.chat_messages WHERE receiverid=?",
 			new Object[]{id},new RowMapper<UsernameAndId>(){
 					@Override
 					public UsernameAndId mapRow(ResultSet res, int row) throws SQLException {
@@ -267,7 +259,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId){	
-		return dao.query("SELECT senderid,message,create_date FROM chat_messages WHERE (senderid=? AND receiverid=?) OR (receiverid=? AND senderid=?) LIMIT 30", 
+		return dao.query("SELECT senderid,message,create_date FROM sys.chat_messages WHERE (senderid=? AND receiverid=?) OR (receiverid=? AND senderid=?) LIMIT 30", 
 			new Object[]{userId,interlocutorId,userId,interlocutorId},new RowMapper<UserMessage>(){
 			@Override
 			public UserMessage mapRow(ResultSet res, int row) throws SQLException {

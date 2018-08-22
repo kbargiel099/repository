@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.auctions.system.module.file_converter.dao.ConverterDAO;
@@ -15,14 +14,13 @@ import com.auctions.system.module.file_converter.dao.ConverterDAO;
 public class ConverterDAOImpl implements ConverterDAO {
 	
 	@Autowired
-	@Qualifier("dataSource")
 	private DataSource dataSource;
 	
 	@Override
 	public boolean createVideoReference(long auctionId, String videoName){
         
         try {
-    		PreparedStatement pst = dataSource.getConnection().prepareStatement("UPDATE auction SET video=? WHERE id=?",
+    		PreparedStatement pst = dataSource.getConnection().prepareStatement("UPDATE sys.auction SET video=? WHERE id=?",
     				PreparedStatement.RETURN_GENERATED_KEYS);
 	        pst.setString(1, videoName);
     		pst.setLong(2, auctionId);

@@ -1,9 +1,12 @@
 package hello;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import model.MailProperties;
 import module.mail_manager.MailType;
 import module.mail_manager.impl.SimpleMailManager;
 
@@ -21,7 +24,8 @@ public class Scheduler {
     @Scheduled(fixedRate = hour)
     public void scheduleTaskWithFixedRate() {
     	System.out.println("END AUCTIONS");
-    	mailManager.sendMultiple(service.markAuctionsFinished(), MailType.FINISHED_AUCTION);
+    	List<MailProperties> toSend = service.markAuctionsFinished();
+    	mailManager.sendMultiple(toSend, MailType.FINISHED_AUCTION);
     }
 
     public void scheduleTaskWithFixedDelay() {}

@@ -8,7 +8,6 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -24,7 +23,6 @@ public class CategoryDAOImpl implements CategoryDAO{
 	private JdbcTemplate dao;
 	
 	@Autowired
-	@Qualifier("dataSource")
 	private DataSource dataSource;
 	
 	@PostConstruct
@@ -34,7 +32,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	@Override//do przerobienia
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
-		return dao.query("SELECT id,name,image_name,subject_price,category_name FROM auction_main WHERE category_name=?", 
+		return dao.query("SELECT id,name,image_name,subject_price,category_name FROM sys.auction_main WHERE category_name=?", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
@@ -47,7 +45,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 	public List<AuctionPresenter> getSearchingAuctions(SearchingForm form){
 		String tempSearch = "%"+form.getSearchingText()+"%";
 		
-		return dao.query("SELECT id,name,image_name AS image_name,subject_price FROM auction_search "
+		return dao.query("SELECT id,name,image_name AS image_name,subject_price FROM sys.auction_search "
 				+ "WHERE lower(name) LIKE lower(?) AND category_name=? " + preprareQueryForSearching(form), 
 				new Object[]{tempSearch,form.getCurrentCategory()},
 				new RowMapper<AuctionPresenter>(){
@@ -79,7 +77,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	@Override
 	public List<AuctionPresenter> getAuctionsBySubcategory(int id){
-		return dao.query("SELECT id,name,image_name,subject_price FROM auctions_by_subcategory "
+		return dao.query("SELECT id,name,image_name,subject_price FROM sys.auctions_by_subcategory "
 				+ "WHERE subcategory_id=? ORDER BY create_date DESC", 
 				new Object[]{id},
 				new RowMapper<AuctionPresenter>(){
@@ -93,8 +91,8 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	@Override
 	public List<SubCategory> getSubCategories(String categoryName){
-		return dao.query("SELECT sub.id AS sub_id,c.id,sub.name FROM subcategory sub "
-                		+ "JOIN category c ON c.id=sub.category_id WHERE c.name=?", 
+		return dao.query("SELECT sub.id AS sub_id,c.id,sub.name FROM sys.subcategory sub "
+                		+ "JOIN sys.category c ON c.id=sub.category_id WHERE c.name=?", 
 				new Object[]{categoryName},new RowMapper<SubCategory>(){
 					@Override
 					public SubCategory mapRow(ResultSet res, int row) throws SQLException {

@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -24,7 +23,6 @@ public class MessageCategoryDAOImpl implements MessageCategoryDAO{
 	private JdbcTemplate dao;
 	
 	@Autowired
-	@Qualifier("dataSource")
 	private DataSource dataSource;
 	
 	@PostConstruct
@@ -34,7 +32,7 @@ public class MessageCategoryDAOImpl implements MessageCategoryDAO{
 	
 	@Override
 	public List<MessageCategory> getMessageCategories(){
-		return dao.query("SELECT id,user_id,name,create_date,activated FROM message_category", 
+		return dao.query("SELECT id,user_id,name,create_date,activated FROM sys.message_category", 
 				new RowMapper<MessageCategory>(){
 					@Override
 					public MessageCategory mapRow(ResultSet res, int row) throws SQLException {
@@ -46,7 +44,7 @@ public class MessageCategoryDAOImpl implements MessageCategoryDAO{
 	
 	@Override
 	public boolean insert(String name, long userId){
-		return dao.update("INSERT INTO message_category(name,create_date,activated,user_id) VALUES(?,?,?,?)",
+		return dao.update("INSERT INTO sys.message_category(name,create_date,activated,user_id) VALUES(?,?,?,?)",
 				new Object[]{name, new Timestamp(System.currentTimeMillis()), true, userId}) > 0 ? true : false;
 	}
 

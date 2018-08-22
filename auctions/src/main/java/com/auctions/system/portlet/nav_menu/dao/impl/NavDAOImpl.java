@@ -8,7 +8,6 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -23,7 +22,6 @@ public class NavDAOImpl implements NavDAO{
 	private JdbcTemplate dao;
 	
 	@Autowired
-	@Qualifier("dataSource")
 	private DataSource dataSource;
 	
 	@PostConstruct
@@ -33,7 +31,7 @@ public class NavDAOImpl implements NavDAO{
 	
 	@Override
 	public List<UserData> getSenderIdsToNotify(long receiverId){	
-		return dao.query("SELECT DISTINCT senderid FROM chat_messages WHERE receiverid=? AND is_read=?", 
+		return dao.query("SELECT DISTINCT senderid FROM sys.chat_messages WHERE receiverid=? AND is_read=?", 
 				new Object[]{receiverId,false},new RowMapper<UserData>(){
 			@Override
 			public UserData mapRow(ResultSet res, int row) throws SQLException {
@@ -44,7 +42,7 @@ public class NavDAOImpl implements NavDAO{
 	
 	@Override
 	public List<MessageAndDate> getUnreadMessagesFromUser(long senderId, long receiverId){	
-		return dao.query("SELECT message,create_date FROM chat_messages WHERE senderid=? AND receiverid=? AND is_read=?", 
+		return dao.query("SELECT message,create_date FROM sys.chat_messages WHERE senderid=? AND receiverid=? AND is_read=?", 
 			new Object[]{senderId,receiverId,false},new RowMapper<MessageAndDate>(){
 			@Override
 			public MessageAndDate mapRow(ResultSet res, int row) throws SQLException {
@@ -55,7 +53,7 @@ public class NavDAOImpl implements NavDAO{
 	
 	@Override
 	public boolean markMessagesAsRead(long senderId, long receiverId){	
-		return dao.update("UPDATE chat_messages SET is_read=? WHERE senderid=? AND receiverid=? AND is_read=?", 
+		return dao.update("UPDATE sys.chat_messages SET is_read=? WHERE senderid=? AND receiverid=? AND is_read=?", 
 				new Object[]{true,senderId,receiverId,false}) > 0 ? true : false;
 	}
 	

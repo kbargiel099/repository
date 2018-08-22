@@ -34,7 +34,7 @@ public class MessagesDAOImpl implements MessagesDAO{
 	
 	@Override//do przerobienia
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
-		return dao.query("SELECT id,name,image_name,subject_price,category_name FROM auction_main WHERE category_name=?", 
+		return dao.query("SELECT id,name,image_name,subject_price,category_name FROM sys.auction_main WHERE category_name=?", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
@@ -47,7 +47,7 @@ public class MessagesDAOImpl implements MessagesDAO{
 	public List<AuctionPresenter> getSearchingAuctions(SearchingForm form){
 		String tempSearch = "%"+form.getSearchingText()+"%";
 		
-		return dao.query("SELECT id,name,image_name AS image_name,subject_price FROM auction_search "
+		return dao.query("SELECT id,name,image_name AS image_name,subject_price FROM sys.auction_search "
 				+ "WHERE lower(name) LIKE lower(?) AND category_name=? " + preprareQueryForSearching(form), 
 				new Object[]{tempSearch,form.getCurrentCategory()},
 				new RowMapper<AuctionPresenter>(){
