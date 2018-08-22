@@ -26,8 +26,9 @@ public class SimpleMailManager implements MailManager {
     @Override
     public void sendMail(String emailAddress) {
      	try {
+     		//templateMessage.setFrom("Aukcje.pl");
      		templateMessage.setTo(emailAddress);
-            this.mailSender.send(templateMessage);
+            mailSender.send(templateMessage);
         }
         catch(MailException ex) {
             System.err.println(ex.getMessage());            
@@ -54,7 +55,11 @@ public class SimpleMailManager implements MailManager {
          	break;
     	case FINISHED_AUCTION :
          	templateMessage.setSubject("Aukcja zakończona");
-         	templateMessage.setText("Twoja aukcja: " + data +" została właśnie zakończona zaloguj się na portalu i zobacz szczegóły.");
+         	templateMessage.setText("Twoja aukcja: " + data +" została właśnie zakończona. Zaloguj się na portalu i zobacz szczegóły.");
+         	break;
+    	case NEW_OFFER :
+         	templateMessage.setSubject("Twoja oferta została przebita");
+         	templateMessage.setText("Twoja oferta w aukcji: " + data +" została właśnie przebita. Zaloguj się na portalu i zobacz szczegóły.");
          	break;
     	}
     }

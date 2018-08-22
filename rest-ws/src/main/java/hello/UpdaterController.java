@@ -53,6 +53,8 @@ public class UpdaterController {
     	if(isCurrentTimeBefore(form.getEndDate())){
     		isInserted = service.proceedOffer(Long.parseLong(form.getUserId()),Long.parseLong(id),
     				Long.parseLong(form.getPrice()),Integer.parseInt(form.getQuantity()));
+    		mailManager.sendMultiple(service.getMailProperties(
+    				Long.parseLong(id), Long.parseLong(form.getUserId())), MailType.NEW_OFFER);
     	}else{
     		return new ResponseError(1);
     	}
