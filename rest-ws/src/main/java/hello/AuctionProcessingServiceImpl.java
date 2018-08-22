@@ -1,9 +1,14 @@
 package hello;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import model.MailProperties;
 
 @Service("auctionProcessingService")
 public class AuctionProcessingServiceImpl implements AuctionProcessingService{
@@ -22,8 +27,13 @@ public class AuctionProcessingServiceImpl implements AuctionProcessingService{
 	}
 	
 	@Override
-	public boolean markAuctionsEnded(){
-		return dataSource.markAuctionsEnded();
+	public List<MailProperties> markAuctionsFinished(){
+		try {
+			return dataSource.markAuctionsFinished();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<MailProperties>();
 	}
 	
 	@Override

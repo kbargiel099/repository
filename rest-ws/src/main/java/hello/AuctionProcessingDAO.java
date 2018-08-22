@@ -1,6 +1,10 @@
 package hello;
 
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
+
+import model.MailProperties;
 
 public interface AuctionProcessingDAO {
 	
@@ -8,7 +12,7 @@ public interface AuctionProcessingDAO {
 	
 	public boolean proceedPurchase(long userId, long auctionId, long price, int quantity);
 	
-	public boolean markAuctionsEnded();
+	public List<MailProperties> markAuctionsFinished() throws SQLException;
 	
 	public boolean createChatMessage(long senderId,long receiverId, String message, Date date);
 }

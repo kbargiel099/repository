@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import module.mail_manager.MailType;
+import module.mail_manager.impl.SimpleMailManager;
+
 @CrossOrigin(origins = {"http://192.168.0.15:8080"})
 @RestController
 public class UpdaterController {
@@ -23,11 +26,23 @@ public class UpdaterController {
     
     @Autowired
     AuctionProcessingService service;
+    
+    @Autowired
+    SimpleMailManager mailManager;
 
     @RequestMapping("/greeting")
     public ResponseForm greeting(@RequestParam(value="name", defaultValue="World") String name) {
         return new ResponseForm(counter.incrementAndGet(),
                             String.format(template, name));
+    }
+    
+    @RequestMapping("/sendMail")
+    public ResponseForm sendMail(@RequestParam(value="address") String address) {
+    	System.out.println("address send mail: " + address);
+    	mailManager.setTemplate(MailType.REGISTRATION, "Krystian");
+    	mailManager.sendMail(address);
+        return new ResponseForm(counter.incrementAndGet(),
+                            String.format(template, address));
     }
     
     @MessageMapping("/update/{id}")

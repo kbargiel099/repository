@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import module.mail_manager.MailType;
+import module.mail_manager.impl.SimpleMailManager;
+
 @Component
 public class Scheduler {
 
@@ -12,10 +15,13 @@ public class Scheduler {
     @Autowired
     AuctionProcessingService service;
     
+    @Autowired
+    SimpleMailManager mailManager;
+    
     @Scheduled(fixedRate = hour)
     public void scheduleTaskWithFixedRate() {
     	System.out.println("END AUCTIONS");
-    	service.markAuctionsEnded();
+    	mailManager.sendMultiple(service.markAuctionsFinished(), MailType.FINISHED_AUCTION);
     }
 
     public void scheduleTaskWithFixedDelay() {}

@@ -1,6 +1,9 @@
 package hello;
 
 import java.util.Date;
+import java.util.List;
+
+import model.MailProperties;
 
 public interface AuctionProcessingService {
 
@@ -8,7 +11,7 @@ public interface AuctionProcessingService {
 	
 	public boolean proceedPurchase(long userId, long auctionId, long price, int quantity);
 	
-	public boolean markAuctionsEnded();
+	public List<MailProperties> markAuctionsFinished();
 	
 	public boolean createChatMessage(long senderId,long receiverId, String message, Date date);
 
