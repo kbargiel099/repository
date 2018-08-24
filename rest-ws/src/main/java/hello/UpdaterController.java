@@ -47,7 +47,7 @@ public class UpdaterController {
     
     @MessageMapping("/update/{id}")
     @SendTo("/message/notify/{id}")
-    public Response proceed(@DestinationVariable String id,RequestForm form) throws Exception {    	
+    public Response proceedOffer(@DestinationVariable String id,RequestForm form) throws Exception {    	
     	boolean isInserted = false;
     	
     	if(isCurrentTimeBefore(form.getEndDate())){
@@ -74,6 +74,7 @@ public class UpdaterController {
     	if(isCurrentTimeBefore(form.getEndDate())){
     		isInserted = service.proceedPurchase(Long.parseLong(form.getUserId()),Long.parseLong(id),Long.parseLong(form.getPrice()),
     			Integer.parseInt(form.getQuantity()));
+    		mailManager.sendMultiple(service.getMailPropertiesPurchase(Long.parseLong(id)), MailType.PURCHASE);	
     	}else{
     		return new ResponseError(1);
     	}

@@ -16,6 +16,8 @@ public interface AuctionProcessingService {
 	
 	public List<MailProperties> getMailProperties(long auctionId, long userId) throws SQLException;
 	
+	public List<MailProperties> getMailPropertiesPurchase(long auctionId) throws SQLException;
+	
 	public boolean createChatMessage(long senderId,long receiverId, String message, Date date);
 
 }

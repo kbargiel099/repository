@@ -21,6 +21,8 @@ public interface UserProfileDAO {
 	
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId);
 	
+	public List<AuctionPresenter> getUserSoldSubjects(long userId);
+	
 	public List<AuctionPresenter> getUserAuctions(long userId);
 	
 	public List<AuctionPresenter> getUserObservation(long userId);

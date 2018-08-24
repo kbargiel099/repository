@@ -46,6 +46,15 @@ public class AuctionProcessingServiceImpl implements AuctionProcessingService{
 		return new ArrayList<MailProperties>();
 	}
 	
+	public List<MailProperties> getMailPropertiesPurchase(long auctionId){
+		try {
+			return dataSource.getMailPropertiesPurchase(auctionId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<MailProperties>();
+	}
+	
 	@Override
 	public boolean createChatMessage(long senderId,long receiverId, String message, Date date){
 		return dataSource.createChatMessage(senderId, receiverId, message, date);

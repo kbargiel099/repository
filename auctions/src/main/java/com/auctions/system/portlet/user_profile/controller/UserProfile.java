@@ -23,7 +23,7 @@ public interface UserProfile extends Processing{
 	
 	@RenderMapping(params = "page=stats")
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
-			@RequestParam("auctionId") int id);
+			@RequestParam("auctionId") int auctionId);
 	
 	@RequestMapping(params = "page=getBought")
 	public ModelAndView getBoughtAction(RenderRequest request, RenderResponse response,

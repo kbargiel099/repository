@@ -70,6 +70,23 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	}
 	
 	@Override
+	public List<AuctionPresenter> getUserSoldSubjects(long userId){
+		return dao.query("SELECT a.id,name,images[1] AS image_name,subject_price FROM sys.auction a "
+				+ "JOIN sys.transactions t ON a.id=t.auctionid "
+				+ "WHERE a.userid=? "
+				+ "GROUP BY a.id "
+				+ "ORDER BY a.create_date", 
+				new Object[]{userId},new RowMapper<AuctionPresenter>(){
+					@Override
+					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionPresenter(res.getLong("id"),res.getString("name"),res.getString("image_name"),
+							res.getLong("subject_price"));
+					}
+				
+			});
+	}
+
+	@Override
 	public List<AuctionPresenter> getUserAuctions(long userId){
 		return dao.query("SELECT id,name,image_name,subject_price FROM sys.auction_profile_view WHERE userid=?", 
 				new Object[]{userId},new RowMapper<AuctionPresenter>(){

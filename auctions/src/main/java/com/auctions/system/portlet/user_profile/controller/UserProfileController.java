@@ -119,8 +119,8 @@ public class UserProfileController implements UserProfile{
     }*/
 	
 	@Override
-	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, int id){
-		return stats.getAuctionStatsView(processing.getDetails(id),ViewType.Profile);
+	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, int auctionId){
+		return stats.getAuctionStatsView(processing.getDetails(auctionId),ViewType.Profile);
 	}
 	
 	@Override
@@ -134,6 +134,7 @@ public class UserProfileController implements UserProfile{
 	@Override
 	public ModelAndView getSoldAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(userSoldView);
+		model.addObject("auctions", service.getUserSoldSubjects(PortalUtil.getUserId(request)));
 		return model;
 	}
 	

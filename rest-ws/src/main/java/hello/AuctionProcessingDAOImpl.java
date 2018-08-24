@@ -71,6 +71,18 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 			}
 		} );
 	}
+	
+	@Override
+	public List<MailProperties> getMailPropertiesPurchase(long auctionId) throws SQLException {
+		return dao.query("SELECT emailaddress,name FROM sys.auction a "
+			+ "JOIN user_ u ON u.userid=a.userid WHERE a.id=?", new Object[]{auctionId},
+				new RowMapper<MailProperties>(){
+			@Override
+			public MailProperties mapRow(ResultSet res, int row) throws SQLException {
+				return new MailProperties(res.getString("emailaddress"),res.getString("name"));
+			}
+		} );
+	}
 
 	@Override
 	public boolean createChatMessage(long senderId,long receiverId, String message, Date date){

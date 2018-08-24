@@ -61,6 +61,10 @@ public class SimpleMailManager implements MailManager {
          	templateMessage.setSubject("Twoja oferta została przebita");
          	templateMessage.setText("Twoja oferta w aukcji: " + data +" została właśnie przebita. Zaloguj się na portalu i zobacz szczegóły.");
          	break;
+    	case PURCHASE :
+         	templateMessage.setSubject("Dokonana transakcja");
+         	templateMessage.setText("W aukcji: " + data +" dokonana została transakcja. Zaloguj się na portalu i zobacz szczegóły.");
+         	break;
     	}
     }
 }

@@ -42,6 +42,11 @@ public class UserProfileServiceImpl implements UserProfileService{
 	}
 	
 	@Override
+	public List<AuctionPresenter> getUserSoldSubjects(long userId){
+		return dataSource.getUserSoldSubjects(userId);
+	}
+	
+	@Override
 	public List<AuctionPresenter> getUserAuctions(long userId){
 		return dataSource.getUserAuctions(userId);
 	}

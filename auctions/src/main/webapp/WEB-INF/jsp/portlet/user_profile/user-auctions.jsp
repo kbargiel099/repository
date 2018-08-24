@@ -78,4 +78,4 @@
 	</div>
 </div>
 
-<script src="<c:url value="/js/portlet/users_management/user-auctions.js" />"></script>
+<script src="<c:url value="/js/portlet/auctions_management/user-auctions.js" />"></script>
