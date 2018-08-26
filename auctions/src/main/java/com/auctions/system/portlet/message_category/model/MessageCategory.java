@@ -17,6 +17,10 @@ public class MessageCategory {
 		this.isActivated = isActivated;
 	}
 	
+	public MessageCategory(){
+		
+	}
+	
 	public int getId() {
 		return id;
 	}

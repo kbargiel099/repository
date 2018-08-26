@@ -43,9 +43,40 @@ public class MessageCategoryDAOImpl implements MessageCategoryDAO{
 	}
 	
 	@Override
+	public MessageCategory getMessageCategory(int id){
+		return dao.queryForObject("SELECT id,user_id,name,create_date,activated FROM sys.message_category WHERE id=?", new Object[]{id},
+				new RowMapper<MessageCategory>(){
+					@Override
+					public MessageCategory mapRow(ResultSet res, int row) throws SQLException {
+						return new MessageCategory(res.getInt("id"),res.getString("name"),DateFormatter.format(res.getTimestamp("create_date")),
+								res.getLong("user_id"),res.getBoolean("activated"));
+				}
+		});
+	}
+	
+	@Override
 	public boolean insert(String name, long userId){
-		return dao.update("INSERT INTO sys.message_category(name,create_date,activated,user_id) VALUES(?,?,?,?)",
-				new Object[]{name, new Timestamp(System.currentTimeMillis()), true, userId}) > 0 ? true : false;
+		Timestamp current =  new Timestamp(System.currentTimeMillis());
+		return dao.update("INSERT INTO sys.message_category(name,create_date,edit_date,activated,user_id) VALUES(?,?,?,?,?)",
+				new Object[]{name, current, current, true, userId}) > 0;
+	}
+	
+	@Override
+	public boolean edit(String name, int id){
+		return dao.update("UPDATE sys.message_category SET name=?,edit_date=? WHERE id=?",
+				new Object[]{name, new Timestamp(System.currentTimeMillis()), id}) > 0;
+	}
+	
+	@Override
+	public boolean changeStatus(int id, boolean activated){
+		return dao.update("UPDATE sys.message_category SET activated=? WHERE id=?",
+				new Object[]{activated, id}) > 0;
+	}
+	
+	@Override
+	public boolean delete(int id){
+		return dao.update("DELETE FROM sys.message_category WHERE id=?",
+				new Object[]{id}) > 0;
 	}
 
 }

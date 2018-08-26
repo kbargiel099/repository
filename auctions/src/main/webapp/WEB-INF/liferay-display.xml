@@ -5,6 +5,7 @@
 	<category name="category.sample">
 		<portlet id="authorization" />
 		<portlet id="message-category" />
+		<portlet id="messages" />
 		<portlet id="auctions-management" />
 		<portlet id="users-management" />
 		<portlet id="user-registration"></portlet>

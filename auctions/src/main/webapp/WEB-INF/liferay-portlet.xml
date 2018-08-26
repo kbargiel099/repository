@@ -13,6 +13,11 @@
 		<css-class-wrapper>message-category-portlet</css-class-wrapper>
 	</portlet>
 	<portlet>
+		<portlet-name>messages</portlet-name>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<css-class-wrapper>messages-portlet</css-class-wrapper>
+	</portlet>
+	<portlet>
 		<portlet-name>auctions-management</portlet-name>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<css-class-wrapper>auctions-management-portlet</css-class-wrapper>

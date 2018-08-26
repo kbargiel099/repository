@@ -21,8 +21,28 @@ public class MessageCategoryServiceImpl implements MessageCategoryService{
 	}
 	
 	@Override
+	public MessageCategory getMessageCategory(int id){
+		return dataSource.getMessageCategory(id);
+	}
+	
+	@Override
 	public boolean insert(String name, long userId){
 		return dataSource.insert(name, userId);
+	}
+	
+	@Override
+	public boolean edit(String name, int id){
+		return dataSource.edit(name, id);
+	}
+
+	@Override
+	public boolean changeStatus(int id, boolean activated) {
+		return dataSource.changeStatus(id, activated);
+	}
+
+	@Override
+	public boolean delete(int id) {
+		return dataSource.delete(id);
 	}
 
 }

@@ -2,18 +2,19 @@ package com.auctions.system.portlet.messages.service;
 
 import java.util.List;
 
-import com.auctions.system.portlet.category.model.SearchingForm;
-import com.auctions.system.portlet.category.model.SubCategory;
-import com.auctions.system.portlet.home_page.model.AuctionPresenter;
+import com.auctions.system.portlet.message_category.model.MessageCategory;
+import com.auctions.system.portlet.messages.model.Message;
 
 public interface MessagesService{
 	
-	public List<AuctionPresenter> getBestAuctionsByCategory(String category);
+	public List<Message> getMessages();
 	
-	public List<SubCategory> getSubCategories(String categoryName);
+	public Message getMessage(int id);
 	
-	public List<AuctionPresenter> getAuctionsBySubcategory(int id);
+	public List<MessageCategory> getMessageCategories();
 	
-	public List<AuctionPresenter> getSearchingAuctions(SearchingForm searchingForm);
+	public boolean insert(Message message, long userId);
+	
+	public boolean edit(Message message, long userId);
 
 }

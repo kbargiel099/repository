@@ -1,7 +1,6 @@
 package com.auctions.system.portlet.auctions_management.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -17,7 +16,6 @@ import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.auction_processing.controller.Processing;
 import com.auctions.system.module.statistics.controller.Statistics;
 import com.auctions.system.module.statistics.model.ViewType;
-import com.auctions.system.portlet.auctions_management.model.AuctionDatatable;
 import com.auctions.system.portlet.auctions_management.service.AuctionsManagementService;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 

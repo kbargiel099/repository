@@ -2,7 +2,6 @@ package com.auctions.system.portlet.user_profile.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -10,7 +9,6 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -84,9 +82,9 @@ public class UserProfileController implements UserProfile{
     public void fileUpload(@ModelAttribute SpringFileVO file, BindingResult bndingResult,
             ActionRequest request, ActionResponse response, SessionStatus sessionStatus) throws IOException{
         
-        //response.setRenderParameter("page", "addVideo");
-        //response.setRenderParameter("id", String.valueOf(file.getAuctionId()));
-        response.sendRedirect("/");
+        response.setRenderParameter("page", "addVideo");
+        response.setRenderParameter("id", String.valueOf(file.getAuctionId()));
+        //response.sendRedirect("/");
     	
     	if(file != null){
             FileUtil.create(file.getFileData().get(0), Properties.getVideosPath());

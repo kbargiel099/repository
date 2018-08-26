@@ -8,17 +8,12 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/image.css" />" >
 
-<portlet:resourceURL id="getMessageCategories" var="getMessageCategories" />
-<input type="hidden" id="getMessageCategoriesUrl" value="${getMessageCategories}"></input>
+<portlet:resourceURL id="getMessages" var="getMessages" />
+<input type="hidden" id="getMessagesUrl" value="${getMessages}"></input>
 
 <portlet:renderURL var="add">
 	<portlet:param name="page" value="add"/>
 </portlet:renderURL>
-
-<portlet:renderURL var="messages">
-	<portlet:param name="page" value="messages"/>
-</portlet:renderURL>
-<input type="hidden" id="messagesUrl" value="${messages}"/>
 
 <portlet:renderURL var="edit">
 	<portlet:param name="page" value="edit"/>
@@ -42,14 +37,14 @@
 	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %>
 	
 	<div class="col-xs-12 col-sm-8 col-md-9">
-		<h4 class="user-profile-section-title"><liferay-ui:message key="adm.message-categories.label" /></h4>
+		<h4 class="user-profile-section-title"><liferay-ui:message key="adm.messages.label" /></h4>
 	</div>
 	
 	<div class="col-xs-12 col-sm-8 col-md-12">
  		<a class="btn btn-primary btn-sm" href="${add}">
 			<liferay-ui:message key="add" />
 		</a>
-		<table id="message-categories" class="display">
+		<table id="messages" class="display">
 		     <thead>
 		            <tr>
 		                <th><liferay-ui:message key="adm.id.label" /></th>
@@ -74,15 +69,15 @@
 	</div>
 </div>
 
-<input type="hidden" id="locked-msg" value="<liferay-ui:message key="message.category.lock.success"/>"/>
-<input type="hidden" id="unlocked-msg" value="<liferay-ui:message key="message.category.unlock.success"/>"/>
-<input type="hidden" id="deleted-msg" value="<liferay-ui:message key="message.category.delete.success"/>"/>
+<input type="hidden" id="locked-msg" value="<liferay-ui:message key="message.lock.success"/>"/>
+<input type="hidden" id="unlocked-msg" value="<liferay-ui:message key="message.unlock.success"/>"/>
+<input type="hidden" id="deleted-msg" value="<liferay-ui:message key="message.delete.success"/>"/>
 <input type="hidden" id="error-msg" value="<liferay-ui:message key="error.msg"/>"/>
 
-<script src="<c:url value="/js/portlet/message_category/datatable.js"/>" /></script>
+<script src="<c:url value="/js/portlet/messages/datatable.js"/>" /></script>
 <script src="<c:url value="/js/module/administration.js"/>" /></script>
 <script type="text/javascript" >
 	jQuery(document).ready(function(){
-		initMessageCategories(jQuery("#getMessageCategoriesUrl").val());
+		initMessages(jQuery("#getMessagesUrl").val());
 	});
 </script>

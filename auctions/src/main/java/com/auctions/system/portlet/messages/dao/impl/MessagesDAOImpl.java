@@ -2,6 +2,7 @@ package com.auctions.system.portlet.messages.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,10 +14,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.auctions.system.portlet.category.model.SearchingForm;
-import com.auctions.system.portlet.category.model.SubCategory;
-import com.auctions.system.portlet.home_page.model.AuctionPresenter;
+import com.auctions.system.module.auction_processing.DateFormatter;
+import com.auctions.system.portlet.message_category.model.MessageCategory;
 import com.auctions.system.portlet.messages.dao.MessagesDAO;
+import com.auctions.system.portlet.messages.model.Message;
 
 @Repository("messagesDAO")
 public class MessagesDAOImpl implements MessagesDAO{
@@ -32,75 +33,55 @@ public class MessagesDAOImpl implements MessagesDAO{
 		dao = new JdbcTemplate(dataSource);
 	}
 	
-	@Override//do przerobienia
-	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
-		return dao.query("SELECT id,name,image_name,subject_price,category_name FROM sys.auction_main WHERE category_name=?", 
-				new Object[]{category},new RowMapper<AuctionPresenter>(){
-					@Override
-					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
-								res.getLong("subject_price"));
-				}
-			});
-	}
-	
-	public List<AuctionPresenter> getSearchingAuctions(SearchingForm form){
-		String tempSearch = "%"+form.getSearchingText()+"%";
-		
-		return dao.query("SELECT id,name,image_name AS image_name,subject_price FROM sys.auction_search "
-				+ "WHERE lower(name) LIKE lower(?) AND category_name=? " + preprareQueryForSearching(form), 
-				new Object[]{tempSearch,form.getCurrentCategory()},
-				new RowMapper<AuctionPresenter>(){
-					@Override
-					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
-								res.getLong("subject_price"));
-				}
-			});
-	}
-	
-	private String preprareQueryForSearching(SearchingForm form){
-		String query = "";
-		boolean hasMin = form.getMinPrice().isEmpty() ? false : true;
-		boolean hasMax = form.getMaxPrice().isEmpty() ? false : true;
-		
-		if(hasMin && hasMax){
-			query += " AND subject_price BETWEEN CAST('"+ form.getMinPrice() +"' AS BIGINT) AND CAST('"+ form.getMaxPrice() +"' AS BIGINT) ";
-		}else if(hasMin && !hasMax){
-			query += " AND subject_price >= CAST('"+ form.getMinPrice() +"' AS BIGINT) ";
-		}else if(!hasMin && hasMax){
-			query =  " AND subject_price <= CAST('"+ form.getMaxPrice() +"' AS BIGINT)";
-		}else{
-			query += " AND subject_price >= 0 ";
-		}
-		return query;
-		
-	}
-	
 	@Override
-	public List<AuctionPresenter> getAuctionsBySubcategory(int id){
-		return dao.query("SELECT id,name,image_name,subject_price FROM auctions_by_subcategory "
-				+ "WHERE subcategory_id=? ORDER BY create_date DESC", 
-				new Object[]{id},
-				new RowMapper<AuctionPresenter>(){
+	public List<Message> getMessages(){
+		return dao.query("SELECT id,message_category_id,title,text,create_date,edit_date,user_id,is_sent FROM sys.message", 
+				new RowMapper<Message>(){
 					@Override
-					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
-								res.getLong("subject_price"));
+					public Message mapRow(ResultSet res, int row) throws SQLException {
+						return new Message(res.getInt("id"),res.getInt("message_category_id"),res.getString("title"),res.getString("text"),
+								DateFormatter.format(res.getTimestamp("create_date")),DateFormatter.format(res.getTimestamp("create_date")),
+								res.getLong("user_id"),res.getBoolean("is_sent"));
 				}
 			});
 	}
 	
 	@Override
-	public List<SubCategory> getSubCategories(String categoryName){
-		return dao.query("SELECT sub.id AS sub_id,c.id,sub.name FROM subcategory sub "
-                		+ "JOIN category c ON c.id=sub.category_id WHERE c.name=?", 
-				new Object[]{categoryName},new RowMapper<SubCategory>(){
+	public Message getMessage(int id){
+		return dao.queryForObject("SELECT id,message_category_id,title,text,create_date,edit_date,user_id,is_sent FROM sys.message WHERE id=?", 
+				new Object[]{id}, new RowMapper<Message>(){
 					@Override
-					public SubCategory mapRow(ResultSet res, int row) throws SQLException {
-						return new SubCategory(res.getInt("sub_id"),res.getInt("id"),res.getString("name"));
+					public Message mapRow(ResultSet res, int row) throws SQLException {
+						return new Message(res.getInt("id"),res.getInt("message_category_id"),res.getString("title"),res.getString("text"),
+								DateFormatter.format(res.getTimestamp("create_date")),DateFormatter.format(res.getTimestamp("create_date")),
+								res.getLong("user_id"),res.getBoolean("is_sent"));
+				}
+			});
+	}
+	
+	@Override
+	public List<MessageCategory> getMessageCategories(){
+		return dao.query("SELECT id,user_id,name,create_date,activated FROM sys.message_category", 
+				new RowMapper<MessageCategory>(){
+					@Override
+					public MessageCategory mapRow(ResultSet res, int row) throws SQLException {
+						return new MessageCategory(res.getInt("id"),res.getString("name"),DateFormatter.format(res.getTimestamp("create_date")),
+								res.getLong("user_id"),res.getBoolean("activated"));
 				}
 		});
 	}
-
+	
+	@Override
+	public boolean insert(Message message, long userId){
+		Timestamp current =  new Timestamp(System.currentTimeMillis());
+		return dao.update("INSERT INTO sys.message(message_category_id,title,text,create_date,edit_date,user_id,is_sent) VALUES(?,?,?,?,?,?,?)", 
+				new Object[]{message.getMessageCategoryId(), message.getTitle(), message.getText(), current, current, userId, true}) > 0;
+	}
+	
+	@Override
+	public boolean edit(Message message, long userId){
+		Timestamp current =  new Timestamp(System.currentTimeMillis());
+		return dao.update("UPDATE sys.message SET message_category_id=?,title=?,text=?,edit_date=?,user_id=? WHERE id=?", 
+				new Object[]{message.getMessageCategoryId(), message.getTitle(), message.getText(), current, userId, message.getId()}) > 0;
+	}
 }
