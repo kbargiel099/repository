@@ -30,6 +30,9 @@
 <portlet:renderURL var="myAuctionsRender">
 	<portlet:param name="page" value="myAuctions"/>
 </portlet:renderURL>
+<portlet:renderURL var="messagesRender">
+	<portlet:param name="page" value="messages"/>
+</portlet:renderURL>
 <portlet:renderURL var="conversationsRender">
 	<portlet:param name="page" value="conversations"/>
 </portlet:renderURL>
@@ -44,6 +47,7 @@
 		  <li class="horizontal-menu-item"><a href="${addGradeRender}"><liferay-ui:message key="user.add.grade.label" /></a></li>
 		  <li class="horizontal-menu-item"><a href="${observationsRender}"><liferay-ui:message key="user.observation.label" /></a></li>
 		  <li class="horizontal-menu-item"><a href="${myAuctionsRender}"><liferay-ui:message key="user.auctions.label" /></a></li>
+		   <li class="horizontal-menu-item"><a href="${messagesRender}"><liferay-ui:message key="messages.label" /></a></li>
 		  <li class="horizontal-menu-item"><a href="${conversationsRender}"><liferay-ui:message key="conversations.label" /></a></li>
 		</ul>
 	</div>

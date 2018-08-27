@@ -50,6 +50,7 @@ public class UserProfileController implements UserProfile{
 	private final String userObservationView = "user-observation";
 	private final String addVideoView = "add-video";
 	private final String addImagesView = "add-images";
+	private final String messagesView = "messages";
 	private final String conversationsView = "conversations";
 	
 	@Autowired
@@ -116,6 +117,14 @@ public class UserProfileController implements UserProfile{
         out.close();
     }*/
 	
+    @Override
+    public ModelAndView getMessagesView(RenderRequest request, RenderResponse response){
+    	ModelAndView model = new ModelAndView(messagesView);
+    	model.addObject("categories", service.getMessageCategories());
+    	model.addObject("messages", service.getMessages());
+    	return model;
+    }
+    
 	@Override
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, int auctionId){
 		return stats.getAuctionStatsView(processing.getDetails(auctionId),ViewType.Profile);

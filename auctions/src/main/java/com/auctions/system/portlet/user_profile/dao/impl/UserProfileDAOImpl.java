@@ -19,6 +19,8 @@ import com.auctions.system.module.auction_processing.DateFormatter;
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
+import com.auctions.system.portlet.message_category.model.MessageCategory;
+import com.auctions.system.portlet.messages.model.Message;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
@@ -283,5 +285,30 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 				return new UserMessage(res.getLong("senderid"),res.getString("message"),res.getDate("create_date"));
 			}
 		});
+	}
+	
+	@Override
+	public List<MessageCategory> getMessageCategories(){
+		return dao.query("SELECT id,user_id,name,create_date,activated FROM sys.message_category", 
+				new RowMapper<MessageCategory>(){
+					@Override
+					public MessageCategory mapRow(ResultSet res, int row) throws SQLException {
+						return new MessageCategory(res.getInt("id"),res.getString("name"),DateFormatter.format(res.getTimestamp("create_date")),
+								res.getLong("user_id"),res.getBoolean("activated"));
+				}
+		});
+	}
+	
+	@Override
+	public List<Message> getMessages(){
+		return dao.query("SELECT id,message_category_id,title,text,create_date,edit_date,user_id,is_sent FROM sys.message", 
+				new RowMapper<Message>(){
+					@Override
+					public Message mapRow(ResultSet res, int row) throws SQLException {
+						return new Message(res.getInt("id"),res.getInt("message_category_id"),res.getString("title"),res.getString("text"),
+								DateFormatter.format(res.getTimestamp("create_date")),DateFormatter.format(res.getTimestamp("create_date")),
+								res.getLong("user_id"),res.getBoolean("is_sent"));
+				}
+			});
 	}
 }

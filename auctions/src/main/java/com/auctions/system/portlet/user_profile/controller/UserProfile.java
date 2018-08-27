@@ -21,6 +21,9 @@ public interface UserProfile extends Processing{
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response,
 			@RequestParam(value ="message", defaultValue = "") String message) throws Exception;
 	
+	@RenderMapping(params = "page=messages")
+    public ModelAndView getMessagesView(RenderRequest request, RenderResponse response);
+	
 	@RenderMapping(params = "page=stats")
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
 			@RequestParam("auctionId") int auctionId);

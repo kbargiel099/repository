@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
+import com.auctions.system.portlet.message_category.model.MessageCategory;
+import com.auctions.system.portlet.messages.model.Message;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
@@ -138,6 +140,16 @@ public class UserProfileServiceImpl implements UserProfileService{
 			 e.printStackTrace();
 			 return false;
 		}
+	}
+	
+	@Override
+	public List<MessageCategory> getMessageCategories(){
+		return dataSource.getMessageCategories();
+	}
+	
+	@Override
+	public List<Message> getMessages(){
+		return dataSource.getMessages();
 	}
 
 }

@@ -8,6 +8,8 @@ import javax.portlet.ResourceRequest;
 import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.category.model.SubCategory;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
+import com.auctions.system.portlet.message_category.model.MessageCategory;
+import com.auctions.system.portlet.messages.model.Message;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionImages;
@@ -59,5 +61,9 @@ public interface UserProfileService {
 	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId);
 	
 	public boolean changePassword(ResourceRequest request, UserPassword p);
+	
+	public List<MessageCategory> getMessageCategories();
+	
+	public List<Message> getMessages();
 
 }
