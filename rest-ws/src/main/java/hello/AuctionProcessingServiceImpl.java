@@ -17,13 +17,13 @@ public class AuctionProcessingServiceImpl implements AuctionProcessingService{
 	AuctionProcessingDAO dataSource;
 	
 	@Override
-	public boolean proceedOffer(long userId, long auctionId, long price, int quantity){
-		return dataSource.proceedOffer(userId, auctionId,price,quantity);
+	public boolean proceedOffer(RequestForm form, String id){
+		return dataSource.proceedOffer(form, id);
 	}
 	
 	@Override
-	public boolean proceedPurchase(long userId, long auctionId, long price, int quantity){
-		return dataSource.proceedPurchase(userId, auctionId, price, quantity);
+	public boolean proceedPurchase(RequestForm form, String id){
+		return dataSource.proceedPurchase(form, id);
 	}
 	
 	@Override

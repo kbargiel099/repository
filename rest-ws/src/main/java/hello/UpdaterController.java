@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import module.Code;
+import module.exception.TimeException;
 import module.mail_manager.MailType;
 import module.mail_manager.impl.SimpleMailManager;
 
@@ -47,43 +49,41 @@ public class UpdaterController {
     
     @MessageMapping("/update/{id}")
     @SendTo("/message/notify/{id}")
-    public Response proceedOffer(@DestinationVariable String id,RequestForm form) throws Exception {    	
-    	boolean isInserted = false;
-    	
-    	if(isCurrentTimeBefore(form.getEndDate())){
-    		isInserted = service.proceedOffer(Long.parseLong(form.getUserId()),Long.parseLong(id),
-    				Long.parseLong(form.getPrice()),Integer.parseInt(form.getQuantity()));
-    		mailManager.sendMultiple(service.getMailProperties(
-    				Long.parseLong(id), Long.parseLong(form.getUserId())), MailType.NEW_OFFER);
-    	}else{
-    		return new ResponseError(1);
+    public Response proceedOffer(@DestinationVariable String id,RequestForm form) throws Exception {   
+    	try{
+	    	if(isCurrentTimeBefore(form.getEndDate())){
+	    		service.proceedOffer(form, id);
+	    		mailManager.sendMultiple(service.getMailProperties(
+	    				Long.parseLong(id), Long.parseLong(form.getUserId())), MailType.NEW_OFFER);
+	    	}
+    	}catch(TimeException e){
+    		e.printStackTrace();
+    		return new ResponseError(Code.TIMEOUT);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return new ResponseError(Code.ERROR);
     	}
     	
-    	if(isInserted){
-        	return new ResponseForm(true, form.getUsername(), form.getPrice(), form.getQuantity());
-        }else{
-        	return new ResponseError(2);
-        }
+    	return new ResponseForm(true, form.getUsername(), form.getPrice(), form.getQuantity());
     }
     
     @MessageMapping("/purchase/{id}")
     @SendTo("/message/notify/{id}")
     public Response proceedPurchase(@DestinationVariable String id, RequestForm form) throws Exception {    	
-    	boolean isInserted = false;
-    	
-    	if(isCurrentTimeBefore(form.getEndDate())){
-    		isInserted = service.proceedPurchase(Long.parseLong(form.getUserId()),Long.parseLong(id),Long.parseLong(form.getPrice()),
-    			Integer.parseInt(form.getQuantity()));
-    		mailManager.sendMultiple(service.getMailPropertiesPurchase(Long.parseLong(id)), MailType.PURCHASE);	
-    	}else{
-    		return new ResponseError(1);
+    	try{
+	    	if(isCurrentTimeBefore(form.getEndDate())){
+	    		service.proceedPurchase(form, id);
+	    		mailManager.sendMultiple(service.getMailPropertiesPurchase(Long.parseLong(id)), MailType.PURCHASE);
+	    	}
+    	}catch(TimeException e){
+    		e.printStackTrace();
+    		return new ResponseError(Code.TIMEOUT);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return new ResponseError(Code.ERROR);
     	}
     	
-    	if(isInserted){
-        	return new ResponseForm(true, form.getUsername(), form.getQuantity());
-        }else{
-        	return new ResponseError(2);
-        }
+    	return new ResponseForm(true, form.getUsername(), form.getQuantity());
     }
     
     @MessageMapping("/conversation/{id}")
@@ -102,13 +102,16 @@ public class UpdaterController {
     	
     }
     
-    private boolean isCurrentTimeBefore(String end){
+    private boolean isCurrentTimeBefore(String end) throws TimeException{
     	SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd hh.mm.ss");
     	
 		try {
 			Date endDate = format.parse(end);
 	        Date current = new Date(System.currentTimeMillis());
-	        return current.before(endDate);
+	        
+	        if(!current.before(endDate)) throw new TimeException("Aukcja została już zakoczona");
+	        return true;
+	        
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

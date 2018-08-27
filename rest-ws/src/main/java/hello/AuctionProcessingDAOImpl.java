@@ -29,16 +29,16 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	}
 
 	@Override
-	public boolean proceedOffer(long userId, long auctionId, long price, int quantity) {
+	public boolean proceedOffer(RequestForm form, String id) {
 		return dao.update("INSERT INTO sys.auction_process(userid,auctionid,price,quantity,create_date) VALUES(?,?,?,?,current_timestamp)",
-				new Object[]{userId,auctionId,price,quantity}) > 0;
+				new Object[]{Long.parseLong(form.getUserId()), Long.parseLong(id), Long.parseLong(form.getPrice()), Integer.parseInt(form.getQuantity())}) > 0;
 	}
 	
 	@Override
-	public boolean proceedPurchase(long userId, long auctionId, long price, int quantity) {
+	public boolean proceedPurchase(RequestForm form, String id) {
 		try{
 			return dao.update("INSERT INTO sys.transactions(userid,auctionid,price,quantity,create_date,payment_status_id) VALUES(?,?,?,?,current_timestamp,default)",
-					new Object[]{userId,auctionId,price,quantity}) > 0;
+					new Object[]{Long.parseLong(form.getUserId()), Long.parseLong(id), Long.parseLong(form.getPrice()), Integer.parseInt(form.getQuantity())}) > 0;
 		} catch(UncategorizedSQLException e){
 			e.printStackTrace();
 		}

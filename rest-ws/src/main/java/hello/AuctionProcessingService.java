@@ -8,9 +8,9 @@ import model.MailProperties;
 
 public interface AuctionProcessingService {
 
-	public boolean proceedOffer(long userId, long auctionId, long price, int quantity);
+	public boolean proceedOffer(RequestForm form, String id);
 	
-	public boolean proceedPurchase(long userId, long auctionId, long price, int quantity);
+	public boolean proceedPurchase(RequestForm form, String id);
 	
 	public List<MailProperties> markAuctionsFinished();
 	
