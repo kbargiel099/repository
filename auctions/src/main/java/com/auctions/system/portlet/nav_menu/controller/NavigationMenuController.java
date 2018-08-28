@@ -28,7 +28,7 @@ public class NavigationMenuController implements NavigationMenu{
 	
 	private final String defaultView = "view";
 	
-	@RenderMapping
+	@Override
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response){
 		long id = PortalUtil.getUserId(request);
 		
@@ -38,21 +38,22 @@ public class NavigationMenuController implements NavigationMenu{
 		return model;
 	}
 	
-	@ResourceMapping("getMessagesFromUser")
-	public void getMessagesFromUser(ResourceRequest request, ResourceResponse response, long id) throws IOException{
-		long userId = PortalUtil.getUserId(request);
+	@Override
+	public void getMessagesFromUser(ResourceRequest request, ResourceResponse response, long userId) throws IOException{
+		long current = PortalUtil.getUserId(request);
 		
 		HttpUtil.createResponse(response).
-			set("messages", service.getUnreadMessagesFromUser(id, userId)).
+			set("messages", service.getUnreadMessagesFromUser(userId, current)).
 			set("success", true).
 			prepare();
 	}
 
-	public void markMessagesAsRead(ResourceRequest request, ResourceResponse response, long id) throws IOException{
-		long userId = PortalUtil.getUserId(request);
+	@Override
+	public void markMessagesAsRead(ResourceRequest request, ResourceResponse response, long userId) throws IOException{
+		long current = PortalUtil.getUserId(request);
 		
 		HttpUtil.createResponse(response).
-			set("success", service.markMessagesAsRead(id, userId)).
+			set("success", service.markMessagesAsRead(userId, current)).
 			prepare();
 	}
 }

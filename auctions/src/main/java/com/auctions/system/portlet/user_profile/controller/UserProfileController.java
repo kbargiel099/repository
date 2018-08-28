@@ -81,13 +81,13 @@ public class UserProfileController implements UserProfile{
 	
     @ActionMapping(params="formAction=fileUpload")
     public void fileUpload(@ModelAttribute SpringFileVO file, BindingResult bndingResult,
-            ActionRequest request, ActionResponse response, SessionStatus sessionStatus) throws IOException{
+            ActionRequest request, ActionResponse response, SessionStatus sessionStatus) {
         
         response.setRenderParameter("page", "addVideo");
         response.setRenderParameter("id", String.valueOf(file.getAuctionId()));
         //response.sendRedirect("/");
     	
-    	if(file != null){
+    	if(file != null && file.getFileData() != null){
             FileUtil.create(file.getFileData().get(0), Properties.getVideosPath());
             worker.convertVideo(file.getAuctionId(), file.getFileData().get(0).getOriginalFilename());
             
@@ -220,6 +220,7 @@ public class UserProfileController implements UserProfile{
 	public ModelAndView addGradeAction(RenderRequest request, RenderResponse response){
 		ModelAndView model = new ModelAndView(addGradeView);
 		model.addObject("auctionGrade", new AuctionGrade());
+		model.addObject("auctions", service.getAuctionsForGrade(PortalUtil.getUserId(request)));
 		return model;
 	}
 	

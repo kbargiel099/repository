@@ -1,5 +1,7 @@
 package hello;
 
+import java.util.Date;
+
 public class MessageResponse extends Response{
 
     private boolean success;
@@ -16,6 +18,16 @@ public class MessageResponse extends Response{
 		this.message = message;
 		this.date = date;
 	}
+	
+	public MessageResponse(MessageRequestForm form) {
+		super();
+		this.success = true;
+		this.senderId = form.getSenderId();
+		this.senderName = form.getSenderName();
+		this.message = form.getMessage();
+		this.date = new Date().toString();
+	}
+
 
 	public boolean isSuccess() {
 		return success;

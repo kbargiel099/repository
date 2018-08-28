@@ -9,6 +9,7 @@ import com.auctions.system.portlet.home_page.model.AuctionPresenter;
 import com.auctions.system.portlet.message_category.model.MessageCategory;
 import com.auctions.system.portlet.messages.model.Message;
 import com.auctions.system.portlet.user_profile.model.Auction;
+import com.auctions.system.portlet.user_profile.model.AuctionForGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
@@ -60,4 +61,6 @@ public interface UserProfileDAO {
 	public List<MessageCategory> getMessageCategories();
 	
 	public List<Message> getMessages();
+	
+	public List<AuctionForGrade> getAuctionsForGrade(long userId);
 }

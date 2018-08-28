@@ -13,6 +13,9 @@ jQuery(document).ready(function(){
 	showObservation();
 	getAllOffers();
 	
+	let end = new Date(endDate);
+	if(end < new Date() || quantity === '0') responsiveNotify('Aukcja została już zakończona'); 
+	
 	if(Liferay.ThemeDisplay.getUserId() == parseInt(jQuery('#seller-id').val())){
 		if(isQuickPurchase == true){
 			jQuery("#quickPurchaseBtn").prop("disabled",true);

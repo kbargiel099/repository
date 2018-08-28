@@ -2,6 +2,7 @@ package hello;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -85,9 +86,11 @@ public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	}
 
 	@Override
-	public boolean createChatMessage(long senderId,long receiverId, String message, Date date){
+	public boolean createChatMessage(MessageRequestForm form){
+		Timestamp current = new Timestamp(System.currentTimeMillis());
 		return dao.update("INSERT INTO sys.chat_messages(senderid,receiverid,message,create_date,is_read) VALUES(?,?,?,?,?)",
-				new Object[]{senderId,receiverId,message,date,false}) > 0;
+				new Object[]{Long.parseLong(form.getSenderId()), Long.parseLong(form.getReceiverId()),
+						form.getMessage(), current, false}) > 0;
 	}
 
 }

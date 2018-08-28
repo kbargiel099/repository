@@ -19,10 +19,10 @@ public interface NavigationMenu {
 	
 	@ResourceMapping("getMessagesFromUser")
 	public void getMessagesFromUser(ResourceRequest request, ResourceResponse response,
-			@RequestParam("userId") long id) throws IOException;
+			@RequestParam("userId") long userId) throws IOException;
 
 	@ResourceMapping("markMessagesAsRead")
 	public void markMessagesAsRead(ResourceRequest request, ResourceResponse response,
-			@RequestParam("userId") long id) throws IOException;
+			@RequestParam("userId") long userId) throws IOException;
 	
 }

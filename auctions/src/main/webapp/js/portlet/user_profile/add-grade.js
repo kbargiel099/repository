@@ -14,7 +14,7 @@ function submit(params_){
 }
 
 var onResponse = function(res){
-	if(res.success == true){
+	if(JSON.parse(res.success) == true){
 		window.location.href = buildUrl(returnUrl,'message',Liferay.Language.get('grade.has.been.added'));
 	}else{
 		responsiveNotify(Liferay.Language.get('error.msg'));

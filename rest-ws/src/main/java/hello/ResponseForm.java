@@ -13,6 +13,13 @@ public class ResponseForm extends Response{
         this.success = success;
     }
     
+    public ResponseForm(RequestForm form) {
+        this.success = true;
+        this.username = form.getUsername();
+        this.price = form.getPrice();
+        this.quantity = form.getQuantity();
+    }
+    
     public ResponseForm(boolean success, String username) {
         this.success = success;
         this.username = username;

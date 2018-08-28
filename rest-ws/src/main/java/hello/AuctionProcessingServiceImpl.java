@@ -56,8 +56,8 @@ public class AuctionProcessingServiceImpl implements AuctionProcessingService{
 	}
 	
 	@Override
-	public boolean createChatMessage(long senderId,long receiverId, String message, Date date){
-		return dataSource.createChatMessage(senderId, receiverId, message, date);
+	public boolean createChatMessage(MessageRequestForm form){
+		return dataSource.createChatMessage(form);
 	}
 	
 }

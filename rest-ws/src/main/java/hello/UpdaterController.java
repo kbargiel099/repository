@@ -49,7 +49,7 @@ public class UpdaterController {
     
     @MessageMapping("/update/{id}")
     @SendTo("/message/notify/{id}")
-    public Response proceedOffer(@DestinationVariable String id,RequestForm form) throws Exception {   
+    public Response proceedOffer(@DestinationVariable String id,RequestForm form) {   
     	try{
 	    	if(isCurrentTimeBefore(form.getEndDate())){
 	    		service.proceedOffer(form, id);
@@ -64,12 +64,12 @@ public class UpdaterController {
     		return new ResponseError(Code.ERROR);
     	}
     	
-    	return new ResponseForm(true, form.getUsername(), form.getPrice(), form.getQuantity());
+    	return new ResponseForm(form);
     }
     
     @MessageMapping("/purchase/{id}")
     @SendTo("/message/notify/{id}")
-    public Response proceedPurchase(@DestinationVariable String id, RequestForm form) throws Exception {    	
+    public Response proceedPurchase(@DestinationVariable String id, RequestForm form) {    	
     	try{
 	    	if(isCurrentTimeBefore(form.getEndDate())){
 	    		service.proceedPurchase(form, id);
@@ -83,23 +83,21 @@ public class UpdaterController {
     		return new ResponseError(Code.ERROR);
     	}
     	
-    	return new ResponseForm(true, form.getUsername(), form.getQuantity());
+    	return new ResponseForm(form);
     }
     
     @MessageMapping("/conversation/{id}")
     @SendTo("/message/{id}")
-    public Response proceedConversation(@DestinationVariable String id, MessageRequestForm form) throws Exception {    	
-        
-    	Date createDate = new Date();
-    	boolean isInserted = service.createChatMessage(Long.parseLong(form.getSenderId()),Long.parseLong(id),
-    				form.getMessage(),createDate);
-
-    	if(isInserted){
-            return new MessageResponse(true,form.getSenderId(),form.getSenderName(),form.getMessage(), createDate.toString());
-    	}else{
-    		return new ResponseError(1);
+    public Response proceedConversation(@DestinationVariable String id, MessageRequestForm form) throws Exception {
+    	try {
+	    	//form.setReceiverId(id);
+	    	service.createChatMessage(form);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return new ResponseError(Code.ERROR);
     	}
-    	
+
+        return new MessageResponse(form);
     }
     
     private boolean isCurrentTimeBefore(String end) throws TimeException{
@@ -109,7 +107,7 @@ public class UpdaterController {
 			Date endDate = format.parse(end);
 	        Date current = new Date(System.currentTimeMillis());
 	        
-	        if(!current.before(endDate)) throw new TimeException("Aukcja została już zakoczona");
+	        if(!current.before(endDate)) throw new TimeException("Aukcja została już zakonczona");
 	        return true;
 	        
 		} catch (ParseException e) {

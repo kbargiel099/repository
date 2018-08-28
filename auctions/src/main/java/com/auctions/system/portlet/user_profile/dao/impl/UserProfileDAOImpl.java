@@ -23,6 +23,7 @@ import com.auctions.system.portlet.message_category.model.MessageCategory;
 import com.auctions.system.portlet.messages.model.Message;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
+import com.auctions.system.portlet.user_profile.model.AuctionForGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
@@ -310,5 +311,16 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 								res.getLong("user_id"),res.getBoolean("is_sent"));
 				}
 			});
+	}
+	
+	@Override
+	public List<AuctionForGrade> getAuctionsForGrade(long userId){	
+		return dao.query("SELECT DISTINCT auctionid,(SELECT name FROM sys.auction a WHERE a.id=auctionid) AS name FROM sys.transactions WHERE userid=?", 
+			new Object[]{userId},new RowMapper<AuctionForGrade>(){
+			@Override
+			public AuctionForGrade mapRow(ResultSet res, int row) throws SQLException {
+				return new AuctionForGrade(res.getLong("auctionid"),res.getString("name"));
+			}
+		});
 	}
 }

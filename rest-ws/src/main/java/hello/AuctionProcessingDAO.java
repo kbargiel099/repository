@@ -18,5 +18,5 @@ public interface AuctionProcessingDAO {
 	
 	public List<MailProperties> getMailPropertiesPurchase(long auctionId) throws SQLException;
 	
-	public boolean createChatMessage(long senderId,long receiverId, String message, Date date);
+	public boolean createChatMessage(MessageRequestForm form);
 }

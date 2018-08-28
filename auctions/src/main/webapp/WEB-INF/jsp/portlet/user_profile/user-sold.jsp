@@ -10,10 +10,10 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/image.css" />" >
 
-<portlet:renderURL var="details">
-	<portlet:param name="page" value="auctionDetails"/>
+<portlet:renderURL var="stats">
+	<portlet:param name="page" value="stats"/>
 </portlet:renderURL>
-<input type="hidden" id="detailsUrl" value="${details}"/>
+<input type="hidden" id="statsUrl" value="${stats}"/>
 
 <div class="container-fluid">
 
@@ -44,7 +44,7 @@
 				<div class="col-xs-12 col-sm-4 col-md-4">
 					<input type="hidden" name="id" value="${item.id}" />
 					<button class="btn btn-info" onclick="showDetails(this)" >
-						<strong><liferay-ui:message key="auction.details" /></strong>
+						<strong><liferay-ui:message key="statistics" /></strong>
 					</button>	
 				</div>
 			</div>
@@ -59,8 +59,8 @@
 <script>
 
  	function showDetails(obj){
- 		var url = jQuery('#detailsUrl').val();
+ 		var url = jQuery('#statsUrl').val();
  		var id = jQuery(obj).parent().find('input').val();
- 		location.href = buildUrl(url,'id',id);
+ 		location.href = buildUrl(url,'auctionId',id);
  	}
 </script>

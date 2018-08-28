@@ -79,7 +79,7 @@
 							</div>
 						</c:when>
 						 <c:otherwise>
-							<div>
+							<div style="text-align: center;">
 								<h5>
 									<strong><liferay-ui:message key="seller.does.not.add.video" /></strong>
 								</h5>

@@ -15,6 +15,7 @@ import com.auctions.system.portlet.message_category.model.MessageCategory;
 import com.auctions.system.portlet.messages.model.Message;
 import com.auctions.system.portlet.user_profile.dao.UserProfileDAO;
 import com.auctions.system.portlet.user_profile.model.Auction;
+import com.auctions.system.portlet.user_profile.model.AuctionForGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
@@ -150,6 +151,11 @@ public class UserProfileServiceImpl implements UserProfileService{
 	@Override
 	public List<Message> getMessages(){
 		return dataSource.getMessages();
+	}
+	
+	@Override
+	public List<AuctionForGrade> getAuctionsForGrade(long userId){
+		return dataSource.getAuctionsForGrade(userId);
 	}
 
 }
