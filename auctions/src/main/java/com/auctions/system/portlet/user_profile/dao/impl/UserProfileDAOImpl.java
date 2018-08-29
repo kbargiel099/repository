@@ -162,8 +162,9 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	
 	@Override
 	public boolean addAuctionGrade(long userId, AuctionGrade a){		
-		return dao.update("INSERT INTO sys.auction_grade_comment(userid,auctionid,grade,comment) VALUES(?,?,?,?)",
-			new Object[]{userId,a.getAuctionId(),a.getGrade(),a.getComment()}) > 0 ? true : false;
+		Timestamp current = new Timestamp(System.currentTimeMillis());
+		return dao.update("INSERT INTO sys.auction_grade(userid,auctionid,grade,comment,create_date) VALUES(?,?,?,?,?)",
+			new Object[]{userId,a.getAuctionId(),a.getGrade(),a.getComment(),current}) > 0;
 	}
 	
 	@Override
@@ -198,7 +199,7 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 		return dao.update("UPDATE sys.auction SET name=?,description=?,edit_date=?,end_date=?,typeid=?,subject_price=?,available=?,"
 				+ "subcategory_id=?,technical_data=? WHERE id=?",
 			new Object[]{a.getName(),a.getDescription(),editDate,endDate,a.getAuctionTypeId(),a.getSubjectPrice(),
-					a.getSubjectQuantity(),a.getSubCategoryId(),a.getTechnicalData(),a.getId()}) > 0 ? true : false;
+					a.getSubjectQuantity(),a.getSubCategoryId(),a.getTechnicalData(),a.getId()}) > 0;
 	}
 	
 	@Override
@@ -257,13 +258,13 @@ public class UserProfileDAOImpl implements UserProfileDAO{
 	@Override
 	public boolean deleteVideo(long id){		
 		return dao.update("UPDATE sys.auction SET video=? WHERE id=?",
-			new Object[]{"",id}) > 0 ? true : false;
+			new Object[]{"",id}) > 0;
 	}
 	
 	@Override
 	public boolean makePaid(long id, int paymentMethodId){		
 		return dao.update("UPDATE sys.transactions SET payment_method_id=?,payment_status_id=(SELECT id FROM sys.payment_status WHERE name='payed') WHERE id=?",
-			new Object[]{paymentMethodId,id}) > 0 ? true : false;
+			new Object[]{paymentMethodId,id}) > 0;
 	}
 
 	@Override

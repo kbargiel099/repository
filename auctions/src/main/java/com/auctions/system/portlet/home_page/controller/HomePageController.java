@@ -30,7 +30,6 @@ public class HomePageController implements HomePage{
 	
 	@Override
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response) throws Exception{
-		//MailRestClient.sendMail("abstergo@interia.pl");
 		ModelAndView model = new ModelAndView(defaultView);
 		model.addObject("newestAuctions", service.getNewestAuction());
 		return model;
@@ -72,6 +71,11 @@ public class HomePageController implements HomePage{
 		processing.removeObservation(request, response, id);
 	}
 
+	@Override
+	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response, long id) throws Exception {
+		return processing.getUserProfile(request, response, id);
+	}
+	
 	@Override
 	public AuctionDetails getDetails(long id) {
 		return processing.getDetails(id);

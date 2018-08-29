@@ -102,6 +102,11 @@ public class CategoryController implements Category{
 	}
 
 	@Override
+	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response, long id) throws Exception {
+		return processing.getUserProfile(request, response, id);
+	}
+	
+	@Override
 	public AuctionDetails getDetails(long id) {
 		return processing.getDetails(id);
 	}

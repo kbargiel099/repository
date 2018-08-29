@@ -46,7 +46,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 		String tempSearch = "%"+form.getSearchingText()+"%";
 		
 		return dao.query("SELECT id,name,image_name AS image_name,subject_price FROM sys.auction_search "
-				+ "WHERE lower(name) LIKE lower(?) AND category_name=? " + preprareQueryForSearching(form), 
+				+ "WHERE lower(name) LIKE lower(?) AND category_name=? " + prepareQueryForSearching(form), 
 				new Object[]{tempSearch,form.getCurrentCategory()},
 				new RowMapper<AuctionPresenter>(){
 					@Override
@@ -57,7 +57,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 			});
 	}
 	
-	private String preprareQueryForSearching(SearchingForm form){
+	private String prepareQueryForSearching(SearchingForm form){
 		String query = "";
 		boolean hasMin = form.getMinPrice().isEmpty() ? false : true;
 		boolean hasMax = form.getMaxPrice().isEmpty() ? false : true;

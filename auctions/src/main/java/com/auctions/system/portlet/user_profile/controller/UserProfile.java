@@ -66,7 +66,7 @@ public interface UserProfile extends Processing{
 	public ModelAndView editAuctionRender(RenderRequest request, RenderResponse response,
 			@RequestParam("id") long id);
 	
-	@RequestMapping(params = "page=addGrade")
+	@RenderMapping(params = "page=addGrade")
 	public ModelAndView addGradeAction(RenderRequest request, RenderResponse response);
 	
 	@ResourceMapping(value = "getSubCategories")

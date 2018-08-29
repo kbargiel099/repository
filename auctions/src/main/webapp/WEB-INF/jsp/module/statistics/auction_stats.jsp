@@ -87,7 +87,7 @@
 			</div>
 	  		<div class="col-xs-12 col-sm-12 col-md-12">
 				<div id="elements">
-					<div id="transactions" class="mygrid-wrapper-div" style="overflow-y: scroll;height: 200px;width: 100%;">
+					<div id="transactions" class="mygrid-wrapper-div" style="overflow-y: scroll;height: 200px;width: 100%;margin-top: 20px;">
 						<label style="text-align: center;"><strong><liferay-ui:message key="auction.transactions.label" /></strong></label>
 						<table>
 							<thead>
@@ -96,6 +96,7 @@
 							    <th><liferay-ui:message key="auction.quantity.theader" /></th>
 							    <th><liferay-ui:message key="auction.price.theader" /></th>
 							    <th><liferay-ui:message key="auction.createDate.theader" /></th>
+							    <th></th>
 							    <th></th>
 							  </tr>
 							</thead>
@@ -107,6 +108,7 @@
 										<td>${item.quantity}</td>
 										<td>${item.price/100}</td>
 										<td>${item.createDate}</td>
+										<td><a href="javascript:alert('Do zrobienia');">Zobacz</a></td>
 										<td></td>
 									</tr>
 								</c:forEach>

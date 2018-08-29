@@ -100,21 +100,14 @@ public class UpdaterController {
         return new MessageResponse(form);
     }
     
-    private boolean isCurrentTimeBefore(String end) throws TimeException{
-    	SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd hh.mm.ss");
+    private boolean isCurrentTimeBefore(String end) throws TimeException, ParseException{
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
     	
-		try {
-			Date endDate = format.parse(end);
-	        Date current = new Date(System.currentTimeMillis());
+		Date endDate = format.parse(end);
+	    Date current = new Date(System.currentTimeMillis());
 	        
-	        if(!current.before(endDate)) throw new TimeException("Aukcja została już zakonczona");
-	        return true;
-	        
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		return false;
+	    if(!current.before(endDate)) throw new TimeException("Aukcja została już zakonczona");
+	    return true;
     }
 	
 }

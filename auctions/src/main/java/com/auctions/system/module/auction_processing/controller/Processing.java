@@ -13,9 +13,10 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.profile.controller.Profile;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 
-public interface Processing {
+public interface Processing extends Profile{
 
 	@RequestMapping(params = "page=auctionDetails")
 	public ModelAndView detailsView(RenderRequest request, RenderResponse response,

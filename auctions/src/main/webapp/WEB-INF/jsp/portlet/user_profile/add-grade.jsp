@@ -43,7 +43,7 @@
 						</div>
 						<div class="form-group">
 				           <label class="label-control" for="comment"><liferay-ui:message key="auction.comment.label" /></label>
-				           <input type="text" class="form-control" id="comment" name="comment"></input>
+				           <textarea rows="5" class="form-control" id="comment" name="comment"></textarea>
 						</div>
 					</div>
 					<div class="row col-xs-12 col-sm-8 col-md-4">

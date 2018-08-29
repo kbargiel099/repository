@@ -1,6 +1,10 @@
 var submitUrl = jQuery("#addGradeUrl").val();
 var returnUrl = jQuery("#returnUrl").val();
-	
+
+jQuery(document).ready(function(){
+	jQuery('.selectpicker').selectpicker();	
+});
+
 jQuery("#submit").click(function(){
 	var params = new Params().
 		push('grade', JSON.stringify(jQuery("#add-grade-form").serializeObject())).

@@ -21,7 +21,7 @@ import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.auction_processing.model.PurchaseInfo;
 import com.auctions.system.module.auction_processing.model.TransactionSummary;
 import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
-import com.auctions.system.module.profile.controller.Profile;
+import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.liferay.portal.kernel.util.PortalUtil;
 
@@ -36,7 +36,7 @@ public class AuctionProcessing implements Processing{
 	private AuctionProcessingService service;
 	
 	@Autowired 
-	Profile profile;
+	ProfileController profile;
 	
 	@RequestMapping(params = "page=auctionDetails")
 	public ModelAndView detailsView(RenderRequest request, RenderResponse response,
@@ -111,6 +111,11 @@ public class AuctionProcessing implements Processing{
 		HttpUtil.createResponse(response).
 			set("success", service.removeObservation(userId, id)).
 			prepare();
+	}
+	
+	@Override
+	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response, long id) throws Exception {
+		return profile.getUserProfile(request, response, id);
 	}
 	
 	public AuctionDetails getDetails(long id){

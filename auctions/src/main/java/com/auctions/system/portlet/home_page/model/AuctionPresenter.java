@@ -4,14 +4,13 @@ import java.io.Serializable;
 
 public class AuctionPresenter implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private long id;
 	private String name;
 	private String imageName;
 	private long subjectPrice;
+	private String createDate;
+	private String endDate;
 	
 	public AuctionPresenter(long id, String name,
 			String imageName,long subjectPrice) {
@@ -22,6 +21,18 @@ public class AuctionPresenter implements Serializable{
 		this.imageName = imageName;
 	}
 	
+	public AuctionPresenter(long id, String name, String imageName, long subjectPrice, String createDate,
+			String endDate) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.imageName = imageName;
+		this.subjectPrice = subjectPrice;
+		this.createDate = createDate;
+		this.endDate = endDate;
+	}
+
+
 	public long getId() {
 		return id;
 	}
@@ -45,6 +56,22 @@ public class AuctionPresenter implements Serializable{
 	}
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
+	}
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 	
 }
