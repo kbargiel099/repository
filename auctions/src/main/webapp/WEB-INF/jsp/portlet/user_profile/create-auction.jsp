@@ -56,24 +56,25 @@
 				<div class="col-xs-12 col-sm-12 col-md-8">
 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
-				           <label class="label-control" name="name"><liferay-ui:message key="auction.name.label" /></label>
+				           <label class="label-control" for="name"><liferay-ui:message key="auction.name.label" /></label>
 				           <input type="text" class="form-control" id="name" name="name" value="${auction.name}"></input>
 						</div>
 						<div class="form-group">
-				           <label class="label-control" name="auctionTypeId"><liferay-ui:message key="auction.type.label" /></label>
-							<select class="selectpicker form-control" id="auctionTypeIdSelect" title="${selectTitle}"> 		
+				           <label class="label-control" for="auctionTypeId"><liferay-ui:message key="auction.type.label" /></label>
+							<select class="selectpicker form-control" id="auctionTypeIdSelect" name="auctionTypeIdSelect" class="required"> 		
+								<option value="">${selectTitle}</option>
 								<c:forEach items="${auctionTypes}" var="item">
 									<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
 								</c:forEach>
 				           </select>
 						</div>
 						<div class="form-group">
-				           <label class="label-control" name="subjectQuantity"><liferay-ui:message key="auction.subjectQuantity.label" /></label>
+				           <label class="label-control" for="subjectQuantity"><liferay-ui:message key="auction.subjectQuantity.label" /></label>
 				           <input type="text" class="form-control" id="subjectQuantity" name="subjectQuantity" value="${auction.subjectQuantity}"></input>
 						</div>
 						<c:if test="${type == 'add'}">
 							<div class="form-group">
-								<label class="label-control" name="attachImage" ><liferay-ui:message key="auction.attachImage.label" /></label>
+								<label class="label-control" for="attachImage" ><liferay-ui:message key="auction.attachImage.label" /></label>
 							</div>
 							<div>
 								<input type="file" name="imageFilechooser" id="imageFilechooser" onchange="loadFile(event)"/>
@@ -83,16 +84,17 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
-				           <label class="label-control" name="endDate"><liferay-ui:message key="auction.endDate.label" /></label>
-				           <input type="date" class="form-control" value="${auction.endDate}"></input>
+				           <label class="label-control" for="endDate"><liferay-ui:message key="auction.endDate.label" /></label>
+				           <input type="date" id="endDateInput" name="endDateInput" class="form-control" value="${auction.endDate}"></input>
 						</div>
 						<div class="form-group">
 				           <label class="label-control" for="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></label>
-				           <input type="text" class="form-control" id="price" value="${auction.subjectPrice}"></input>
+				           <input type="text" class="form-control" id="price" name="price" value="${auction.subjectPrice}"></input>
 						</div>
 						<div class="form-group">
 						    <label class="label-control" for="categoryId"><liferay-ui:message key="auction.category.label" /></label>
-							<select class="selectpicker form-control" id="categoryIdSelect" title="${selectTitle}">
+							<select class="selectpicker form-control" id="categoryIdSelect" name="categoryIdSelect" class="required">
+								<option value="">${selectTitle}</option>
 								<c:forEach items="${categories}" var="item">
 									<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
 								</c:forEach>
@@ -100,7 +102,7 @@
 						</div>
 						<div class="form-group">
 						    <label class="label-control" for="subCategoryId"><liferay-ui:message key="auction.subcategory.label" /></label>
-							<select class="selectpicker form-control" id="subCategoryIdSelect" title="${selectTitle}">
+							<select class="selectpicker form-control" id="subCategoryIdSelect" title="${selectTitle}" class="required">
 							</select>
 						</div>
 					</div>

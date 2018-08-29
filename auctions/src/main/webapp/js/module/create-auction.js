@@ -17,6 +17,36 @@
 	    reader.readAsDataURL(temp);
  	};
 	
+ 	jQuery(function() {
+ 		  jQuery("#create-new-auction-form").validate({
+ 		    rules: {
+ 		      name: {
+ 		        required: true
+ 		      },
+ 		      auctionTypeIdSelect: {
+ 		        required: true
+ 		      },
+ 			  subjectQuantity: {
+ 				required: true,
+ 				min: 1
+ 			  },
+ 			  endDateInput: {
+ 	 		    required: true
+ 	 		  },
+ 	 		  price: {
+ 	 	 		required: true,
+ 	 	 		min: 1
+ 	 	 	  },
+ 	 	 	  categoryIdSelect: {
+ 	 	 		required: true
+ 	 	 	  },
+ 	 	 	  description: {
+ 	 	 		required: true 
+ 	 	 	  }
+ 		    }
+ 		  });
+ 		});
+ 	
  	function setForEdit(selectId,inputId){
  		var options = jQuery(selectId + ' option');
  		var categoryId = jQuery(inputId).val();
@@ -65,12 +95,14 @@
 	 }
 	
  	jQuery("#create-auction-submit").click(function(){
+ 		if(jQuery("#create-new-auction-form").valid()){
  			if(type == 'add'){
  				saveImages();
  			}else{
  				message = Liferay.Language.get('changes.successfully.saved');
  				submitAuction(type);
  			}
+ 		}
 	});
 	
 	function submitAuction(actionType){
