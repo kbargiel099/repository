@@ -28,17 +28,22 @@
  		      },
  			  subjectQuantity: {
  				required: true,
- 				min: 1
+ 				number: true,
+ 				minValue: 1
  			  },
  			  endDateInput: {
  	 		    required: true
  	 		  },
  	 		  price: {
  	 	 		required: true,
- 	 	 		min: 1
+ 				number: true,
+ 	 	 		minValue: 1
  	 	 	  },
  	 	 	  categoryIdSelect: {
  	 	 		required: true
+ 	 	 	  },
+ 	 	 	  subCategoryIdSelect: {
+ 	 	 		required: true  
  	 	 	  },
  	 	 	  description: {
  	 	 		required: true 

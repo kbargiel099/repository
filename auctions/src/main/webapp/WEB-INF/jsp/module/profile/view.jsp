@@ -89,24 +89,16 @@
 			<label style="font-size: 20px; color: #68676c; font-weight: bold;" class="label-control"><liferay-ui:message key="users.grades.label"/></label>
 		</div>
 	  	<c:forEach items="${grades}" var="item">
-	  		<div style="margin-bottom:20px;" class="col-xs-12">
-		  		<div>
-		  			<div style="min-height:50px; padding-left:20px; padding-top:5px;">
-						<strong>
-							<label style="font-size: 24px; color:white;" class="label-control">${item.grade}</label>
-						</strong>
-					</div>
+	  		<div style="margin-bottom: 20px;" class="col-xs-12">
+	  			<div class="col-xs-6" style="padding-left:20px; padding-top:5px;">
+					<strong>
+						<p style="font-size:16px;">${item.screenname}</p>
+					</strong><br>
+					<p>${item.comment}</p>
 				</div>
-				<div style="margin-top:20px;">
-					<div style="margin-bottom:10px;" class="col-xs-12 col-sm-8-col-md-8">
-						<div>
-							<b>${item.comment}</b>
-						</div>
-						<div class="pull-right">
-							<p>${item.screenname}</p><br>
-							<p>${item.createDate}</p>
-						</div>
-					</div>
+				<div class="col-xs-6">
+					<label style="font-size: 24px; float: left; width: 10%;">${item.grade}</label>
+					<p>${item.createDate}</p> 
 				</div>
 			</div>
 		</c:forEach>

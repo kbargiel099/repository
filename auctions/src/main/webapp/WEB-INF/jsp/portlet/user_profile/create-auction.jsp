@@ -102,7 +102,8 @@
 						</div>
 						<div class="form-group">
 						    <label class="label-control" for="subCategoryId"><liferay-ui:message key="auction.subcategory.label" /></label>
-							<select class="selectpicker form-control" id="subCategoryIdSelect" title="${selectTitle}" class="required">
+							<select class="selectpicker form-control" id="subCategoryIdSelect" name="subCategoryIdSelect" class="required">
+								<option value="">${selectTitle}</option>
 							</select>
 						</div>
 					</div>

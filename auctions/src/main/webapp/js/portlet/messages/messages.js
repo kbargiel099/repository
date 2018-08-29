@@ -1,5 +1,11 @@
 jQuery('#message-submit').click(function(){
-	jQuery('#type').val() == 'add' ? insert() : edit();
+	if(jQuery("#message-form").valid()){
+		jQuery('#type').val() == 'add' ? insert() : edit();
+	}
+});
+
+jQuery(document).ready(function(){
+	jQuery('.selectpicker').selectpicker();	
 });
 
 function insert(){
@@ -27,3 +33,19 @@ function edit(){
 		}
 	});
 }
+
+jQuery(function() {
+	  jQuery("#message-form").validate({
+	    rules: {
+	      title: {
+	        required: true
+	      },
+	      text: {
+	        required: true
+	      },
+	      messageCategoryId: {
+	    	required: true
+	      }
+	    }
+	  });
+	});

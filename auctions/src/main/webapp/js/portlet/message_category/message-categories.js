@@ -1,5 +1,7 @@
 jQuery('#message-category-submit').click(function(){
-	jQuery('#type').val() == 'add' ? insert() : edit();
+	if(jQuery("#message-category-form").valid()){
+		jQuery('#type').val() == 'add' ? insert() : edit();
+	}
 });
 
 function insert(){
@@ -27,3 +29,13 @@ function edit(){
 		}
 	});
 }
+
+jQuery(function() {
+	  jQuery("#message-category-form").validate({
+	    rules: {
+	      name: {
+	        required: true
+	      }
+	    }
+	  });
+	});

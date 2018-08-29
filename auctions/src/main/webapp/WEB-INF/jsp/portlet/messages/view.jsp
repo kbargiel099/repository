@@ -38,18 +38,18 @@
 		  	
 	      	<form id="message-form">
 				<input type="hidden" name="id" value="${message.id}"></input>
-<%-- 				<input type="hidden" name="isSent" value="${message.isSent}"></input> --%>
 				<div class="col-xs-12 col-sm-12 col-md-8">
 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
-				           <label class="label-control" name="name"><liferay-ui:message key="name" /></label>
+				           <label class="label-control" for="title"><liferay-ui:message key="name" /></label>
 				           <input type="text" class="form-control" name="title" value="${message.title}"></input>
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
 						    <label class="label-control" for="messageCategoryId"><liferay-ui:message key="message.category" /></label>
-							<select class="selectpicker form-control" id="messageCategoryId" name="messageCategoryId" title="${selectTitle}">
+							<select class="selectpicker form-control" id="messageCategoryId" name="messageCategoryId" class="required">
+								<option value="">${selectTitle}</option>
 								<c:forEach items="${categories}" var="item">
 									<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
 								</c:forEach>
@@ -58,7 +58,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-12">
 						<div class="form-group">
-				           <label class="label-control" name="name"><liferay-ui:message key="text" /></label>
+				           <label class="label-control" for="text"><liferay-ui:message key="text" /></label>
 				           <input type="text" class="form-control" name="text" value="${message.text}"></input>
 						</div>
 					</div>   

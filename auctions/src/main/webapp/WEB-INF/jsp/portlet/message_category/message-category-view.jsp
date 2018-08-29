@@ -38,11 +38,10 @@
 		  	
 	      	<form id="message-category-form">
 				<input type="hidden" name="id" value="${category.id}"></input>
-<%-- 			    <input type="hidden" id="name" name="name" value="${category.name}"></input> --%>
 				<div class="col-xs-12 col-sm-12 col-md-8">
 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
-				           <label class="label-control" name="name"><liferay-ui:message key="name" /></label>
+				           <label class="label-control" for="name"><liferay-ui:message key="name" /></label>
 				           <input type="text" class="form-control" id="name" name="name" value="${category.name}"></input>
 						</div>
 					</div> 
