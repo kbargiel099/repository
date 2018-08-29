@@ -31,7 +31,8 @@
 					<div class="row col-xs-12 col-sm-8 col-md-4">
 						<div class="form-group">
 				           <label class="label-control" for="auctionId"><liferay-ui:message key="auction.label" /></label>
-							<select class="selectpicker form-control" id="auctionId" name="auctionId" title="${selectTitle}"> 		
+							<select class="selectpicker form-control" id="auctionId" name="auctionId" class="required"> 
+								<option value="">${selectTitle}</option>		
 								<c:forEach items="${auctions}" var="item">
 									<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
 								</c:forEach>

@@ -6,11 +6,13 @@ jQuery(document).ready(function(){
 });
 
 jQuery("#submit").click(function(){
-	var params = new Params().
-		push('grade', JSON.stringify(jQuery("#add-grade-form").serializeObject())).
-		getArray();
-	
-	submit(params);
+	if(jQuery("#add-grade-form").valid()){
+		var params = new Params().
+			push('grade', JSON.stringify(jQuery("#add-grade-form").serializeObject())).
+			getArray();
+		
+		submit(params);
+	}
 });
 
 function submit(params_){
@@ -24,3 +26,19 @@ var onResponse = function(res){
 		responsiveNotify(Liferay.Language.get('error.msg'));
 	}
 };
+
+jQuery(function() {
+	  jQuery("#add-grade-form").validate({
+	    rules: {
+	    	auctionId: {
+	        required: true
+	      },
+	      grade: {
+	        required: true
+	      },
+	      comment: {
+		    required: true
+		  }
+	    }
+	  });
+	});
