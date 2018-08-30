@@ -28,7 +28,12 @@
 								
 								<tr>
 									<%-- <td>${item.id}</td> --%>
-									<td><a href="javascript:getMessages('${getAllMessagesFromUser}');">${item.username}</a></td>
+									<td>
+										<a href="javascript:getMessages('${getAllMessagesFromUser}');">${item.username}</a>
+									</td>
+									<td>
+										<a class="pull-right" href="javascript:register_popup('${item.id}', '${item.username}','${getMessagesFromUser}&userId=${item.id}');">-Napisz-</a>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -38,7 +43,6 @@
 			<div class="col-xs-12 col-sm-12 col-md-9">
 				<h4 class="text-center"><strong><liferay-ui:message key="conversation.history" /></strong></h4>
 				<div id="messages" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow-y: scroll;height: 500px;width: 100%;">				
-<!-- 					<div id="auction-notify" class="mygrid-wrapper-div" style="overflow-y: scroll;height: 200px;width: 100%;"> -->
 						<table>
 							<tbody>
 							</tbody>

@@ -34,294 +34,310 @@ import com.auctions.system.portlet.user_profile.model.UserProfileData;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 
 @Repository("userProfileDAO")
-public class UserProfileDAOImpl implements UserProfileDAO{
+public class UserProfileDAOImpl implements UserProfileDAO {
 
 	private JdbcTemplate dao;
-	
+
 	@Autowired
 	private DataSource dataSource;
-	
+
 	@PostConstruct
 	public void init() {
 		dao = new JdbcTemplate(dataSource);
 	}
-	
+
 	@Override
-	public UserProfileData getUserSimpleData(final long id){		
-		return dao.queryForObject("SELECT createdate,modifieddate,emailaddress,screenname,firstname,lastname,lastlogindate,lockout FROM user_ WHERE userid=?",
-			new Object[]{id},new RowMapper<UserProfileData>(){
+	public UserProfileData getUserSimpleData(final long id) {
+		return dao.queryForObject(
+				"SELECT createdate,modifieddate,emailaddress,screenname,firstname,lastname,lastlogindate,lockout FROM user_ WHERE userid=?",
+				new Object[] { id }, new RowMapper<UserProfileData>() {
 					@Override
 					public UserProfileData mapRow(ResultSet res, int row) throws SQLException {
-						return new UserProfileData(id,res.getString("firstname"),res.getString("lastname"),res.getString("screenname"),
-								DateFormatter.format(res.getTimestamp("createdate")),DateFormatter.format(res.getTimestamp("modifieddate")),
-								res.getString("emailaddress"),DateFormatter.format(res.getTimestamp("lastlogindate")),res.getBoolean("lockout"));
-				}
-			});
-	}
-	
-	@Override
-	public List<AuctionPresenter> getUserBoughtSubjects(long userId){
-		return dao.query("SELECT id,auctionid,name,image_name,create_date,price,payment_status_name FROM sys.user_purchase_view WHERE userid=?", 
-				new Object[]{userId},new RowMapper<AuctionPresenter>(){
-					@Override
-					public BoughtPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new BoughtPresenter(res.getLong("id"),res.getLong("auctionid"),res.getString("name"),res.getString("image_name"),
-							res.getLong("price"),DateFormatter.format(res.getTimestamp("create_date")),res.getString("payment_status_name"));
+						return new UserProfileData(id, res.getString("firstname"), res.getString("lastname"),
+								res.getString("screenname"), DateFormatter.format(res.getTimestamp("createdate")),
+								DateFormatter.format(res.getTimestamp("modifieddate")), res.getString("emailaddress"),
+								DateFormatter.format(res.getTimestamp("lastlogindate")), res.getBoolean("lockout"));
 					}
-				
-			});
-	}
-	
-	@Override
-	public List<AuctionPresenter> getUserSoldSubjects(long userId){
-		return dao.query("SELECT a.id,name,images[1] AS image_name,subject_price FROM sys.auction a "
-				+ "JOIN sys.transactions t ON a.id=t.auctionid "
-				+ "WHERE a.userid=? "
-				+ "GROUP BY a.id "
-				+ "ORDER BY a.create_date", 
-				new Object[]{userId},new RowMapper<AuctionPresenter>(){
-					@Override
-					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getLong("id"),res.getString("name"),res.getString("image_name"),
-							res.getLong("subject_price"));
-					}
-				
-			});
+				});
 	}
 
 	@Override
-	public List<AuctionPresenter> getUserAuctions(long userId){
-		return dao.query("SELECT id,name,image_name,subject_price FROM sys.auction_profile_view WHERE userid=?", 
-				new Object[]{userId},new RowMapper<AuctionPresenter>(){
+	public List<AuctionPresenter> getUserBoughtSubjects(long userId) {
+		return dao.query(
+				"SELECT id,auctionid,name,image_name,create_date,price,payment_status_name FROM sys.user_purchase_view WHERE userid=?",
+				new Object[] { userId }, new RowMapper<AuctionPresenter>() {
+					@Override
+					public BoughtPresenter mapRow(ResultSet res, int row) throws SQLException {
+						return new BoughtPresenter(res.getLong("id"), res.getLong("auctionid"), res.getString("name"),
+								res.getString("image_name"), res.getLong("price"),
+								DateFormatter.format(res.getTimestamp("create_date")),
+								res.getString("payment_status_name"));
+					}
+
+				});
+	}
+
+	@Override
+	public List<AuctionPresenter> getUserSoldSubjects(long userId) {
+		return dao.query("SELECT a.id,name,images[1] AS image_name,subject_price FROM sys.auction a "
+				+ "JOIN sys.transactions t ON a.id=t.auctionid " + "WHERE a.userid=? " + "GROUP BY a.id "
+				+ "ORDER BY a.create_date", new Object[] { userId }, new RowMapper<AuctionPresenter>() {
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
-								res.getLong("subject_price"));
-				}
-			});
+						return new AuctionPresenter(res.getLong("id"), res.getString("name"),
+								res.getString("image_name"), res.getLong("subject_price"));
+					}
+
+				});
 	}
-	
+
 	@Override
-	public List<AuctionPresenter> getUserObservation(long userId){
-		return dao.query("SELECT id,name,image_name,subject_price FROM sys.auction_main"
-				+ " JOIN sys.auction_observation ON id=auctionid WHERE userid=?", 
-				new Object[]{userId},new RowMapper<AuctionPresenter>(){
+	public List<AuctionPresenter> getUserAuctions(long userId) {
+		return dao.query("SELECT id,name,image_name,subject_price FROM sys.auction_profile_view WHERE userid=?",
+				new Object[] { userId }, new RowMapper<AuctionPresenter>() {
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionPresenter(res.getInt("id"),res.getString("name"),res.getString("image_name"),
-								res.getLong("subject_price"));
-				}
-			});
+						return new AuctionPresenter(res.getInt("id"), res.getString("name"),
+								res.getString("image_name"), res.getLong("subject_price"));
+					}
+				});
 	}
-	
+
 	@Override
-	public List<Category> getCategories(){
-		return dao.query("SELECT id,name FROM sys.category",
-				new RowMapper<Category>(){
+	public List<AuctionPresenter> getUserObservation(long userId) {
+		return dao.query(
+				"SELECT id,name,image_name,subject_price FROM sys.auction_main"
+						+ " JOIN sys.auction_observation ON id=auctionid WHERE userid=?",
+				new Object[] { userId }, new RowMapper<AuctionPresenter>() {
 					@Override
-					public Category mapRow(ResultSet res, int row) throws SQLException {
-						return new Category(res.getInt("id"),res.getString("name"));
-				}
-			});
+					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionPresenter(res.getInt("id"), res.getString("name"),
+								res.getString("image_name"), res.getLong("subject_price"));
+					}
+				});
 	}
-	
+
 	@Override
-	public List<AuctionType> getAuctionTypes(){
-		return dao.query("SELECT id,name FROM sys.auction_type",
-				new RowMapper<AuctionType>(){
-					@Override
-					public AuctionType mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionType(res.getInt("id"),res.getString("name"));
-				}
-			});
-	}
-	
-	@Override
-	public List<SubCategory> getSubCategories(){
-		return dao.query("SELECT c.id,sub.id AS sub_id,sub.name AS sub_name FROM sys.category c,sys.subcategory sub where c.id=sub.category_id",
-				new RowMapper<SubCategory>(){
-					@Override
-					public SubCategory mapRow(ResultSet res, int row) throws SQLException {
-						return new SubCategory(res.getInt("sub_id"),res.getInt("id"),
-								res.getString("sub_name"));
-				}
-			});
-	}
-	
-	@Override
-	public List<TechnicalData> getTechnicalData(int id){
-		return dao.query("SELECT t.id,t.name,t.value,t.type FROM sys.technical_data t JOIN sys.subcategory s ON t.id=ANY(technical_data_array) WHERE s.id=?",
-			new Object[]{id},new RowMapper<TechnicalData>(){
-				@Override
-				public TechnicalData mapRow(ResultSet res, int row) throws SQLException {
-					return new TechnicalData(res.getInt("id"),res.getString("name"),
-							 res.getString("type"),res.getArray("value"));
+	public List<Category> getCategories() {
+		return dao.query("SELECT id,name FROM sys.category", new RowMapper<Category>() {
+			@Override
+			public Category mapRow(ResultSet res, int row) throws SQLException {
+				return new Category(res.getInt("id"), res.getString("name"));
 			}
 		});
 	}
-	
+
 	@Override
-	public boolean addAuctionGrade(long userId, AuctionGrade a){		
+	public List<AuctionType> getAuctionTypes() {
+		return dao.query("SELECT id,name FROM sys.auction_type", new RowMapper<AuctionType>() {
+			@Override
+			public AuctionType mapRow(ResultSet res, int row) throws SQLException {
+				return new AuctionType(res.getInt("id"), res.getString("name"));
+			}
+		});
+	}
+
+	@Override
+	public List<SubCategory> getSubCategories() {
+		return dao.query(
+				"SELECT c.id,sub.id AS sub_id,sub.name AS sub_name FROM sys.category c,sys.subcategory sub where c.id=sub.category_id",
+				new RowMapper<SubCategory>() {
+					@Override
+					public SubCategory mapRow(ResultSet res, int row) throws SQLException {
+						return new SubCategory(res.getInt("sub_id"), res.getInt("id"), res.getString("sub_name"));
+					}
+				});
+	}
+
+	@Override
+	public List<TechnicalData> getTechnicalData(int id) {
+		return dao.query(
+				"SELECT t.id,t.name,t.value,t.type FROM sys.technical_data t JOIN sys.subcategory s ON t.id=ANY(technical_data_array) WHERE s.id=?",
+				new Object[] { id }, new RowMapper<TechnicalData>() {
+					@Override
+					public TechnicalData mapRow(ResultSet res, int row) throws SQLException {
+						return new TechnicalData(res.getInt("id"), res.getString("name"), res.getString("type"),
+								res.getArray("value"));
+					}
+				});
+	}
+
+	@Override
+	public boolean addAuctionGrade(long userId, AuctionGrade a) {
 		Timestamp current = new Timestamp(System.currentTimeMillis());
 		return dao.update("INSERT INTO sys.auction_grade(userid,auctionid,grade,comment,create_date) VALUES(?,?,?,?,?)",
-			new Object[]{userId,a.getAuctionId(),a.getGrade(),a.getComment(),current}) > 0;
+				new Object[] { userId, a.getAuctionId(), a.getGrade(), a.getComment(), current }) > 0;
 	}
-	
+
 	@Override
-	public Auction getAuctionData(final long id){		
-		return dao.queryForObject("SELECT a.name,serial_number,end_date,typeid,s.category_id,subcategory_id,images,description,available,subject_price,technical_data FROM sys.auction a"
-				+ " JOIN sys.subcategory s ON a.subcategory_id=s.id WHERE a.id=?",
-			new Object[]{id},new RowMapper<Auction>(){
+	public Auction getAuctionData(final long id) {
+		return dao.queryForObject(
+				"SELECT a.name,serial_number,end_date,typeid,s.category_id,subcategory_id,images,description,available,subject_price,technical_data FROM sys.auction a"
+						+ " JOIN sys.subcategory s ON a.subcategory_id=s.id WHERE a.id=?",
+				new Object[] { id }, new RowMapper<Auction>() {
 					@Override
 					public Auction mapRow(ResultSet res, int row) throws SQLException {
-						return new Auction(id,res.getString("name"),res.getLong("serial_number"),DateFormatter.formatForView(res.getTimestamp("end_date")),
-							res.getInt("typeid"),res.getInt("category_id"),res.getInt("subcategory_id"),res.getString("images"),res.getString("description"),
-							res.getInt("available"),res.getLong("subject_price"),res.getString("technical_data"));
-				}
-			});
+						return new Auction(id, res.getString("name"), res.getLong("serial_number"),
+								DateFormatter.formatForView(res.getTimestamp("end_date")), res.getInt("typeid"),
+								res.getInt("category_id"), res.getInt("subcategory_id"), res.getString("images"),
+								res.getString("description"), res.getInt("available"), res.getLong("subject_price"),
+								res.getString("technical_data"));
+					}
+				});
 	}
-	
+
 	@Override
-	public AuctionImages getAuctionImages(final long id){		
-		return dao.queryForObject("SELECT images FROM sys.auction WHERE id=?",
-			new Object[]{id},new RowMapper<AuctionImages>(){
+	public AuctionImages getAuctionImages(final long id) {
+		return dao.queryForObject("SELECT images FROM sys.auction WHERE id=?", new Object[] { id },
+				new RowMapper<AuctionImages>() {
 					@Override
 					public AuctionImages mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionImages(id,res.getArray("images"));
-				}
-			});
+						return new AuctionImages(id, res.getArray("images"));
+					}
+				});
 	}
-	
+
 	@Override
-	public boolean updateAuction(Auction a){		
+	public boolean updateAuction(Auction a) {
 		Timestamp editDate = new Timestamp(System.currentTimeMillis());
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
-		return dao.update("UPDATE sys.auction SET name=?,description=?,edit_date=?,end_date=?,typeid=?,subject_price=?,available=?,"
-				+ "subcategory_id=?,technical_data=? WHERE id=?",
-			new Object[]{a.getName(),a.getDescription(),editDate,endDate,a.getAuctionTypeId(),a.getSubjectPrice(),
-					a.getSubjectQuantity(),a.getSubCategoryId(),a.getTechnicalData(),a.getId()}) > 0;
+		return dao.update(
+				"UPDATE sys.auction SET name=?,description=?,edit_date=?,end_date=?,typeid=?,subject_price=?,available=?,"
+						+ "subcategory_id=?,technical_data=? WHERE id=?",
+				new Object[] { a.getName(), a.getDescription(), editDate, endDate, a.getAuctionTypeId(),
+						a.getSubjectPrice(), a.getSubjectQuantity(), a.getSubCategoryId(), a.getTechnicalData(),
+						a.getId() }) > 0;
 	}
-	
+
 	@Override
-	public boolean updateAuctionImages(String images, long id){
+	public boolean updateAuctionImages(String images, long id) {
 		String[] array = images.split(",");
-        try {
-            PreparedStatement pst = dataSource.getConnection().prepareStatement("UPDATE sys.auction SET images=? WHERE id=?");
-	        pst.setArray(1, pst.getConnection().createArrayOf("varchar",array));
-	        pst.setLong(2, id);
-	        pst.executeUpdate();
-            
-            pst.close();
-            return true;
+		try {
+			PreparedStatement pst = dataSource.getConnection()
+					.prepareStatement("UPDATE sys.auction SET images=? WHERE id=?");
+			pst.setArray(1, pst.getConnection().createArrayOf("varchar", array));
+			pst.setLong(2, id);
+			pst.executeUpdate();
+
+			pst.close();
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-        return false;
+		return false;
 	}
-	
+
 	@Override
-	public boolean createUserAuction(long userId, Auction a) throws ParseException{
+	public boolean createUserAuction(long userId, Auction a) throws ParseException {
 		Timestamp createDate = new Timestamp(System.currentTimeMillis());
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
 		String[] images = a.getImageName().split(",");
-        try {
-            PreparedStatement pst = dataSource.getConnection().prepareStatement("INSERT INTO sys.auction(userid,name,description,create_date,edit_date,end_date,minimal_price,"
-					+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,technical_data,video,images) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-	        pst.setLong(1, userId);
-	        pst.setString(2,a.getName());
-	        pst.setString(3, a.getDescription());
-	        pst.setTimestamp(4, createDate);
-	        pst.setTimestamp(5, createDate);
-	        pst.setTimestamp(6, endDate);
-	        pst.setInt(7, 0);
-	        pst.setInt(8, 1);
-	        pst.setInt(9, a.getAuctionTypeId());
-	        pst.setLong(10, a.getSerialNumber());
-	        pst.setLong(11, a.getSubjectPrice());
-	        pst.setInt(12, a.getSubjectQuantity());
-	        pst.setInt(13, a.getSubjectQuantity());
-	        pst.setInt(14, a.getSubCategoryId());
-	        pst.setString(15, a.getTechnicalData());
-	        pst.setString(16, "");
-	        pst.setArray(17, pst.getConnection().createArrayOf("varchar",images));
-	        pst.executeUpdate();
-	   
-            pst.close();
-            return true;
-            
+		try {
+			PreparedStatement pst = dataSource.getConnection().prepareStatement(
+					"INSERT INTO sys.auction(userid,name,description,create_date,edit_date,end_date,minimal_price,"
+							+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,technical_data,video,images) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			pst.setLong(1, userId);
+			pst.setString(2, a.getName());
+			pst.setString(3, a.getDescription());
+			pst.setTimestamp(4, createDate);
+			pst.setTimestamp(5, createDate);
+			pst.setTimestamp(6, endDate);
+			pst.setInt(7, 0);
+			pst.setInt(8, 1);
+			pst.setInt(9, a.getAuctionTypeId());
+			pst.setLong(10, a.getSerialNumber());
+			pst.setLong(11, a.getSubjectPrice());
+			pst.setInt(12, a.getSubjectQuantity());
+			pst.setInt(13, a.getSubjectQuantity());
+			pst.setInt(14, a.getSubCategoryId());
+			pst.setString(15, a.getTechnicalData());
+			pst.setString(16, "");
+			pst.setArray(17, pst.getConnection().createArrayOf("varchar", images));
+			pst.executeUpdate();
+
+			pst.close();
+			return true;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-        return false;
-	}
-	
-	@Override
-	public boolean deleteVideo(long id){		
-		return dao.update("UPDATE sys.auction SET video=? WHERE id=?",
-			new Object[]{"",id}) > 0;
-	}
-	
-	@Override
-	public boolean makePaid(long id, int paymentMethodId){		
-		return dao.update("UPDATE sys.transactions SET payment_method_id=?,payment_status_id=(SELECT id FROM sys.payment_status WHERE name='payed') WHERE id=?",
-			new Object[]{paymentMethodId,id}) > 0;
+		return false;
 	}
 
 	@Override
-	public List<UsernameAndId> getUsersIdsForLastConversations(final long id){		
-		return dao.query("SELECT DISTINCT senderid FROM sys.chat_messages WHERE receiverid=?",
-			new Object[]{id},new RowMapper<UsernameAndId>(){
+	public boolean deleteVideo(long id) {
+		return dao.update("UPDATE sys.auction SET video=? WHERE id=?", new Object[] { "", id }) > 0;
+	}
+
+	@Override
+	public boolean makePaid(long id, int paymentMethodId) {
+		return dao.update(
+				"UPDATE sys.transactions SET payment_method_id=?,payment_status_id=(SELECT id FROM sys.payment_status WHERE name='payed') WHERE id=?",
+				new Object[] { paymentMethodId, id }) > 0;
+	}
+
+	@Override
+	public List<UsernameAndId> getUsersIdsForLastConversations(final long id) {
+		return dao.query("SELECT DISTINCT senderid FROM sys.chat_messages WHERE receiverid=?", new Object[] { id },
+				new RowMapper<UsernameAndId>() {
 					@Override
 					public UsernameAndId mapRow(ResultSet res, int row) throws SQLException {
 						return new UsernameAndId(res.getLong("senderid"));
-				}
-			});
+					}
+				});
 	}
-	
+
 	@Override
-	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId){	
-		return dao.query("SELECT senderid,message,create_date FROM sys.chat_messages WHERE (senderid=? AND receiverid=?) OR (receiverid=? AND senderid=?) LIMIT 30", 
-			new Object[]{userId,interlocutorId,userId,interlocutorId},new RowMapper<UserMessage>(){
-			@Override
-			public UserMessage mapRow(ResultSet res, int row) throws SQLException {
-				return new UserMessage(res.getLong("senderid"),res.getString("message"),res.getDate("create_date"));
-			}
-		});
+	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId) {
+		return dao.query(
+				"SELECT senderid,message,create_date FROM sys.chat_messages WHERE (senderid=? AND receiverid=?) OR (receiverid=? AND senderid=?)"
+				+ " ORDER BY create_date DESC LIMIT 30",
+				new Object[] { userId, interlocutorId, userId, interlocutorId }, new RowMapper<UserMessage>() {
+					@Override
+					public UserMessage mapRow(ResultSet res, int row) throws SQLException {
+						return new UserMessage(res.getLong("senderid"), res.getString("message"),
+								DateFormatter.format(res.getTimestamp("create_date")));
+					}
+				});
 	}
-	
+
 	@Override
-	public List<MessageCategory> getMessageCategories(){
-		return dao.query("SELECT id,user_id,name,create_date,activated FROM sys.message_category", 
-				new RowMapper<MessageCategory>(){
+	public List<MessageCategory> getMessageCategories() {
+		return dao.query("SELECT id,user_id,name,create_date,activated FROM sys.message_category",
+				new RowMapper<MessageCategory>() {
 					@Override
 					public MessageCategory mapRow(ResultSet res, int row) throws SQLException {
-						return new MessageCategory(res.getInt("id"),res.getString("name"),DateFormatter.format(res.getTimestamp("create_date")),
-								res.getLong("user_id"),res.getBoolean("activated"));
-				}
-		});
+						return new MessageCategory(res.getInt("id"), res.getString("name"),
+								DateFormatter.format(res.getTimestamp("create_date")), res.getLong("user_id"),
+								res.getBoolean("activated"));
+					}
+				});
 	}
-	
+
 	@Override
-	public List<Message> getMessages(){
-		return dao.query("SELECT id,message_category_id,title,text,create_date,edit_date,user_id,is_sent FROM sys.message", 
-				new RowMapper<Message>(){
+	public List<Message> getMessages() {
+		return dao.query(
+				"SELECT id,message_category_id,title,text,create_date,edit_date,user_id,is_sent FROM sys.message",
+				new RowMapper<Message>() {
 					@Override
 					public Message mapRow(ResultSet res, int row) throws SQLException {
-						return new Message(res.getInt("id"),res.getInt("message_category_id"),res.getString("title"),res.getString("text"),
-								DateFormatter.format(res.getTimestamp("create_date")),DateFormatter.format(res.getTimestamp("create_date")),
-								res.getLong("user_id"),res.getBoolean("is_sent"));
-				}
-			});
+						return new Message(res.getInt("id"), res.getInt("message_category_id"), res.getString("title"),
+								res.getString("text"), DateFormatter.format(res.getTimestamp("create_date")),
+								DateFormatter.format(res.getTimestamp("create_date")), res.getLong("user_id"),
+								res.getBoolean("is_sent"));
+					}
+				});
 	}
-	
+
 	@Override
-	public List<AuctionForGrade> getAuctionsForGrade(long userId){	
-		return dao.query("SELECT DISTINCT auctionid,(SELECT name FROM sys.auction a WHERE a.id=auctionid) AS name FROM sys.transactions WHERE userid=?", 
-			new Object[]{userId},new RowMapper<AuctionForGrade>(){
-			@Override
-			public AuctionForGrade mapRow(ResultSet res, int row) throws SQLException {
-				return new AuctionForGrade(res.getLong("auctionid"),res.getString("name"));
-			}
-		});
+	public List<AuctionForGrade> getAuctionsForGrade(long userId) {
+		return dao.query(
+				"SELECT DISTINCT auctionid,(SELECT name FROM sys.auction a WHERE a.id=auctionid) AS name FROM sys.transactions WHERE userid=?",
+				new Object[] { userId }, new RowMapper<AuctionForGrade>() {
+					@Override
+					public AuctionForGrade mapRow(ResultSet res, int row) throws SQLException {
+						return new AuctionForGrade(res.getLong("auctionid"), res.getString("name"));
+					}
+				});
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.auctions.system.module.auction_processing.DateFormatter;
 import com.auctions.system.portlet.nav_menu.dao.NavDAO;
 import com.auctions.system.portlet.nav_menu.model.MessageAndDate;
 import com.auctions.system.portlet.nav_menu.model.UserData;
@@ -46,7 +47,7 @@ public class NavDAOImpl implements NavDAO{
 			new Object[]{senderId,receiverId,false},new RowMapper<MessageAndDate>(){
 			@Override
 			public MessageAndDate mapRow(ResultSet res, int row) throws SQLException {
-				return new MessageAndDate(res.getString("message"),res.getDate("create_date"));
+				return new MessageAndDate(res.getString("message"),DateFormatter.format(res.getTimestamp("create_date")));
 			}
 		});
 	}

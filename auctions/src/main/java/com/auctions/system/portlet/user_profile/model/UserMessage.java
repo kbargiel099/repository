@@ -1,14 +1,12 @@
 package com.auctions.system.portlet.user_profile.model;
 
-import java.util.Date;
-
 import com.auctions.system.portlet.nav_menu.model.MessageAndDate;
 
 public class UserMessage extends MessageAndDate{
 
 	private long senderId;
 	
-	public UserMessage(long senderId, String message, Date createDate) {
+	public UserMessage(long senderId, String message, String createDate) {
 		super(message, createDate);
 		this.senderId = senderId;
 	}

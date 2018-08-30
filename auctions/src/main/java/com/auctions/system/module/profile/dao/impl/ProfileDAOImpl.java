@@ -60,7 +60,7 @@ public class ProfileDAOImpl implements ProfileDAO{
 	
 	@Override
 	public List<AuctionPresenter> getUserAuctions(long userId){
-		return dao.query("SELECT id,name,images[1] AS image_name,subject_price,create_date,end_date FROM sys.auction_details WHERE userid=?", 
+		return dao.query("SELECT id,name,image_name,subject_price,create_date,end_date FROM sys.auction_main WHERE userid=?", 
 				new Object[]{userId},new RowMapper<AuctionPresenter>(){
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {

@@ -5,9 +5,9 @@ import java.util.Date;
 public class MessageAndDate{
 	
 	private String message;
-	private Date createDate;
+	private String createDate;
 	
-	public MessageAndDate(String message, Date createDate) {
+	public MessageAndDate(String message, String createDate) {
 		super();
 		this.message = message;
 		this.createDate = createDate;
@@ -21,11 +21,11 @@ public class MessageAndDate{
 		this.message = message;
 	}
 
-	public Date getCreateDate() {
+	public String getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
 

@@ -135,7 +135,7 @@
                 			
                 			for(var i=0;i<popups.length;i++){
                 				if(popups[i] == res.senderId){
-                        			addMessageAsReceiver(res.senderId,res.message);
+                        			addMessageAsReceiver(res.senderId,res.message,res.date);
                 				}
                 			}
                 			
@@ -179,7 +179,7 @@
             	divDate.style.padding = '10px';
             	var spanDate = document.createElement("span");
             	spanDate.style.fontSize = '12px';
-            	spanDate.innerHTML = getDate();
+            	spanDate.innerHTML = getDate(null);
             	divDate.appendChild(spanDate);
             	col.appendChild(divDate);
             	
@@ -202,7 +202,7 @@
             	element.querySelector('.popup-messages table tbody').appendChild(row);
             }
             
-            function addMessageAsReceiver(id,message){
+            function addMessageAsReceiver(id, message, date){
             	var row = document.createElement("tr");
             	var col = document.createElement("td");
             	
@@ -211,7 +211,7 @@
             	divDate.style.padding = '10px';
             	var spanDate = document.createElement("span");
             	spanDate.style.fontSize = '12px';
-            	spanDate.innerHTML = getDate();
+            	spanDate.innerHTML = getDate(date);
             	divDate.appendChild(spanDate);
             	col.appendChild(divDate);
             	
@@ -234,8 +234,8 @@
             	element.querySelector('.popup-messages table tbody').appendChild(row);
             }
 
-            function getDate(){
-            	let d = new Date();
+            function getDate(date){
+            	let d = date != null ? new Date(date) : new Date();
             	let day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
             	let month = (d.getMonth()+1) < 10 ? '0' + (d.getMonth()+1) : (d.getMonth()+1);
             	let hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
