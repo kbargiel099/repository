@@ -6,15 +6,15 @@ function getMessages(url){
 		var messages = data.messages;
 		for(var i=0;i<data.messages.length;i++){
 			if(messages[i].senderId == id){
-				addMessageAsSender('messages',messages[i]);
+				addMessageSender('messages',messages[i]);
 			}else{
-				addMessageAsReceiver('messages',messages[i]);
+				addMessageReceiver('messages',messages[i]);
 			}
 		}
 	});
 }
 
-function addMessageAsSender(id, value){
+function addMessageSender(id, value){
 	var row = document.createElement("tr");
 	var col = document.createElement("td");
 	
@@ -46,7 +46,7 @@ function addMessageAsSender(id, value){
 	element.querySelector('table tbody').appendChild(row);
 }
 
-function addMessageAsReceiver(id, value){
+function addMessageReceiver(id, value){
 	var row = document.createElement("tr");
 	var col = document.createElement("td");
 	

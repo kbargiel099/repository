@@ -71,10 +71,10 @@
                 console.log(popups);
                 
                 jQuery('#send-message-button').click(function(){
-                	var message = jQuery('#send-message-input').val();
+                	var message = jQuery('.chat-input').val();
                 	sendForm(id,message);
                 	addMessageAsSender(id,message);
-                	jQuery('#send-message-input').val("");
+                	jQuery('.chat-input').val("");
                 });
                 currentPopupId = id;
                 sendRequest(url,loadMessagesCallback);
@@ -86,7 +86,7 @@
     				
     				for(var i=0;i<messages.length;i++){
     					console.log(messages[i]);
-    					addMessageAsReceiver(currentPopupId,messages[i].message);
+    					addMessageAsReceiver(currentPopupId,messages[i].message,messages[i].createDate);
     				}
     				if(messages.length > 0)
     					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),currentPopupId);
@@ -135,7 +135,7 @@
                 			
                 			for(var i=0;i<popups.length;i++){
                 				if(popups[i] == res.senderId){
-                        			addMessageAsReceiver(res.senderId,res.message,res.date);
+                        			addMessageAsReceiver(res.senderId,res.message,null);
                 				}
                 			}
                 			
