@@ -75,6 +75,8 @@
                 	sendForm(id,message);
                 	addMessageAsSender(id,message);
                 	jQuery('.chat-input').val("");
+    				let elem = document.getElementsByClassName('popup-messages')[0];
+    				elem.scrollTo(0, elem.scrollHeight);
                 });
                 currentPopupId = id;
                 sendRequest(url,loadMessagesCallback);
@@ -90,6 +92,9 @@
     				}
     				if(messages.length > 0)
     					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),currentPopupId);
+    				
+    				let elem = document.getElementsByClassName('popup-messages')[0];
+    				elem.scrollTo(0, elem.scrollHeight);
     			}
     			else
     				alert("Wystapil blad loadMessagesCallback");
@@ -165,6 +170,8 @@
             	        	senderClientChat = false;
             	        	isWaitChat = false;
                     	}
+        				let elem = document.getElementsByClassName('popup-messages')[0];
+        				elem.scrollTo(0, elem.scrollHeight);
                     });
                 });
             }

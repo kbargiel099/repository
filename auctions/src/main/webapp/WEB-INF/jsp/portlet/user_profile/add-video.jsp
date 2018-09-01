@@ -13,15 +13,6 @@
 	<portlet:param name="id" value="${auctionId}"/>
 </portlet:renderURL>
 
-<%-- <portlet:resourceURL id="submitData" var="submitData">
-</portlet:resourceURL>
-<input type="hidden" id="submitDataUrl" value="${submitData}"></input> --%>
-
-<%-- <portlet:resourceURL id="convertVideo" var="convertVideo">
-	<portlet:param name="auctionId" value="${auctionId}"/>
-</portlet:resourceURL>
-<input type="hidden" id="convertVideoUrl" value="${convertVideo}"></input> --%>
-
 <portlet:resourceURL id="checkConversionStatus" var="checkConversionStatus">
 	<portlet:param name="auctionId" value="${auctionId}"/>
 </portlet:resourceURL>
@@ -47,9 +38,9 @@
 
 	<div class="col-xs-12 col-sm-8 col-md-8">
 		<h4 class="user-profile-section-title"><liferay-ui:message key="auction.add.video.label" /></h4>
- 			<div class="form-group">
+<%--  			<div class="form-group">
 				<label id="attach-video-label" class="label-control" for="video"><liferay-ui:message key="auction.attachVideo.label" /></label>
-			</div>
+			</div> --%>
 			
 			<form:form name="fileUploader" commandName="springFileVO" method="post"
                  action="${fileUploadURL}"  enctype="multipart/form-data">
@@ -93,7 +84,7 @@
 			sendRequest(jQuery('#getVideoNameUrl').val(),function(data){
 				var name = JSON.parse(data.name);
 				if(name != ''){
-					jQuery('#attach-video-label').hide();
+/* 					jQuery('#attach-video-label').hide(); */
 					jQuery('#video').hide();
 					jQuery('#delete-btn').show();
 					jQuery('#filename').html(name);

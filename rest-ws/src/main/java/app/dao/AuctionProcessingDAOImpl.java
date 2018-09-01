@@ -1,28 +1,30 @@
-package hello;
+package app.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import model.MailProperties;
-import module.DataSourceProvider;
+import model.MessageRequestForm;
+import model.RequestForm;
 
 @Repository("auctionProcessingDAO")
 public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
 	
 	private JdbcTemplate dao;
 
-	private DataSource lportal =  DataSourceProvider.dataSource("lportal");
+	@Autowired
+	private DataSource lportal;
 	
 	@PostConstruct
 	public void init() {

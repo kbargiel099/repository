@@ -1,14 +1,16 @@
-package hello;
+package app.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.dao.AuctionProcessingDAO;
 import model.MailProperties;
+import model.MessageRequestForm;
+import model.RequestForm;
 
 @Service("auctionProcessingService")
 public class AuctionProcessingServiceImpl implements AuctionProcessingService{

@@ -143,9 +143,9 @@
 	function createElement(type,name,value){
 		switch(type){
 			case 'input':
-				return '<input type="text" class="form-control" id="'+ name +'" value=""></input>';
+				return '<input type="text" class="form-control" id="'+ name +'" name="'+ name +'" value=""></input>';
 			case 'select':
-				var res =  '<select class="selectpicker form-control" id="'+ name +'" title="Wybierz">'
+				var res =  '<select class="selectpicker form-control" id="'+ name +'" name="'+ name +'" title="Wybierz">'
 				for(var i=0;i<value.length;i++){
 					res += '<option value="'+ value[i] +'">'+ Liferay.Language.get(value[i]) +'</option>';
 				}

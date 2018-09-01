@@ -41,7 +41,7 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 	
 	@Override
 	public User getUserById(int userId) {
-		return daoPortal.queryForObject("SELECT userid,screenname,password,firstname,lastname,emailaddress,lockout FROM user_ WHERE userid = ?", 
+		return daoPortal.queryForObject("SELECT userid,screenname,password_,firstname,lastname,emailaddress,lockout FROM user_ WHERE userid = ?", 
 			new Object[]{userId},new RowMapper<User>(){
 				@Override
 				public User mapRow(ResultSet res, int row) throws SQLException {

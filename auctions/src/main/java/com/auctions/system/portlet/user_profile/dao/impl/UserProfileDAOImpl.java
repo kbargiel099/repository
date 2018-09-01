@@ -107,7 +107,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 	public List<AuctionPresenter> getUserObservation(long userId) {
 		return dao.query(
 				"SELECT id,name,image_name,subject_price FROM sys.auction_main"
-						+ " JOIN sys.auction_observation ON id=auctionid WHERE userid=?",
+						+ " JOIN sys.auction_observation o ON id=auctionid WHERE o.userid=?",
 				new Object[] { userId }, new RowMapper<AuctionPresenter>() {
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
@@ -291,7 +291,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId) {
 		return dao.query(
 				"SELECT senderid,message,create_date FROM sys.chat_messages WHERE (senderid=? AND receiverid=?) OR (receiverid=? AND senderid=?)"
-				+ " ORDER BY create_date DESC LIMIT 30",
+				+ " ORDER BY create_date ASC LIMIT 30",
 				new Object[] { userId, interlocutorId, userId, interlocutorId }, new RowMapper<UserMessage>() {
 					@Override
 					public UserMessage mapRow(ResultSet res, int row) throws SQLException {

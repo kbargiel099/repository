@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/module/notify-modal.css" />" >
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/custom_slider.css" />" >
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/image.css" />" >
 
 <portlet:renderURL var="getUserProfile">
 	<portlet:param name="page" value="userProfile"/>
@@ -52,9 +53,9 @@
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div id="gallery" style="display:none;">
 						<c:forEach items="${auction.images}" var="item" varStatus="i">
-							<div class="slider-element">
+							<div class="slider-element" style="text-align:center;">
 								<a class="text-center" href="#">
-									<img src="/images/${item}" style="height:auto; width:100%;" />
+									<img class="image-240" src="/images/${item}" />
 								</a>
 							</div>
 						</c:forEach>
@@ -63,14 +64,14 @@
 					</div>
 					<c:choose>
 						<c:when test="${auction.video != ''}">
-							<div id="show-video-div">
+							<div id="show-video-div" style="text-align: center;">
 								<h5>
 									<strong>
 										<a id="showVideo" href="javascript:void(0);"><liferay-ui:message key="see.video" /></a>
 									</strong>
 								</h5>
 							</div>
-							<div id="show-gallery-div" style="display: none;">
+							<div id="show-gallery-div" style="text-align: center; display: none;">
 								<h5>
 									<strong>
 										<a id="showGallery" href="javascript:void(0);"><liferay-ui:message key="see.gallery" /></a>
@@ -92,22 +93,41 @@
 			<div class="details-section row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<h4 class="text-center"><strong><liferay-ui:message key="seller.details" /></strong></h4>
-					<div class="padding-left">
-					<a href="${getUserProfile}">
-						<h5>${seller.username}</h5>
-					</a>
-						<h5>${seller.firstname} ${seller.lastname}</h5>
-						<h5>${seller.emailAddress}</h5>
-						<h5>${seller.phoneNumber}</h5>
-						<div id="createChatInAuction" style="display:none;">
-				
-						</div>
+<!-- 					<div class="padding-left"> -->
+						<table>
+							<tbody>
+							  <tr class="user-data-tr">
+ 							    <td class="user-data-td">
+ 							    	<liferay-ui:message key="username" /><br>				
+									<a href="${getUserProfile}">${seller.username}</a>
+								</td>
+ 							  </tr>
+ 							  <tr class="user-data-tr">
+							    <td class="user-data-td">
+							    	<liferay-ui:message key="name.and.surname" /><br>	
+									${seller.firstname} ${seller.lastname}
+								</td>					  
+ 							  </tr>
+ 							  <tr class="user-data-tr">
+ 							    <td class="user-data-td">
+ 							    	<liferay-ui:message key="email.address" /><br>	
+ 									${seller.emailAddress}
+ 								</td>
+ 							  </tr>
+ 							  <tr class="user-data-tr">
+ 							    <td class="user-data-td">
+ 							    	<liferay-ui:message key="phone.number" /><br>	
+ 									${seller.phoneNumber}
+ 								</td>
+							</tbody>
+						</table>
+<!-- 					</div> -->
+					<div id="createChatInAuction" style="text-align: center;display:none;">
 					</div>
 				</div>
 			</div>
 			<c:if test="${auction.typeName != 'quick_purchase'}">
 				<div class="col-xs-12 col-sm-12 col-md-12">
-<!-- 				<div id="auction-notify" class="mygrid-wrapper-div" style=" border: solid Gray 1px;overflow-y: scroll;height: 200px;width: 100%;"> -->						
 					<h4 class="text-center"><strong><liferay-ui:message key="auction.actual.offers" /></strong></h4>
 					<div id="auction-notify" class="mygrid-wrapper-div" style="overflow-y: scroll;height: 200px;width: 100%;">
 						<table>
@@ -123,7 +143,7 @@
 							</tbody>
 						</table>
 					</div>
-					<p id="empty-list-msg"></p>
+					<p id="empty-list-msg" style="text-align: center;"></p>
 				</div>
 			</c:if>
 		</div>
@@ -284,7 +304,7 @@ var canPlayMPEG4;
 		}
 		if(Liferay.ThemeDisplay.getUserId() != parseInt(jQuery('#seller-id').val())){
 			jQuery('#createChatInAuction').append(createChatLink(jQuery('#seller-id').val(),
-					jQuery('#seller-username').val(),'Napisz do'));
+					jQuery('#seller-username').val(),Liferay.Language.get('write.message')));
 			jQuery('#createChatInAuction').show();
 		}
 		jQuery('#gallery').show();

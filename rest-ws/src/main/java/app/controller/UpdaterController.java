@@ -1,4 +1,4 @@
-package hello;
+package app.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import app.service.AuctionProcessingService;
+import model.MessageRequestForm;
+import model.MessageResponse;
+import model.RequestForm;
+import model.Response;
+import model.ResponseError;
+import model.ResponseForm;
 import module.Code;
 import module.exception.TimeException;
 import module.mail_manager.MailType;
@@ -58,7 +65,7 @@ public class UpdaterController {
 	    	}
     	}catch(TimeException e){
     		e.printStackTrace();
-    		return new ResponseError(Code.TIMEOUT);
+    		return new ResponseError(Code.AUCTION_FINISHED);
     	}catch(Exception e){
     		e.printStackTrace();
     		return new ResponseError(Code.ERROR);
@@ -77,7 +84,7 @@ public class UpdaterController {
 	    	}
     	}catch(TimeException e){
     		e.printStackTrace();
-    		return new ResponseError(Code.TIMEOUT);
+    		return new ResponseError(Code.AUCTION_FINISHED);
     	}catch(Exception e){
     		e.printStackTrace();
     		return new ResponseError(Code.ERROR);
@@ -90,7 +97,6 @@ public class UpdaterController {
     @SendTo("/message/{id}")
     public Response proceedConversation(@DestinationVariable String id, MessageRequestForm form) throws Exception {
     	try {
-	    	//form.setReceiverId(id);
 	    	service.createChatMessage(form);
     	}catch(Exception e){
     		e.printStackTrace();

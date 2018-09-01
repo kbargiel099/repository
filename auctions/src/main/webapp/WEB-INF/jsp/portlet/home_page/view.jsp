@@ -69,7 +69,7 @@
 									
 									<div class="col-xs-12 col-sm-4 col-md-4">
 										<a href="${details}">
-											<img class="image image-160" src="/images/${item.imageName}" />
+											<img class="image image-180" src="/images/${item.imageName}" />
 										</a>
 										<h4>
 											<liferay-ui:message key="price" /> - 

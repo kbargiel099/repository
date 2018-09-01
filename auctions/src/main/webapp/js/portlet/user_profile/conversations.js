@@ -11,6 +11,8 @@ function getMessages(url){
 				addMessageReceiver('messages',messages[i]);
 			}
 		}
+		let elem = document.getElementById('messages');
+		elem.scrollTo(0, elem.scrollHeight);
 	});
 }
 

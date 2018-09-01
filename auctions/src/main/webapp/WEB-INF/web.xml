@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <web-app
 	version="2.5"
 	xmlns="http://java.sun.com/xml/ns/javaee"
@@ -19,19 +18,6 @@
 		<servlet-name>ViewRendererServlet</servlet-name>
 		<url-pattern>/WEB-INF/servlet/view</url-pattern>
 	</servlet-mapping>
-<!-- 	<servlet>
-	    <servlet-name>authorization</servlet-name>
-	    <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
-	    <init-param>
-	        <param-name>servlet-class</param-name>
-	        <param-value>com.auctions.system.servlet.Authorization</param-value>
-	    </init-param>
-	    <init-param>
-	        <param-name>sub-context</param-name>
-	        <param-value>authorization</param-value>
-	    </init-param>
-	    <load-on-startup>3</load-on-startup>
-	</servlet> -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>

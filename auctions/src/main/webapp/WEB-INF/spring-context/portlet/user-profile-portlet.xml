@@ -17,8 +17,12 @@
     <bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     <bean class="org.springframework.web.portlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 	
+	<bean id="fileSystemResource" class="org.springframework.core.io.FileSystemResource">
+		<constructor-arg value="E:\Szkoła\Praca inżynierska\Liferay_Portal\tomcat-8.0.32\webapps\uploadfile3" />
+	</bean>
     <bean id="portletMultipartResolver" class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver">
     	<property name="maxUploadSize" value="1024000000"/>
+   		<property name="uploadTempDir" ref="fileSystemResource"/>
     </bean>
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

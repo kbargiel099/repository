@@ -28,13 +28,11 @@ var checkConversionStatusCallback = function(data){
 	
 	if(info.progress >= 0){
 		jQuery('#conversion-div').show();
-		//conversionProgress = info.progress;
 		jQuery('#video').show();
 		jQuery('#filename').html('');
 		jQuery('#filename-div').hide();
 	}
 	
-	//if(conversionProgress <= 1000 && conversionProgress >= 0){
 	if(info.progress <= 1000 && info.progress >= 0){
 		console.log(info.progress);
 		jQuery('#video').hide();
@@ -46,26 +44,25 @@ var checkConversionStatusCallback = function(data){
 		setTimeout(function(){ 
 			checkConversionStatus(1);}, 1500);
 		
-		//if(conversionProgress == 1000){
 		if(info.progress == 1000){
 			jQuery('#conversion').html("100%");
 			responsiveNotify(Liferay.Language.get('file.successfully.added'));
-			//conversionProgress = -1;
+			info.progress = -1;
 			jQuery('#delete-btn').show();
 			hasFile = true;
 		}	
 	}
 };
 
-jQuery('#delete-btn').on("click",function(event){
+jQuery('#delete-btn').on("click",function(event){ 
 	var url = jQuery('#deleteVideoUrl').val();
 	sendRequest(url,function(data){
 		if(JSON.parse(data.success) == true){
-			jQuery('#attach-video-label').show();
 			jQuery('#video').show();
 			jQuery('#delete-btn').hide();
 			jQuery('#filename').html('');
 			jQuery('#filename-div').hide();
+			jQyery('#conversion-div').hide();
 			hasFile = false;
 			responsiveNotify(Liferay.Language.get('video.file.removed.success'));
 		}else{

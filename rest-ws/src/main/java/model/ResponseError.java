@@ -1,4 +1,4 @@
-package hello;
+package model;
 
 public class ResponseError extends Response{
 	

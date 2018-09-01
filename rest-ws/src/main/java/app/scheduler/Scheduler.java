@@ -1,9 +1,10 @@
-package hello;
+package app.scheduler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import app.service.AuctionProcessingService;
 import module.mail_manager.MailType;
 import module.mail_manager.impl.SimpleMailManager;
 

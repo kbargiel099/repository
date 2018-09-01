@@ -1,12 +1,15 @@
-package hello;
+package app.configuration;
 
 import java.util.Properties;
+
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -14,11 +17,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import module.DataSourceProvider;
 import module.mail_manager.impl.SimpleMailManager;
 
 @Configuration
-public class MyConfigurer{
+public class Configurer{
 
    @Bean
    public String schema() {
@@ -41,10 +43,20 @@ public class MyConfigurer{
    }
   
    @Bean
+   public DataSource dataSource() {
+        DriverManagerDataSource driver = new DriverManagerDataSource();
+        driver.setDriverClassName("org.postgresql.Driver");
+        driver.setUrl("jdbc:postgresql://100.66.3.129:5432/lportal");
+        driver.setUsername("liferay");
+    	driver.setPassword("liferay");
+    	return driver;
+   }
+   
+   @Bean
    @Autowired
    public DataSourceTransactionManager transactionManager() {
 	   DataSourceTransactionManager txManager = new DataSourceTransactionManager();
-	   txManager.setDataSource(DataSourceProvider.dataSource("auctions"));
+	   txManager.setDataSource(dataSource());
 	   return txManager;
    }
    
