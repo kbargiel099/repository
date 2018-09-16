@@ -93,7 +93,6 @@
 			<div class="details-section row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<h4 class="text-center"><strong><liferay-ui:message key="seller.details" /></strong></h4>
-<!-- 					<div class="padding-left"> -->
 						<table>
 							<tbody>
 							  <tr class="user-data-tr">
@@ -121,7 +120,7 @@
  								</td>
 							</tbody>
 						</table>
-<!-- 					</div> -->
+
 					<div id="createChatInAuction" style="text-align: center;display:none;">
 					</div>
 				</div>
@@ -254,15 +253,7 @@ var canPlayMPEG4;
 	jQuery(document).ready(function(){
 			var testEl = document.createElement( "video" );
 			if ( testEl.canPlayType ) {
-			    // Check for MPEG-4 support
 			    canPlayMPEG4 = "" !== testEl.canPlayType( 'video/mp4; codecs="mp4v.20.8"' );
-			    // Check for h264 support
-/* 			    h264 = "" !== ( testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E"' )
-			        && testEl.canPlayType( 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' ) );  */
-/* 			    // Check for Ogg support
-			    ogg = "" !== testEl.canPlayType( 'video/ogg; codecs="theora"' ); */
-/* 			    // Check for Webm support
-			    webm = "" !== testEl.canPlayType( 'video/webm; codecs="vp8, vorbis"' ); */
 			}
 	});
 
@@ -274,11 +265,7 @@ var canPlayMPEG4;
 	    		var ext = canPlayMPEG4 ? 'mp4' : 'ogg';
 	    		var media = canPlayMPEG4 ? 'mp4' : 'ogg';
  	    		var videoElement = '<video width="100%" controls>'
-/*  	    				+ '<source src="/videos/'+ data.name +'.mp4" type="video/mp4">' */
-/*	    				+ '<source src="/videos/'+ data.name +'.webm" type="video/webm">' */
 	    				+ '<source src="/videos/'+ JSON.parse(data.name) +'.'+ ext +'" type="video/'+ media +'">'
-/* 	    				+ '<source src="/videos/'+ data.name +'" type="video/ogg">'
- 	    				+ "<source src="+"/videos/"+ data.name +" type='video/webm;codecs="+"vp8, vorbis"'>"  */
 	    				+ '</video>';  	 
 		   		jQuery('#gallery').hide();
 	    		jQuery('#show-video-div').hide();

@@ -74,6 +74,7 @@
 </nav>
 
 <input type="hidden" id="username" value="${username}"/>
+<input type="hidden" id="restServiceEndpoint" value="${restServiceEndpoint}"/>
 
 <script src="<c:url value="/js/portlet/navigation_menu/notify-proceed.js" />"></script>
 <script src="<c:url value="/js/portlet/navigation_menu/message_popup.js" />"></script>

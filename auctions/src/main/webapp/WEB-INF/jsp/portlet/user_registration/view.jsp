@@ -113,11 +113,11 @@ $.fn.serializeObject = function() {
 								jQuery.each(data, function (key, value){
 									var labels = jQuery("#registration-form").find('label[for="' + key + '"]');
 									if(labels.length == 2){
-										labels[1].innerHTML = value;
+										labels[1].innerHTML = Liferay.Language.get(value);
 										labels[1].style.display = "inline-block";
 									}
 									else{
-										var errorElem = '<label class="error" style="display: inline-block" for="' + key + '" generated="true">' + value + '</label>';
+										var errorElem = '<label class="error" style="display: inline-block" for="' + key + '" generated="true">' + Liferay.Language.get(value) + '</label>';
 										labels.parent().append(errorElem);
 									}
 								});

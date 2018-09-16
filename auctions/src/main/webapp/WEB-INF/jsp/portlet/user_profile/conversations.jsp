@@ -5,9 +5,6 @@
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
 
 <portlet:defineObjects />
-<%-- <portlet:resourceURL id="makePaid" var="makePaid">
-</portlet:resourceURL>
-<input type="hidden" id="makePaidUrl" value="${makePaid}"/> --%>
 
 <div class="container-fluid">
 
@@ -27,7 +24,6 @@
 								</portlet:resourceURL>
 								
 								<tr>
-									<%-- <td>${item.id}</td> --%>
 									<td>
 										<a href="javascript:getMessages('${getAllMessagesFromUser}');">${item.username}</a>
 									</td>

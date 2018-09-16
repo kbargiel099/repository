@@ -14,9 +14,6 @@
 }
 
 .mail_notify {
-/*      width: 150px;
-    height: 100px; */
-/*     background-color: red; */
     -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
     -webkit-animation-duration: 1s; /* Safari 4.0 - 8.0 */
     animation-name: example;
@@ -24,14 +21,10 @@
     animation-iteration-count: infinite;
 }
 
-/* Safari 4.0 - 8.0 */
 @-webkit-keyframes example {
     50%   {background-color: red;}
-/*     50%  {background-color: white;} */
 }
 
-/* Standard syntax */
 @keyframes example {
     50%   {background-color: red;}
-/*     50%  {background-color: white;} */
 }

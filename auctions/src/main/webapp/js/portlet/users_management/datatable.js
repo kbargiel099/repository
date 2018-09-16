@@ -35,10 +35,8 @@ function initUsers(resourceUrl){
 					}
 				}
 		}],
-		//"language": language
 		"language": {
 			"url": "pl"
-		}//},
-		//responsive: true
+		}
     } );
 }

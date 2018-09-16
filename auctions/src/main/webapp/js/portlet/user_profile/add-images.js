@@ -3,8 +3,8 @@
 					url: jQuery('#saveImageUrl').val(),
 					params: [{'name':'data','value':JSON.stringify(files)}],
 					callback: function(data){
-							updateImages();
-						}
+						updateImages();
+					}
 			});
 		};
 	

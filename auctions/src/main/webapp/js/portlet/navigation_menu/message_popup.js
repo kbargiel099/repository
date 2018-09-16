@@ -3,15 +3,12 @@
 					connectForChat();
 				}
 			});        
-            //this variable represents the total number of popups can be displayed according to the viewport width
             var total_popups = 0;
             var smallWidth = 640;
             var popups = [];
             var currentPopupId;
             var popupWidth =  window.innerWidth > smallWidth ? 320 : window.outerWidth;
-            //var popupWidth = window.innerWidth > 640 ? 25 : 100;
         	var right = window.innerWidth < smallWidth ? 0 : 220;
-            //var right = window.innerWidth < 640 ? 0 : 15;
             
             function close_popup(id)
             {
@@ -120,13 +117,13 @@
 
             			}
             			else
-            				alert("Wystapil blad markMessagesAsRead");
+            				alert(Liferay.Language.get('error.msg'));
             		}
             	});
             }
             
             function connectForChat(){
-                var socketForChat = new SockJS('http://192.168.0.15:8143/notification');
+                var socketForChat = new SockJS(jQuery('#restServiceEndpoint').val());
             	stompClientChat = Stomp.over(socketForChat);
             	stompClientChat.connect({}, function (frame) {
             		stompClientChat.subscribe('/message/' + userId, function (data) {
@@ -134,9 +131,6 @@
                     	console.log("Odpowiedz z serwera");
                     	console.log(res);
                     	if(res.success == true){
-                    		
-                			//senderClientChat = false;
-                			//isWaitChat = false;
                 			
                 			for(var i=0;i<popups.length;i++){
                 				if(popups[i] == res.senderId){
@@ -252,9 +246,7 @@
             
             function calculate_popups()
             {
-            	//popupWidth =  window.innerWidth < 640 ? 200 : 320;
             	right = window.innerWidth < smallWidth ? 0 : 220;
-                // var right = window.innerWidth < 640 ? 0 : 15;
                 var width = window.innerWidth;
                 if(width < smallWidth)
                 {

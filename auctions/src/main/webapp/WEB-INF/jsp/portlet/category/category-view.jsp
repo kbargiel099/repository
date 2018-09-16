@@ -112,7 +112,6 @@
 		      }
 		    },
 		    submitHandler: function(form) {
-		      //form.submit();
 		      console.log(form);
 		    }
 		  });

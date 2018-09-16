@@ -8,16 +8,11 @@
                 
                 .chat-popup
                 {
-/*                  display: none !important; */
 					width: 95% !important;   
 					left: 0px;
                 } 
             } 
             
-/*             body
-            {
-                background-color: #e9eaed;
-            } */
             
             .chat-sidebar
             {

@@ -3,7 +3,6 @@ package app.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -21,6 +20,7 @@ import model.RequestForm;
 import model.Response;
 import model.ResponseError;
 import model.ResponseForm;
+import model.SendEmailResponse;
 import module.Code;
 import module.exception.TimeException;
 import module.mail_manager.MailType;
@@ -29,29 +29,27 @@ import module.mail_manager.impl.SimpleMailManager;
 @CrossOrigin(origins = {"http://192.168.0.15:8080"})
 @RestController
 public class UpdaterController {
-
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
     
     @Autowired
     AuctionProcessingService service;
     
     @Autowired
     SimpleMailManager mailManager;
-
-    @RequestMapping("/greeting")
-    public ResponseForm greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return new ResponseForm(counter.incrementAndGet(),
-                            String.format(template, name));
-    }
     
     @RequestMapping("/sendMail")
-    public ResponseForm sendMail(@RequestParam(value="address") String address) {
-    	System.out.println("address send mail: " + address);
-    	mailManager.setTemplate(MailType.REGISTRATION, "Krystian");
-    	mailManager.sendMail(address);
-        return new ResponseForm(counter.incrementAndGet(),
-                            String.format(template, address));
+    public Response sendMail(@RequestParam(value="address") String address) {
+    	SendEmailResponse response = new SendEmailResponse();
+    	
+    	try{
+        	mailManager.setTemplate(MailType.REGISTRATION, "Krystian");
+        	mailManager.sendMail(address);
+        	response.setSuccess(true);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		response.setSuccess(false);
+    	}
+    	
+    	return response;
     }
     
     @MessageMapping("/update/{id}")
@@ -112,7 +110,10 @@ public class UpdaterController {
 		Date endDate = format.parse(end);
 	    Date current = new Date(System.currentTimeMillis());
 	        
-	    if(!current.before(endDate)) throw new TimeException("Aukcja została już zakonczona");
+	    if(!current.before(endDate)) {
+	    	throw new TimeException("Aukcja została już zakonczona");
+	    }
+	    
 	    return true;
     }
 	

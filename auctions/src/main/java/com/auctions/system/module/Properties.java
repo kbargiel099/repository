@@ -8,6 +8,12 @@ public class Properties {
 	
 	private final static String videosPath = path + "videos\\";
 	
+	private final static String restServiceEndpoint = "http://192.168.0.15:8143/notification";
+	
+	public static String getRestServiceEndpoint() {
+		return restServiceEndpoint;
+	}
+
 	public static String getImagesPath(){
 		return imagesPath;
 	}

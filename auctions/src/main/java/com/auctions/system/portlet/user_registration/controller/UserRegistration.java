@@ -28,7 +28,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.auctions.system.module.mail_manager.MailManager;
+import com.auctions.system.module.client.MailRestClient;
 import com.auctions.system.portlet.user_registration.service.RegistrationService;
 import com.auctions.system.portlet.user_registration.validator.UserValidator;
 import com.auctions.system.portlet.users_management.model.User;
@@ -47,8 +47,6 @@ public class UserRegistration{
 
 	@Autowired
 	RegistrationService service;
-	@Autowired
-	MailManager mailManager;
 	@Autowired
 	UserValidator validator;
 	
@@ -142,7 +140,7 @@ public class UserRegistration{
 			e.printStackTrace();
 		}
 		
-		mailManager.sendMail(user.getEmail(),user.getFirstname(),themeDisplay.getLocale());
+		MailRestClient.sendMail(user.getEmail());
 		
 		response.sendRedirect(home);
 		response.setRenderParameter("page", "createUserSuccess");

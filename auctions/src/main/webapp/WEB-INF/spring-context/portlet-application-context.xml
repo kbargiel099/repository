@@ -14,9 +14,11 @@
 					    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<context:annotation-config />
-
-	<bean id="schema" class="java.lang.String">
-		<constructor-arg value="sys" />
+	
+	<bean id="properties"
+		  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		  <property name="basename" value="classpath:content/App" />
+		  <property name="defaultEncoding" value="UTF-8"/>
 	</bean>
 	
 	<bean id="messageSrc"
@@ -31,43 +33,11 @@
         <property name="username" value="postgres"/>
         <property name="password" value="postgres"/>
     </bean>
-    
-<!--     <bean id="dataSource-lportal" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/lportal"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="postgres"/>
-    </bean> -->
 
     <tx:annotation-driven transaction-manager="txManager"/>
 
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host"><value>smtp.gmail.com</value></property>
-        <property name="port"><value>587</value></property>
-        <property name="protocol"><value>smtp</value></property>
-        <property name="username"><value>abstergo887@gmail.com</value></property>
-        <property name="password"><value>Jecky887</value></property>
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.starttls.enable">true</prop>
-                <prop key="mail.smtp.quitwait">false</prop>
-            </props>
-        </property>
-	</bean> 
-	
-	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
-	  <property name="from" value="bardzi18@interia.pl"/>
-	  <property name="subject" value="Rejestracja"/>
-	</bean>
-		
-	<bean id="mailManager" class="com.auctions.system.module.mail_manager.impl.SimpleMailManager">
-	  <property name="mailSender" ref="mailSender"/>
-	  <property name="templateMessage" ref="templateMessage"/>
-	</bean>
 
 </beans>

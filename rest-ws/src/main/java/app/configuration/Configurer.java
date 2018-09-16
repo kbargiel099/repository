@@ -46,9 +46,9 @@ public class Configurer{
    public DataSource dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
         driver.setDriverClassName("org.postgresql.Driver");
-        driver.setUrl("jdbc:postgresql://100.66.3.129:5432/lportal");
-        driver.setUsername("liferay");
-    	driver.setPassword("liferay");
+        driver.setUrl("jdbc:postgresql://localhost:5432/lportal");
+        driver.setUsername("postgres");
+    	driver.setPassword("postgres");
     	return driver;
    }
    

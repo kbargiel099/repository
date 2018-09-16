@@ -38,9 +38,6 @@
 
 	<div class="col-xs-12 col-sm-8 col-md-8">
 		<h4 class="user-profile-section-title"><liferay-ui:message key="auction.add.video.label" /></h4>
-<%--  			<div class="form-group">
-				<label id="attach-video-label" class="label-control" for="video"><liferay-ui:message key="auction.attachVideo.label" /></label>
-			</div> --%>
 			
 			<form:form name="fileUploader" commandName="springFileVO" method="post"
                  action="${fileUploadURL}"  enctype="multipart/form-data">
@@ -68,14 +65,6 @@
 			<strong><liferay-ui:message key="save" /></strong>
 		</button>	
 	</div>
-       
-<%-- <!-- File Download  --> 
-    <portlet:resourceURL var="fileDownloadURL" id="fileDownload">
-    </portlet:resourceURL>
-      
-     </br>
-     <a href="#" onClick="window.location ='${fileDownloadURL}';"> Download </a>
-</div> --%>
 
 <script src="<c:url value="/js/module/file-upload.js" />"></script>
 <script>
@@ -84,7 +73,6 @@
 			sendRequest(jQuery('#getVideoNameUrl').val(),function(data){
 				var name = JSON.parse(data.name);
 				if(name != ''){
-/* 					jQuery('#attach-video-label').hide(); */
 					jQuery('#video').hide();
 					jQuery('#delete-btn').show();
 					jQuery('#filename').html(name);

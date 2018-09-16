@@ -28,10 +28,8 @@ function initMessages(resourceUrl){
 					return data ?  Liferay.Language.get('message.sent') : Liferay.Language.get('message.not_sent');
 				}
 			}],
-			//"language": language
 			"language": {
 				"url": "pl"
-			}//},
-			//responsive: true
+			}
 	    } );
 	}

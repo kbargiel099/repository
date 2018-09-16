@@ -5,9 +5,8 @@
   width: 100%;
   font-weight: normal;
   margin-bottom: 1.25rem;
-    overflow: hidden;
-/*    position: absolute;  */
-   position: fixed; 
+  overflow: hidden;
+  position: fixed; 
   top: 5%;
   z-index: 1;
   padding: 0.875rem 1.5rem 0.875rem 0.875rem; 

@@ -37,10 +37,8 @@ function initAuctions(resourceUrl){
 					return Liferay.Language.get('auction.' + data);
 				}
 			}],
-			//"language": language
 			"language": {
 				"url": "pl"
-			}//},
-			//responsive: true
+			}
 	    } );
 	}

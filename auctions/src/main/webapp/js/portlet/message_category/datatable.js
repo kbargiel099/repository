@@ -31,10 +31,8 @@ function initMessageCategories(resourceUrl){
 					return data ?  Liferay.Language.get('category.active') : Liferay.Language.get('category.locked');
 				}
 			}],
-			//"language": language
 			"language": {
 				"url": "pl"
-			}//},
-			//responsive: true
+			}
 	    } );
 	}
