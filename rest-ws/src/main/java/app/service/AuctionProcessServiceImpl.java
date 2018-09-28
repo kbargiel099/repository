@@ -7,16 +7,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import app.dao.AuctionProcessingDAO;
+import app.dao.AuctionProcessDAO;
 import model.MailProperties;
 import model.MessageRequestForm;
 import model.RequestForm;
 
-@Service("auctionProcessingService")
-public class AuctionProcessingServiceImpl implements AuctionProcessingService{
+@Service("auctionProcessService")
+public class AuctionProcessServiceImpl implements AuctionProcessService{
 
 	@Autowired
-	AuctionProcessingDAO dataSource;
+	AuctionProcessDAO dataSource;
 	
 	@Override
 	public boolean proceedOffer(RequestForm form, String id){

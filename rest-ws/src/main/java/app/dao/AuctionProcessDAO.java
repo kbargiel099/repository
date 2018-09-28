@@ -7,7 +7,7 @@ import model.MailProperties;
 import model.MessageRequestForm;
 import model.RequestForm;
 
-public interface AuctionProcessingDAO {
+public interface AuctionProcessDAO {
 	
 	public boolean proceedOffer(RequestForm form, String id);
 	

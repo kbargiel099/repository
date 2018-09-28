@@ -1,18 +1,18 @@
-package com.auctions.system.module.auction_processing.dao;
+package com.auctions.system.module.auction_process.service;
 
 import java.util.List;
 
-import com.auctions.system.module.auction_processing.model.AuctionOffer;
-import com.auctions.system.module.auction_processing.model.PaymentMethod;
-import com.auctions.system.module.auction_processing.model.PurchaseInfo;
+import com.auctions.system.module.auction_process.model.AuctionOffer;
+import com.auctions.system.module.auction_process.model.PaymentMethod;
+import com.auctions.system.module.auction_process.model.PurchaseInfo;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.UserDetails;
 
-public interface AuctionProcessingDAO {
+public interface AuctionProcessService {
 	
 	public UserDetails getSellerDetails(long userId);
 	
-	public AuctionDetails getAuctionDetails(long auctionId);
+	public AuctionDetails getAuctionDetails(long id);
 	
 	public String getVideoName(long id);
 	

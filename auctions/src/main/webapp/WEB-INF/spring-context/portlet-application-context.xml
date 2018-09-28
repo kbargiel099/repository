@@ -15,12 +15,6 @@
 
 	<context:annotation-config />
 	
-	<bean id="properties"
-		  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		  <property name="basename" value="classpath:content/App" />
-		  <property name="defaultEncoding" value="UTF-8"/>
-	</bean>
-	
 	<bean id="messageSrc"
 		  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		  <property name="basename" value="classpath:content/Language" />

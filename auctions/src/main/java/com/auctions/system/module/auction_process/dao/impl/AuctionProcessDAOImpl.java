@@ -1,4 +1,4 @@
-package com.auctions.system.module.auction_processing.dao.impl;
+package com.auctions.system.module.auction_process.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,21 +8,20 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.auctions.system.module.auction_processing.DateFormatter;
-import com.auctions.system.module.auction_processing.dao.AuctionProcessingDAO;
-import com.auctions.system.module.auction_processing.model.AuctionOffer;
-import com.auctions.system.module.auction_processing.model.PaymentMethod;
-import com.auctions.system.module.auction_processing.model.PurchaseInfo;
+import com.auctions.system.module.DateFormatter;
+import com.auctions.system.module.auction_process.dao.AuctionProcessDAO;
+import com.auctions.system.module.auction_process.model.AuctionOffer;
+import com.auctions.system.module.auction_process.model.PaymentMethod;
+import com.auctions.system.module.auction_process.model.PurchaseInfo;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.UserDetails;
 
-@Repository("auctionProcessingDAO")
-public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
+@Repository("auctionProcessDAO")
+public class AuctionProcessDAOImpl implements AuctionProcessDAO{
 	
 	private JdbcTemplate dao;
 	

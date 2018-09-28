@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import app.service.AuctionProcessingService;
+import app.service.AuctionProcessService;
 import model.MessageRequestForm;
 import model.MessageResponse;
 import model.RequestForm;
@@ -31,7 +31,7 @@ import module.mail_manager.impl.SimpleMailManager;
 public class UpdaterController {
     
     @Autowired
-    AuctionProcessingService service;
+    AuctionProcessService service;
     
     @Autowired
     SimpleMailManager mailManager;

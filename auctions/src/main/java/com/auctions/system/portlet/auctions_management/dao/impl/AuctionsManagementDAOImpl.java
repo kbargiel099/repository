@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.auctions.system.module.auction_processing.DateFormatter;
+import com.auctions.system.module.DateFormatter;
 import com.auctions.system.portlet.auctions_management.dao.AuctionsManagementDAO;
 import com.auctions.system.portlet.auctions_management.model.AuctionDatatable;
 

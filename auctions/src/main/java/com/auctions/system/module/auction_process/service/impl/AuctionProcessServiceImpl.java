@@ -1,23 +1,23 @@
-package com.auctions.system.module.auction_processing.service.impl;
+package com.auctions.system.module.auction_process.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.auctions.system.module.auction_processing.dao.AuctionProcessingDAO;
-import com.auctions.system.module.auction_processing.model.AuctionOffer;
-import com.auctions.system.module.auction_processing.model.PaymentMethod;
-import com.auctions.system.module.auction_processing.model.PurchaseInfo;
-import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
+import com.auctions.system.module.auction_process.dao.AuctionProcessDAO;
+import com.auctions.system.module.auction_process.model.AuctionOffer;
+import com.auctions.system.module.auction_process.model.PaymentMethod;
+import com.auctions.system.module.auction_process.model.PurchaseInfo;
+import com.auctions.system.module.auction_process.service.AuctionProcessService;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.UserDetails;
 
-@Service("auctionProcessingService")
-public class AuctionProcessingServiceImpl implements AuctionProcessingService {
+@Service("auctionProcessService")
+public class AuctionProcessServiceImpl implements AuctionProcessService {
 	
 	@Autowired
-	AuctionProcessingDAO dataSource;
+	AuctionProcessDAO dataSource;
 	
 	public UserDetails getSellerDetails(long userId){
 		return dataSource.getSellerDetails(userId);

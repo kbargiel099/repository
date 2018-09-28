@@ -22,7 +22,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Properties;
 import com.auctions.system.module.Serializer;
-import com.auctions.system.module.auction_processing.controller.Processing;
+import com.auctions.system.module.auction_process.controller.Process;
 import com.auctions.system.module.file_converter.FileUtil;
 import com.auctions.system.module.file_converter.Worker;
 import com.auctions.system.module.statistics.controller.Statistics;
@@ -60,7 +60,7 @@ public class UserProfileController implements UserProfile{
 	private Statistics stats;
 	
 	@Autowired
-	private Processing processing;
+	private Process processing;
 	
 	@Autowired
 	private Worker worker;

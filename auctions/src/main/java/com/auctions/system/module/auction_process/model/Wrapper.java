@@ -1,4 +1,4 @@
-package com.auctions.system.module.auction_processing.model;
+package com.auctions.system.module.auction_process.model;
 
 import java.util.List;
 

@@ -1,14 +1,13 @@
 package app.service;
 
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 import model.MailProperties;
 import model.MessageRequestForm;
 import model.RequestForm;
 
-public interface AuctionProcessingService {
+public interface AuctionProcessService {
 
 	public boolean proceedOffer(RequestForm form, String id);
 	

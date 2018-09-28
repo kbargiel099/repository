@@ -5,16 +5,16 @@ import com.auctions.system.portlet.category.model.SearchingForm;
 public class Validator {
 
 	public static SearchingForm prepare(SearchingForm form){
-		long temp;
+		long tempPrice;
 		
 		if(!form.getMinPrice().isEmpty()){
-			temp = Long.parseLong(form.getMinPrice())*100;
-			form.setMinPrice(String.valueOf(temp));
+			tempPrice = Long.parseLong(form.getMinPrice())*100;
+			form.setMinPrice(String.valueOf(tempPrice));
 		}
 		
 		if(!form.getMaxPrice().isEmpty()){
-			temp = Long.parseLong(form.getMaxPrice())*100;
-			form.setMaxPrice(String.valueOf(temp));
+			tempPrice = Long.parseLong(form.getMaxPrice())*100;
+			form.setMaxPrice(String.valueOf(tempPrice));
 		}
 		
 		return form;

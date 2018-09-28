@@ -1,30 +1,38 @@
-package com.auctions.system.module.auction_processing.model;
+package com.auctions.system.module.auction_process.model;
 
-public class PurchaseInfo {
-
-	private long userId;
+public class TransactionSummary {
+	
+	private long auctionId;
+	private String auctionName;
 	private long sellerId;
 	private long price;
 	private int quantity;
-	private String name;
 	private String endDate;
 	
-	public PurchaseInfo(long userId, long sellerId, long price, int quantity, String name, String endDate) {
+	public TransactionSummary(long auctionId, String auctionName, long sellerId, long price, int quantity, String endDate) {
 		super();
-		this.userId = userId;
+		this.auctionId = auctionId;
+		this.auctionName = auctionName;
 		this.sellerId = sellerId;
 		this.price = price;
 		this.quantity = quantity;
-		this.name = name;
 		this.endDate = endDate;
 	}
 
-	public long getUserId() {
-		return userId;
+	public long getAuctionId() {
+		return auctionId;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setAuctionId(long auctionId) {
+		this.auctionId = auctionId;
+	}
+
+	public String getAuctionName() {
+		return auctionName;
+	}
+
+	public void setAuctionName(String auctionName) {
+		this.auctionName = auctionName;
 	}
 
 	public long getSellerId() {
@@ -51,14 +59,6 @@ public class PurchaseInfo {
 		this.quantity = quantity;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getEndDate() {
 		return endDate;
 	}
@@ -66,5 +66,5 @@ public class PurchaseInfo {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	
+
 }

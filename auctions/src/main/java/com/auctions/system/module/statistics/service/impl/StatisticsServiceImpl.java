@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.auctions.system.module.auction_processing.model.AuctionOffer;
+import com.auctions.system.module.auction_process.model.AuctionOffer;
 import com.auctions.system.module.statistics.dao.StatisticsDAO;
 import com.auctions.system.module.statistics.service.StatisticsService;
 

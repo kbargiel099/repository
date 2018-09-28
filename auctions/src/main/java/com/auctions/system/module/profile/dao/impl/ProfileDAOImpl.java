@@ -12,12 +12,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.auctions.system.module.auction_processing.DateFormatter;
+import com.auctions.system.module.DateFormatter;
 import com.auctions.system.module.profile.dao.ProfileDAO;
 import com.auctions.system.module.profile.model.Grade;
 import com.auctions.system.module.profile.model.UserProfile;
 import com.auctions.system.portlet.home_page.model.AuctionPresenter;
-import com.auctions.system.portlet.user_profile.model.BoughtPresenter;
 
 @Repository("profileDAO")
 public class ProfileDAOImpl implements ProfileDAO{

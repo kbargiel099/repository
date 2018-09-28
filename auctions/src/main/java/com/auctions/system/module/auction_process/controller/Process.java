@@ -1,4 +1,4 @@
-package com.auctions.system.module.auction_processing.controller;
+package com.auctions.system.module.auction_process.controller;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.profile.controller.Profile;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 
-public interface Processing extends Profile{
+public interface Process extends Profile{
 
 	@RequestMapping(params = "page=auctionDetails")
 	public ModelAndView detailsView(RenderRequest request, RenderResponse response,

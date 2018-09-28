@@ -34,6 +34,7 @@ public class Worker {
 	
 	public FileInfo checkProgress(long auctionId){
 		FileInfo progress = filesConvertingProgress.getOrDefault(auctionId, new FileInfo(-1));
+		
 		if(progress.getProgress() == conversionComplete) {
 			service.createVideoReference(auctionId, progress.getName());
 			filesConvertingProgress.remove(auctionId);
@@ -44,6 +45,7 @@ public class Worker {
 
 	public void updateValue(long auctionId, int value) {
 		FileInfo info = filesConvertingProgress.get(auctionId);
+		
 		info.setProgress(value);
 		filesConvertingProgress.put(auctionId, info);
 	}

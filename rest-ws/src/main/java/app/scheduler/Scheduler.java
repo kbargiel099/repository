@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import app.service.AuctionProcessingService;
+import app.service.AuctionProcessService;
 import module.mail_manager.MailType;
 import module.mail_manager.impl.SimpleMailManager;
 
@@ -14,7 +14,7 @@ public class Scheduler {
     private final int hour = 60 * 600000;
 	
     @Autowired
-    AuctionProcessingService service;
+    AuctionProcessService service;
     
     @Autowired
     SimpleMailManager mailManager;

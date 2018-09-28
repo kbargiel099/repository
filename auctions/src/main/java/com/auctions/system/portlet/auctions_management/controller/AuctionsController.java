@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 
 import com.auctions.system.module.HttpUtil;
-import com.auctions.system.module.auction_processing.controller.Processing;
+import com.auctions.system.module.auction_process.controller.Process;
 import com.auctions.system.module.statistics.controller.Statistics;
 import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.auctions_management.service.AuctionsManagementService;
@@ -26,7 +26,7 @@ public class AuctionsController implements AuctionsManagement{
 	private final String auctionsView = "auctions";
 		
 	@Autowired
-	Processing processing;
+	Process processing;
 	
 	@Autowired
 	AuctionsManagementService service;

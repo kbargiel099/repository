@@ -1,4 +1,4 @@
-package com.auctions.system.module.auction_processing.controller;
+package com.auctions.system.module.auction_process.controller;
 
 import java.io.IOException;
 
@@ -18,22 +18,22 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Serializer;
 import com.auctions.system.module.UserUtil;
-import com.auctions.system.module.auction_processing.model.PurchaseInfo;
-import com.auctions.system.module.auction_processing.model.TransactionSummary;
-import com.auctions.system.module.auction_processing.service.AuctionProcessingService;
+import com.auctions.system.module.auction_process.model.PurchaseInfo;
+import com.auctions.system.module.auction_process.model.TransactionSummary;
+import com.auctions.system.module.auction_process.service.AuctionProcessService;
 import com.auctions.system.module.profile.controller.ProfileController;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
-public class AuctionProcessing implements Processing{
+public class AuctionProcess implements Process{
 	
 	final String detailsView = "auction-details-view";
 	final String confirmPurchaseView = "confirm-purchase-view";
 	
 	@Autowired
-	private AuctionProcessingService service;
+	private AuctionProcessService service;
 	
 	@Autowired 
 	ProfileController profile;

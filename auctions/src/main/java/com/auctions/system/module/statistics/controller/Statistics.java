@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.portlet.ModelAndView;
 
 import com.auctions.system.module.UserUtil;
-import com.auctions.system.module.auction_processing.model.AuctionOffer;
+import com.auctions.system.module.auction_process.model.AuctionOffer;
 import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.module.statistics.service.StatisticsService;
 import com.auctions.system.portlet.category.model.AuctionDetails;
@@ -35,12 +35,12 @@ public class Statistics {
 	
 	private String getViewType(ViewType type){
 		switch(type){
-		case Profile:
-			return "profile";
-		case Administration:
-			return "administration";
-		default:
-			return "";
+			case Profile:
+				return "profile";
+			case Administration:
+				return "administration";
+			default:
+				return "";
 		}
 	}
 	

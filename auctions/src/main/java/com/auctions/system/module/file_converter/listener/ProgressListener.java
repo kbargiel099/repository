@@ -7,8 +7,8 @@ import it.sauronsoftware.jave.MultimediaInfo;
 
 public class ProgressListener implements EncoderProgressListener{
 
-	Worker worker;
-	long auctionId;
+	private Worker worker;
+	private long auctionId;
 	
 	public ProgressListener(long auctionId,Worker worker){
 		this.auctionId = auctionId;
@@ -17,7 +17,6 @@ public class ProgressListener implements EncoderProgressListener{
 	
 	@Override
 	public void progress(int permil) {
-		//System.out.println("Progress " + permil);
 		worker.updateValue(auctionId, permil);
 	}
 

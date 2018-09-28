@@ -18,8 +18,8 @@ import model.MailProperties;
 import model.MessageRequestForm;
 import model.RequestForm;
 
-@Repository("auctionProcessingDAO")
-public class AuctionProcessingDAOImpl implements AuctionProcessingDAO{
+@Repository("auctionProcessDAO")
+public class AuctionProcessDAOImpl implements AuctionProcessDAO{
 	
 	private JdbcTemplate dao;
 

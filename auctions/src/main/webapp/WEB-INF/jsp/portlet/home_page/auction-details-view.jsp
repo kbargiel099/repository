@@ -1,1 +1,1 @@
-<%@include file="/WEB-INF/jsp/module/auction_processing/view.jsp" %>
+<%@include file="/WEB-INF/jsp/module/auction_process/view.jsp" %>

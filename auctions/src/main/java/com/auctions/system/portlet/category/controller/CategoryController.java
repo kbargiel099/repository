@@ -16,7 +16,7 @@ import org.springframework.web.portlet.ModelAndView;
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.Serializer;
 import com.auctions.system.module.Validator;
-import com.auctions.system.module.auction_processing.controller.Processing;
+import com.auctions.system.module.auction_process.controller.Process;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.category.model.SearchingForm;
 import com.auctions.system.portlet.category.service.CategoryService;
@@ -31,7 +31,7 @@ public class CategoryController implements Category{
 	CategoryService service;
 	
 	@Autowired
-	Processing processing;
+	Process processing;
 	
 	@Override
 	public ModelAndView getSearch(RenderRequest request){

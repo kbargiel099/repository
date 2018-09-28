@@ -9,9 +9,9 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.auctions.system.module.auction_processing.controller.Processing;
+import com.auctions.system.module.auction_process.controller.Process;
 
-public interface Category extends Processing{
+public interface Category extends Process{
 
 	@RenderMapping()
 	public ModelAndView getSearch(RenderRequest request);

@@ -14,7 +14,7 @@ import com.auctions.system.module.profile.service.ProfileService;
 @RequestMapping("VIEW")
 public class ProfileController implements Profile{
 	
-	final String userDetailsView = "user-details-view";
+	private final String userDetailsView = "user-details-view";
 	
 	@Autowired
 	private ProfileService service;

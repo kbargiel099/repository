@@ -1,4 +1,4 @@
-package com.auctions.system.module.auction_processing;
+package com.auctions.system.module;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

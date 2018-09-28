@@ -12,8 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.auctions.system.module.auction_processing.DateFormatter;
-import com.auctions.system.module.auction_processing.model.AuctionOffer;
+import com.auctions.system.module.DateFormatter;
+import com.auctions.system.module.auction_process.model.AuctionOffer;
 import com.auctions.system.module.statistics.dao.StatisticsDAO;
 
 @Repository("statisticsDAO")
