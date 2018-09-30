@@ -7,25 +7,7 @@
 
 <portlet:defineObjects />
 
-<portlet:resourceURL id="getSubCategories" var="getSubCategories">
-</portlet:resourceURL>
-<input type="hidden" id="getSubCategoriesUrl" value="${getSubCategories}"></input>
-
-<portlet:resourceURL id="submitAuction" var="submitAuction">
-</portlet:resourceURL>
-<input type="hidden" id="submitAuctionUrl" value="${submitAuction}"></input>
-
-<portlet:resourceURL id="saveImage" var="saveImage">
-</portlet:resourceURL>
-<input type="hidden" id="saveImageUrl" value="${saveImage}"></input>
-
-<portlet:resourceURL id="getTechnicalData" var="getTechnicalData">
-</portlet:resourceURL>
-<input type="hidden" id="getTechnicalDataUrl" value="${getTechnicalData}"></input>
-
-<portlet:renderURL var="returnUrl">
-</portlet:renderURL>
-<input type="hidden" id="return" value="${returnUrl}"></input>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/portlet/messages/messages.css" />" >
 
 <div class="container-fluid">
 
@@ -35,10 +17,10 @@
 		<div class="col-xs-12 col-sm-8 col-md-8">
 		  	<c:forEach items="${categories}" var="item">
 		  		<div style="margin-bottom:20px;" class="col-xs-12">
-			  		<div style="background-color:#3399ff; border-radius:10px;">
+			  		<div class="pointer">
 			  			<div style="min-height:50px; padding-left:20px; padding-top:5px;" onclick="changeVisibility('${item.name}')">
 							<strong>
-								<label style="font-size: 24px; color:white;" class="label-control">${item.name}</label>
+								<label class="pointer-title" style="font-size: 24px; color:white;" class="label-control">${item.name}</label>
 							</strong>
 						</div>
 					</div>
@@ -47,7 +29,8 @@
 							<c:if test="${item.id == message.messageCategoryId}">
 								<div style="margin-bottom:10px;" class="col-xs-12 col-sm-8-col-md-8">
 									<div onclick="changeVisibility('${message.id}')">
-										<b>${message.title}</b>
+										<b class="pointer-item">${message.title}</b>
+										<p class="pull-right">${message.createDate}</p>
 									</div>
 									<div style="display:none;" id="${message.id}">
 										<p>${message.text}</p>
@@ -63,7 +46,5 @@
 </div>
 
 <input type="hidden" id="type" value="${type}">
-<script>
-	var technicalDataJson = ${auction.technicalData};
-</script>
+
 <script src="<c:url value="/js/portlet/user_profile/messages.js" />"></script>	 	 

@@ -1,0 +1,21 @@
+.pointer {
+	background-color: #3399ff;
+	border-radius:10px;
+}
+.pointer:hover {
+	background-color: #aaaaaa;
+	border-radius:10px;
+	cursor: pointer;
+}
+.pointer:active {
+	background-color: #aaaaaa;
+	border-radius:10px;
+	cursor: pointer;
+}
+.pointer-title:hover {
+	cursor: pointer;
+}
+.pointer-item:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}

@@ -35,7 +35,7 @@ public class MessagesDAOImpl implements MessagesDAO{
 	
 	@Override
 	public List<Message> getMessages(){
-		return dao.query("SELECT id,message_category_id,title,text,create_date,edit_date,user_id,is_sent FROM sys.message", 
+		return dao.query("SELECT id,message_category_id,title,text,create_date,edit_date,user_id,is_sent FROM sys.message ORDER BY create_date DESC", 
 				new RowMapper<Message>(){
 					@Override
 					public Message mapRow(ResultSet res, int row) throws SQLException {
