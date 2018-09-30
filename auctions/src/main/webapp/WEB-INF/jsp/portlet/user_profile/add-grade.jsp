@@ -12,9 +12,9 @@
 </portlet:resourceURL>
 <input type="hidden" id="addGradeUrl" value="${addGrade}"></input>
 
-<portlet:renderURL var="return">
+<portlet:renderURL var="goReturn">
 </portlet:renderURL>
-<input type="hidden" id="returnUrl" value="${return}"></input>
+<input type="hidden" id="returnUrl" value="${goReturn}"></input>
 
 <div class="container-fluid">
 

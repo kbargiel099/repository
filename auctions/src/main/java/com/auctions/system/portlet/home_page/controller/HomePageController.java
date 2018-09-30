@@ -52,13 +52,13 @@ public class HomePageController implements HomePage{
 	}
 
 	@Override
-	public void getAllOffers(ResourceRequest request, ResourceResponse response, int id) throws IOException {
-		processing.getAllOffers(request, response, id);
+	public void getAllOffers(ResourceRequest request, ResourceResponse response, int auctionId) throws IOException {
+		processing.getAllOffers(request, response, auctionId);
 	}
 
 	@Override
-	public void getVideoName(ResourceRequest request, ResourceResponse response, long id) throws IOException {
-		processing.getVideoName(request, response, id);
+	public void getVideoName(ResourceRequest request, ResourceResponse response, long auctionId) throws IOException {
+		processing.getVideoName(request, response, auctionId);
 	}
 
 	@Override

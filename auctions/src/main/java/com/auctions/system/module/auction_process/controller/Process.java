@@ -33,11 +33,11 @@ public interface Process extends Profile{
 	
 	@ResourceMapping("getAllOffers")
 	public void getAllOffers(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") int id) throws IOException;
+			@RequestParam("auctionId") int auctionId) throws IOException;
 	
 	@ResourceMapping("getVideoName")
 	public void getVideoName(ResourceRequest request, ResourceResponse response,
-			@RequestParam("auctionId") long id) throws IOException;
+			@RequestParam("auctionId") long auctionId) throws IOException;
 	
 	@ResourceMapping("createObservation")
 	public void createObservation(ResourceRequest request, ResourceResponse response,

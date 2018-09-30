@@ -85,7 +85,6 @@ public class UserProfileController implements UserProfile{
         
         response.setRenderParameter("page", "addVideo");
         response.setRenderParameter("id", String.valueOf(file.getAuctionId()));
-        //response.sendRedirect("/");
     	
     	if(file != null && file.getFileData() != null){
             FileUtil.create(file.getFileData().get(0), Properties.getVideosPath());
@@ -93,30 +92,10 @@ public class UserProfileController implements UserProfile{
             
             file.setMessage(file.getFileData().get(0).getOriginalFilename() +" is upload successfully");
         
-            //do zrobienia springFileVO.getFileData().transferTo(arg0);
             sessionStatus.setComplete();  		
     	}
     }
      
-/*    @ResourceMapping("fileDownload")
-    public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException{
-        System.out.println("SpringFileController -> serverResource -> Started");
-         
-        String fileName = "SampleSpringFile.txt";
-
-        String sampleContent ="Spring MVC portlet : File upload and download example";
-        byte[] bytes = sampleContent.getBytes();
-         
-         
-        response.setContentType("application/xml");
-        response.addProperty("Content-disposition", "atachment; filename="+fileName);
-         
-        OutputStream out = response.getPortletOutputStream();
-        out.write(bytes);
-        out.flush();
-        out.close();
-    }*/
-	
     @Override
     public ModelAndView getMessagesView(RenderRequest request, RenderResponse response){
     	ModelAndView model = new ModelAndView(messagesView);
@@ -337,13 +316,13 @@ public class UserProfileController implements UserProfile{
 	}
 
 	@Override
-	public void getAllOffers(ResourceRequest request, ResourceResponse response, int id) throws IOException {
-		processing.getAllOffers(request, response, id);
+	public void getAllOffers(ResourceRequest request, ResourceResponse response, int auctionId) throws IOException {
+		processing.getAllOffers(request, response, auctionId);
 	}
 
 	@Override
-	public void getVideoName(ResourceRequest request, ResourceResponse response, long id) throws IOException {
-		processing.getVideoName(request, response, id);
+	public void getVideoName(ResourceRequest request, ResourceResponse response, long auctionId) throws IOException {
+		processing.getVideoName(request, response, auctionId);
 	}
 
 	@Override

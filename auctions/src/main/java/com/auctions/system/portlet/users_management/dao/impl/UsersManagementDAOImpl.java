@@ -45,7 +45,7 @@ public class UsersManagementDAOImpl implements UsersManagementDAO {
 			new Object[]{userId},new RowMapper<User>(){
 				@Override
 				public User mapRow(ResultSet res, int row) throws SQLException {
-					return new User(res.getLong("userid"),res.getString("screenname"),res.getString("password"),res.getString("firstname"),
+					return new User(res.getLong("userid"),res.getString("screenname"),res.getString("password_"),res.getString("firstname"),
 							res.getString("lastname"),res.getString("emailaddress"),res.getBoolean("lockout"));
 			}
 		});
