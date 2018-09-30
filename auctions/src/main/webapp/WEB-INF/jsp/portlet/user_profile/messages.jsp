@@ -15,32 +15,37 @@
 	
 	<div class="container">	
 		<div class="col-xs-12 col-sm-8 col-md-8">
-		  	<c:forEach items="${categories}" var="item">
-		  		<div style="margin-bottom:20px;" class="col-xs-12">
-			  		<div class="pointer">
-			  			<div style="min-height:50px; padding-left:20px; padding-top:5px;" onclick="changeVisibility('${item.name}')">
-							<strong>
-								<label class="pointer-title" style="font-size: 24px; color:white;" class="label-control">${item.name}</label>
-							</strong>
-						</div>
-					</div>
-					<div style="display:none; margin-top:20px;" id="${item.name}">
+			<h4 class="user-profile-section-title"><liferay-ui:message key="messages.label" /></h4>
+			
+	  		<div style="margin-bottom:20px;">
+		  		<table>
+		  			<thead>
+		  			<tr>
+		  				<th><liferay-ui:message key="messages.title.label" /></th>
+		  				<th style="width:20%"><liferay-ui:message key="messages.category.label" /></th>
+		  				<th style="width:22%"><liferay-ui:message key="messages.createDate.label" /></th>
+		  			</tr>
+		  			</thead>
+		  			<tbody>
 						<c:forEach items="${messages}" var="message">
-							<c:if test="${item.id == message.messageCategoryId}">
-								<div style="margin-bottom:10px;" class="col-xs-12 col-sm-8-col-md-8">
-									<div onclick="changeVisibility('${message.id}')">
-										<b class="pointer-item">${message.title}</b>
-										<p class="pull-right">${message.createDate}</p>
-									</div>
-									<div style="display:none;" id="${message.id}">
-										<p>${message.text}</p>
-									</div>
-								</div>
-							</c:if>
+							<tr class="pointer-item" onclick="changeVisibility('${message.id}')">
+								<c:forEach items="${categories}" var="item">
+									<c:if test="${item.id == message.messageCategoryId}">
+										<td>${message.title}</td>
+										<td><span style="padding-right: 30px;">${item.name}</span></td>
+										<td>${message.createDate}</td>
+									</c:if>
+								</c:forEach>
+							</tr>
+							<tr style="display:none;" id="${message.id}">
+								<td colspan="3">
+									<p style="padding:20px; border-bottom:1px solid #cccccc;">${message.text}</p>
+								</td>
+							</tr>
 						</c:forEach>
-					</div>
-				</div>
-			</c:forEach>
+		  			</tbody>
+		  		</table>
+			</div>
 		</div>
 	</div>
 </div>

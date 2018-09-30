@@ -3,8 +3,6 @@ package model;
 public class ResponseError extends Response{
 	
 	private int errorCode;
-	private String message;
-	private boolean success;
 
 	public ResponseError(int errorCode) {
 		super();
@@ -19,12 +17,4 @@ public class ResponseError extends Response{
 		this.errorCode = errorCode;
 	}
 
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
-	
 }

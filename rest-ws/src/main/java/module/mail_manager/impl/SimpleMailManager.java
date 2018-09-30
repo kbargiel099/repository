@@ -26,7 +26,6 @@ public class SimpleMailManager implements MailManager {
     @Override
     public void sendMail(String emailAddress) {
      	try {
-     		//templateMessage.setFrom("Aukcje.pl");
      		templateMessage.setTo(emailAddress);
             mailSender.send(templateMessage);
         }

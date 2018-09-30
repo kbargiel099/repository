@@ -4,24 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import app.service.AuctionProcessService;
+import app.service.AuctionUpdaterService;
 import module.mail_manager.MailType;
 import module.mail_manager.impl.SimpleMailManager;
 
 @Component
 public class Scheduler {
 
-    private final int hour = 60 * 600000;
+    private final int FREQUENCY = 3000000; 
 	
     @Autowired
-    AuctionProcessService service;
+    AuctionUpdaterService service;
     
     @Autowired
     SimpleMailManager mailManager;
     
-    @Scheduled(fixedRate = hour)
+    @Scheduled(fixedRate = FREQUENCY)
     public void scheduleTaskWithFixedRate() {
-    	System.out.println("END AUCTIONS");
     	mailManager.sendMultiple(service.markAuctionsFinished(), MailType.FINISHED_AUCTION);
     }
 

@@ -7,16 +7,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import app.dao.AuctionProcessDAO;
+import app.dao.AuctionUpdaterDAO;
 import model.MailProperties;
 import model.MessageRequestForm;
 import model.RequestForm;
 
-@Service("auctionProcessService")
-public class AuctionProcessServiceImpl implements AuctionProcessService{
+@Service("auctionUpdaterService")
+public class AuctionUpdaterServiceImpl implements AuctionUpdaterService{
 
 	@Autowired
-	AuctionProcessDAO dataSource;
+	AuctionUpdaterDAO dataSource;
 	
 	@Override
 	public boolean proceedOffer(RequestForm form, String id){
@@ -39,6 +39,11 @@ public class AuctionProcessServiceImpl implements AuctionProcessService{
 	}
 	
 	@Override
+	public List<MailProperties> getMailProperties(String auctionId, String userId) throws SQLException {
+		return getMailProperties(Long.parseLong(auctionId), Long.parseLong(userId));
+	}
+	
+	@Override
 	public List<MailProperties> getMailProperties(long auctionId, long userId){
 		try {
 			return dataSource.getMailProperties(auctionId, userId);
@@ -46,6 +51,11 @@ public class AuctionProcessServiceImpl implements AuctionProcessService{
 			e.printStackTrace();
 		}
 		return new ArrayList<MailProperties>();
+	}
+	
+	@Override
+	public List<MailProperties> getMailPropertiesPurchase(String auctionId) throws SQLException {
+		return getMailPropertiesPurchase(Long.parseLong(auctionId));
 	}
 	
 	public List<MailProperties> getMailPropertiesPurchase(long auctionId){
@@ -61,5 +71,4 @@ public class AuctionProcessServiceImpl implements AuctionProcessService{
 	public boolean createChatMessage(MessageRequestForm form){
 		return dataSource.createChatMessage(form);
 	}
-	
 }

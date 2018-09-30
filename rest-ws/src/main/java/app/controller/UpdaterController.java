@@ -3,6 +3,7 @@ package app.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import app.service.AuctionProcessService;
+import app.service.AuctionUpdaterService;
+import model.MailProperties;
 import model.MessageRequestForm;
 import model.MessageResponse;
 import model.RequestForm;
@@ -31,7 +33,7 @@ import module.mail_manager.impl.SimpleMailManager;
 public class UpdaterController {
     
     @Autowired
-    AuctionProcessService service;
+    AuctionUpdaterService service;
     
     @Autowired
     SimpleMailManager mailManager;
@@ -41,8 +43,9 @@ public class UpdaterController {
     	SendEmailResponse response = new SendEmailResponse();
     	
     	try{
-        	mailManager.setTemplate(MailType.REGISTRATION, "Krystian");
+        	mailManager.setTemplate(MailType.REGISTRATION, null);
         	mailManager.sendMail(address);
+        	
         	response.setSuccess(true);
     	}catch(Exception e){
     		e.printStackTrace();
@@ -58,8 +61,10 @@ public class UpdaterController {
     	try{
 	    	if(isCurrentTimeBefore(form.getEndDate())){
 	    		service.proceedOffer(form, id);
-	    		mailManager.sendMultiple(service.getMailProperties(
-	    				Long.parseLong(id), Long.parseLong(form.getUserId())), MailType.NEW_OFFER);
+	    		
+	    		List<MailProperties> mailProperties = service.getMailProperties(id, form.getUserId());
+	    		
+	    		mailManager.sendMultiple(mailProperties, MailType.NEW_OFFER);
 	    	}
     	}catch(TimeException e){
     		e.printStackTrace();
@@ -78,7 +83,10 @@ public class UpdaterController {
     	try{
 	    	if(isCurrentTimeBefore(form.getEndDate())){
 	    		service.proceedPurchase(form, id);
-	    		mailManager.sendMultiple(service.getMailPropertiesPurchase(Long.parseLong(id)), MailType.PURCHASE);
+	    		
+	    		List<MailProperties> mailProperties = service.getMailPropertiesPurchase(id);
+	    				
+	    		mailManager.sendMultiple(mailProperties, MailType.PURCHASE);
 	    	}
     	}catch(TimeException e){
     		e.printStackTrace();

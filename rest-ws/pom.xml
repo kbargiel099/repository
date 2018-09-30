@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.springframework</groupId>
-    <artifactId>gs-rest-service</artifactId>
-    <version>0.1.0</version>
+    <artifactId>rest-services</artifactId>
+    <version>1.0.0</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -13,7 +13,7 @@
         <version>1.5.10.RELEASE</version>
     </parent>
     
-	<packaging>war</packaging>	
+	<packaging>jar</packaging>	
 	
     <dependencies>
         <dependency>
