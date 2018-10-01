@@ -24,8 +24,6 @@
         
             function display_popups()
             {
-                console.log("right " + right);
-                console.log("popupWidth " + popupWidth);
                 var iii = 0;
                 for(iii; iii < total_popups; iii++)
                 {
@@ -35,7 +33,6 @@
                         element.style.right = right + "px";
                         right = right + popupWidth;
                         element.style.display = "block";
-                        console.log('show');
                     }
                 }
                 
@@ -43,7 +40,6 @@
                 {
                     var element = document.getElementById(popups[jjj]);
                     element.style.display = "none";
-                    console.log('hide');
                 }
             }
             
@@ -51,7 +47,6 @@
             {
                 close_popup(id);           
                 
-                console.log("dalszy ciąg");
                 var element = '<div class="popup-box chat-popup" id="'+ id +'">';
                 element = element + '<div class="popup-head">';
                 element = element + '<div class="popup-head-left">'+ name +'</div>';
@@ -64,9 +59,7 @@
                 jQuery('body').append(element);
                 popups.unshift(id);
                 calculate_popups();
-                
-                console.log(popups);
-                
+                                
                 jQuery('#send-message-button').click(function(){
                 	var message = jQuery('.chat-input').val();
                 	sendForm(id,message);
@@ -102,7 +95,6 @@
             		"url":url + '&userId=' + userId,
             		"type":"GET",
             		"success": function(data){
-            			console.log(data);
             			if(JSON.parse(data.success) == true){
             				
             				var list = document.getElementById('notification-list');
@@ -116,8 +108,9 @@
             				}
 
             			}
-            			else
+            			else {
             				alert(Liferay.Language.get('error.msg'));
+            			}
             		}
             	});
             }
@@ -128,8 +121,6 @@
             	stompClientChat.connect({}, function (frame) {
             		stompClientChat.subscribe('/message/' + userId, function (data) {
                     	var res = JSON.parse(data.body);
-                    	console.log("Odpowiedz z serwera");
-                    	console.log(res);
                     	if(res.success == true){
                 			
                 			for(var i=0;i<popups.length;i++){
@@ -151,7 +142,7 @@
                 				if(!isVisible(document.getElementById(res.senderId))){
                 					var li = document.createElement('li');
                 					li.id = notificationListIdPrefix + res.senderId;
-                					li.appendChild(createChatLink(res.senderId,res.senderName,'Wiadomość od'));
+                					li.appendChild(createChatLink(res.senderId, res.senderName, Liferay.Language.get('message.from.label')));
                 					list.appendChild(li);
                 					
                 					document.getElementById('no-message-elem').remove();
@@ -160,7 +151,7 @@
                 			}
                     		
                     	}else{
-                    		responsiveNotify("Wystąpił błąd");
+                    		responsiveNotify(Liferay.Language.get('error.msg'));
             	        	senderClientChat = false;
             	        	isWaitChat = false;
                     	}
@@ -257,7 +248,6 @@
                     width = width - 200;
                     total_popups = parseInt(width/popupWidth);
                 }
-                console.log("total " + total_popups);
                 display_popups();
                 
             }

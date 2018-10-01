@@ -35,13 +35,13 @@ public class AuctionProcessDAOImpl implements AuctionProcessDAO{
 	
 	@Override
 	public AuctionDetails getAuctionDetails(long auctionId){
-		return dao.queryForObject("SELECT id,userid,serial_number,name,images,description,create_date,end_date,"
+		return dao.queryForObject("SELECT id,userid,serial_number,name,images,description,statusName,create_date,end_date,"
 				+ "subject_price,available,video,type_name,minimal_price,technical_data FROM sys.auction_details WHERE id=?", 
 				new Object[]{auctionId},new RowMapper<AuctionDetails>(){
 					@Override
 					public AuctionDetails mapRow(ResultSet res, int row) throws SQLException {
-						return new AuctionDetails(res.getLong("id"),res.getLong("userid"),res.getString("serial_number"),res.getString("name"),
-							res.getString("description"),DateFormatter.format(res.getTimestamp("create_date")),DateFormatter.format(res.getTimestamp("end_date"))
+						return new AuctionDetails(res.getLong("id"),res.getLong("userid"),res.getString("serial_number"),res.getString("name"),res.getString("description")
+							,res.getString("statusName"),DateFormatter.format(res.getTimestamp("create_date")),DateFormatter.format(res.getTimestamp("end_date"))
 							,res.getArray("images"),res.getString("type_name"),res.getString("video"),res.getInt("available")
 							,res.getLong("subject_price"),res.getLong("minimal_price"),res.getString("technical_data"));
 				}
@@ -98,7 +98,7 @@ public class AuctionProcessDAOImpl implements AuctionProcessDAO{
 	
 	@Override
 	public List<AuctionOffer> getAllOffers(long auctionId){
-		return dao.query("SELECT userid,price,quantity,create_date FROM sys.auction_process WHERE auctionid=?", 
+		return dao.query("SELECT userid,price,quantity,create_date FROM sys.offer WHERE auctionid=?", 
 				new Object[]{auctionId},new RowMapper<AuctionOffer>(){
 					@Override
 					public AuctionOffer mapRow(ResultSet res, int row) throws SQLException {

@@ -63,9 +63,13 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 
 	@Override
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId) {
-		return dao.query(
-				"SELECT id,auctionid,name,image_name,create_date,price,payment_status_name FROM sys.user_purchase_view WHERE userid=?",
-				new Object[] { userId }, new RowMapper<AuctionPresenter>() {
+		String query = "SELECT id,auctionid,name,image_name,create_date,price,payment_status_name FROM sys.user_purchase_view WHERE userid=? "
+					 + "UNION ALL "
+					 + "SELECT id,auctionid,name,image_name,create_date,price,payment_status_name FROM sys.user_won_auctions_view WHERE userid=? "
+					 + "ORDER BY create_date DESC";
+		
+		return dao.query(query, new Object[] { userId, userId }, 
+				new RowMapper<AuctionPresenter>() {
 					@Override
 					public BoughtPresenter mapRow(ResultSet res, int row) throws SQLException {
 						return new BoughtPresenter(res.getLong("id"), res.getLong("auctionid"), res.getString("name"),
@@ -79,9 +83,15 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 
 	@Override
 	public List<AuctionPresenter> getUserSoldSubjects(long userId) {
-		return dao.query("SELECT a.id,name,images[1] AS image_name,subject_price FROM sys.auction a "
-				+ "JOIN sys.transactions t ON a.id=t.auctionid " + "WHERE a.userid=? " + "GROUP BY a.id "
-				+ "ORDER BY a.create_date", new Object[] { userId }, new RowMapper<AuctionPresenter>() {
+		String query = "SELECT a.id,a.name,images[1] AS image_name,subject_price,a.create_date FROM sys.auction a " 
+					 + "JOIN sys.user_purchase_view t ON a.id=t.auctionid WHERE a.userid=? GROUP BY a.id "
+				     + "UNION ALL "
+				     + "SELECT a.id,a.name,images[1] AS image_name,subject_price,a.create_date FROM sys.auction a "
+				     + "JOIN sys.user_won_auctions_view w ON a.id=w.auctionid WHERE a.userid=? GROUP BY a.id "
+				     + "ORDER BY create_date DESC";
+		
+		return dao.query(query, new Object[] { userId, userId },
+				new RowMapper<AuctionPresenter>() {
 					@Override
 					public AuctionPresenter mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionPresenter(res.getLong("id"), res.getString("name"),
@@ -272,7 +282,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 	@Override
 	public boolean makePaid(long id, int paymentMethodId) {
 		return dao.update(
-				"UPDATE sys.transactions SET payment_method_id=?,payment_status_id=(SELECT id FROM sys.payment_status WHERE name='payed') WHERE id=?",
+				"UPDATE sys.purchase_transactions SET payment_method_id=?,payment_status_id=(SELECT id FROM sys.payment_status WHERE name='payed') WHERE id=?",
 				new Object[] { paymentMethodId, id }) > 0;
 	}
 
@@ -331,9 +341,14 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 
 	@Override
 	public List<AuctionForGrade> getAuctionsForGrade(long userId) {
-		return dao.query(
-				"SELECT DISTINCT auctionid,(SELECT name FROM sys.auction a WHERE a.id=auctionid) AS name FROM sys.transactions WHERE userid=?",
-				new Object[] { userId }, new RowMapper<AuctionForGrade>() {
+		String query = "SELECT DISTINCT auctionid,(SELECT name FROM sys.auction a WHERE a.id=auctionid) AS name "
+					 + "FROM sys.user_purchase_view WHERE userid=? "
+				     + "UNION ALL "
+				     + "SELECT DISTINCT auctionid,(SELECT name FROM sys.auction a WHERE a.id=auctionid) AS name "
+				     + "FROM sys.user_won_auctions_view WHERE userid=?";
+		
+		return dao.query(query, new Object[] { userId, userId }, 
+				new RowMapper<AuctionForGrade>() {
 					@Override
 					public AuctionForGrade mapRow(ResultSet res, int row) throws SQLException {
 						return new AuctionForGrade(res.getLong("auctionid"), res.getString("name"));

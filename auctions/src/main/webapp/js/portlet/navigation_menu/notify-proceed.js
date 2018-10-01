@@ -22,7 +22,13 @@ function addOfferToList2(res) {
 
 function sendForm(receiverId,message) {
 	if(!isWaitChat){
-	    stompClientChat.send("/app/conversation/" + receiverId, {}, JSON.stringify({'senderId': userId,'senderName': username,
-	    	'receiverId': receiverId,'message': message}));
+	    stompClientChat.send("/app/conversation/" + receiverId, {}, 
+	    		JSON.stringify({
+	    			'senderId': userId,
+	    			'senderName': username,
+	    			'receiverId': receiverId,
+	    			'message': message
+	    		}
+	    ));
 	}
 }

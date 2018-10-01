@@ -11,7 +11,6 @@
 			var img = jQuery('<img src="'+ reader.result +'" height="100%" width="100%"/>');
 			div.append(img);
 			jQuery('#images').append(div);
-			console.log(files);
 	    };
 	    var temp = event.target.files[0];
 	    reader.readAsDataURL(temp);
@@ -145,7 +144,7 @@
 			case 'input':
 				return '<input type="text" class="form-control" id="'+ name +'" name="'+ name +'" value=""></input>';
 			case 'select':
-				var res =  '<select class="selectpicker form-control" id="'+ name +'" name="'+ name +'" title="Wybierz">'
+				var res =  '<select class="selectpicker form-control" id="'+ name +'" name="'+ name +'" title="'+ Liferay.Language.get('choose') +'">'
 				for(var i=0;i<value.length;i++){
 					res += '<option value="'+ value[i] +'">'+ Liferay.Language.get(value[i]) +'</option>';
 				}

@@ -3,6 +3,7 @@ var auctionId = jQuery('#id').val();
 var endDate = jQuery('#endDate').val();
 var quantity = jQuery('#quantity').val();
 var newPrice = jQuery('#currentPrice').val();
+var status = jQuery('#statusName').val();
 var senderClient = false;
 var isWait = false;
 var isQuickPurchase = jQuery('#type').val() == 'quick_purchase' ? true : false;
@@ -14,7 +15,11 @@ jQuery(document).ready(function(){
 	getAllOffers();
 	
 	let end = new Date(endDate);
-	if(end < new Date() || quantity === '0') responsiveNotify('Aukcja została już zakończona'); 
+	if(end < new Date() || quantity === '0' || status === 'end') {
+		jQuery('#raiseStakeBtn').attr('disabled',true);
+		
+		responsiveNotify(Liferay.Language.get('auction.finished.msg'));
+	}
 	
 	if(Liferay.ThemeDisplay.getUserId() == parseInt(jQuery('#seller-id').val())){
 		if(isQuickPurchase == true){
@@ -64,7 +69,7 @@ function proceedIfUserIsLogged(callback){
 	if(Liferay.ThemeDisplay.isSignedIn()){
 		callback();
 	}else{
-		responsiveNotify(jQuery('#userIsNotSignedInMsg').val());
+		responsiveNotify(Liferay.Language.get('user.is.not.signed.in.msg'));
 	}
 }
 
@@ -109,7 +114,6 @@ function connect2() {
     var socket = new SockJS(jQuery('#restServiceEndpoint').val());
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
         stompClient.subscribe('/message/notify/'+jQuery('#id').val(), function (data) {
         	var res = JSON.parse(data.body);
         	if(res.success == true){
@@ -119,8 +123,8 @@ function connect2() {
         		}else{
         			addOfferToList(res);
             		jQuery('#currentPrice').val(res.price);
-            		jQuery('#price').html('Aktualna cena - ' + currency(res.price/100) + ' ' + jQuery('#currency').val());
-            		responsiveNotify(res.username + " " + jQuery('#successMsg').val());
+            		jQuery('#price').html(Liferay.Language.get('actual.price') + currency(res.price/100) + ' ' + Liferay.Language.get('currency'));
+            		responsiveNotify(res.username + " " + Liferay.Language.get('raise.stake.success.msg'));
         		}
 
         		if(senderClient){
@@ -128,7 +132,7 @@ function connect2() {
         		}
         		
         	}else if(senderClient == true){
-        		responsiveNotify(jQuery('#errorCode1').val());
+        		responsiveNotify(Liferay.Language.get('add.to.database.error.msg'));
 	        	senderClient = false;
 	        	isWait = false;
         	}
@@ -151,15 +155,30 @@ function sendForm2() {
 	if(!isWait){
 	    isWait = true;
 	    senderClient = true;
-	    stompClient.send("/app/update/" + auctionId, {}, JSON.stringify({'userId': userId,'username': username,
-	    	'price': newPrice,'endDate': endDate,'quantity': quantity}));
+	    stompClient.send("/app/update/" + auctionId, {}, 
+	    		JSON.stringify({
+	    			'userId': userId,
+	    			'username': username,
+	    			'price': newPrice,
+	    			'endDate': endDate,
+	    			'quantity': quantity
+	    		}
+	    ));
+	    
 	    jQuery('#validation-info').hide();
 	}
 }
 
 function goToConfirmationView() {
-	var form = JSON.stringify({'auctionId': auctionId,'auctionName': jQuery('#auctionName').val(),
-    	'sellerId': jQuery('#seller-id').val(),'price': newPrice,'quantity': quantity,'endDate': endDate});
+	var form = JSON.stringify({
+			'auctionId': auctionId,
+			'auctionName': jQuery('#auctionName').val(),
+			'sellerId': jQuery('#seller-id').val(),
+			'price': newPrice,
+			'quantity': quantity,
+			'endDate': endDate
+	});
+	
 	window.location.href = buildUrl(jQuery('#confirmPurchaseUrl').val(),'form',form);
 }
 
@@ -193,7 +212,7 @@ function updatePriceValidation(){
 			    jQuery('#validation-info').show();
 			}
 		}else{
-			responsiveNotify(jQuery('#userIsNotSignedInMsg').val());
+			responsiveNotify(Liferay.Language.get('user.is.not.signed.in.msg'));
 		}
 	});
 	jQuery("#quickPurchaseBtn" ).click(function() { 
@@ -204,7 +223,7 @@ function updatePriceValidation(){
 			    jQuery('#validation-info').show();
 			}
 		}else{
-			responsiveNotify(jQuery('#userIsNotSignedInMsg').val());
+			responsiveNotify(Liferay.Language.get('user.is.not.signed.in.msg'));
 		}
 	});
 

@@ -31,7 +31,7 @@ public class StatisticsDAOImpl implements StatisticsDAO{
 	
 	@Override
 	public List<AuctionOffer> getPurchases(long auctionId){
-		return dao.query("SELECT userid,price,quantity,create_date FROM sys.transactions WHERE auctionid=? ORDER BY create_date DESC", 
+		return dao.query("SELECT userid,price,quantity,create_date FROM sys.purchase_transactions WHERE auctionid=? ORDER BY create_date DESC", 
 				new Object[]{auctionId},new RowMapper<AuctionOffer>(){
 					@Override
 					public AuctionOffer mapRow(ResultSet res, int row) throws SQLException {
@@ -43,7 +43,8 @@ public class StatisticsDAOImpl implements StatisticsDAO{
 	
 	@Override
 	public List<AuctionOffer> getWonOffers(long auctionId){
-		return dao.query("SELECT userid,price,quantity,current_date AS create_date FROM sys.transactions WHERE auctionid=? ORDER BY create_date DESC", 
+		return dao.query("SELECT o.userid,o.price,o.quantity,current_date AS create_date FROM sys.auction_transactions t"
+				+ " JOIN sys.offer o ON o.id=t.offer_id WHERE o.auctionid=? ORDER BY create_date DESC", 
 				new Object[]{auctionId},new RowMapper<AuctionOffer>(){
 					@Override
 					public AuctionOffer mapRow(ResultSet res, int row) throws SQLException {

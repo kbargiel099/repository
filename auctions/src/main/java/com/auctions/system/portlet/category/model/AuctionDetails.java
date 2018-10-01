@@ -10,6 +10,7 @@ public class AuctionDetails {
 	private String serialNumber;
 	private String name;
 	private String description;
+	private String statusName;
 	private String createDate;
 	private String endDate;	
 	private String[] images;
@@ -20,7 +21,7 @@ public class AuctionDetails {
 	private long minimalPrice;
 	private String technicalParameters;
 	
-	public AuctionDetails(long id, long userId, String serialNumber, String name, String description, String createDate, String endDate, 
+	public AuctionDetails(long id, long userId, String serialNumber, String name, String description, String statusName, String createDate, String endDate, 
 			Array images, String typeName, String video, int subjectQuantity, long subjectPrice, long minimalPrice, String technicalParameters) throws SQLException {
 		super();
 		this.id = id;
@@ -28,6 +29,7 @@ public class AuctionDetails {
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.description = description;
+		this.statusName = statusName;
 		this.createDate = createDate;
 		this.endDate = endDate;
 		this.images = (String[]) images.getArray();
@@ -141,5 +143,12 @@ public class AuctionDetails {
 	public void setTechnicalParameters(String technicalParameters) {
 		this.technicalParameters = technicalParameters;
 	}
-	
+
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
 }

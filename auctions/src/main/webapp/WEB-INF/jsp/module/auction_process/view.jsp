@@ -235,16 +235,13 @@
 <input type="hidden" id="quantity" value="${auction.subjectQuantity}"/>
 <input type="hidden" id="isObserved" value="${isObserved}"/>
 <input type="hidden" id="auctionName" value="${auction.name}"/>
+<input type="hidden" id="statusName" value="${auction.statusName}"/>
 
-<input type="hidden" id="successMsg" value="<liferay-ui:message key="raise.stake.success.msg" />"/>
-<input type="hidden" id="userIsNotSignedInMsg" value="<liferay-ui:message key="user.is.not.signed.in.msg" />"/>
-<input type="hidden" id="errorCode1" value="<liferay-ui:message key="add.to.database.error.msg" />"/>
-<input type="hidden" id="errorCode2" value="<liferay-ui:message key="auction.has.ended.msg" />"/>
-<input type="hidden" id="currency" value="<liferay-ui:message key="currency" />"/>
 <input type="hidden" id="message" value="${message}"/>
 
 <script src="<c:url value="/js/common/custom_slider.js" />"></script>
 <script src="<c:url value="/js/module/app.js" />"></script>
+
 <script type="text/javascript">
 var data = ${auction.technicalParameters};
 data = JSON.parse(data);

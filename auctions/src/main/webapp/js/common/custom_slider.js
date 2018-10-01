@@ -12,7 +12,8 @@ function createSlider(sliderId){
 	var elements = slider.getElementsByClassName('slider-element');
 	var count = elements.length;
 	var end = count;
-		if(elements.length > 0){
+	
+	if(elements.length > 0){
 		for(var i=0;i<=end;i++){
 			var slide = document.createElement('div');
 			for(var j=0;j<1;j++){

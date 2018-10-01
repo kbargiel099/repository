@@ -20,7 +20,6 @@ var checkConversionStatus = function(data){
 
 var checkConversionStatusCallback = function(data){
 	var info = JSON.parse(data.progress);
-	console.log(info);
 	
 	if(info.progress == -1 && !hasFile){
 		jQuery('#attach-video-label').show();
@@ -34,14 +33,13 @@ var checkConversionStatusCallback = function(data){
 	}
 	
 	if(info.progress <= 1000 && info.progress >= 0){
-		console.log(info.progress);
 		jQuery('#video').hide();
 		jQuery('#filename').html(info.name);
 		jQuery('#filename-div').show();
 		jQuery('#status').html("100%");
 		jQuery('#conversion').html(parseFloat(info.progress/10).toFixed(0) + "%");
 		
-		setTimeout(function(){ 
+		setTimeout(function() { 
 			checkConversionStatus(1);}, 1500);
 		
 		if(info.progress == 1000){

@@ -33,14 +33,14 @@ public class AuctionUpdaterDAOImpl implements AuctionUpdaterDAO{
 
 	@Override
 	public boolean proceedOffer(RequestForm form, String id) {
-		return dao.update("INSERT INTO sys.auction_process(userid,auctionid,price,quantity,create_date) VALUES(?,?,?,?,current_timestamp)",
+		return dao.update("INSERT INTO sys.offer(userid,auctionid,price,quantity,create_date) VALUES(?,?,?,?,current_timestamp)",
 				new Object[]{Long.parseLong(form.getUserId()), Long.parseLong(id), Long.parseLong(form.getPrice()), Integer.parseInt(form.getQuantity())}) > 0;
 	}
 	
 	@Override
 	public boolean proceedPurchase(RequestForm form, String id) {
 		try{
-			return dao.update("INSERT INTO sys.transactions(userid,auctionid,price,quantity,create_date,payment_status_id) VALUES(?,?,?,?,current_timestamp,default)",
+			return dao.update("INSERT INTO sys.purchase_transactions(userid,auctionid,price,quantity,create_date,payment_status_id) VALUES(?,?,?,?,current_timestamp,default)",
 					new Object[]{Long.parseLong(form.getUserId()), Long.parseLong(id), Long.parseLong(form.getPrice()), Integer.parseInt(form.getQuantity())}) > 0;
 		} catch(UncategorizedSQLException e){
 			e.printStackTrace();
@@ -62,7 +62,7 @@ public class AuctionUpdaterDAOImpl implements AuctionUpdaterDAO{
 	
 	@Override
 	public List<MailProperties> getMailProperties(long auctionId, long userId) throws SQLException {
-		return dao.query("SELECT emailaddress,name FROM sys.auction_process p "
+		return dao.query("SELECT emailaddress,name FROM sys.offer p "
 			+ "JOIN sys.auction a ON a.id=auctionid "
 			+ "JOIN user_ u ON u.userid=p.userid "
 			+ "WHERE auctionid=? AND p.userid<>? "
