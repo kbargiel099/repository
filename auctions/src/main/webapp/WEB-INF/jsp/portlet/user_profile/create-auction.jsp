@@ -7,6 +7,10 @@
 
 <portlet:defineObjects />
 
+<portlet:resourceURL id="getAuctionTypes" var="getAuctionTypes">
+</portlet:resourceURL>
+<input type="hidden" id="getAuctionTypesUrl" value="${getAuctionTypes}"></input>
+
 <portlet:resourceURL id="getSubCategories" var="getSubCategories">
 </portlet:resourceURL>
 <input type="hidden" id="getSubCategoriesUrl" value="${getSubCategories}"></input>
@@ -52,6 +56,7 @@
 			    <input type="hidden" id="endDate" name="endDate" value="${auction.endDate}"></input>
 			    <input type="hidden" id="subjectPrice" name="subjectPrice" value="${auction.subjectPrice}"></input>
 				<input type="hidden" id="subCategoryId" name="subCategoryId" value="${auction.subCategoryId}"/>
+				<input type="hidden" id="minimalPrice" name="minimalPrice" value="${auction.minimalPrice}"/>
 				<input type="hidden" id="technicalData" name="technicalData" value=""/>
 				<div class="col-xs-12 col-sm-12 col-md-8">
 					<div class="col-xs-12 col-sm-12 col-md-6">
@@ -68,7 +73,7 @@
 								</c:forEach>
 				           </select>
 						</div>
-						<div class="form-group">
+						<div id="subjectQuantityDiv" class="form-group">
 				           <label class="label-control" for="subjectQuantity"><liferay-ui:message key="auction.subjectQuantity.label" /></label>
 				           <input type="text" class="form-control" id="subjectQuantity" name="subjectQuantity" value="${auction.subjectQuantity}"></input>
 						</div>
@@ -90,6 +95,10 @@
 						<div class="form-group">
 				           <label class="label-control" for="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></label>
 				           <input type="text" class="form-control" id="price" name="price" value="${auction.subjectPrice}"></input>
+						</div>
+						<div id="minimalPriceDiv" class="form-group">
+				           <label class="label-control" for="minimalPrice"><liferay-ui:message key="auction.minimal.price" /></label>
+				           <input type="text" class="form-control" id="minimalPrice_" name="minimalPrice_" value="${auction.minimalPrice}"></input>
 						</div>
 						<div class="form-group">
 						    <label class="label-control" for="categoryId"><liferay-ui:message key="auction.category.label" /></label>

@@ -89,8 +89,6 @@ public class UserProfileController implements UserProfile{
     	if(file != null && file.getFileData() != null){
             FileUtil.create(file.getFileData().get(0), Properties.getVideosPath());
             worker.convertVideo(file.getAuctionId(), file.getFileData().get(0).getOriginalFilename());
-            
-            file.setMessage(file.getFileData().get(0).getOriginalFilename() +" is upload successfully");
         
             sessionStatus.setComplete();  		
     	}
@@ -106,7 +104,7 @@ public class UserProfileController implements UserProfile{
     
 	@Override
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, int auctionId){
-		return stats.getAuctionStatsView(processing.getDetails(auctionId),ViewType.Profile);
+		return stats.getAuctionStatsView(processing.getDetails(auctionId), ViewType.Profile);
 	}
 	
 	@Override
@@ -201,6 +199,14 @@ public class UserProfileController implements UserProfile{
 		model.addObject("auctionGrade", new AuctionGrade());
 		model.addObject("auctions", service.getAuctionsForGrade(PortalUtil.getUserId(request)));
 		return model;
+	}
+	
+	@Override
+	public void getAuctionTypes(ResourceRequest request, ResourceResponse response){
+		
+		HttpUtil.createResponse(response).
+			set("result", service.getAuctionTypes()).
+			prepare();
 	}
 	
 	@Override

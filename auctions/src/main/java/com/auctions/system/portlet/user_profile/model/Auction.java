@@ -15,15 +15,17 @@ public class Auction {
 	private int subjectQuantity;
 	private long subjectPrice;
 	private String technicalData;
+	private long minimalPrice;
 	
 	public Auction(){}
 	
-	public Auction(long id, String name, long serialNumber, String endDate,
+	public Auction(long id, String name, long serialNumber, String endDate, long minimalPrice,
 			int auctionTypeId, int categoryId, int subCategoryId, String imageName,
 			String description, int subjectQuantity, long subjectPrice, String technicalData) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.minimalPrice = minimalPrice;
 		this.serialNumber = serialNumber;
 		this.endDate = endDate;
 		this.auctionTypeId = auctionTypeId;
@@ -131,5 +133,12 @@ public class Auction {
 	public void setTechnicalData(String technicalData) {
 		this.technicalData = technicalData;
 	}
-		
+
+	public long getMinimalPrice() {
+		return minimalPrice;
+	}
+
+	public void setMinimalPrice(long minimalPrice) {
+		this.minimalPrice = minimalPrice;
+	}
 }

@@ -153,7 +153,7 @@
 				<h4><strong>${auction.name}</strong></h4>
 				<c:set var = "balance" value = "${auction.subjectPrice/100}" />
 				<h5 id="price">
-					<liferay-ui:message key="actual.price" /> - 
+					<liferay-ui:message key="actual.price" /> 
 					<fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="number"/> 
 					<liferay-ui:message key="currency" />
 				</h5>

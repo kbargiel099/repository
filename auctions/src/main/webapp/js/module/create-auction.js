@@ -38,6 +38,11 @@
  				number: true,
  	 	 		minValue: 1
  	 	 	  },
+ 	 		  minimalPrice_: {
+ 	 	 	 	required: true,
+ 	 			number: true,
+ 	 	 	 	minValue: 1
+ 	 	 	  },
  	 	 	  categoryIdSelect: {
  	 	 		required: true
  	 	 	  },
@@ -162,10 +167,15 @@
 		jQuery('#technicalData').val('\''+ JSON.stringify(json) +'\'');
 	}
 	
+	var auctionTypes;
 	var subCategories;
 	jQuery(document).ready(function(){
 		sendRequest(jQuery("#getSubCategoriesUrl").val(),
 				function(data){subCategories = data.result;});
+		
+		sendRequest(jQuery("#getAuctionTypesUrl").val(),
+				function(data){auctionTypes = data.result;});
+		
 		jQuery('.selectpicker').selectpicker();
 		
 		if(type == 'edit'){
@@ -209,6 +219,36 @@
 	jQuery("#auctionTypeIdSelect").change(function(){
 		var id = jQuery("#auctionTypeIdSelect option:selected").val();
 		jQuery("#auctionTypeId").val(id);
+		
+		let selected = {};
+		for (var i=0;i<auctionTypes.length;i++) {
+			if (Number.parseInt(id) === auctionTypes[i].id) {
+				selected = auctionTypes[i];
+			}
+		}
+		
+		if (selected.name === 'classic') {
+			jQuery('#minimalPriceDiv').hide();	
+			jQuery('#minimalPrice_').val(0);
+			jQuery('#subjectQuantityDiv').hide();	
+			jQuery('#subjectQuantity').val(1);
+		} else if (selected.name === 'with_minimal_price') {
+			jQuery('#minimalPriceDiv').show();	
+			jQuery('#subjectQuantityDiv').hide();	
+			jQuery('#subjectQuantity').val(1);
+		} else if (selected.name === 'multi_subject') {
+			jQuery('#minimalPriceDiv').show();	
+			jQuery('#subjectQuantityDiv').show();	
+		} else if (selected.name === 'quick_purchase') {
+			jQuery('#minimalPriceDiv').hide();
+			jQuery('#minimalPrice_').val(0);
+			jQuery('#subjectQuantityDiv').show();
+		} else {
+			jQuery('#minimalPriceDiv').show();
+			jQuery('#minimalPrice_').val(0);
+			jQuery('#subjectQuantityDiv').show();
+			jQuery('#subjectQuantity').val(0);
+		}
 	});
 	
 	jQuery("input[type='date']").change(function(){
@@ -220,4 +260,9 @@
 	jQuery("input[id='price']").change(function(){
 		var value = jQuery("#price").val();
 		jQuery('#subjectPrice').val(value * 100);
+	});
+	
+	jQuery("input[id='minimalPrice_']").change(function(){
+		var value = jQuery("#minimalPrice_").val();
+		jQuery('#minimalPrice').val(value * 100);
 	});

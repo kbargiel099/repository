@@ -69,6 +69,9 @@ public interface UserProfile extends Process{
 	@RenderMapping(params = "page=addGrade")
 	public ModelAndView addGradeAction(RenderRequest request, RenderResponse response);
 	
+	@ResourceMapping(value = "getAuctionTypes")
+	public void getAuctionTypes(ResourceRequest request, ResourceResponse response);
+	
 	@ResourceMapping(value = "getSubCategories")
 	public void getSubCategories(ResourceRequest request, ResourceResponse response);
 	
