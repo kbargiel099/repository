@@ -15,6 +15,9 @@ import org.springframework.stereotype.Repository;
 import com.auctions.system.module.DateFormatter;
 import com.auctions.system.portlet.auctions_management.dao.AuctionsManagementDAO;
 import com.auctions.system.portlet.auctions_management.model.AuctionDatatable;
+import com.auctions.system.portlet.category.model.Category;
+import com.auctions.system.portlet.user_profile.model.Auction;
+import com.auctions.system.portlet.user_profile.model.AuctionType;
 
 @Repository("AuctionsManagementDAO")
 public class AuctionsManagementDAOImpl implements AuctionsManagementDAO {
@@ -39,6 +42,43 @@ public class AuctionsManagementDAOImpl implements AuctionsManagementDAO {
 						res.getString("image_name"),res.getString("status"));
 			}	
 		});
+	}
+	
+	@Override
+	public List<Category> getCategories() {
+		return dao.query("SELECT id,name FROM sys.category", new RowMapper<Category>() {
+			@Override
+			public Category mapRow(ResultSet res, int row) throws SQLException {
+				return new Category(res.getInt("id"), res.getString("name"));
+			}
+		});
+	}
+
+	@Override
+	public List<AuctionType> getAuctionTypes() {
+		return dao.query("SELECT id,name FROM sys.auction_type", new RowMapper<AuctionType>() {
+			@Override
+			public AuctionType mapRow(ResultSet res, int row) throws SQLException {
+				return new AuctionType(res.getInt("id"), res.getString("name"));
+			}
+		});
+	}
+	
+	@Override
+	public Auction getAuctionData(final long id) { 
+		return dao.queryForObject(
+				"SELECT a.name,serial_number,end_date,typeid,s.category_id,subcategory_id,images,description,available,subject_price,technical_data,minimal_price FROM sys.auction a"
+						+ " JOIN sys.subcategory s ON a.subcategory_id=s.id WHERE a.id=?",
+				new Object[] { id }, new RowMapper<Auction>() {
+					@Override
+					public Auction mapRow(ResultSet res, int row) throws SQLException {
+						return new Auction(id, res.getString("name"), res.getLong("serial_number"),
+								DateFormatter.formatForView(res.getTimestamp("end_date")), res.getLong("minimal_price"), res.getInt("typeid"),
+								res.getInt("category_id"), res.getInt("subcategory_id"), res.getString("images"),
+								res.getString("description"), res.getInt("available"), res.getLong("subject_price"),
+								res.getString("technical_data"));
+					}
+				});
 	}
 	
 	@Override

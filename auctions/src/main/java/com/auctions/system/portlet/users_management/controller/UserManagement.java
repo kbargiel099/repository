@@ -12,7 +12,9 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-public interface UserManagement{
+import com.auctions.system.module.profile.controller.Profile;
+
+public interface UserManagement extends Profile{
 	
 	@RenderMapping
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response) throws Exception;

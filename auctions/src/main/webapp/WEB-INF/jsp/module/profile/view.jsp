@@ -15,40 +15,36 @@
 <input type="hidden" id="detailsUrl" value="${details}"/>
 
 <div class="container">
-	<div class="col-xs-12" style="text-align: center;">
-		<div style="margin-bottom: 30px;">
-			<label style="font-size: 20px; color: #68676c; font-weight: bold;" class="label-control"><liferay-ui:message key="seller.details" /></label>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-6">
-			<div class="form-group">
-	           <label class="label-control"><liferay-ui:message key="users_management.firstname.label" /></label>
-	           <p>${user.firstname}</p>
+		<div class="col-xs-12 col-sm-12 col-md-4">
+			<div style="text-align: center; margin-bottom: 30px;">
+				<label style="font-size: 20px; color: #68676c; font-weight: bold;" class="label-control"><liferay-ui:message key="seller.details" /></label>
 			</div>
-			<div class="form-group">
-	           <label class="label-control"><liferay-ui:message key="users_management.login.label" /></label>
-	           <p>${user.username}</p>
-			</div>
-			<div class="form-group">
-	           <label class="label-control"><liferay-ui:message key="user.account.create.date" /></label>
-	           <p>${user.createDate}</p>
-			</div>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-6">
-			<div class="form-group">
-	           <label class="label-control"><liferay-ui:message key="users_management.lastname.label" /></label>
-	           <p>${user.lastname}</p>
-			</div>
-			<div class="form-group">
-	           <label class="label-control" name="endDate"><liferay-ui:message key="user.email.address" /></label>
-	           <p>${user.emailAddress}</p>
-			</div>
-	 			<div class="form-group">
-	           <label class="label-control" for="subjectPrice"><liferay-ui:message key="user.last.login.date" /></label>
-			   <p>${user.loginDate}</p>
-			</div>
-		</div>
-	</div>
-	<div class="col-xs-12">
+				<div>
+		           <label class="label-control"><liferay-ui:message key="users_management.firstname.label" /></label>
+		           <p>${user.firstname}</p>
+				</div>
+				<div>
+		           <label class="label-control"><liferay-ui:message key="users_management.login.label" /></label>
+		           <p>${user.username}</p>
+				</div>
+				<div>
+		           <label class="label-control"><liferay-ui:message key="users_management.lastname.label" /></label>
+		           <p>${user.lastname}</p>
+				</div>
+				<div>
+		           <label class="label-control"><liferay-ui:message key="user.email.address" /></label>
+		           <p>${user.emailAddress}</p>
+				</div>
+				<div>
+		           <label class="label-control"><liferay-ui:message key="user.account.create.date" /></label>
+		           <p>${user.createDate}</p>
+				</div>
+	  			<div>
+		           <label class="label-control"><liferay-ui:message key="user.last.login.date" /></label>
+				   <p>${user.loginDate}</p>
+				</div>
+	 	</div>
+	<div class="col-xs-12 col-sm-12 col-md-8">
 		<div id="elements">
 			<div style="text-align: center; margin-bottom: 30px;">
 				<label style="font-size: 20px; color: #68676c; font-weight: bold;" class="label-control"> <liferay-ui:message key="see.user.auctions.label"/> ${user.username}</label>
@@ -84,8 +80,8 @@
 			</c:if>
 		</div>
 	</div>
-	<div class="col-xs-12">
-		<div style="text-align: center; margin-bottom: 30px;">
+	<div class="col-xs-12 col-sm-12 col-md-8">
+		<div style="text-align: center; margin: 30px;">
 			<label style="font-size: 20px; color: #68676c; font-weight: bold;" class="label-control"><liferay-ui:message key="users.grades.label"/></label>
 		</div>
 	  	<c:forEach items="${grades}" var="item">

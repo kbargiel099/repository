@@ -19,10 +19,9 @@ function initAuctions(resourceUrl){
 							: {type:'lock',url:buildUrl(jQuery('#suspendUrl').val(),'auctionId',full.id)};
 					var optionShow = {type:'stats',url:buildUrl(jQuery('#statsUrl').val(),'auctionId',full.id)};
 					var optionDetails = {type:'details',url:buildUrl(jQuery('#detailsUrl').val(),'id',full.id)};
-					var optionEdit = {type:'edit',url:buildUrl(jQuery('#editUrl').val(),'auctionId',full.id)};
 					var optionDelete = {type:'delete',url:buildUrl(jQuery('#deleteUrl').val(),'auctionId',full.id)}; 
 					
-					var array = [optionShow, optionDetails, optionEdit, optionForSuspending, optionDelete];			 
+					var array = [optionShow, optionDetails, optionForSuspending, optionDelete];			 
 					return createDropDownMenu(array);
 				}
 			  },{

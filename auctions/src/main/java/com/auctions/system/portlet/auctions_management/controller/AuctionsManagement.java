@@ -21,6 +21,10 @@ public interface AuctionsManagement extends AuctionProcess{
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response,
 			@RequestParam("auctionId") long auctionId);
 	
+	@RenderMapping(params = "page=edit")
+	public ModelAndView editAuctionRender(RenderRequest request, RenderResponse response,
+			@RequestParam("auctionId") long auctionId);
+	
 	@ResourceMapping(value="getAuctions")
 	public void getAuctions(ResourceRequest request, ResourceResponse response) throws Exception;
 	

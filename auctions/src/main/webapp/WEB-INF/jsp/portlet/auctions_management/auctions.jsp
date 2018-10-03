@@ -51,9 +51,6 @@
 	</div>
 	
 	<div class="col-xs-12 col-sm-8 col-md-12">
-<%--  		<a class="btn btn-primary btn-sm" href="${add}">
-			<liferay-ui:message key="add" />
-		</a> --%>
 		<table id="auctions" class="display">
 		     <thead>
 		            <tr>

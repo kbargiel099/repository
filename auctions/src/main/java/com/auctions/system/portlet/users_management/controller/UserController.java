@@ -14,6 +14,7 @@ import org.springframework.web.portlet.ModelAndView;
 
 import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.UserUtil;
+import com.auctions.system.module.profile.controller.Profile;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
 
 @Controller
@@ -26,6 +27,9 @@ public class UserController implements UserManagement{
 	
 	@Autowired
 	UsersManagementService service;
+	
+	@Autowired
+	Profile profile;
 	
 	@Override
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response) throws Exception{
@@ -70,6 +74,11 @@ public class UserController implements UserManagement{
 		HttpUtil.createResponse(response).
 			set("success", UserUtil.updateLockoutUser(userId,false)).
 			prepare();
+	}
+
+	@Override
+	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response, long id) throws Exception {
+		return profile.getUserProfile(request, response, id);
 	}
 
 }

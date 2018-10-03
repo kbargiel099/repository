@@ -19,9 +19,8 @@ function initUsers(resourceUrl){
 				var optionForLock = full.lockout ? {type:'unlock',url:buildUrl(jQuery('#unlockUrl').val(),'userId',full.id)}
 						: {type:'lock',url:buildUrl(jQuery('#lockUrl').val(),'userId',full.id)};
 				var optionDetails = {type:'details',url:buildUrl(jQuery('#profileUrl').val(),'id',full.id)};
-				var optionEdit = {type:'edit',url:buildUrl(jQuery('#editUrl').val(),'userId',full.id)};
 				
-				var array = [optionDetails, optionEdit, optionForLock];
+				var array = [optionDetails, optionForLock];
 				return createDropDownMenu(array);
 			}
 		  },
@@ -29,7 +28,7 @@ function initUsers(resourceUrl){
 			    "targets": 4,
 			    "render": function(data,type,full,row){
 					if(data == true){
-						return Liferay.Language.get('suspended');
+						return Liferay.Language.get('user.locked');
 					}else{
 						return Liferay.Language.get('user.active');
 					}

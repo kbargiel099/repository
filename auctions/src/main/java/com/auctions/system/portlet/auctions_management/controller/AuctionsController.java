@@ -24,6 +24,7 @@ import com.auctions.system.portlet.category.model.AuctionDetails;
 public class AuctionsController implements AuctionsManagement{
 
 	private final String auctionsView = "auctions";
+	private final String editAuctionView = "edit_auction";
 		
 	@Autowired
 	AuctionProcess processing;
@@ -44,6 +45,16 @@ public class AuctionsController implements AuctionsManagement{
 	@Override
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, long auctionId){
 		return stats.getAuctionStatsView(processing.getDetails(auctionId),ViewType.Administration);
+	}
+	
+	@Override
+	public ModelAndView editAuctionRender(RenderRequest request, RenderResponse response, long auctionId){		
+		ModelAndView model = new ModelAndView(editAuctionView);
+		model.addObject("auction",service.getAuctionData(auctionId));
+		model.addObject("type", "edit");
+		model.addObject("categories", service.getCategories());
+		model.addObject("auctionTypes", service.getAuctionTypes());
+		return model;
 	}
 	
 	@Override
