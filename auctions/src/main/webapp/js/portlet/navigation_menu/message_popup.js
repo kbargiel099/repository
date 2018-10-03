@@ -86,8 +86,9 @@
     				let elem = document.getElementsByClassName('popup-messages')[0];
     				elem.scrollTo(0, elem.scrollHeight);
     			}
-    			else
-    				alert("Wystapil blad loadMessagesCallback");
+    			else {
+    				responsiveNotify(Liferay.Language.get('error.msg'));
+    			}
             };
             
             function markMessagesAsRead(url,userId){

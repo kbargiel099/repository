@@ -23,6 +23,11 @@ function connect() {
 }
 
 function sendFormQuickPurchase() {
+	if (!stompClient.connected) {
+		responsiveNotify(Liferay.Language.get('connection.error.msg'));
+		return;
+	}
+	
 	if(jQuery('#type').val() == 'purchase'){
  		stompClient.send("/app/purchase/" + jQuery('#id').val(), {}, 
  				JSON.stringify({

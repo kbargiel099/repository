@@ -152,6 +152,11 @@ function addOfferToList(res) {
 }
 
 function sendForm2() {
+	if (!stompClient.connected) {
+		responsiveNotify(Liferay.Language.get('connection.error.msg'));
+		return;
+	}
+	
 	if(!isWait){
 	    isWait = true;
 	    senderClient = true;

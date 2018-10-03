@@ -16,7 +16,7 @@
 			getArray();
 		sendRequestParams(url,params,function(data){
 			if(JSON.parse(data.success) == true){
-				responsiveNotify("Aktualizacja poprawna");
+				responsiveNotify(Liferay.Language.get('update.successfully.msg'));
 			}else{
 				responsiveNotify(Liferay.Language.get('error.msg'));
 			}
@@ -33,7 +33,7 @@
 			var div = jQuery('<div class="col-xs-3"></div>');
 			var img = jQuery('<img src="'+ reader.result +'" heigth="100%" width="100%"/>');
     		var input = jQuery('<input type="hidden" id="'+ temp.name +'" class="image_name" value="'+ temp.name +'"/>');
-	    	var span = jQuery('<span class="delete_image btn-info" style="text-align: center;">Usun</span>');
+	    	var span = jQuery('<span class="delete_image btn-info" style="text-align: center;cursor: pointer">'+ Liferay.Language.get('delete') +'</span>');
 			div.append(img,input,span);
 			jQuery('#images').append(div);
 			setDeleteImageListener();

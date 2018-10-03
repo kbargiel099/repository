@@ -7,6 +7,7 @@
 <portlet:defineObjects />
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/common/image.css" />" >
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
 
 <portlet:resourceURL id="getAuctions" var="getAuctions" />
 <input type="hidden" id="getAuctionsUrl" value="${getAuctions}"></input>
@@ -44,13 +45,13 @@
 
 <div class="container">
 
-	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %>
+<%-- 	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %> --%>
 	
-	<div class="col-xs-12 col-sm-8 col-md-9">
+	<div class="col-xs-12">
 		<h4 class="user-profile-section-title"><liferay-ui:message key="adm.auctions.label" /></h4>
 	</div>
 	
-	<div class="col-xs-12 col-sm-8 col-md-12">
+	<div class="col-xs-12">
 		<table id="auctions" class="display">
 		     <thead>
 		            <tr>

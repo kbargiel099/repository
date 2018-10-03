@@ -38,7 +38,9 @@
 			    	<div class="col-xs-3">
 			    		<img src="/images/${item}" width="100%" height="100%"/>
 			    		<input type="hidden" id="${item}" class="image_name" value="${item}"/>
-			    		<span class="delete_image btn-info" style="text-align: center;">Usun</span>
+			    		<span class="delete_image btn-info" style="text-align: center; cursor: pointer">
+			    			<liferay-ui:message key="delete" />
+			    		</span>
 		    		</div>
 		    	</c:forEach>
 		    </div>

@@ -1,6 +1,7 @@
 package com.auctions.system.portlet.user_registration.controller;
 
 import java.io.IOException;
+import java.net.ConnectException;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -28,6 +29,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import com.auctions.system.module.Properties;
 import com.auctions.system.module.client.MailRestClient;
 import com.auctions.system.portlet.user_registration.service.RegistrationService;
 import com.auctions.system.portlet.user_registration.validator.UserValidator;
@@ -39,6 +41,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
 @Controller("userRegistration")
@@ -108,22 +111,21 @@ public class UserRegistration{
 	public void addUserAction(ActionRequest request, ActionResponse response,
 		@ModelAttribute("user") @Valid User user, BindingResult result) throws IOException{
 	
-		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
-		String home = themeDisplay.getURLHome();
 		boolean isCreated = true;
 		
 		boolean autoPassword = false;
 		long facebookId = 0;
-		long companyId = 20115;
+		long companyId = PortalUtil.getCompanyId(request);
 		int prefixId = 0;
 		int suffixId = 0;
 		boolean male = true;
 		int birthdayMonth = 1;
 		int birthdayDay = 10;
 		int birthdayYear = 1980;
+		
 		String jobTitle = null;
 		long[] organizationIds = null;
-		long[] roleIds = new long[]{20125};
+		long[] roleIds = new long[]{Properties.getUserRoleid()};
 		long[] userGroupIds = new long[]{};
 		boolean sendMail = false;
 
@@ -140,11 +142,16 @@ public class UserRegistration{
 			e.printStackTrace();
 		}
 		
-		MailRestClient.sendMail(user.getEmail());
 		
-		response.sendRedirect(home);
-		response.setRenderParameter("page", "createUserSuccess");
+		try {
+			MailRestClient.sendMail(user.getEmail());
+		} catch (ConnectException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
+		response.setRenderParameter("page", "createUserSuccess");	
 	}
 
 }

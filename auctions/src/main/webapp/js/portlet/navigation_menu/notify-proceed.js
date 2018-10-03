@@ -21,6 +21,11 @@ function addOfferToList2(res) {
 }
 
 function sendForm(receiverId,message) {
+	if (!stompClientChat.connected) {
+		responsiveNotify(Liferay.Language.get('connection.error.msg'));
+		return;
+	}
+	
 	if(!isWaitChat){
 	    stompClientChat.send("/app/conversation/" + receiverId, {}, 
 	    		JSON.stringify({

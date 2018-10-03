@@ -78,7 +78,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 	@Override
 	public List<AuctionPresenter> getAuctionsBySubcategory(int id){
 		return dao.query("SELECT id,name,image_name,subject_price FROM sys.auctions_by_subcategory "
-				+ "WHERE subcategory_id=? ORDER BY create_date DESC", 
+				+ "WHERE category_id=? ORDER BY create_date DESC",
 				new Object[]{id},
 				new RowMapper<AuctionPresenter>(){
 					@Override
@@ -91,9 +91,12 @@ public class CategoryDAOImpl implements CategoryDAO{
 	
 	@Override
 	public List<SubCategory> getSubCategories(String categoryName){
-		return dao.query("SELECT sub.id AS sub_id,c.id,sub.name FROM sys.subcategory sub "
-                		+ "JOIN sys.category c ON c.id=sub.category_id WHERE c.name=?", 
-				new Object[]{categoryName},new RowMapper<SubCategory>(){
+		String query = "SELECT c.id AS sub_id,c.parent_category_id AS id,c.name FROM sys.category c "
+					 + "INNER JOIN sys.category p ON c.parent_category_id=p.id "
+					 + "WHERE p.name=?";
+		
+		return dao.query(query, new Object[]{categoryName},
+				new RowMapper<SubCategory>(){
 					@Override
 					public SubCategory mapRow(ResultSet res, int row) throws SQLException {
 						return new SubCategory(res.getInt("sub_id"),res.getInt("id"),res.getString("name"));

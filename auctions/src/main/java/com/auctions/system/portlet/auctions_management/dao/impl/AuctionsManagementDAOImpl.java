@@ -46,7 +46,8 @@ public class AuctionsManagementDAOImpl implements AuctionsManagementDAO {
 	
 	@Override
 	public List<Category> getCategories() {
-		return dao.query("SELECT id,name FROM sys.category", new RowMapper<Category>() {
+		return dao.query("SELECT id,name FROM sys.category WHERE parent_category_id IS NULL",
+				new RowMapper<Category>() {
 			@Override
 			public Category mapRow(ResultSet res, int row) throws SQLException {
 				return new Category(res.getInt("id"), res.getString("name"));
@@ -66,9 +67,8 @@ public class AuctionsManagementDAOImpl implements AuctionsManagementDAO {
 	
 	@Override
 	public Auction getAuctionData(final long id) { 
-		return dao.queryForObject(
-				"SELECT a.name,serial_number,end_date,typeid,s.category_id,subcategory_id,images,description,available,subject_price,technical_data,minimal_price FROM sys.auction a"
-						+ " JOIN sys.subcategory s ON a.subcategory_id=s.id WHERE a.id=?",
+		return dao.queryForObject("SELECT a.name,serial_number,end_date,typeid,s.parent_category_id,a.category_id AS subcategory_id,images,description,available,subject_price,technical_data,minimal_price " 
+				+ "FROM sys.auction a JOIN sys.category s ON a.category_id=s.parent_category_id WHERE a.id=?",
 				new Object[] { id }, new RowMapper<Auction>() {
 					@Override
 					public Auction mapRow(ResultSet res, int row) throws SQLException {

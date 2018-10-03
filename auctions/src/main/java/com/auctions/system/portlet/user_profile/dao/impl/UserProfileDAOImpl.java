@@ -129,7 +129,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 
 	@Override
 	public List<Category> getCategories() {
-		return dao.query("SELECT id,name FROM sys.category", new RowMapper<Category>() {
+		return dao.query("SELECT id,name FROM sys.category WHERE parent_category_id IS NULL", new RowMapper<Category>() {
 			@Override
 			public Category mapRow(ResultSet res, int row) throws SQLException {
 				return new Category(res.getInt("id"), res.getString("name"));
@@ -149,8 +149,8 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 
 	@Override
 	public List<SubCategory> getSubCategories() {
-		return dao.query(
-				"SELECT c.id,sub.id AS sub_id,sub.name AS sub_name FROM sys.category c,sys.subcategory sub where c.id=sub.category_id",
+		return dao.query("SELECT c.id AS sub_id,c.parent_category_id AS id,c.name AS sub_name FROM sys.category c "
+					   + "INNER JOIN sys.category p ON c.parent_category_id=p.id",
 				new RowMapper<SubCategory>() {
 					@Override
 					public SubCategory mapRow(ResultSet res, int row) throws SQLException {
@@ -161,9 +161,12 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 
 	@Override
 	public List<TechnicalData> getTechnicalData(int id) {
-		return dao.query(
-				"SELECT t.id,t.name,t.value,t.type FROM sys.technical_data t JOIN sys.subcategory s ON t.id=ANY(technical_data_array) WHERE s.id=?",
-				new Object[] { id }, new RowMapper<TechnicalData>() {
+		String query = "SELECT t.id,t.name,t.value,t.type "
+				     + "FROM sys.technical_data t "
+				     + "JOIN sys.category s ON t.id=ANY(technical_data_array) WHERE s.id=?";
+				
+		return dao.query(query, new Object[] { id }, 
+				new RowMapper<TechnicalData>() {
 					@Override
 					public TechnicalData mapRow(ResultSet res, int row) throws SQLException {
 						return new TechnicalData(res.getInt("id"), res.getString("name"), res.getString("type"),
@@ -181,10 +184,13 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 
 	@Override
 	public Auction getAuctionData(final long id) { 
-		return dao.queryForObject(
-				"SELECT a.name,serial_number,end_date,typeid,s.category_id,subcategory_id,images,description,available,subject_price,technical_data,minimal_price FROM sys.auction a"
-						+ " JOIN sys.subcategory s ON a.subcategory_id=s.id WHERE a.id=?",
-				new Object[] { id }, new RowMapper<Auction>() {
+		String query = "SELECT a.name,serial_number,end_date,typeid,s.parent_category_id AS category_id,a.category_id AS subcategory_id,images,description,available,"
+				     + "subject_price,technical_data,minimal_price "
+				     + "FROM sys.auction a "
+				     + "JOIN sys.category s ON a.category_id=s.id WHERE a.id=?";
+		
+		return dao.queryForObject(query, new Object[] { id },
+				new RowMapper<Auction>() {
 					@Override
 					public Auction mapRow(ResultSet res, int row) throws SQLException {
 						return new Auction(id, res.getString("name"), res.getLong("serial_number"),
@@ -213,7 +219,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
 		return dao.update(
 				"UPDATE sys.auction SET name=?,description=?,edit_date=?,end_date=?,typeid=?,subject_price=?,available=?,"
-						+ "subcategory_id=?,technical_data=? WHERE id=?",
+						+ "category_id=?,technical_data=? WHERE id=?",
 				new Object[] { a.getName(), a.getDescription(), editDate, endDate, a.getAuctionTypeId(),
 						a.getSubjectPrice(), a.getSubjectQuantity(), a.getSubCategoryId(), a.getTechnicalData(),
 						a.getId() }) > 0;
@@ -245,7 +251,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 		try {
 			PreparedStatement pst = dataSource.getConnection().prepareStatement(
 					"INSERT INTO sys.auction(userid,name,description,create_date,edit_date,end_date,minimal_price,"
-							+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,subcategory_id,technical_data,video,images) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+							+ "statusid,typeid,serial_number,subject_price,subject_quantity,available,category_id,technical_data,video,images) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			pst.setLong(1, userId);
 			pst.setString(2, a.getName());
 			pst.setString(3, a.getDescription());
