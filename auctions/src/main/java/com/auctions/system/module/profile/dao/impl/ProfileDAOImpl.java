@@ -38,7 +38,8 @@ public class ProfileDAOImpl implements ProfileDAO{
 					@Override
 					public UserProfile mapRow(ResultSet res, int row) throws SQLException {
 						return new UserProfile(res.getLong("userid"),res.getString("screenname"),res.getString("firstname"),res.getString("lastname"),
-								res.getString("emailaddress"),res.getTimestamp("createdate"),res.getTimestamp("logindate"));
+								res.getString("emailaddress"),DateFormatter.format(res.getTimestamp("createdate")),
+								DateFormatter.format(res.getTimestamp("logindate")));
 				}
 		});
 	}

@@ -19,30 +19,36 @@
 			<div style="text-align: center; margin-bottom: 30px;">
 				<label style="font-size: 20px; color: #68676c; font-weight: bold;" class="label-control"><liferay-ui:message key="seller.details" /></label>
 			</div>
-				<div>
-		           <label class="label-control"><liferay-ui:message key="users_management.firstname.label" /></label>
+			<div class="form-group col-xs-12 col-sm-12 col-md-6">
+				<div style="margin-bottom:25px;">
+		           <p><liferay-ui:message key="users_management.firstname.label" /></p>
 		           <p>${user.firstname}</p>
 				</div>
-				<div>
-		           <label class="label-control"><liferay-ui:message key="users_management.login.label" /></label>
+				<div style="margin-bottom:25px;">
+		           <p><liferay-ui:message key="users_management.login.label" /></p>
 		           <p>${user.username}</p>
 				</div>
-				<div>
-		           <label class="label-control"><liferay-ui:message key="users_management.lastname.label" /></label>
-		           <p>${user.lastname}</p>
-				</div>
-				<div>
-		           <label class="label-control"><liferay-ui:message key="user.email.address" /></label>
+				<div style="margin-bottom:25px;">
+		           <p><liferay-ui:message key="user.email.address" /></p>
 		           <p>${user.emailAddress}</p>
 				</div>
-				<div>
-		           <label class="label-control"><liferay-ui:message key="user.account.create.date" /></label>
-		           <p>${user.createDate}</p>
+			</div>
+			<div class="form-group col-xs-12 col-sm-12 col-md-6">
+				<div style="margin-bottom:25px;">
+		           <p><liferay-ui:message key="users_management.lastname.label" /></p>
+		           <p>${user.lastname}</p>
 				</div>
-	  			<div>
-		           <label class="label-control"><liferay-ui:message key="user.last.login.date" /></label>
+				<div style="margin-bottom:25px;">
+		           <p><liferay-ui:message key="user.create.account" /></p>
 				   <p>${user.loginDate}</p>
 				</div>
+				<div style="margin-bottom:25px;">
+		           <p><liferay-ui:message key="user.last.login" /></p>
+				   <p>${user.loginDate}</p>
+				</div>
+			</div>
+			<div class="form-group col-xs-12 col-sm-12 col-md-6">
+			</div>
 	 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-8">
 		<div id="elements">

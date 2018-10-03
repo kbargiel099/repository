@@ -3,17 +3,17 @@ package com.auctions.system.module.profile.model;
 import java.sql.Timestamp;
 
 public class UserProfile {
-	
+
 	private long id;
 	private String username;
 	private String firstname;
 	private String lastname;
 	private String emailAddress;
-	private Timestamp createDate;
-	private Timestamp loginDate;
+	private String createDate;
+	private String loginDate;
 
 	public UserProfile(long id, String username, String firstname, String lastname, String emailAddress,
-			Timestamp createDate, Timestamp loginDate) {
+			String createDate, String loginDate) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -64,19 +64,19 @@ public class UserProfile {
 		this.emailAddress = emailAddress;
 	}
 
-	public Timestamp getCreateDate() {
+	public String getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Timestamp createDate) {
+	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-	
-	public Timestamp getLoginDate() {
+
+	public String getLoginDate() {
 		return loginDate;
 	}
 
-	public void setLoginDate(Timestamp loginDate) {
+	public void setLoginDate(String loginDate) {
 		this.loginDate = loginDate;
 	}
 
