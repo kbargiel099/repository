@@ -7,6 +7,8 @@
 
 <portlet:defineObjects />
 
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
+
 <portlet:resourceURL id="insert" var="insert">
 </portlet:resourceURL>
 <input type="hidden" id="insertUrl" value="${insert}"></input>
@@ -21,7 +23,7 @@
 
 <div class="container-fluid">
 
-	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %>
+<%-- 	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %> --%>
 	
 		<div class="col-xs-12 col-sm-8 col-md-8">
 			<c:if test="${type == 'add'}">
@@ -45,7 +47,7 @@
 				           <input type="text" class="form-control" id="name" name="name" value="${category.name}"></input>
 						</div>
 					</div> 
-					<div class="col-xs-12 col-sm-12 col-md-12">
+					<div class="col-xs-12 col-sm-12 col-md-4">
 						<div class="col-xs-12 form-group">
 					  		<a class="btn btn-primary pull-right" type="submit" id="message-category-submit"><liferay-ui:message key="submit"/></a>
 					  	</div>

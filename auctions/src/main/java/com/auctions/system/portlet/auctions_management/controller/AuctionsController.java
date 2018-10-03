@@ -44,7 +44,7 @@ public class AuctionsController implements AuctionsManagement{
 	
 	@Override
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, long auctionId){
-		return stats.getAuctionStatsView(processing.getDetails(auctionId),ViewType.Administration);
+		return stats.getAuctionStatsView(processing.getDetails(auctionId),ViewType.Default);
 	}
 	
 	@Override

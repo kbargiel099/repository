@@ -20,8 +20,11 @@
 		<c:when test="${view == 'profile'}">
 			<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
 		</c:when>
-		<c:otherwise>
+		<c:when test="${view == 'administration'}">
 			<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %>
+		</c:when>
+		<c:otherwise>
+
 		</c:otherwise>
 	</c:choose>
 	<div class="col-xs-12 col-sm-8 col-md-9">

@@ -17,11 +17,10 @@ function initMessageCategories(resourceUrl){
 			    "render": function(data,type,full,row){
 					var optionForSuspending = !full.isActivated ? {type:'unlock',url:buildUrl(jQuery('#activateUrl').val(),'id',full.id)}
 							: {type:'lock',url:buildUrl(jQuery('#suspendUrl').val(),'id',full.id)};
-					var optionShow = {type:'messages',url:buildUrl(jQuery('#messagesUrl').val(),'id',full.id)};
 					var optionEdit = {type:'edit',url:buildUrl(jQuery('#editUrl').val(),'id',full.id)};
 					var optionDelete = {type:'delete',url:buildUrl(jQuery('#deleteUrl').val(),'id',full.id)}; 
 					
-					var array = [optionShow, optionEdit, optionForSuspending, optionDelete];			 
+					var array = [optionEdit, optionForSuspending, optionDelete];			 
 					return createDropDownMenu(array);
 				}
 			  },

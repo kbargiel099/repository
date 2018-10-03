@@ -7,6 +7,9 @@
 
 <portlet:defineObjects />
 
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/horizontal-menu.css" />" >
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/common/selectpicker-custom.css" />" >
+
 <portlet:resourceURL id="insert" var="insert">
 </portlet:resourceURL>
 <input type="hidden" id="insertUrl" value="${insert}"></input>
@@ -21,9 +24,9 @@
 
 <div class="container-fluid">
 
-	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %>
+<%-- 	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %> --%>
 	
-		<div class="col-xs-12 col-sm-8 col-md-8">
+		<div class="col-xs-12">
 			<c:if test="${type == 'add'}">
 				<h4 class="user-profile-section-title"><liferay-ui:message key="create.message.label" /></h4>
 			</c:if>
@@ -38,7 +41,7 @@
 		  	
 	      	<form id="message-form">
 				<input type="hidden" name="id" value="${message.id}"></input>
-				<div class="col-xs-12 col-sm-12 col-md-8">
+				<div class="col-xs-12">
 					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="form-group">
 				           <label class="label-control" for="title"><liferay-ui:message key="name" /></label>
