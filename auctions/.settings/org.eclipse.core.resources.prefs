@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/WEB-INF/jsp/portlet/auctions_management/error.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/portlet/user_profile/view.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/portlet/user_registration/view.jsp=UTF-8

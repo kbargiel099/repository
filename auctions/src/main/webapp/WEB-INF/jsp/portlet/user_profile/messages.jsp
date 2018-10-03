@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix = "form" uri = "http://www.springframework.org/tags/form" %>
 
 <portlet:defineObjects />
@@ -17,35 +18,40 @@
 		<div class="col-xs-12 col-sm-8 col-md-8">
 			<h4 class="user-profile-section-title"><liferay-ui:message key="messages.label" /></h4>
 			
-	  		<div style="margin-bottom:20px;">
-		  		<table>
-		  			<thead>
-		  			<tr>
-		  				<th><liferay-ui:message key="messages.title.label" /></th>
-		  				<th style="width:20%"><liferay-ui:message key="messages.category.label" /></th>
-		  				<th style="width:22%"><liferay-ui:message key="messages.createDate.label" /></th>
-		  			</tr>
-		  			</thead>
-		  			<tbody>
-						<c:forEach items="${messages}" var="message">
-							<tr class="pointer-item" onclick="changeVisibility('${message.id}')">
-								<c:forEach items="${categories}" var="item">
-									<c:if test="${item.id == message.messageCategoryId}">
-										<td>${message.title}</td>
-										<td><span style="padding-right: 30px;">${item.name}</span></td>
-										<td>${message.createDate}</td>
-									</c:if>
-								</c:forEach>
-							</tr>
-							<tr style="display:none;" id="${message.id}">
-								<td colspan="3">
-									<p style="padding:20px; border-bottom:1px solid #cccccc;">${message.text}</p>
-								</td>
-							</tr>
-						</c:forEach>
-		  			</tbody>
-		  		</table>
-			</div>
+			<c:if test="${fn:length(messages) gt 0}">
+		  		<div style="margin-bottom:20px;">
+			  		<table>
+			  			<thead>
+			  			<tr>
+			  				<th><liferay-ui:message key="messages.title.label" /></th>
+			  				<th style="width:20%"><liferay-ui:message key="messages.category.label" /></th>
+			  				<th style="width:22%"><liferay-ui:message key="messages.createDate.label" /></th>
+			  			</tr>
+			  			</thead>
+			  			<tbody>
+							<c:forEach items="${messages}" var="message">
+								<tr class="pointer-item" onclick="changeVisibility('${message.id}')">
+									<c:forEach items="${categories}" var="item">
+										<c:if test="${item.id == message.messageCategoryId}">
+											<td>${message.title}</td>
+											<td><span style="padding-right: 30px;">${item.name}</span></td>
+											<td>${message.createDate}</td>
+										</c:if>
+									</c:forEach>
+								</tr>
+								<tr style="display:none;" id="${message.id}">
+									<td colspan="3">
+										<p style="padding:20px; border-bottom:1px solid #cccccc;">${message.text}</p>
+									</td>
+								</tr>
+							</c:forEach>
+			  			</tbody>
+			  		</table>
+				</div>
+			</c:if>
+			<c:if test="${fn:length(messages) eq 0}">
+   				<p><liferay-ui:message key="messages.list.empty.msg" /></p>
+		  	</c:if>
 		</div>
 	</div>
 </div>

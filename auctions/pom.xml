@@ -13,14 +13,6 @@
 				<groupId>com.liferay.maven.plugins</groupId>
 				<artifactId>liferay-maven-plugin</artifactId>
 				<version>7.0.0-m2</version>
-				<!-- <executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>build-css</goal>
-						</goals>
-					</execution>
-				</executions> -->
 				<configuration>
 					<autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
 					<appServerDeployDir>${liferay.app.server.deploy.dir}</appServerDeployDir>
@@ -188,17 +180,9 @@
 		    <artifactId>jave-api</artifactId>
 		    <version>1.0.2</version>
 		</dependency>
-<!-- 		<dependency>
-			<groupId>com.jave</groupId>
-			<artifactId>jave-1.0.2</artifactId>
-			<version>1.0.2</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/jave-1.0.2.jar</systemPath>
-		</dependency> -->
 	</dependencies>
   
   	<properties>
 		<spring.version>4.3.4.RELEASE</spring.version>
-<!-- 		<base.dir></base.dir> -->
 	</properties>
 </project>

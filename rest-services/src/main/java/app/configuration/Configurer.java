@@ -21,11 +21,6 @@ import module.mail_manager.impl.SimpleMailManager;
 
 @Configuration
 public class Configurer{
-
-   @Bean
-   public String schema() {
-	   return "sys";
-   }
    
    @Bean
    public FilterRegistrationBean corsFilter() {

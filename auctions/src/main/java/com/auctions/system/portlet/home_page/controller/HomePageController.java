@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 
-import com.auctions.system.module.auction_process.controller.Process;
+import com.auctions.system.module.auction_process.controller.AuctionProcess;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.home_page.service.HomePageService;
 
@@ -26,7 +26,7 @@ public class HomePageController implements HomePage{
 	private HomePageService service;
 	
 	@Autowired
-	Process processing;
+	AuctionProcess processing;
 	
 	@Override
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response) throws Exception{

@@ -48,17 +48,17 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 
 	@Override
 	public UserProfileData getUserSimpleData(final long id) {
-		return dao.queryForObject(
-				"SELECT createdate,modifieddate,emailaddress,screenname,firstname,lastname,lastlogindate,lockout FROM user_ WHERE userid=?",
-				new Object[] { id }, new RowMapper<UserProfileData>() {
-					@Override
-					public UserProfileData mapRow(ResultSet res, int row) throws SQLException {
-						return new UserProfileData(id, res.getString("firstname"), res.getString("lastname"),
-								res.getString("screenname"), DateFormatter.format(res.getTimestamp("createdate")),
-								DateFormatter.format(res.getTimestamp("modifieddate")), res.getString("emailaddress"),
-								DateFormatter.format(res.getTimestamp("lastlogindate")), res.getBoolean("lockout"));
-					}
-				});
+			return dao.queryForObject(
+					"SELECT createdate,modifieddate,emailaddress,screenname,firstname,lastname,lastlogindate,lockout FROM user_ WHERE userid=?",
+					new Object[] { id }, new RowMapper<UserProfileData>() {
+						@Override
+						public UserProfileData mapRow(ResultSet res, int row) throws SQLException {
+							return new UserProfileData(id, res.getString("firstname"), res.getString("lastname"),
+									res.getString("screenname"), DateFormatter.format(res.getTimestamp("createdate")),
+									DateFormatter.format(res.getTimestamp("modifieddate")), res.getString("emailaddress"),
+									DateFormatter.format(res.getTimestamp("lastlogindate")), res.getBoolean("lockout"));
+						}
+			});
 	}
 
 	@Override
@@ -180,15 +180,15 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 	}
 
 	@Override
-	public Auction getAuctionData(final long id) {
+	public Auction getAuctionData(final long id) { 
 		return dao.queryForObject(
-				"SELECT a.name,serial_number,end_date,typeid,s.category_id,subcategory_id,images,description,available,subject_price,technical_data FROM sys.auction a"
+				"SELECT a.name,serial_number,end_date,typeid,s.category_id,subcategory_id,images,description,available,subject_price,technical_data,minimal_price FROM sys.auction a"
 						+ " JOIN sys.subcategory s ON a.subcategory_id=s.id WHERE a.id=?",
 				new Object[] { id }, new RowMapper<Auction>() {
 					@Override
 					public Auction mapRow(ResultSet res, int row) throws SQLException {
 						return new Auction(id, res.getString("name"), res.getLong("serial_number"),
-								DateFormatter.formatForView(res.getTimestamp("end_date")), res.getInt("typeid"),
+								DateFormatter.formatForView(res.getTimestamp("end_date")), res.getLong("minimal_price"), res.getInt("typeid"),
 								res.getInt("category_id"), res.getInt("subcategory_id"), res.getString("images"),
 								res.getString("description"), res.getInt("available"), res.getLong("subject_price"),
 								res.getString("technical_data"));

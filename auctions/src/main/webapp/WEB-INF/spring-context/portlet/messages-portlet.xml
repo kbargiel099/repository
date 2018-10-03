@@ -15,6 +15,17 @@
 	<bean id="multipartResolver"
     	class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 	
+	<bean name="portletHandlerInterceptor" class="com.auctions.system.portlet.messages.interceptor.MessagesInterceptor">
+	</bean>
+	
+	<bean class="org.springframework.web.portlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	    <property name="interceptors">
+	        <list>
+	            <ref bean="portletHandlerInterceptor"/>
+	        </list>
+	    </property>
+	</bean>
+	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="contentType" value="text/html;charset=UTF-8" />
 		<property name="prefix" value="/WEB-INF/jsp/portlet/messages/" />

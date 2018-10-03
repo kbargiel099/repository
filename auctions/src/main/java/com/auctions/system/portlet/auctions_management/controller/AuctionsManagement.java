@@ -10,9 +10,9 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.auctions.system.module.auction_process.controller.Process;
+import com.auctions.system.module.auction_process.controller.AuctionProcess;
 
-public interface AuctionsManagement extends Process{
+public interface AuctionsManagement extends AuctionProcess{
 	
 	@RenderMapping
 	public ModelAndView defaultView(RenderRequest request, RenderResponse response) throws Exception;

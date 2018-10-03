@@ -26,6 +26,8 @@ public class UserProfileData {
 		this.lockout = lockout;
 	}
 
+	public UserProfileData() { }
+
 	public long getId() {
 		return id;
 	}

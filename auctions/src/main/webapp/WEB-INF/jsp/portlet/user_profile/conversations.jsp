@@ -2,6 +2,7 @@
 
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
 
 <portlet:defineObjects />
@@ -13,6 +14,8 @@
 			<h4 class="user-profile-section-title"><liferay-ui:message key="conversations.label" /></h4>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-8">
+		
+		<c:if test="${fn:length(users) gt 0}">
 			<div class="col-xs-12 col-sm-12 col-md-3 pull-right">
 				<div class="form-group">
 		            <label class="label-control"><liferay-ui:message key="users.label" /></label>
@@ -43,8 +46,12 @@
 							<tbody>
 							</tbody>
 						</table>
-					</div>
+				</div>
 			</div>
+			</c:if>
+			<c:if test="${fn:length(users) eq 0}">
+   				<p><liferay-ui:message key="messages.list.empty.msg" /></p>
+		  	</c:if>
 		</div>
 	</div>
 

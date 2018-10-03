@@ -6,6 +6,7 @@ import java.util.List;
 import javax.portlet.ResourceRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.auctions.system.portlet.category.model.Category;
@@ -36,7 +37,12 @@ public class UserProfileServiceImpl implements UserProfileService{
 	
 	@Override
 	public UserProfileData getUserSimpleData(final long id){
-		return dataSource.getUserSimpleData(id);
+		try{	
+			return dataSource.getUserSimpleData(id);
+			
+		} catch (EmptyResultDataAccessException e) {
+			return new UserProfileData();
+		}
 	}
 	
 	@Override
