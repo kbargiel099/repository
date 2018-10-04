@@ -20,9 +20,6 @@
 		<c:when test="${view == 'profile'}">
 			<%@include file="/WEB-INF/jsp/portlet/user_profile/menu.jsp" %>
 		</c:when>
-		<c:when test="${view == 'administration'}">
-			<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %>
-		</c:when>
 		<c:otherwise>
 			<%@include file="/WEB-INF/jsp/module/administration/default_menu.jsp" %>
 		</c:otherwise>

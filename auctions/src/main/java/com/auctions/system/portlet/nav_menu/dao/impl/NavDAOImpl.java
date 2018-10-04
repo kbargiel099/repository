@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.auctions.system.module.DateFormatter;
+import com.auctions.system.portlet.category.model.Category;
 import com.auctions.system.portlet.nav_menu.dao.NavDAO;
 import com.auctions.system.portlet.nav_menu.model.MessageAndDate;
 import com.auctions.system.portlet.nav_menu.model.UserData;
@@ -56,6 +57,16 @@ public class NavDAOImpl implements NavDAO{
 	public boolean markMessagesAsRead(long senderId, long receiverId){	
 		return dao.update("UPDATE sys.chat_messages SET is_read=? WHERE senderid=? AND receiverid=? AND is_read=?", 
 				new Object[]{true,senderId,receiverId,false}) > 0 ? true : false;
+	}
+	
+	@Override
+	public List<Category> getCategories() {
+		return dao.query("SELECT id,name FROM sys.category WHERE parent_category_id IS NULL", new RowMapper<Category>() {
+			@Override
+			public Category mapRow(ResultSet res, int row) throws SQLException {
+				return new Category(res.getInt("id"), res.getString("name"));
+			}
+		});
 	}
 	
 

@@ -39,8 +39,12 @@ public class CategoryController implements Category{
 		HttpServletRequest originalRequest = HttpUtil.getOriginal(request);
 		String category = originalRequest.getParameter("name");
 		
+		if (category == null) {
+			category = defaultCategory;
+		}
+		
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("currentCategory",category != null ? category : defaultCategory);
+		model.addObject("currentCategory", category);
 		model.addObject("auctions",service.getBestAuctionsByCategory(category));
 		model.addObject("subCategories", service.getSubCategories(category));
 		return model;

@@ -32,9 +32,9 @@
 		        <li class="dropdown">
 		        	<a class="dropdown-toggle" data-toggle="dropdown" href="#"><liferay-ui:message key="categories"/><span class="caret"></span></a>
 		        	<ul class="dropdown-menu">
-			            <li><a href="/category?name=electronics"><liferay-ui:message key="electronics"/></a></li>
-			            <li><a href="/category?name=clothing"><liferay-ui:message key="clothing"/></a></li>
-			            <li><a href="/category?name=motorization"><liferay-ui:message key="motorization"/></a></li>
+		        		<c:forEach items="${categories}" var="item">
+			            	<li><a href="javascript:goToCategory('${item.name}');"><liferay-ui:message key="${item.name}"/></a></li>
+			            </c:forEach>
 		            </ul>
 		        </li>
 		        <li><a href="#"><liferay-ui:message key="contact"/></a></li>
@@ -79,6 +79,11 @@
 <script src="<c:url value="/js/portlet/navigation_menu/notify-proceed.js" />"></script>
 <script src="<c:url value="/js/portlet/navigation_menu/message_popup.js" />"></script>
 <script>
+
+function goToCategory(categoryName) {
+	var categoryUrl = jQuery('#category-page-url').val();
+	window.location.href = categoryUrl +'?name='+ categoryName;
+}
 
 function createChatLink(senderId,senderName,text){
 	var url = jQuery('#getMessagesFromUserUrl').val() + '&userId=' + senderId;

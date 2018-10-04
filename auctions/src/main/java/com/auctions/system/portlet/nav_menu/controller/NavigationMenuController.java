@@ -34,6 +34,7 @@ public class NavigationMenuController implements NavigationMenu{
 		ModelAndView model = new ModelAndView(defaultView);
 		model.addObject("messages", service.getSenderIdsToNotify(id));
 		model.addObject("username", UserUtil.getScreenName(id));
+		model.addObject("categories", service.getCategories());
 		model.addObject("restServiceEndpoint", Properties.getRestServiceEndpoint());
 		return model;
 	}
