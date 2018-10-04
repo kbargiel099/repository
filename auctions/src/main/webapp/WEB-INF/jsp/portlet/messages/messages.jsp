@@ -49,20 +49,18 @@
 		     <thead>
 		            <tr>
 		                <th><liferay-ui:message key="adm.id.label" /></th>
-						<th><liferay-ui:message key="adm.auction.name.label" /></th>
+						<th><liferay-ui:message key="adm.name.label" /></th>
 						<th><liferay-ui:message key="adm.create.date.label" /></th>
 						<th><liferay-ui:message key="status" /></th>
-		                <th></th>
 		                <th><liferay-ui:message key="options" /></th>
 		            </tr>
 		        </thead>
 		        <tfoot>
 		            <tr>
 		                <th><liferay-ui:message key="adm.id.label" /></th>
-						<th><liferay-ui:message key="adm.auction.name.label" /></th>
+						<th><liferay-ui:message key="adm.name.label" /></th>
 						<th><liferay-ui:message key="adm.create.date.label" /></th>
 						<th><liferay-ui:message key="status" /></th>
-		                <th></th>
 		                <th><liferay-ui:message key="options" /></th>
 		            </tr>
 		        </tfoot>

@@ -30,7 +30,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 		dao = new JdbcTemplate(dataSource);
 	}
 	
-	@Override//do przerobienia
+	@Override
 	public List<AuctionPresenter> getBestAuctionsByCategory(String category){
 		return dao.query("SELECT id,name,image_name,subject_price,category_name FROM sys.auction_main WHERE category_name=?", 
 				new Object[]{category},new RowMapper<AuctionPresenter>(){

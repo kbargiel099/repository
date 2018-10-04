@@ -26,6 +26,7 @@ import com.auctions.system.portlet.category.service.CategoryService;
 public class CategoryController implements Category{
 
 	private final String defaultView = "category-view";
+	private final String defaultCategory = "electronics";
 	
 	@Autowired
 	CategoryService service;
@@ -39,7 +40,7 @@ public class CategoryController implements Category{
 		String category = originalRequest.getParameter("name");
 		
 		ModelAndView model = new ModelAndView(defaultView);
-		model.addObject("currentCategory",category);
+		model.addObject("currentCategory",category != null ? category : defaultCategory);
 		model.addObject("auctions",service.getBestAuctionsByCategory(category));
 		model.addObject("subCategories", service.getSubCategories(category));
 		return model;

@@ -20,7 +20,7 @@ public class UsersManagementInterceptor extends HandlerInterceptorAdapter {
         long userId = PortalUtil.getUserId(request);
         
         try {
-	        if (!UserServiceUtil.hasRoleUser(Properties.getAdministratorRoleid(), userId)) {
+	        if (!UserServiceUtil.hasRoleUser(Properties.getAdministratorRoleid(request), userId)) {
 	        	modelAndView.setView(errorView);
 	        	modelAndView.addObject("errorKey", "permission.denied");
 	        }

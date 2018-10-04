@@ -9,11 +9,10 @@ function initMessageCategories(resourceUrl){
 	            { "data": "name" },
 				{ "data": "createDate" },
 				{ "data": "isActivated"},
-				{ "data": "userId" },
 	            { "data": "options","width": "30%" }
 	        ],
 		    "columnDefs": [ {
-			    "targets": 5,
+			    "targets": 4,
 			    "render": function(data,type,full,row){
 					var optionForSuspending = !full.isActivated ? {type:'unlock',url:buildUrl(jQuery('#activateUrl').val(),'id',full.id)}
 							: {type:'lock',url:buildUrl(jQuery('#suspendUrl').val(),'id',full.id)};

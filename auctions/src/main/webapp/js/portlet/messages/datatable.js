@@ -8,12 +8,11 @@ function initMessages(resourceUrl){
 				{ "data": "id" },
 	            { "data": "title" },
 				{ "data": "createDate" },
-				{ "data": "editDate"},
 				{ "data": "isSent" },
 	            { "data": "options","width": "30%" }
 	        ],
 		    "columnDefs": [ {
-			    "targets": 5,
+			    "targets": 4,
 			    "render": function(data,type,full,row){
 					var optionEdit = {type:'edit',url:buildUrl(jQuery('#editUrl').val(),'id',full.id)};
 					var optionDelete = {type:'delete',url:buildUrl(jQuery('#deleteUrl').val(),'id',full.id)}; 
@@ -23,7 +22,7 @@ function initMessages(resourceUrl){
 				}
 			  },
 			{
-				"targets": 4,
+				"targets": 3,
 				"render": function(data){
 					return data ?  Liferay.Language.get('message.sent') : Liferay.Language.get('message.not_sent');
 				}
