@@ -63,7 +63,6 @@
                 jQuery('#send-message-button').click(function(){
                 	var message = jQuery('.chat-input').val();
                 	sendForm(id,message);
-                	addMessageAsSender(id,message);
                 	jQuery('.chat-input').val("");
     				let elem = document.getElementsByClassName('popup-messages')[0];
     				elem.scrollTo(0, elem.scrollHeight);
@@ -80,8 +79,10 @@
     					console.log(messages[i]);
     					addMessageAsReceiver(currentPopupId,messages[i].message,messages[i].createDate);
     				}
-    				if(messages.length > 0)
+    				
+    				if(messages.length > 0) {
     					markMessagesAsRead(jQuery('#markMessagesAsReadUrl').val(),currentPopupId);
+    				}
     				
     				let elem = document.getElementsByClassName('popup-messages')[0];
     				elem.scrollTo(0, elem.scrollHeight);
@@ -101,10 +102,11 @@
             				var list = document.getElementById('notification-list');
             				var pp = document.getElementById(notificationListIdPrefix + userId);
             				list.removeChild(pp);
+            				
             				if(list.getElementsByTagName('li').length == 0){
             					var elem = document.createElement('li');
             					elem.id = 'no-message-elem';
-            					elem.innerHTML = '<a href="javascript:void(0);">Brak nowych wiadomości</a>';
+            					elem.innerHTML = '<a href="javascript:void(0);">'+ Liferay.Language.get('no.new.messages') +'</a>';
             					list.appendChild(elem);
             				}
 

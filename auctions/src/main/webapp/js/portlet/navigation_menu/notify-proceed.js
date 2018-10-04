@@ -35,5 +35,7 @@ function sendForm(receiverId,message) {
 	    			'message': message
 	    		}
 	    ));
+	  
+    	addMessageAsSender(receiverId,message);
 	}
 }

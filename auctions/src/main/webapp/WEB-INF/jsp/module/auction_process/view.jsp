@@ -286,10 +286,13 @@ var canPlayMPEG4;
 			var value = jQuery('<div class="col-xs-6">'+ Liferay.Language.get(data[i].value) +'</div>');
 			jQuery('#technicalDataList').append(name,value);
 		}
-		if(Liferay.ThemeDisplay.getUserId() != parseInt(jQuery('#seller-id').val())){
-			jQuery('#createChatInAuction').append(createChatLink(jQuery('#seller-id').val(),
-					jQuery('#seller-username').val(),Liferay.Language.get('write.message')));
-			jQuery('#createChatInAuction').show();
+		
+		if(Liferay.ThemeDisplay.isSignedIn()) {
+			if(Liferay.ThemeDisplay.getUserId() != parseInt(jQuery('#seller-id').val())){
+				jQuery('#createChatInAuction').append(createChatLink(jQuery('#seller-id').val(),
+						jQuery('#seller-username').val(),Liferay.Language.get('write.message')));
+				jQuery('#createChatInAuction').show();
+			}
 		}
 		jQuery('#gallery').show();
 		var msg = jQuery('#message').val();
