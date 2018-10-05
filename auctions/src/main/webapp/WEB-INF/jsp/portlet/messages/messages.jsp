@@ -49,7 +49,7 @@
 		     <thead>
 		            <tr>
 		                <th><liferay-ui:message key="adm.id.label" /></th>
-						<th><liferay-ui:message key="adm.name.label" /></th>
+						<th><liferay-ui:message key="topic" /></th>
 						<th><liferay-ui:message key="adm.create.date.label" /></th>
 						<th><liferay-ui:message key="status" /></th>
 		                <th><liferay-ui:message key="options" /></th>
@@ -58,7 +58,7 @@
 		        <tfoot>
 		            <tr>
 		                <th><liferay-ui:message key="adm.id.label" /></th>
-						<th><liferay-ui:message key="adm.name.label" /></th>
+						<th><liferay-ui:message key="topic" /></th>
 						<th><liferay-ui:message key="adm.create.date.label" /></th>
 						<th><liferay-ui:message key="status" /></th>
 		                <th><liferay-ui:message key="options" /></th>
