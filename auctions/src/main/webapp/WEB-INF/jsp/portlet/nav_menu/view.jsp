@@ -50,12 +50,12 @@
 						<c:when test="${fn:length(messages) gt 0}">
 							<c:forEach items="${messages}" var="it">
 							
-								<li id="prefix_${it.senderId}"><a href="javascript:register_popup('${it.senderId}', '${it.screenName}','${getMessagesFromUser}&userId=${it.senderId}');">Wiadomość od ${it.screenName}</a></li>
+								<li id="prefix_${it.senderId}"><a href="javascript:register_popup('${it.senderId}', '${it.screenName}','${getMessagesFromUser}&userId=${it.senderId}');"><liferay-ui:message key="message.from.label"/> ${it.screenName}</a></li>
 							
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<li id="no-message-elem"><a href="javascript:void(0);">Brak nowych wiadomości</a></li>
+							<li id="no-message-elem"><a href="javascript:void(0);"><liferay-ui:message key="no.new.messages"/></a></li>
 						</c:otherwise>
 					</c:choose>
 					</ul>
@@ -85,7 +85,7 @@ function goToCategory(categoryName) {
 	window.location.href = categoryUrl +'?name='+ categoryName;
 }
 
-function createChatLink(senderId,senderName,text){
+function createChatLink(adres, senderId,senderName,text){
 	var url = jQuery('#getMessagesFromUserUrl').val() + '&userId=' + senderId;
 	
 	var a = document.createElement('a');
@@ -93,7 +93,7 @@ function createChatLink(senderId,senderName,text){
 	a.innerHTML = text + ' ' + senderName;
 	
 	return a;
-}
+} 
 
 </script>
 
