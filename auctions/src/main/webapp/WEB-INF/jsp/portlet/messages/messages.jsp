@@ -34,8 +34,6 @@
 <input type="hidden" id="deleteUrl" value="${delete}"/>
 
 <div class="container">
-
-<%-- 	<%@include file="/WEB-INF/jsp/module/administration/menu.jsp" %> --%>
 	
 	<div class="col-xs-12">
 		<h4 class="user-profile-section-title"><liferay-ui:message key="adm.messages.label" /></h4>

@@ -42,6 +42,10 @@ public interface UserProfile extends AuctionProcess{
 	public void changePasswordAction(ResourceRequest request, ResourceResponse response,
 			@RequestParam("form") String form) throws ParseException;
 	
+	@ResourceMapping("updateUserDetails")
+	public void updateUserDetailsAction(ResourceRequest request, ResourceResponse response,
+			@RequestParam("form") String form) throws ParseException;
+	
 	@RequestMapping(params = "page=myAuctions")
 	public ModelAndView userAuctionsAction(RenderRequest request, RenderResponse response);
 	

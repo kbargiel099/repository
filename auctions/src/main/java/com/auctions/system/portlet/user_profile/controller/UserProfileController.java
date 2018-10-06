@@ -33,6 +33,7 @@ import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.Image;
 import com.auctions.system.portlet.user_profile.model.SpringFileVO;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
+import com.auctions.system.portlet.user_profile.model.UserProfileDetails;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.liferay.portal.kernel.util.PortalUtil;
 
@@ -60,7 +61,7 @@ public class UserProfileController implements UserProfile{
 	private Statistics stats;
 	
 	@Autowired
-	private AuctionProcess processing;
+	private AuctionProcess process;
 	
 	@Autowired
 	private Worker worker;
@@ -104,7 +105,7 @@ public class UserProfileController implements UserProfile{
     
 	@Override
 	public ModelAndView auctionStatsView(RenderRequest request, RenderResponse response, int auctionId){
-		return stats.getAuctionStatsView(processing.getDetails(auctionId), ViewType.Profile);
+		return stats.getAuctionStatsView(process.getDetails(auctionId), ViewType.Profile);
 	}
 	
 	@Override
@@ -134,6 +135,14 @@ public class UserProfileController implements UserProfile{
 		
 		HttpUtil.createResponse(response).
 			set("success", service.changePassword(request, Serializer.fromJson(form, UserPassword.class))).
+			prepare();
+	}
+	
+	@Override
+	public void updateUserDetailsAction(ResourceRequest request, ResourceResponse response, String form) throws ParseException{
+		
+		HttpUtil.createResponse(response).
+			set("success", service.updateUserDetails(request, Serializer.fromJson(form, UserProfileDetails.class))).
 			prepare();
 	}
 	
@@ -307,48 +316,48 @@ public class UserProfileController implements UserProfile{
 	@Override
 	public ModelAndView detailsView(RenderRequest request, RenderResponse response, String message, long id)
 			throws Exception {
-		return processing.detailsView(request, response, message, id);
+		return process.detailsView(request, response, message, id);
 	}
 
 	@Override
 	public ModelAndView confirmPurchaseView(RenderRequest request, RenderResponse response, String form) throws Exception {
-		return processing.confirmPurchaseView(request, response, form);
+		return process.confirmPurchaseView(request, response, form);
 	}
 
 	@Override
 	public ModelAndView getConfirmPurchaseView(RenderRequest request, RenderResponse response, long id, String type)
 			throws Exception {
-		return processing.getConfirmPurchaseView(request, response, id, type);
+		return process.getConfirmPurchaseView(request, response, id, type);
 	}
 
 	@Override
 	public void getAllOffers(ResourceRequest request, ResourceResponse response, int auctionId) throws IOException {
-		processing.getAllOffers(request, response, auctionId);
+		process.getAllOffers(request, response, auctionId);
 	}
 
 	@Override
 	public void getVideoName(ResourceRequest request, ResourceResponse response, long auctionId) throws IOException {
-		processing.getVideoName(request, response, auctionId);
+		process.getVideoName(request, response, auctionId);
 	}
 
 	@Override
 	public void createObservation(ResourceRequest request, ResourceResponse response, int id) throws IOException {
-		processing.createObservation(request, response, id);
+		process.createObservation(request, response, id);
 	}
 
 	@Override
 	public void removeObservation(ResourceRequest request, ResourceResponse response, int id) throws IOException {
-		processing.removeObservation(request, response, id);
+		process.removeObservation(request, response, id);
 	}
 
 	@Override
 	public ModelAndView getUserProfile(RenderRequest request, RenderResponse response, long id) throws Exception {
-		return processing.getUserProfile(request, response, id);
+		return process.getUserProfile(request, response, id);
 	}
 	
 	@Override
 	public AuctionDetails getDetails(long id) {
-		return processing.getDetails(id);
+		return process.getDetails(id);
 	}
 	
 }

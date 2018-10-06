@@ -10,6 +10,10 @@
 </portlet:resourceURL>
 <input type="hidden" id="changePasswordUrl" value="${changePassword}"></input>
 
+<portlet:resourceURL id="updateUserDetails" var="updateUserDetails">
+</portlet:resourceURL>
+<input type="hidden" id="updateUserDetailsUrl" value="${updateUserDetails}"></input>
+
 <portlet:renderURL var="returnUrl">
 </portlet:renderURL>
 <input type="hidden" id="return" value="${returnUrl}"></input>
@@ -21,25 +25,45 @@
 	<div class="col-xs-12 col-sm-8 col-md-8">
 		<h4 class="user-profile-section-title"><liferay-ui:message key="auction.my.settings.label" /></h4>
 	</div>
-	    
-	<form id="change-password-form" method="POST">
-		<div class="col-xs-12 col-sm-8 col-md-4">
+
+	<form id="update-user-data-form" method = "POST">
+		<div class="col-xs-12 col-sm-12 col-md-4">
 			<div class="form-group">
-	           <label class="label-control" name="password"><liferay-ui:message key="user.password.label" /></label>
+	           <label class="label-control" for = "firstname"><liferay-ui:message key="users_management.firstname.label" /></label>
+	           <input class="form-control" id = "firstname" name="firstname"></input>
+			</div>
+			<div class="form-group">
+	           <label class="label-control" for = "lastname"><liferay-ui:message key="users_management.lastname.label" /></label>
+	           <input class="form-control" id = "lastname" name="lastname"></input>
+			</div>
+			<div class="form-group">
+	           <label class="label-control" for = "phoneNumber"><liferay-ui:message key="phone.number" /></label>
+	           <input class="form-control" id = "phoneNumber" name="phoneNumber"></input>
+			</div>
+			<div class="form-group">
+	           <input class="btn btn-primary pull-right" id="update-user-submit" type = "submit" value = "<liferay-ui:message key="update"/> ">
+	  		</div> 
+		</div>           
+	</form>
+	<form id="change-password-form" method="POST">
+		<div class="col-xs-12 col-sm-12 col-md-4">
+			<div class="form-group">
+	           <label class="label-control" for="password"><liferay-ui:message key="user.password.label" /></label>
 	           <input type="password" class="form-control" id="password" name="password"></input>
 			</div>
 			<div class="form-group">
-	           <label class="label-control" name="repeatedPassword"><liferay-ui:message key="user.repeat.password.label" /></label>
+	           <label class="label-control" for="repeatedPassword"><liferay-ui:message key="user.repeat.password.label" /></label>
 	           <input type="password" class="form-control" id="repeatedPassword" name="repeatedPassword"></input>
 			</div>
 			<div class="form-group">
-			   <input class="btn btn-primary pull-right" id="submit" type="submit" value="<liferay-ui:message key="submit"/> ">
+			   <input class="btn btn-primary pull-right" id="submit" type="submit" value="<liferay-ui:message key="change.password"/> ">
 			</div>
 		</div>
 	</form>
 </div>
+ 
+<script src="<c:url value="/js/portlet/user_profile/update-user-details.js" />"></script>	
 
-<script src="<c:url value="/js/portlet/user_profile/change-password.js" />"></script>	 
 <script>
 jQuery(function() {
 	  jQuery("#change-password-form").validate({
@@ -55,7 +79,28 @@ jQuery(function() {
 	      }
 	    }, 
 	    submitHandler: function(form) {
-	        form.submit();
+	        //form.submit();
+	    }
+	  });
+	});
+	
+jQuery(function() {
+	  jQuery("#update-user-data-form").validate({
+	    rules: {
+	      firstname: {
+	        required: true
+	      },
+	      lastname: {
+	        required: true
+	      },
+	      phoneNumber: {
+		    required: true,
+		    number: true,
+		    minlength: 9
+		  }
+	    }, 
+	    submitHandler: function(form) {
+	        //form.submit();
 	    }
 	  });
 	});

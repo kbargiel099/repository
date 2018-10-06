@@ -24,9 +24,15 @@ import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserMessage;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
+import com.auctions.system.portlet.user_profile.model.UserProfileDetails;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.model.Phone;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.PhoneLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.PhoneUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Service("userProfileService")
@@ -162,6 +168,29 @@ public class UserProfileServiceImpl implements UserProfileService{
 	@Override
 	public List<AuctionForGrade> getAuctionsForGrade(long userId){
 		return dataSource.getAuctionsForGrade(userId);
+	}
+
+	@Override
+	public boolean updateUserDetails(ResourceRequest request, UserProfileDetails userDetails) {
+		try {
+			User user = PortalUtil.getUser(request);
+			user.setFirstName(userDetails.getFirstname());
+			user.setLastName(userDetails.getLastname());
+		
+			Phone newPhone = PhoneUtil.create(CounterLocalServiceUtil.increment(Phone.class.getName()));
+			newPhone.setNumber(userDetails.getPhoneNumber());
+			newPhone.setUserId(user.getUserId());
+			newPhone.setPrimary(true);
+			
+			PhoneLocalServiceUtil.addPhone(newPhone);
+			
+			UserLocalServiceUtil.updateUser(user);
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

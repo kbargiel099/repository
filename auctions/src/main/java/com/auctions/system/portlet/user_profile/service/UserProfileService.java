@@ -19,6 +19,7 @@ import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserMessage;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
+import com.auctions.system.portlet.user_profile.model.UserProfileDetails;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 
 public interface UserProfileService {
@@ -61,7 +62,9 @@ public interface UserProfileService {
 	
 	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId);
 	
-	public boolean changePassword(ResourceRequest request, UserPassword p);
+	public boolean changePassword(ResourceRequest request, UserPassword userPassword);
+	
+	public boolean updateUserDetails(ResourceRequest request, UserProfileDetails userDetails);
 	
 	public List<MessageCategory> getMessageCategories();
 	

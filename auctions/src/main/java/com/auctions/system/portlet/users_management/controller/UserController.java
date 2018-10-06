@@ -16,6 +16,10 @@ import com.auctions.system.module.HttpUtil;
 import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.profile.controller.Profile;
 import com.auctions.system.portlet.users_management.service.UsersManagementService;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.AddressLocalService;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
 @RequestMapping("VIEW")
