@@ -30,15 +30,15 @@
 		<div class="col-xs-12 col-sm-12 col-md-4">
 			<div class="form-group">
 	           <label class="label-control" for = "firstname"><liferay-ui:message key="users_management.firstname.label" /></label>
-	           <input class="form-control" id = "firstname" name="firstname"></input>
+	           <input class="form-control" id = "firstname" name="firstname" value="${user.firstname}"></input>
 			</div>
 			<div class="form-group">
 	           <label class="label-control" for = "lastname"><liferay-ui:message key="users_management.lastname.label" /></label>
-	           <input class="form-control" id = "lastname" name="lastname"></input>
+	           <input class="form-control" id = "lastname" name="lastname" value="${user.lastname}"></input>
 			</div>
 			<div class="form-group">
 	           <label class="label-control" for = "phoneNumber"><liferay-ui:message key="phone.number" /></label>
-	           <input class="form-control" id = "phoneNumber" name="phoneNumber"></input>
+	           <input class="form-control" id = "phoneNumber" name="phoneNumber" value="${user.phoneNumber}"></input>
 			</div>
 			<div class="form-group">
 	           <input class="btn btn-primary pull-right" id="update-user-submit" type = "submit" value = "<liferay-ui:message key="update"/> ">

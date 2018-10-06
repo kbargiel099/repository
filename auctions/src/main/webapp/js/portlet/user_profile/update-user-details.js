@@ -1,8 +1,12 @@
 var submitUserDataUrl = jQuery("#updateUserDetailsUrl").val();
 var submitUrl = jQuery("#changePasswordUrl").val();
-var returnSubmitUrl = jQuery("#returnUrl").val();
+var returnUrl = jQuery("#returnUrl").val();
 	
 jQuery("#update-user-submit").click(function(){
+	if (!jQuery("#update-user-data-form").valid()) {
+		return;
+	}
+	
 	var params = new Params().
 		push('form', JSON.stringify(jQuery("#update-user-data-form").serializeObject())).
 		getArray();
@@ -23,6 +27,10 @@ var userDataOnResponse = function(res){
 };
 	
 jQuery("#submit").click(function(){
+	if (!jQuery("#change-password-form").valid()) {
+		return;
+	}
+	
 	var params = new Params().
 		push('form', JSON.stringify(jQuery("#change-password-form").serializeObject())).
 		getArray();
