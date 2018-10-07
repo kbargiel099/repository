@@ -50,15 +50,35 @@ public class AuctionProcessDAOImpl implements AuctionProcessDAO{
 	
 	@Override
 	public UserDetails getSellerDetails(long userId){
-		return dao.queryForObject("SELECT userid,screenname,firstname,lastname,emailaddress FROM user_ WHERE userid=?", 
-				new Object[]{userId},new RowMapper<UserDetails>(){
+		String query = "SELECT u.userid,u.screenname,u.firstname,u.lastname,u.emailaddress FROM user_ u "
+				     + "WHERE u.userid=?";
+		
+		return dao.queryForObject(query, new Object[]{userId},
+				new RowMapper<UserDetails>(){
 					@Override
 					public UserDetails mapRow(ResultSet res, int row) throws SQLException {
 						return new UserDetails(res.getLong("userid"),res.getString("screenname"),res.getString("firstname"),res.getString("lastname"),
-								"623189505",res.getString("emailaddress"));
+								"", res.getString("emailaddress"));
 				}
 		});
 	}
+	
+	@Override
+	public String getSellerPhoneNumber(long userId){
+		String query = "SELECT CASE WHEN EXISTS(SELECT p1.number_ FROM phone p1 WHERE p1.userid=?) "
+					 + "THEN (SELECT p.number_ FROM phone p WHERE p.userid=? ORDER BY p.createdate DESC) "
+					 + "ELSE NULL "
+					 + "END AS phone";
+		
+		return dao.queryForObject(query, new Object[]{userId},
+				new RowMapper<String>(){
+					@Override
+					public String mapRow(ResultSet res, int row) throws SQLException {
+						return res.getString("phone");
+				}
+		});
+	}
+	
 	
 	@Override
 	public String getVideoName(long id){

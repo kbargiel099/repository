@@ -20,6 +20,8 @@ public class UserDetails {
 		this.emailAddress = emailAddress;
 	}
 
+	public UserDetails() { }
+
 	public String getFirstname() {
 		return firstname;
 	}

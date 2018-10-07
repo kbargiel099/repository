@@ -28,4 +28,6 @@ public interface AuctionProcessDAO {
 	
 	public PurchaseInfo getPurchaseInfo(long auctionId);
 
+	public String getSellerPhoneNumber(long userId);
+
 }

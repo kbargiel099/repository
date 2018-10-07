@@ -4,14 +4,12 @@ import java.io.Serializable;
 
 public class User implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private long id;
 	private String login;
 	private String password;
+	private String repeatPassword;
 	private String email;
 	private String firstname;
 	private String lastname;
@@ -115,5 +113,12 @@ public class User implements Serializable{
 	public void setLockout(boolean lockout) {
 		this.lockout = lockout;
 	}
-	
+
+	public String getRepeatPassword() {
+		return repeatPassword;
+	}
+
+	public void setRepeatPassword(String repeatPassword) {
+		this.repeatPassword = repeatPassword;
+	}
 }

@@ -46,6 +46,11 @@
 		           <form:errors path="password" name="password" cssStyle="color: red;"/>
 				</div>
 				<div class="form-group">
+		           <form:label class="label-control" path = "repeatPassword" name="repeatPassword"><liferay-ui:message key="repeat.password" /></form:label>
+		           <form:input type="password" class="form-control" id="repeatPassword" path = "repeatPassword" name="repeatPassword"></form:input>
+		           <form:errors path="repeatPassword" name="repeatPassword" cssStyle="color: red;"/>
+				</div>
+				<div class="form-group">
 		           <form:label class="label-control" path = "email" name="email"><liferay-ui:message key="users_management.email.label" /></form:label>
 		           <form:input type="email" class="form-control" id="email" path = "email" name="email"></form:input>
 		           <form:errors path="email" cssStyle="color: red;"/>
@@ -60,7 +65,17 @@
 	      </form:form>
 	   </div>
    
+<input type="hidden" id="message" value="<liferay-ui:message key="${message}" />"/>
+
 <script type="text/javascript">
+
+jQuery(document).ready(function(){
+	var msg = jQuery('#message').val();
+	if(msg != ""){
+		responsiveNotify(msg);
+	}
+});
+
 $.fn.serializeObject = function() {
     var o = {};
     var a = this.serializeArray();
@@ -95,8 +110,13 @@ $.fn.serializeObject = function() {
 			      },
 			      password: {
 			        required: true,
-			        minlength: 4
-			      }
+			        minlength: 8
+			      },
+			      repeatPassword: {
+				    required: true,
+				    minlength: 8,
+				    equalTo: "#password"
+				  }
 			    },
 			    submitHandler: function(form) {
 			     	var url = jQuery("#checkDataUrl").val();

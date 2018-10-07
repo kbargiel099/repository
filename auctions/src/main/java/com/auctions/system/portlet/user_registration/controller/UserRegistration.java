@@ -63,11 +63,13 @@ public class UserRegistration{
 	}
 	
 	@RenderMapping
-	public ModelAndView defaulView(RenderRequest request, RenderResponse response) throws Exception{
+	public ModelAndView defaulView(RenderRequest request, RenderResponse response,
+			@RequestParam(value ="message", defaultValue = "") String message) throws Exception{
 		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
 		ModelAndView model = new ModelAndView(defaultView);
 		model.addObject("user", new User());
 		model.addObject("home", themeDisplay.getURLHome());
+		model.addObject("message", message);
 		return model;
 	}
 	
@@ -128,20 +130,27 @@ public class UserRegistration{
 		long[] roleIds = new long[]{Properties.getUserRoleid(request)};
 		long[] userGroupIds = new long[]{};
 		boolean sendMail = false;
-
+		
+		com.liferay.portal.kernel.model.User newUser;
 		try {
-			UserLocalServiceUtil.addUser(
+			newUser = UserLocalServiceUtil.addUser(
 				0, companyId, autoPassword, user.getPassword(), user.getPassword(),
 				autoPassword, user.getLogin(), user.getEmail(), facebookId, null,
 				LocaleUtil.getDefault(), user.getFirstname(), null, user.getLastname(), prefixId, suffixId, male,
 				birthdayMonth, birthdayDay, birthdayYear, jobTitle, null,
 				organizationIds, roleIds, userGroupIds, sendMail, new ServiceContext());
 			
+			newUser.setAgreedToTermsOfUse(true);
+			newUser.setReminderQueryQuestion("empty");
+			newUser.setReminderQueryAnswer("empty");
+			newUser.setPasswordReset(true);
+			
+			UserLocalServiceUtil.updateUser(newUser);
+			
 		} catch (PortalException e) {
 			isCreated = false;
 			e.printStackTrace();
 		}
-		
 		
 		try {
 			MailRestClient.sendMail(user.getEmail());
@@ -151,7 +160,11 @@ public class UserRegistration{
 			e.printStackTrace();
 		}
 		
-		response.setRenderParameter("page", "createUserSuccess");	
+		if (isCreated) {
+			response.setRenderParameter("page", "createUserSuccess");
+		} else {
+			response.setRenderParameter("message", "user.registration.error");
+		}
 	}
 
 }

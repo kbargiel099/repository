@@ -54,7 +54,8 @@
                 element = element + '<div style="clear: both"></div></div><div class="popup-messages"><table><tbody></tbody></table></div>';
                 element = element + '<div class="popup-inputs">';
                 element = element + '<div class="pull-left col-xs-9"><input class="chat-input" type="text" id="send-message-input"></div>';
-                element = element + '<div class="col-xs-2"><a class="chat-button" href="javascript:void(0);" id="send-message-button">Wyślij</a></div></div></div>';
+                element = element + '<div class="col-xs-2"><a class="chat-button" href="javascript:void(0);" id="send-message-button">';
+                element = element + Liferay.Language.get('send') + '</a></div></div></div>';
                 
                 jQuery('body').append(element);
                 popups.unshift(id);

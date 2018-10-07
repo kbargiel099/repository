@@ -19,8 +19,14 @@ public class AuctionProcessServiceImpl implements AuctionProcessService {
 	@Autowired
 	AuctionProcessDAO dataSource;
 	
-	public UserDetails getSellerDetails(long userId){
-		return dataSource.getSellerDetails(userId);
+	public UserDetails getSellerDetails(long userId) {
+		UserDetails seller = dataSource.getSellerDetails(userId);
+				
+		try {
+			seller.setPhoneNumber(dataSource.getSellerPhoneNumber(userId));
+		} catch (Exception e) { }
+		
+		return seller;
 	}
 	
 	public AuctionDetails getAuctionDetails(long auctionId){
