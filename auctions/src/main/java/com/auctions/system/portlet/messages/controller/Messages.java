@@ -33,4 +33,8 @@ public interface Messages {
 	
 	@ResourceMapping("getMessages")
 	public void getMessages(ResourceRequest request, ResourceResponse response);
+	
+	@ResourceMapping(value="delete")
+	public void delete(ResourceRequest request, ResourceResponse response,
+			@RequestParam("id") int id) throws Exception;
 }

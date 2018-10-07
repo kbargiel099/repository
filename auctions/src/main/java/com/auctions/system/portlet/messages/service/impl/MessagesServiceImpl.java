@@ -41,4 +41,8 @@ public class MessagesServiceImpl implements MessagesService{
 		return dataSource.edit(message, userId);
 	}
 
+	@Override
+	public boolean delete(int id) {
+		return dataSource.delete(id);
+	}
 }

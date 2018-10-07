@@ -84,4 +84,10 @@ public class MessagesDAOImpl implements MessagesDAO{
 		return dao.update("UPDATE sys.message SET message_category_id=?,title=?,text=?,edit_date=?,user_id=? WHERE id=?", 
 				new Object[]{message.getMessageCategoryId(), message.getTitle(), message.getText(), current, userId, message.getId()}) > 0;
 	}
+	
+	@Override
+	public boolean delete(int id){
+		return dao.update("DELETE FROM sys.message WHERE id=?",
+				new Object[]{id}) > 0;
+	}
 }

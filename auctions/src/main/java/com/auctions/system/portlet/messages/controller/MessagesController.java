@@ -61,6 +61,7 @@ public class MessagesController implements Messages{
 	@Override
 	public void insertAction(ResourceRequest request, ResourceResponse response, String message) {
 		Message form = new Gson().fromJson(message, Message.class);
+		
 		HttpUtil.createResponse(response).
 			set("data", service.insert(form, PortalUtil.getUserId(request))).
 			prepare();
@@ -69,10 +70,19 @@ public class MessagesController implements Messages{
 	@Override
 	public void editAction(ResourceRequest request, ResourceResponse response, String message, int id) {
 		Message form = new Gson().fromJson(message, Message.class);
+		
 		HttpUtil.createResponse(response).
 			set("data", service.edit(form, PortalUtil.getUserId(request))).
 			prepare();
 		
+	}
+
+	@Override
+	public void delete(ResourceRequest request, ResourceResponse response, int id) throws Exception {
+		
+		HttpUtil.createResponse(response).
+			set("success", service.delete(id)).
+			prepare();	
 	}
 
 }

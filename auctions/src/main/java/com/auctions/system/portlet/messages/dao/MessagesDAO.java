@@ -16,5 +16,6 @@ public interface MessagesDAO {
 	public boolean insert(Message message, long userId);
 	
 	public boolean edit(Message message, long userId);
-
+	
+	public boolean delete(int id);
 }

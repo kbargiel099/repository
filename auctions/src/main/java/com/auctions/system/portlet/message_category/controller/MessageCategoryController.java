@@ -23,10 +23,6 @@ public interface MessageCategoryController {
 	public ModelAndView getEditMessageCategoryView(RenderRequest request, RenderResponse response,
 			@RequestParam("id") int id);
 	
-	@RenderMapping(params = "page=messages")
-	public ModelAndView messagesView(RenderRequest request, RenderResponse response,
-			@RequestParam("id") int id);
-	
 	@ResourceMapping("getMessageCategories")
 	public void getMessageCategories(ResourceRequest request, ResourceResponse response);
 	

@@ -17,4 +17,5 @@ public interface MessagesService{
 	
 	public boolean edit(Message message, long userId);
 
+	public boolean delete(int id);
 }

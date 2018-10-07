@@ -72,12 +72,6 @@ public class MessageCategoryControllerImpl implements MessageCategoryController{
 	}
 
 	@Override
-	public ModelAndView messagesView(RenderRequest request, RenderResponse response, int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void activate(ResourceRequest request, ResourceResponse response, int id) throws Exception {
 		
 		HttpUtil.createResponse(response).
@@ -100,5 +94,4 @@ public class MessageCategoryControllerImpl implements MessageCategoryController{
 			set("success", service.delete(id)).
 			prepare();		
 	}
-
 }
