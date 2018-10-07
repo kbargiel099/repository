@@ -1,20 +1,27 @@
 var popularIndex = 0; 
 var newestIndex = 0;
 var imageIndex = 0;
+var slider;
+var elements;
 
 jQuery(document).ready(function(){
-	createSlider('gallery');
-	addSliderEvents('gallery');
+	var sliderId = 'gallery';
+	
+	slider = document.getElementById(sliderId);
+	elements = slider.getElementsByClassName('slider-element');
+	
+	if (elements.length > 1) {
+		createSlider(sliderId);
+		addSliderEvents(sliderId);
+	}
 });
 
 function createSlider(sliderId){
-	var slider = document.getElementById(sliderId);
-	var elements = slider.getElementsByClassName('slider-element');
 	var count = elements.length;
 	var end = count;
 	
 	if(elements.length > 0){
-		for(var i=0;i<=end;i++){
+		for(var i=0;i<end;i++){
 			var slide = document.createElement('div');
 			for(var j=0;j<1;j++){
 				if(elements[0]){

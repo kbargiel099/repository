@@ -40,7 +40,7 @@ public class AuctionUpdaterDAOImpl implements AuctionUpdaterDAO{
 	@Override
 	public boolean proceedPurchase(RequestForm form, String id) {
 		try{
-			return dao.update("INSERT INTO sys.purchase_transactions(userid,auctionid,price,quantity,create_date,payment_status_id) VALUES(?,?,?,?,current_timestamp,default)",
+			return dao.update("INSERT INTO sys.purchase_transactions(userid,auctionid,price,quantity,create_date,payment_id) VALUES(?,?,?,?,current_timestamp,default)",
 					new Object[]{Long.parseLong(form.getUserId()), Long.parseLong(id), Long.parseLong(form.getPrice()), Integer.parseInt(form.getQuantity())}) > 0;
 		} catch(UncategorizedSQLException e){
 			e.printStackTrace();

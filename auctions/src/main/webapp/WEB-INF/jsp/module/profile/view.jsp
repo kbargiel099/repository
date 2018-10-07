@@ -15,32 +15,33 @@
 <input type="hidden" id="detailsUrl" value="${details}"/>
 
 <div class="container">
-		<div class="col-xs-12 col-sm-12 col-md-4 profile-details">
-			<div style="text-align: center; margin-bottom: 30px;">
-				<label style="font-size: 20px; color: #68676c; font-weight: bold;" class="label-control"><liferay-ui:message key="seller.details" /></label>
+	<div class="col-xs-12 col-sm-12 col-md-4 profile-details">
+		<div style="text-align: center; margin-bottom: 5px;">
+			<label style="font-size: 20px; color: #68676c; font-weight: bold;" class="label-control"><liferay-ui:message key="seller.details" /></label>
+		</div>
+		<div class="form-group col-xs-12">
+			<div>
+			   <p>${user.username}</p>
 			</div>
-				<div class="form-group col-xs-12">
-					<div>
-					   <p>${user.username}</p>
-					</div>
-					<div>
-			           <p>${user.firstname} ${user.lastname}</p>
-					</div>
-					<div>
-			           <p>${user.emailAddress}</p>
-					</div>
-				</div>
-				<div class="form-group col-xs-12">
-					<div style="margin-bottom:25px;">
-			           <p><liferay-ui:message key="user.create.account" /></p>
-					   <p>${user.loginDate}</p>
-					</div>
-					<div style="margin-bottom:25px;">
-			           <p><liferay-ui:message key="user.last.login" /></p>
-					   <p>${user.loginDate}</p>
-					</div>
-				</div>
-	 	</div>
+			<div>
+	           <p>${user.firstname} ${user.lastname}</p>
+			</div>
+			<div>
+	           <p>${user.emailAddress}</p>
+			</div>
+		</div>
+		<div class="form-group col-xs-12">
+			<div style="margin-bottom:25px;">
+	           <p><liferay-ui:message key="user.create.account" /></p>
+			   <p>${user.createDate}</p>
+			</div>
+			<div style="margin-bottom:25px;">
+	           <p><liferay-ui:message key="user.last.login" /></p>
+			   <p>${user.loginDate}</p>
+			</div>
+		</div>
+	 </div>
+	 
 	<div class="col-xs-12 col-sm-12 col-md-8">
 		<div id="elements">
 			<div style="text-align: center; margin-bottom: 30px;">
@@ -76,21 +77,20 @@
    				<p style="text-align: center;"><liferay-ui:message key="empty.list.msg" /></p>
 			</c:if>
 		</div>
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8">
+		
 		<div style="text-align: center; margin: 30px;">
 			<label style="font-size: 20px; color: #68676c; font-weight: bold;" class="label-control"><liferay-ui:message key="users.grades.label"/></label>
 		</div>
 	  	<c:forEach items="${grades}" var="item">
 	  		<div style="margin-bottom: 20px;" class="col-xs-12">
-	  			<div class="col-xs-6" style="padding-left:20px; padding-top:5px;">
+	  			<div class="col-xs-8" style="padding-left:20px; padding-top:5px;">
 					<strong>
 						<p style="font-size:16px;">${item.screenname}</p>
 					</strong><br>
 					<p>${item.comment}</p>
 				</div>
-				<div class="col-xs-6">
-					<label style="font-size: 24px; float: left; width: 10%;">${item.grade}</label>
+				<div class="col-xs-4 pull-right">
+					<p style="font-size: 24px; float: left; width: 30%;">${item.grade}</p>
 					<p>${item.createDate}</p> 
 				</div>
 			</div>

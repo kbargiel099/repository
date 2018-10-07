@@ -55,7 +55,7 @@
 						elements.append(createElement(res));
 					});
 				}else{
-					elements.append('<p>'+ Liferay.Language.get('empty.list.msg') +'<p/>');
+					elements.append('<p style="font-size: 16px;">'+ Liferay.Language.get('empty.list.msg') +'<p/>');
 				}
 			} 
 		});
@@ -81,7 +81,7 @@
 						elements.append(createElement(res));
 					});
 				}else{
-					elements.append('<p>'+ Liferay.Language.get('empty.list.msg') +'<p/>');
+					elements.append('<p style="font-size: 16px;">'+ Liferay.Language.get('empty.list.msg') +'<p/>');
 				}
 			}
 		});

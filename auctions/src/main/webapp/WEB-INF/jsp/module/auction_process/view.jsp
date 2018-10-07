@@ -212,7 +212,7 @@
 	<div class="col-xs-12 col-sm-7 col-md-7">
 		<div class="details-section-border">
 			<h5><strong><liferay-ui:message key="subject.description" /></strong></h5>
-			<h5>${auction.description}</h5>
+			<h5 style="padding: 5px;">${auction.description}</h5>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-7 col-md-7">

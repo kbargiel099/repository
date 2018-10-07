@@ -23,21 +23,21 @@
 </portlet:renderURL>
 <input type="hidden" id="getBoughtUrl" value="${getBought}"/>
 
-<portlet:renderURL var="returnToDetails">
-	<portlet:param name="page" value="auctionDetails"/>
-	<portlet:param name="id" value="${info.auctionId}"/>
-</portlet:renderURL>
-<input type="hidden" id="returnUrl" value="${returnToDetails}"/>
-
 <div class="container">
-	<div class="col-xs-12" style="text-align: center;">
-		<h4 class="text-center"><strong><liferay-ui:message key="summary" /></strong></h4>
+
+	<%@include file="/WEB-INF/jsp/module/administration/confirm_purchase_menu.jsp" %>
+	
+	<div class="col-xs-12 col-sm-12 col-md-8"">
 		<div class="col-xs-12">
-			<div>
+			<h4 class="user-profile-section-title"><liferay-ui:message key="summary" /></h4>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-6">
+			<label><strong><liferay-ui:message key="purchase.data" /></strong></label>
+			<div class="form-group">
 				<label><liferay-ui:message key="auction.name.label" /></label>
 				<p>${info.auctionName}</p>
 			</div>
-			<div>
+			<div class="form-group">
 				<label><liferay-ui:message key="auction.subject.price.label" /></label>					
 				<c:set var = "balance" value = "${info.price/100}" />
 				<p>
@@ -45,58 +45,29 @@
 					<liferay-ui:message key="currency" />
 				</p>
 			</div>
-		</div>
-		<div class="col-xs-12">
-			<div>
+			<div class="form-group">
 				<label class="label-control"><liferay-ui:message key="auction.subjectQuantity.label" /></label>
 				<p>${info.quantity}</p>
 			</div>
 		</div>
-		<c:if test="${type == 'pay'}">
-			<div class="col-xs-12">
-				<div>
-					<label class="label-control"><liferay-ui:message key="choose.payment.method" /></label>
-					<select class="selectpicker form-control" title="<liferay-ui:message key="choose" />"> 		
-						<c:forEach items="${paymentMethods}" var="item">
-							<option value="${item.id}"><liferay-ui:message key="${item.name}" /></option>
-						</c:forEach>
-		           </select>
+		<div class="col-xs-12 col-sm-12 col-md-6 row">
+				<label><strong><liferay-ui:message key="seller.data" /></strong></label>
+				<div class="form-group">
+					<label><liferay-ui:message key="username" /></label><br/>
+					<p><a href="${getUserProfile}">${seller.username}</a></p>
 				</div>
-			</div>
-		</c:if>
-	</div>
-	<div class="col-xs-12" style="text-align: center;">
-		<div class="details-section row">
-			<div class="col-xs-12">
-				<h4 class="text-center"><strong><liferay-ui:message key="seller.details" /></strong></h4>
-				<div>
-					<label><liferay-ui:message key="username" /></label><br>
-					<a href="${getUserProfile}">${seller.username}</a>
-				</div>
-				<div>
+				<div class="form-group">
 					<label><liferay-ui:message key="name.and.surname" /></label>
 					<p>${seller.firstname} ${seller.lastname}</p>
 				</div>
-				<div>
+				<div class="form-group">
 					<label><liferay-ui:message key="email.address" /></label>
 					<p>${seller.emailAddress}</p>
 				</div>
-				<div>
-					<label><liferay-ui:message key="phone.number" /></label>
-					<p>${seller.phoneNumber}</p>
-				</div>
-			</div>
 		</div>
-	</div>
 	<div class="col-xs-12">
-		<c:if test="${type != 'pay'}">
-			<div style="text-align: center; margin-top: 20px;">
-				<label class="label-control"><liferay-ui:message key="confirm.purchase" /></label>
-			</div>
-		</c:if>
 		<div style="text-align: center;">
-			<a class="btn btn-info" href="${returnToDetails}"><liferay-ui:message key="return" /></a>
-			<button class="btn btn-primary" onclick="sendFormQuickPurchase()"><liferay-ui:message key="send" /></button>
+			<button class="btn btn-primary" onclick="sendFormQuickPurchase()"><liferay-ui:message key="confirm.purchase" /></button>
 		</div>
 	</div>
 </div>

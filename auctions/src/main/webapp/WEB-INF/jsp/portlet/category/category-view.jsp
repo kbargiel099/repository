@@ -89,7 +89,7 @@
 				</div>
 				</c:forEach>
 				<c:if test="${fn:length(auctions) eq 0}">
-	   				<p><liferay-ui:message key="empty.list.msg" /></p>
+	   				<p style="font-size: 16px;"><liferay-ui:message key="empty.list.msg" /></p>
 				</c:if>
 			</div>
 		</div>

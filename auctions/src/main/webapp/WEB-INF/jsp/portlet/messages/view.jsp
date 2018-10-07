@@ -60,7 +60,7 @@
 			<div class="col-xs-12">
 				<div class="form-group">
 		           <label class="label-control" for="text"><liferay-ui:message key="text" /></label>
-		           <textarea rows="3" class="form-control" name="text">${message.text}</textarea>
+		           <textarea rows="5" class="form-control" name="text">${message.text}</textarea>
 				</div>
 			</div>   
 			<div class="col-xs-12">

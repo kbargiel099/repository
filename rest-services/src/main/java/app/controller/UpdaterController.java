@@ -57,7 +57,7 @@ public class UpdaterController {
     @SendTo("/message/notify/{id}")
     public Response proceedOffer(@DestinationVariable String id,RequestForm form) {   
     	try{
-	    	if(isCurrentTimeBefore(form.getEndDate())){
+	    	if(isAvailable(form.getEndDate())){
 	    		service.proceedOffer(form, id);
 	    		
 	    		List<MailProperties> mailProperties = service.getMailProperties(id, form.getUserId());
@@ -79,7 +79,7 @@ public class UpdaterController {
     @SendTo("/message/notify/{id}")
     public Response proceedPurchase(@DestinationVariable String id, RequestForm form) {    	
     	try{
-	    	if(isCurrentTimeBefore(form.getEndDate())){
+	    	if(isAvailable(form.getEndDate())){
 	    		service.proceedPurchase(form, id);
 	    		
 	    		List<MailProperties> mailProperties = service.getMailPropertiesPurchase(id);
@@ -110,10 +110,10 @@ public class UpdaterController {
         return new MessageResponse(form);
     }
     
-    private boolean isCurrentTimeBefore(String end) throws TimeException, ParseException{
+    private boolean isAvailable(String endDateInput) throws TimeException, ParseException{
     	SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
     	
-		Date endDate = format.parse(end);
+		Date endDate = format.parse(endDateInput);
 	    Date current = new Date(System.currentTimeMillis());
 	        
 	    if(!current.before(endDate)) {

@@ -62,7 +62,11 @@
   		<div class="col-xs-12 col-sm-12 col-md-6">
   			<div class="form-group">
 	           <label class="label-control" for="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></label>
-			   <p>${auction.subjectPrice/100}</p>
+				<c:set var = "balance" value = "${auction.subjectPrice/100}" />
+				<p>
+					<fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="number"/> 
+					<liferay-ui:message key="currency" />
+				</p>
 			</div>
 		</div>
   		<div class="col-xs-12 col-sm-12 col-md-6">
@@ -106,9 +110,12 @@
 								<tr>
 									<td>${item.username}</td>
 									<td>${item.quantity}</td>
-									<td>${item.price/100}</td>
+									<td>
+										<c:set var = "balance" value = "${(item.price/100)*item.quantity}" />
+										<fmt:formatNumber minFractionDigits="2" maxFractionDigits="2" value="${balance}" type="number"/> 
+									</td>
 									<td>${item.createDate}</td>
-									<td><a href="javascript:alert('Do zrobienia');">Zobacz</a></td>
+									<td><a href="javascript:alert('Do zrobienia');"><liferay-ui:message key="see.details" /></a></td>
 									<td></td>
 								</tr>
 							</c:forEach>

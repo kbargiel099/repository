@@ -40,7 +40,11 @@
 						</div>
 						<div class="form-group">
 				           <label class="label-control" for="grade"><liferay-ui:message key="auction.grade.label" /></label>
-				           <input type="text" class="form-control" id="grade" name="grade"></input>
+				           	<select class="selectpicker form-control" id="grade" name="grade" class="grade"> 	
+								<c:forEach items="5,4,3,2,1" var="item">
+									<option value="${item}">${item}</option>
+								</c:forEach>
+				           </select>
 						</div>
 						<div class="form-group">
 				           <label class="label-control" for="comment"><liferay-ui:message key="auction.comment.label" /></label>

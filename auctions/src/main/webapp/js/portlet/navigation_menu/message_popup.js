@@ -229,15 +229,6 @@
             	var element = document.getElementById(id);
             	element.querySelector('.popup-messages table tbody').appendChild(row);
             }
-
-            function getDate(date){
-            	let d = date != null ? new Date(date) : new Date();
-            	let day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
-            	let month = (d.getMonth()+1) < 10 ? '0' + (d.getMonth()+1) : (d.getMonth()+1);
-            	let hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
-				let min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
-				return day + '-' + month + ' ' + hours + ':' + min;
-            }
             
             function calculate_popups()
             {
