@@ -1,3 +1,8 @@
+var langId = Liferay.ThemeDisplay.getLanguageId();
+
+var language = langId === 'pl_PL' ? 'Polish' : 'English';
+
+
 function initAuctions(resourceUrl){
 	table = jQuery('#auctions').DataTable( {
 	        "ajax": {
@@ -37,7 +42,7 @@ function initAuctions(resourceUrl){
 			}],
 			"responsive": true,
 			"language": {
-				"url": "pl"
+				"url": 'http://cdn.datatables.net/plug-ins/1.10.19/i18n/'+ language +'.json'
 			}
 	    } );
 	}

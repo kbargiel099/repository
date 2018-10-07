@@ -1,3 +1,7 @@
+var langId = Liferay.ThemeDisplay.getLanguageId();
+
+var language = langId === 'pl_PL' ? 'Polish' : 'English';
+
 function initUsers(resourceUrl){
     table = jQuery('#users').DataTable( {
         "ajax": {
@@ -36,7 +40,7 @@ function initUsers(resourceUrl){
 		}],
 		"responsive": true,
 		"language": {
-			"url": "pl"
+			"url": 'http://cdn.datatables.net/plug-ins/1.10.19/i18n/'+ language +'.json'
 		}
     } );
 }
