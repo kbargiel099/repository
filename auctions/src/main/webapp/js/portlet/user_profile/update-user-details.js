@@ -1,6 +1,5 @@
 var submitUserDataUrl = jQuery("#updateUserDetailsUrl").val();
 var submitUrl = jQuery("#changePasswordUrl").val();
-var returnUrl = jQuery("#returnUrl").val();
 	
 jQuery("#update-user-submit").click(function(){
 	if (!jQuery("#update-user-data-form").valid()) {
@@ -20,7 +19,7 @@ function submitUserData(params_){
 
 var userDataOnResponse = function(res){
 	if(JSON.parse(res.success) == true){
-		window.location.href = buildUrl(returnUrl,'message',Liferay.Language.get('user.has.been.updated'));
+		responsiveNotify(Liferay.Language.get('user.has.been.updated'));
 	}else{
 		responsiveNotify(Liferay.Language.get('error.msg'));
 	}
@@ -43,9 +42,15 @@ function submit(params_){
 }
 
 var onResponse = function(res){
-	if(JSON.parse(res.success) == true){
-		window.location.href = buildUrl(returnUrl,'message',Liferay.Language.get('password.has.been.changed'));
-	}else{
-		responsiveNotify(Liferay.Language.get('error.msg'));
+	var response = JSON.parse(res.data);
+	
+	if (response.success == true) {
+		responsiveNotify(Liferay.Language.get('password.has.been.changed'));
+	} else {
+		if (response.includes('UserPasswordException')) {
+			responsiveNotify(Liferay.Language.get('user.password.unique.error.msg'));
+		} else {
+			responsiveNotify(Liferay.Language.get('error.msg'));
+		}
 	}
 };

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +27,6 @@ import module.exception.TimeException;
 import module.mail_manager.MailType;
 import module.mail_manager.impl.SimpleMailManager;
 
-@CrossOrigin(origins = {"http://192.168.0.15:8080"})
 @RestController
 public class UpdaterController {
     

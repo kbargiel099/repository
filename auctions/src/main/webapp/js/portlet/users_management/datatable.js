@@ -34,6 +34,7 @@ function initUsers(resourceUrl){
 					}
 				}
 		}],
+		"responsive": true,
 		"language": {
 			"url": "pl"
 		}

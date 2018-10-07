@@ -41,6 +41,22 @@
 	           <input class="form-control" id = "phoneNumber" name="phoneNumber" value="${user.phoneNumber}"></input>
 			</div>
 			<div class="form-group">
+	           <label class="label-control" for = "city"><liferay-ui:message key="city" /></label>
+	           <input class="form-control" id = "city" name="city" value="${user.city}"></input>
+			</div>
+			<div class="form-group">
+	           <label class="label-control" for = "street"><liferay-ui:message key="street" /></label>
+	           <input class="form-control" id = "street" name="street" value="${user.street}"></input>
+			</div>
+			<div class="form-group">
+	           <label class="label-control" for = "houseNumber"><liferay-ui:message key="house.number" /></label>
+	           <input class="form-control" id = "houseNumber" name="houseNumber" value="${user.houseNumber}"></input>
+			</div>
+			<div class="form-group">
+	           <label class="label-control" for = "zipCode"><liferay-ui:message key="zip" /></label>
+	           <input class="form-control" id = "zipCode" name="zipCode" value="${user.zipCode}"></input>
+			</div>
+			<div class="form-group">
 	           <input class="btn btn-primary pull-right" id="update-user-submit" type = "submit" value = "<liferay-ui:message key="update"/> ">
 	  		</div> 
 		</div>           
@@ -94,10 +110,21 @@ jQuery(function() {
 	        required: true
 	      },
 	      phoneNumber: {
-		    required: true,
 		    number: true,
 		    minlength: 9
-		  }
+		  },
+	      city: {
+			required: true
+		  },
+		  street: {
+		    required: true
+		  },
+		  houseNumber: {
+		    required: true
+		 },
+		  zipCode: {
+			required: true
+		 }
 	    }, 
 	    submitHandler: function(form) {
 	        //form.submit();

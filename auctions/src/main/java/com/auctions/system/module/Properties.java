@@ -1,5 +1,6 @@
 package com.auctions.system.module;
 
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -36,15 +37,15 @@ public class Properties {
 		return restServiceEndpoint;
 	}
 
-	public static long getAdministratorRoleid(RenderRequest request) {
+	public static long getAdministratorRoleid(PortletRequest request) {
 		return getRoleByName(request, administratorRoleName);
 	}
 
-	public static long getUserRoleid(RenderRequest request) {
+	public static long getUserRoleid(PortletRequest request) {
 		return getRoleByName(request, userRoleName);
 	}
 	
-	private static long getRoleByName(RenderRequest request, String roleName) {
+	private static long getRoleByName(PortletRequest request, String roleName) {
 		 long companyId = PortalUtil.getCompanyId(request);
 		 
 		 try {

@@ -30,7 +30,9 @@ import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.BoughtPresenter;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserMessage;
+import com.auctions.system.portlet.user_profile.model.UserProfileAddress;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
+import com.auctions.system.portlet.user_profile.model.UserProfileDetails;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 
 @Repository("userProfileDAO")
@@ -57,6 +59,35 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 									res.getString("screenname"), DateFormatter.format(res.getTimestamp("createdate")),
 									DateFormatter.format(res.getTimestamp("modifieddate")), res.getString("emailaddress"),
 									DateFormatter.format(res.getTimestamp("lastlogindate")), res.getBoolean("lockout"));
+						}
+			});
+	}
+	
+	@Override
+	public UserProfileDetails getUserDataForSettings(final long id) {
+		String query = "SELECT u.firstname,u.lastname,p.number_ FROM user_ u "
+					 + "JOIN phone p ON p.userid=u.userid WHERE u.userid=? "
+					 + "ORDER BY p.createdate DESC LIMIT 1";
+		
+			return dao.queryForObject(query, new Object[] { id }, 
+					new RowMapper<UserProfileDetails>() {
+						@Override
+						public UserProfileDetails mapRow(ResultSet res, int row) throws SQLException {
+							return new UserProfileDetails(res.getString("firstname"), res.getString("lastname"), res.getString("number_"));
+						}
+			});
+	}
+	
+	@Override
+	public UserProfileAddress getUserAddressForSettings(final long id) {
+		String query = "SELECT street1,street2,city,zip FROM address WHERE userid=? ORDER BY createdate DESC LIMIT 1";
+		
+			return dao.queryForObject(query, new Object[] { id }, 
+					new RowMapper<UserProfileAddress>() {
+						@Override
+						public UserProfileAddress mapRow(ResultSet res, int row) throws SQLException {
+							return new UserProfileAddress(res.getString("city"), res.getString("street1"),
+									res.getString("street2"), res.getString("zip"));
 						}
 			});
 	}

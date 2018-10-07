@@ -20,18 +20,23 @@ import com.auctions.system.portlet.user_profile.model.AuctionForGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
+import com.auctions.system.portlet.user_profile.model.ChangePasswordResponse;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserMessage;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
+import com.auctions.system.portlet.user_profile.model.UserProfileAddress;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
 import com.auctions.system.portlet.user_profile.model.UserProfileDetails;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Phone;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.AddressLocalServiceUtil;
 import com.liferay.portal.kernel.service.PhoneLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.AddressUtil;
 import com.liferay.portal.kernel.service.persistence.PhoneUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
@@ -142,17 +147,23 @@ public class UserProfileServiceImpl implements UserProfileService{
 	}
 
 	@Override
-	public boolean changePassword(ResourceRequest request, UserPassword p) {
+	public ChangePasswordResponse changePassword(ResourceRequest request, UserPassword p) {
+		ChangePasswordResponse response = new ChangePasswordResponse();
+		
 		try{
 			 long userId = PortalUtil.getUserId(request);
 			 UserLocalServiceUtil.updatePassword(userId, p.getPassword(), p.getRepeatedPassword(), false); 
 		
-			 return true;
+			 response.setSuccess(true);
+			 return response;
 			
-		}catch(Exception e){
+		} catch(Exception e){
 			 e.printStackTrace();
-			 return false;
-		}
+			 
+			 response.setError(e.getClass().getCanonicalName());
+			 response.setSuccess(false);
+			 return response;
+		} 
 	}
 	
 	@Override
@@ -182,14 +193,40 @@ public class UserProfileServiceImpl implements UserProfileService{
 			newPhone.setUserId(user.getUserId());
 			newPhone.setPrimary(true);
 			
-			PhoneLocalServiceUtil.addPhone(newPhone);
+			Address address = AddressUtil.create(CounterLocalServiceUtil.increment(Address.class.getName()));
+			address.setCity(userDetails.getCity());
+			address.setStreet1(userDetails.getStreet());
+			address.setStreet2(userDetails.getHouseNumber());
+			address.setZip(userDetails.getZipCode());
+			address.setUserId(user.getUserId());
+			address.setPrimary(true);
 			
+			PhoneLocalServiceUtil.addPhone(newPhone);
+			AddressLocalServiceUtil.addAddress(address);
 			UserLocalServiceUtil.updateUser(user);
 			
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+
+	@Override
+	public UserProfileDetails getUserDataForSettings(long id) {
+		try {
+			return dataSource.getUserDataForSettings(id);
+		} catch (Exception e) {
+			return new UserProfileDetails();
+		}
+	}
+
+	@Override
+	public UserProfileAddress getUserAddressForSettings(long id) {
+		try {
+		return dataSource.getUserAddressForSettings(id);
+		} catch (Exception e) {
+			return new UserProfileAddress();
 		}
 	}
 

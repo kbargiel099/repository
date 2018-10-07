@@ -15,9 +15,11 @@ import com.auctions.system.portlet.user_profile.model.AuctionForGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
 import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
+import com.auctions.system.portlet.user_profile.model.ChangePasswordResponse;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserMessage;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
+import com.auctions.system.portlet.user_profile.model.UserProfileAddress;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
 import com.auctions.system.portlet.user_profile.model.UserProfileDetails;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
@@ -29,6 +31,10 @@ public interface UserProfileService {
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId);
 	
 	public List<AuctionPresenter> getUserSoldSubjects(long userId);
+	
+	public UserProfileDetails getUserDataForSettings(final long id);
+	
+	public UserProfileAddress getUserAddressForSettings(final long id);
 	
 	public List<AuctionPresenter> getUserAuctions(long userId);
 	
@@ -62,7 +68,7 @@ public interface UserProfileService {
 	
 	public List<UserMessage> getAllMessagesFromUser(long userId, long interlocutorId);
 	
-	public boolean changePassword(ResourceRequest request, UserPassword userPassword);
+	public ChangePasswordResponse changePassword(ResourceRequest request, UserPassword userPassword);
 	
 	public boolean updateUserDetails(ResourceRequest request, UserProfileDetails userDetails);
 	

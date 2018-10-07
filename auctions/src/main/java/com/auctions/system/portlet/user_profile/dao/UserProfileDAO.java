@@ -15,7 +15,9 @@ import com.auctions.system.portlet.user_profile.model.AuctionImages;
 import com.auctions.system.portlet.user_profile.model.AuctionType;
 import com.auctions.system.portlet.user_profile.model.TechnicalData;
 import com.auctions.system.portlet.user_profile.model.UserMessage;
+import com.auctions.system.portlet.user_profile.model.UserProfileAddress;
 import com.auctions.system.portlet.user_profile.model.UserProfileData;
+import com.auctions.system.portlet.user_profile.model.UserProfileDetails;
 import com.auctions.system.portlet.user_profile.model.UsernameAndId;
 
 public interface UserProfileDAO {
@@ -25,6 +27,10 @@ public interface UserProfileDAO {
 	public List<AuctionPresenter> getUserBoughtSubjects(long userId);
 	
 	public List<AuctionPresenter> getUserSoldSubjects(long userId);
+	
+	public UserProfileDetails getUserDataForSettings(final long id);
+	
+	public UserProfileAddress getUserAddressForSettings(final long id);
 	
 	public List<AuctionPresenter> getUserAuctions(long userId);
 	

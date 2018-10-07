@@ -2,6 +2,7 @@ package com.auctions.system.portlet.user_profile.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -30,13 +31,17 @@ import com.auctions.system.module.statistics.model.ViewType;
 import com.auctions.system.portlet.category.model.AuctionDetails;
 import com.auctions.system.portlet.user_profile.model.Auction;
 import com.auctions.system.portlet.user_profile.model.AuctionGrade;
+import com.auctions.system.portlet.user_profile.model.ChangePasswordResponse;
 import com.auctions.system.portlet.user_profile.model.Image;
 import com.auctions.system.portlet.user_profile.model.SpringFileVO;
 import com.auctions.system.portlet.user_profile.model.UserPassword;
+import com.auctions.system.portlet.user_profile.model.UserProfileAddress;
 import com.auctions.system.portlet.user_profile.model.UserProfileDetails;
 import com.auctions.system.portlet.user_profile.service.UserProfileService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Phone;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.PhoneLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 @Controller
@@ -130,29 +135,35 @@ public class UserProfileController implements UserProfile{
 		User user = null;
 		try {
 			user = PortalUtil.getUser(request);
+			
 		} catch (PortalException e) {
 			e.printStackTrace();
 		}
 		
-		UserProfileDetails userDetails = new UserProfileDetails();
-		userDetails.setFirstname(user.getFirstName());
-		userDetails.setLastname(user.getLastName());
-		
-		if (!user.getPhones().isEmpty()) {
-			userDetails.setPhoneNumber(user.getPhones().get(0).getNumber());
+		UserProfileDetails details = service.getUserDataForSettings(user.getUserId());
+		if (details.getFirstname() == null) {
+			details.setFirstname(user.getFirstName());
+			details.setLastname(user.getLastName());
 		}
+		
+		UserProfileAddress address = service.getUserAddressForSettings(user.getUserId());
+		details.setCity(address.getCity());
+		details.setStreet(address.getStreet());
+		details.setHouseNumber(address.getHouseNumber());
+		details.setZipCode(address.getZipCode());
 		
 		ModelAndView model = new ModelAndView(settingsView);
 		model.addObject("userPassword", new UserPassword());
-		model.addObject("user", userDetails);
+		model.addObject("user", details);
 		return model;
 	}
 	
 	@Override
 	public void changePasswordAction(ResourceRequest request, ResourceResponse response, String form) throws ParseException{
+		ChangePasswordResponse changePasswordResponse = service.changePassword(request, Serializer.fromJson(form, UserPassword.class));
 		
 		HttpUtil.createResponse(response).
-			set("success", service.changePassword(request, Serializer.fromJson(form, UserPassword.class))).
+			set("data", Serializer.toJson(changePasswordResponse)).
 			prepare();
 	}
 	

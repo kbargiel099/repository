@@ -85,7 +85,7 @@ function goToCategory(categoryName) {
 	window.location.href = categoryUrl +'?name='+ categoryName;
 }
 
-function createChatLink(adres, senderId,senderName,text){
+function createChatLink(senderId,senderName,text){
 	var url = jQuery('#getMessagesFromUserUrl').val() + '&userId=' + senderId;
 	
 	var a = document.createElement('a');

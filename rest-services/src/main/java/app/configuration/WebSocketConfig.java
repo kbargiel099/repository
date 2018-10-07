@@ -6,6 +6,8 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
+import module.Properties;
+
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
@@ -17,9 +19,9 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     }
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
+    public void registerStompEndpoints(StompEndpointRegistry registry) {    	
         registry.addEndpoint("/notification").
-        	setAllowedOrigins("http://localhost:8080","http://192.168.0.15:8080").withSockJS();
+        	setAllowedOrigins(Properties.PORTAL_URL).withSockJS();
     }
 
 }

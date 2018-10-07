@@ -5,14 +5,13 @@ function initMessageCategories(resourceUrl){
 	            "type": "POST"
 	        },
 	        "columns": [
-				{ "data": "id" },
 	            { "data": "name" },
 				{ "data": "createDate" },
 				{ "data": "isActivated"},
 	            { "data": "options","width": "30%" }
 	        ],
 		    "columnDefs": [ {
-			    "targets": 4,
+			    "targets": 3,
 			    "render": function(data,type,full,row){
 					var optionForSuspending = !full.isActivated ? {type:'unlock',url:buildUrl(jQuery('#activateUrl').val(),'id',full.id)}
 							: {type:'lock',url:buildUrl(jQuery('#suspendUrl').val(),'id',full.id)};
@@ -24,11 +23,12 @@ function initMessageCategories(resourceUrl){
 				}
 			  },
 			{
-				"targets": 3,
+				"targets": 2,
 				"render": function(data){
 					return data ?  Liferay.Language.get('category.active') : Liferay.Language.get('category.locked');
 				}
 			}],
+			"responsive": true,
 			"language": {
 				"url": "pl"
 			}

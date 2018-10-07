@@ -67,6 +67,7 @@
 }
 
 .user-data-td {
-	text-align: center;
+	/* text-align: center; */
 	border: none;
+	padding-left: 30px;
 }

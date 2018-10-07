@@ -208,13 +208,19 @@
 			}
 		}
 		jQuery("#subCategoryIdSelect").selectpicker('refresh');
+		
+		subCategorySelectOnChange();
 	});
 	
 	jQuery("#subCategoryIdSelect").change(function(){
+		subCategorySelectOnChange();
+	});
+	
+	function subCategorySelectOnChange() {
 		var id = jQuery("#subCategoryIdSelect option:selected").val();
 		jQuery("#subCategoryId").val(id);
 		getTechnicalData(id);
-	});
+	}
 	
 	jQuery("#auctionTypeIdSelect").change(function(){
 		var id = jQuery("#auctionTypeIdSelect option:selected").val();

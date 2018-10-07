@@ -21,14 +21,13 @@ import module.mail_manager.impl.SimpleMailManager;
 
 @Configuration
 public class Configurer{
-   
+	
    @Bean
    public FilterRegistrationBean corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("http://localhost:8080");
-		config.addAllowedOrigin("http://192.168.0.15:8080");
+		config.addAllowedOrigin(module.Properties.PORTAL_URL);
 		config.addAllowedHeader("Access-Control-Allow-Origin");
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);
@@ -41,9 +40,9 @@ public class Configurer{
    public DataSource dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
         driver.setDriverClassName("org.postgresql.Driver");
-        driver.setUrl("jdbc:postgresql://localhost:5432/lportal");
-        driver.setUsername("postgres");
-    	driver.setPassword("postgres");
+        driver.setUrl(module.Properties.DATABASE_URL);
+        driver.setUsername(module.Properties.DATABASE_USERNAME);
+    	driver.setPassword(module.Properties.DATABASE_PASSWORD);
     	return driver;
    }
    
@@ -58,11 +57,11 @@ public class Configurer{
    @Bean
    public JavaMailSender getJavaMailSender() {
        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-       mailSender.setHost("smtp.gmail.com");
-       mailSender.setPort(587);
+       mailSender.setHost(module.Properties.EMAIL_HOST);
+       mailSender.setPort(module.Properties.EMAIL_PORT);
         
-       mailSender.setUsername("abstergo887@gmail.com");
-       mailSender.setPassword("Jecky887");
+       mailSender.setUsername(module.Properties.EMAIL_USERNAME);
+       mailSender.setPassword(module.Properties.EMAIL_PASSWORD);
         
        Properties props = mailSender.getJavaMailProperties();
        props.put("mail.transport.protocol", "smtp");

@@ -125,7 +125,7 @@ public class UserRegistration{
 		
 		String jobTitle = null;
 		long[] organizationIds = null;
-		long[] roleIds = new long[]{Properties.getUserRoleid()};
+		long[] roleIds = new long[]{Properties.getUserRoleid(request)};
 		long[] userGroupIds = new long[]{};
 		boolean sendMail = false;
 

@@ -55,7 +55,6 @@
 		<table id="auctions" class="display">
 		     <thead>
 		            <tr>
-		                <th><liferay-ui:message key="adm.id.label" /></th>
 						<th><liferay-ui:message key="adm.auction.name.label" /></th>
 						<th><liferay-ui:message key="adm.create.date.label" /></th>
 						<th><liferay-ui:message key="status" /></th>
@@ -65,7 +64,6 @@
 		        </thead>
 		        <tfoot>
 		            <tr>
-		                <th><liferay-ui:message key="adm.id.label" /></th>
 						<th><liferay-ui:message key="adm.auction.name.label" /></th>
 						<th><liferay-ui:message key="adm.create.date.label" /></th>
 						<th><liferay-ui:message key="status" /></th>

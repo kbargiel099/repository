@@ -96,26 +96,22 @@
 						<table>
 							<tbody>
 							  <tr class="user-data-tr">
- 							    <td class="user-data-td">
- 							    	<liferay-ui:message key="username" /><br>				
+ 							    <td class="user-data-td">		
 									<a href="${getUserProfile}">${seller.username}</a>
 								</td>
  							  </tr>
  							  <tr class="user-data-tr">
 							    <td class="user-data-td">
-							    	<liferay-ui:message key="name.and.surname" /><br>	
 									${seller.firstname} ${seller.lastname}
 								</td>					  
  							  </tr>
  							  <tr class="user-data-tr">
  							    <td class="user-data-td">
- 							    	<liferay-ui:message key="email.address" /><br>	
  									${seller.emailAddress}
  								</td>
  							  </tr>
  							  <tr class="user-data-tr">
  							    <td class="user-data-td">
- 							    	<liferay-ui:message key="phone.number" /><br>	
  									${seller.phoneNumber}
  								</td>
 							</tbody>
