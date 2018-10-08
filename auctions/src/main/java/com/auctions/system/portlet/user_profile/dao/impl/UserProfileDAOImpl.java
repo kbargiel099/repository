@@ -194,7 +194,8 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 	public List<TechnicalData> getTechnicalData(int id) {
 		String query = "SELECT t.id,t.name,t.value,t.type "
 				     + "FROM sys.technical_data t "
-				     + "JOIN sys.category s ON t.id=ANY(technical_data_array) WHERE s.id=?";
+				     + "JOIN sys.technical_data_category tc on tc.technical_data_id=t.id "
+				     + "JOIN sys.category s ON tc.category_id=s.id WHERE s.id=?";
 				
 		return dao.query(query, new Object[] { id }, 
 				new RowMapper<TechnicalData>() {

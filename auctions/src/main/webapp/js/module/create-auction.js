@@ -184,11 +184,37 @@
 				setForEdit('#auctionTypeIdSelect','#auctionTypeId');
 				setSubcategoryForEdit();
 				
+				let id = jQuery("#auctionTypeIdSelect option:selected").val();
+				
+				let selected = {};
+				for (var i=0;i<auctionTypes.length;i++) {
+					if (Number.parseInt(id) === auctionTypes[i].id) {
+						selected = auctionTypes[i];
+					}
+				}
+				
+				if (selected.name === 'classic') {
+					jQuery('#minimalPriceDiv').hide();	
+					jQuery('#subjectQuantityDiv').hide();	
+				} else if (selected.name === 'with_minimal_price') {
+					jQuery('#minimalPriceDiv').show();	
+					jQuery('#subjectQuantityDiv').hide();	
+				} else if (selected.name === 'multi_subject') {
+					jQuery('#minimalPriceDiv').show();	
+					jQuery('#subjectQuantityDiv').show();	
+				} else if (selected.name === 'quick_purchase') {
+					jQuery('#minimalPriceDiv').hide();
+					jQuery('#subjectQuantityDiv').show();
+				} else {
+					jQuery('#minimalPriceDiv').show();
+					jQuery('#subjectQuantityDiv').show();
+				}
+				
 				var tempDate = jQuery('#endDate').val();
 				jQuery('input[type="date"]').val(tempDate);
 				jQuery('#endDate').val(new Date(tempDate).getTime());
 			},200); 
-	 		
+			
 	 		setTimeout(function(){
 	 			setTechnicalDataForEdit();
 	 		},2000);
