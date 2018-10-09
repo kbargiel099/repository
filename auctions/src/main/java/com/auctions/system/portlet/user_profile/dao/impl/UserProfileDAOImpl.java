@@ -251,10 +251,10 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 		Timestamp endDate = new Timestamp(Long.parseLong(a.getEndDate()));
 		return dao.update(
 				"UPDATE sys.auction SET name=?,description=?,edit_date=?,end_date=?,typeid=?,subject_price=?,available=?,"
-						+ "category_id=?,technical_data=? WHERE id=?",
+						+ "category_id=?,technical_data=?,minimal_price=? WHERE id=?",
 				new Object[] { a.getName(), a.getDescription(), editDate, endDate, a.getAuctionTypeId(),
 						a.getSubjectPrice(), a.getSubjectQuantity(), a.getSubCategoryId(), a.getTechnicalData(),
-						a.getId() }) > 0;
+						a.getMinimalPrice(), a.getId() }) > 0;
 	}
 
 	@Override
@@ -290,7 +290,7 @@ public class UserProfileDAOImpl implements UserProfileDAO {
 			pst.setTimestamp(4, createDate);
 			pst.setTimestamp(5, createDate);
 			pst.setTimestamp(6, endDate);
-			pst.setInt(7, 0);
+			pst.setLong(7, a.getMinimalPrice());
 			pst.setInt(8, 1);
 			pst.setInt(9, a.getAuctionTypeId());
 			pst.setLong(10, a.getSerialNumber());

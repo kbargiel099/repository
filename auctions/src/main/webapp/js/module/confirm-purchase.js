@@ -7,7 +7,7 @@ jQuery(document).ready(function(){
 });
 
 function connect() {
-    var socket = new SockJS(jQuery('#restServiceEndpoint').val());
+    var socket = new SockJS(jQuery('#restServiceEndpointApp').val());
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/message/notify/'+jQuery('#id').val(), function(data){

@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix = "form" uri = "http://www.springframework.org/tags/form" %>
 
 <portlet:defineObjects />
@@ -93,12 +94,16 @@
 				           <input type="date" id="endDateInput" name="endDateInput" class="form-control" value="${auction.endDate}"></input>
 						</div>
 						<div class="form-group">
+						   <c:set var = "balance" value = "${auction.subjectPrice/100}" />
+			
 				           <label class="label-control" for="subjectPrice"><liferay-ui:message key="auction.subject.price.label" /></label>
-				           <input type="text" class="form-control" id="price" name="price" value="${auction.subjectPrice}"></input>
+				           <input type="text" class="form-control" id="price" name="price" value="<fmt:formatNumber pattern="0" value="${balance}" type="number"/>"></input>
 						</div>
 						<div id="minimalPriceDiv" class="form-group">
+						   <c:set var = "balance" value = "${auction.minimalPrice/100}" />
+												   
 				           <label class="label-control" for="minimalPrice"><liferay-ui:message key="auction.minimal.price" /></label>
-				           <input type="text" class="form-control" id="minimalPrice_" name="minimalPrice_" value="${auction.minimalPrice}"></input>
+				           <input type="text" class="form-control" id="minimalPrice_" name="minimalPrice_" value="<fmt:formatNumber pattern="0" value="${balance}" type="number"/>"></input>
 						</div>
 						<div class="form-group">
 						    <label class="label-control" for="categoryId"><liferay-ui:message key="auction.category.label" /></label>

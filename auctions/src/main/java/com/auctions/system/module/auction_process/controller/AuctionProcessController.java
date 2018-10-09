@@ -16,6 +16,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.auctions.system.module.HttpUtil;
+import com.auctions.system.module.Properties;
 import com.auctions.system.module.Serializer;
 import com.auctions.system.module.UserUtil;
 import com.auctions.system.module.auction_process.model.PurchaseInfo;
@@ -49,6 +50,7 @@ public class AuctionProcessController implements AuctionProcess{
 		model.addObject("message",message);
 		model.addObject("seller", service.getSellerDetails(details.getUserId()));
 		model.addObject("isObserved",service.isObserved(PortalUtil.getUserId(request), id));
+		model.addObject("restServiceEndpoint", Properties.getRestServiceEndpoint());
 		return model;
 	}	
 	
@@ -63,6 +65,7 @@ public class AuctionProcessController implements AuctionProcess{
 		model.addObject("paymentMethods", service.getPaymentMethods());
 		model.addObject("info", transactionInfo);
 		model.addObject("type", "purchase");
+		model.addObject("restServiceEndpoint", Properties.getRestServiceEndpoint());
 		return model;
 	}
 	

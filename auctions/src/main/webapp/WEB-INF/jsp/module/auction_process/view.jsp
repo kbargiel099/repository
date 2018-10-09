@@ -233,6 +233,8 @@
 <input type="hidden" id="auctionName" value="${auction.name}"/>
 <input type="hidden" id="statusName" value="${auction.statusName}"/>
 
+<input type="hidden" id="restServiceEndpointApp" value="${restServiceEndpoint}"/>
+
 <input type="hidden" id="message" value="${message}"/>
 
 <script src="<c:url value="/js/common/custom_slider.js" />"></script>
@@ -245,9 +247,9 @@ data = JSON.parse(data);
 var canPlayMPEG4;
 	jQuery(document).ready(function(){
 			var testEl = document.createElement( "video" );
-			if ( testEl.canPlayType ) {
+/* 			if ( testEl.canPlayType ) {
 			    canPlayMPEG4 = "" !== testEl.canPlayType( 'video/mp4; codecs="mp4v.20.8"' );
-			}
+			} */
 	});
 
 	jQuery('#showVideo').click(function(){
@@ -255,8 +257,8 @@ var canPlayMPEG4;
 	    	"url": jQuery('#getVideoNameUrl').val(),
 	    	"type": "POST",
 	    	"success": function(data){
-	    		var ext = canPlayMPEG4 ? 'mp4' : 'ogg';
-	    		var media = canPlayMPEG4 ? 'mp4' : 'ogg';
+	    		var ext = 'ogg';
+	    		var media = 'ogg';
  	    		var videoElement = '<video width="100%" controls>'
 	    				+ '<source src="/videos/'+ JSON.parse(data.name) +'.'+ ext +'" type="video/'+ media +'">'
 	    				+ '</video>';  	 
@@ -271,6 +273,7 @@ var canPlayMPEG4;
 	
 	jQuery('#showGallery').click(function(){
 		jQuery('#video').hide();
+		jQuery('#video').html('');
 		jQuery('#show-gallery-div').hide();
 		jQuery('#gallery').show();
 		jQuery('#show-video-div').show();

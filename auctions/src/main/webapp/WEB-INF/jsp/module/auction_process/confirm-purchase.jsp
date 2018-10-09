@@ -79,4 +79,6 @@
 <input type="hidden" id="quantity" value="${info.quantity}"/>
 <input type="hidden" id="type" value="${type}"/>
 
+<input type="hidden" id="restServiceEndpointApp" value="${restServiceEndpoint}"/>
+
 <script src="<c:url value="/js/module/confirm-purchase.js" />"></script>

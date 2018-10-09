@@ -111,7 +111,7 @@ jQuery('#remove-observe').click(function(){
 
 
 function connect2() {
-    var socket = new SockJS(jQuery('#restServiceEndpoint').val());
+    var socket = new SockJS(jQuery('#restServiceEndpointApp').val());
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/message/notify/'+jQuery('#id').val(), function (data) {
